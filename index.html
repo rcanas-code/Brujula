@@ -348,6 +348,9 @@ dialog h2:focus{outline:none}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .think{background:var(--surface)}}
 .dlgback{position:sticky;top:0;z-index:5;background:var(--surface);padding:10px 14px 8px;border-bottom:1px solid var(--line)}
 .dlgback button{border:2px solid var(--brand);background:var(--surface);color:var(--brand);border-radius:999px;padding:6px 14px;font:inherit;font-weight:800;font-size:.88rem;cursor:pointer}
+.totop{position:fixed;right:14px;bottom:88px;z-index:30;border:0;border-radius:999px;padding:10px 16px;background:var(--brand);color:#fff;font:inherit;font-weight:800;font-size:.9rem;box-shadow:0 4px 14px rgb(0 0 0/.25);cursor:pointer;opacity:0;transform:translateY(10px);pointer-events:none;transition:opacity .2s,transform .2s}
+.totop.on{opacity:1;transform:none;pointer-events:auto}
+@media (min-width:761px){.totop{bottom:24px}}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1354,9 +1357,10 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013175951";
+const APP_V="20261013180206";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
+(()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
 const DIAG={};let noticeOpenAt=0;
 function diagHit(k,fast){DIAG[k]=fast?(DIAG[k]||0)+1:0;return DIAG[k]>=2}
 const DIAGTXT={test:"Estás respondiendo muy rápido. Lee cada frase entera y piensa en ti de verdad: si no, tu mapa no te servirá de nada.",quiz:"Has contestado dos preguntas en un suspiro. Lee las tres respuestas antes de elegir: se parecen a propósito."};
