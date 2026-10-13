@@ -1120,14 +1120,28 @@ const ROUTE_OVR={4:{l1:["PEN-01","PEN-08","PEN-02"],l2:["PEN-09","PEN-03","PEN-0
 function dinRoute(){const bet=S.answers&&S.answers[32]&&S.answers[32]<=2;return bet?{l1:["DIN-03","DIN-24","DIN-02"],l2:["DIN-26","DIN-19","DIN-21"]}:ROUTE_OVR[10]}
 function buildRoute(sc){return {areas:priorities(sc),date:today()}}
 function lvl2(i){if(ROUTE_OVR[i])return (i===10?dinRoute():ROUTE_OVR[i]).l2.map(id=>CI[id]);return C.filter(c=>c.a===i&&c.n==="I"&&c.e!=="X").slice(0,3)}
-function routeItems(){if(!S.route)return [];const A=S.route.areas,out=[];
-  [A.map(planFor),A.map(lvl2)].forEach((L,li)=>{for(let k=0;k<3;k++)L.forEach((list,ai)=>{if(list[k])out.push({c:list[k],lvl:li+1,ai})})});return out}
+function routeItems(){if(!S.route)return [];const A=S.route.areas,CL=S.route.closed||[],P=passedIds(),K=skippedIds(),out=[];
+  [A.map(planFor),A.map(lvl2)].forEach((L,li)=>{for(let k=0;k<3;k++)L.forEach((list,ai)=>{const c=list[k];if(c&&(!CL.includes(A[ai])||P.has(c.id)||K.has(c.id)||(S.active&&S.active.id===c.id)))out.push({c,lvl:li+1,ai})})});return out}
+const activeAreas=()=>S.route?S.route.areas.filter(i=>!(S.route.closed||[]).includes(i)):[];
+function l1Done(){if(!S.route)return false;const P=passedIds(),K=skippedIds();return activeAreas().every(i=>planFor(i).every(c=>P.has(c.id)||K.has(c.id)))}
+function mergeRoute(sc){const R=S.route;if(!R)return buildRoute(sc);R.closed=R.closed||[];const act=S.active&&CI[S.active.id]?CI[S.active.id].a:null,pr=priorities(sc),closed=[],added=[];
+  R.areas.forEach(i=>{if(sc[i]!=null&&sc[i]>=4&&i!==act&&!R.closed.includes(i)&&!pr.includes(i)){R.closed.push(i);closed.push(i)}});
+  pr.forEach(i=>{if(!R.areas.includes(i)){R.areas.push(i);added.push(i)}else if(R.closed.includes(i)){R.closed=R.closed.filter(x=>x!==i);added.push(i)}});
+  R.last={date:today(),closed,added};return R}
+function areaPicker(){const others=AREAS.map((a,i)=>i).filter(i=>!activeAreas().includes(i));return `<div class="chips">${others.map(i=>`<button class="chip area" style="--h:${AREAS[i].h};cursor:pointer" data-pick="${i}"><span class="dot"></span>${AREAS[i].n}</button>`).join("")}</div>`}
+function choiceCard(){const R=S.route;if(!R||S.active||!l1Done()||R.choice)return "";
+  return `<div class="card stack" style="border:3px solid var(--brand)"><p class="eyebrow">Has terminado el nivel 1 de tus áreas</p><h2>¿Cómo quieres seguir?</h2>
+   <button class="btn" data-act="ch-l2" style="width:max-content">Seguir con el nivel 2 de mis áreas</button>
+   <p class="muted">O elige otra área que te apetezca trabajar. Empezará por sus retos básicos:</p>${areaPicker()}
+   <p class="muted" style="font-size:.85rem">Puedes cambiar de idea: en Ruta siempre puedes añadir otra área.</p></div>`}
+function routeNews(){const L=S.route&&S.route.last;if(!L||diff(L.date,today())>7||(!L.closed.length&&!L.added.length))return "";
+  return `<div class="card"><h3>Tu ruta se ha actualizado</h3><p>${L.closed.length?`<b>Cerrada:</b> ${L.closed.map(i=>AREAS[i].n).join(", ")}. Has mejorado mucho: ya es una fortaleza. `:""}${L.added.length?`<b>Añadida:</b> ${L.added.map(i=>AREAS[i].n).join(", ")}. Entra en el turno con tus otras áreas.`:""}</p><p class="muted" style="font-size:.88rem">Lo que ya habías superado sigue contando. Tu ruta no empieza de cero.</p></div>`}
 const passedIds=()=>new Set(S.history.filter(h=>h.passed).map(h=>h.id));
 const skippedIds=()=>new Set(S.history.filter(h=>h.skipped&&!h.passed).map(h=>h.id));
 function itemStatus(it){const P=passedIds(),K=skippedIds();
   if(P.has(it.c.id))return "ok";if(K.has(it.c.id))return "skip";if(S.active&&S.active.id===it.c.id)return "now";
   if(it.lvl===2){const l1=planFor(it.c.a);if(!l1.every(c=>P.has(c.id)||K.has(c.id)))return "lock"}return "open"}
-function routeNext(){return routeItems().find(it=>itemStatus(it)==="open")}
+function routeNext(){const it=routeItems(),R=S.route;if(R&&R.pick!=null){const x=it.find(t=>t.c.a===R.pick&&itemStatus(t)==="open");if(x)return x;R.pick=null}return it.find(t=>itemStatus(t)==="open")}
 function moreBox(c){const rel=C.filter(x=>x.a===c.a&&x.id!==c.id).slice(0,4);
   const E=exOf(c.id);
   return `<div class="card stack" style="background:var(--bg)"><p class="eyebrow">Para saber más</p><p>${esc(c.q)}</p>${E?`<p class="why">Ejemplo: ${esc(E[0])}</p><p class="muted">Versión mínima para días difíciles: ${esc(E[2])}</p>`:""}
@@ -1150,7 +1164,8 @@ function routeHow(){const r=retestIn();return `<div class="card stack"><h3>Cómo
    <p><b>1. Un solo reto cada vez, no tres.</b> Tienes 3 áreas prioritarias, pero no las trabajas a la vez: haces un reto por semana y las áreas se van turnando (${rotaTxt()}).</p>
    <p><b>2. Superar un reto.</b> Lo superas si lo haces (o haces la versión mínima) al menos 4 de los 7 días. Si no llegas, puedes repetir la semana o pasar al siguiente.</p>
    <p><b>3. Cuándo pasas al nivel 2.</b> Cada área tiene 3 retos básicos (nivel 1). Cuando terminas los 3 de un área, se abre el nivel 2 de esa área, con retos un poco más exigentes.</p>
-   <p><b>4. Repetir el test.</b> A los 28 días de tu último test, Hoy te avisa para repetirlo, ver cuánto has cambiado y crear una ruta nueva.${r!=null?` ${r>0?`Te quedan <b>${r} días</b>.`:"<b>Ya puedes repetirlo.</b>"}`:""}</p>
+   <p><b>4. Repetir el test.</b> A los 28 días de tu último test, Hoy te avisa para repetirlo y ver cuánto has cambiado. <b>Tu ruta no se borra:</b> si un área ha mejorado mucho, se cierra; si aparece otra con margen, se suma al turno. Lo superado sigue contando.${r!=null?` ${r>0?`Te quedan <b>${r} días</b>.`:"<b>Ya puedes repetirlo.</b>"}`:""}</p>
+   <p><b>5. Cuando acabes el nivel 1.</b> Hoy te pregunta cómo sigues: el nivel 2 de tus áreas o cualquier otra área de las 14 que te apetezca trabajar.</p>
   </div></div>`}
 function vRuta(){
   if(!S.route)return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu ruta aparecerá cuando hagas el test</h1></div><button class="btn" data-act="start" style="width:max-content">Hacer el test</button></section>`;
@@ -1160,7 +1175,8 @@ function vRuta(){
     const label=s==="ok"?"Superado":s==="skip"?"Saltado":s==="now"?`<b style="color:var(--c)">Ahora · día ${Math.min(dayN(),7)} de 7</b>`:s==="lock"?`Nivel 2 · se abre cuando termines los 3 retos de nivel 1 de ${a.n}`:isNext?(S.active?"Siguiente: te llegará a Hoy cuando acabes el actual":`<b>Te toca este</b>`):"Más adelante";
     return `<div class="mini area" style="--h:${a.h};${s==="lock"||(s==="open"&&!isNext)?"opacity:.6":""}${s==="now"||(isNext&&!S.active)?";border:2px solid var(--c)":""}"><span style="display:flex;gap:12px;align-items:center;min-width:0"><span class="pnum" style="${s==="ok"||s==="now"?"background:var(--c);color:#fff":""}">${s==="ok"?"✓":s==="skip"?"~":num}</span><span style="min-width:0"><b>${esc(c.t)}</b><br><span class="muted" style="font-size:.85rem">${a.n} · ${label}</span></span></span>
      ${isNext&&!S.active?`<button class="btn" data-start="${c.id}">Empezar</button>`:s==="open"&&S.swap?`<button class="btn" data-swap="${c.id}">Cambiar a este</button>`:s!=="lock"?`<button class="btn ghost" style="padding:6px 12px" data-open="${c.id}">Ver</button>`:""}</div>`};
-  return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu camino, paso a paso</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Aquí ves <b>todos tus retos, en el orden en que los harás</b>, uno por semana: salen de tus 3 áreas con más margen (${S.route.areas.map(i=>AREAS[i].n).join(", ")}).</p></div>
+  return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu camino, paso a paso</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Aquí ves <b>todos tus retos, en el orden en que los harás</b>, uno por semana. Tus áreas: ${activeAreas().map(i=>AREAS[i].n).join(", ")}.${(S.route.closed||[]).length?` Cerradas porque ya son una fortaleza: ${S.route.closed.map(i=>AREAS[i].n).join(", ")}.`:""}</p></div>
+   ${routeNews()}${choiceCard()}
    <div class="guide"><p class="eyebrow">No tienes que venir a buscarlos</p><p>Cada vez que terminas un reto, <b>Hoy te propone el siguiente</b>. Esta pantalla es solo el mapa del camino: para ver dónde estás y qué viene. Puedes tocar «Ver» para leer cualquiera.</p></div>
    ${S.swap&&S.active?`<div class="card stack" style="border:2px solid var(--warn)"><h3>Elige otro reto de tu ruta</h3><p class="muted">Toca «Cambiar a este» en cualquier reto disponible. El que dejas queda como saltado, con tus días marcados guardados. Si más adelante repites el test, puede volver a aparecer en tu nueva ruta.</p><button class="btn ghost" data-act="swap-no" style="width:max-content">Mejor sigo con el mío</button></div>`:""}
    <div class="card stack"><div class="row" style="justify-content:space-between"><b>${done} de ${items.length} retos terminados</b><span class="muted">Creada el ${parse(S.route.date).toLocaleDateString("es-ES")}</span></div><div class="progress"><span style="width:${done/items.length*100}%"></span></div></div>
@@ -1168,7 +1184,8 @@ function vRuta(){
    <div class="stack"><h2>Nivel 2 · Un paso más</h2><p class="muted" style="margin-top:-6px">Retos un poco más exigentes. Los de cada área se abren cuando terminas sus 3 retos de nivel 1.</p><div class="minis">${items.filter(i=>i.lvl===2).map(node).join("")}</div></div>
    <details class="card"><summary>Cómo funciona tu ruta</summary><div style="margin-top:10px">${routeHow().replace('<div class="card stack"><h3>Cómo funciona tu ruta</h3>','<div class="stack">')}</div></details>
    <div class="card stack"><h3>¿Quieres aprender más?</h3><p class="muted">En Explorar puedes leer cualquier tema, con ejemplos y vídeos, todas las veces que quieras. Los retos, en cambio, los marca tu ruta, uno cada vez: así trabajas lo que más te puede ayudar.</p><button class="btn ghost" data-go="explorar" style="width:max-content">Ir a Explorar</button></div>
-   ${done===items.length?`<div class="card stack"><h3>Ruta completada</h3><button class="btn" data-act="retest" style="width:max-content">Repetir el test y crear una ruta nueva</button></div>`:""}
+   ${l1Done()?`<div class="card stack"><h3>Añadir otra área a mi ruta</h3><p class="muted">Ya has terminado el nivel 1 de tus áreas. Si quieres trabajar otro tema, elígelo: tu siguiente reto será de esa área.</p>${areaPicker()}</div>`:""}
+   ${done===items.length?`<div class="card stack"><h3>Ruta completada</h3><p class="muted">Repite el test para actualizar tu mapa, o añade otra área aquí arriba.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:""}
   </section>`;
 }
 function vMas(){
@@ -1303,7 +1320,7 @@ function vHoy(){
        <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><p class="challenge">Tu reto: ${esc(c.h)}</p>
        ${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
        <div class="row"><button class="btn" data-start="${c.id}">Empezar este reto</button><button class="btn ghost" data-go="ruta">Ver mi ruta</button></div></div>`;
-    }else main=`<div class="card stack"><p class="eyebrow">Ruta completada</p><h2>Has terminado tu ruta. Enhorabuena.</h2><p class="muted">Repite el test para ver cuánto has cambiado y crear una ruta nueva.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test (+25)</button></div>`;
+    }else main=`<div class="card stack"><p class="eyebrow">Ruta completada</p><h2>Has terminado tu ruta. Enhorabuena.</h2><p class="muted">Repite el test para ver cuánto has cambiado, o añade otra área desde Ruta.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test (+25)</button></div>`;
   }else{
     const c=CI[S.active.id],a=AREAS[c.a],n=dayN(),t=today(),v=S.active.log[t],E=exOf(c.id),g=goodDays(S.active);
     const dots=[...Array(7).keys()].map(k=>{const dk=addDays(S.active.start,k),val=S.active.log[dk],future=dk>t;return `<button data-dot="${dk}" ${future?"disabled":""} aria-label="Día ${k+1}: ${val||"sin registrar"}"><i class="${val||""} ${dk===t?"hoy":""}"></i>${DOW[parse(dk).getDay()]}</button>`}).join("");
@@ -1342,12 +1359,13 @@ function vHoy(){
   const title=!S.active?"Tu siguiente paso empieza hoy.":pend?(nReq===1?"Hoy te toca 1 cosa":`Hoy te tocan ${nReq} cosas`):"¡Hecho por hoy!";
   const status=!S.active?"":pend?`<div class="pendhint">⬆ ${mark?"Haz tu reto y márcalo arriba":esc(reqs.map(x=>x.t).join(" · "))}. Después, habrás terminado por hoy.</div>`
     :`<div class="doneblk"><span class="bigck">✓</span><div><b>Por hoy has terminado</b><span>Ya puedes cerrar la app. ${time?`Mañana a las ${esc(time)}, otro toque.`:"Mañana, otro toque."}</span>${S.tourDone?"":`<button class="btn ghost" data-tour="start" style="margin-top:8px;background:#fff;color:var(--good);border-color:#fff;padding:6px 14px">Ver la guía de la app (1 min)</button>`}</div></div>`;
-  const notices=[tipCard(),reviewCard(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y crea una ruta nueva (+25).</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",...groupCards()].filter(Boolean).map(slim).join("");
+  const notices=[routeNews(),tipCard(),reviewCard(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y crea una ruta nueva (+25).</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",...groupCards()].filter(Boolean).map(slim).join("");
   const B=badges(),got=B.filter(b=>b[3]).length;
   return `<section class="stack hoy2">
    <div><p class="eyebrow">${hi}${S.name?", "+esc(S.name):""}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ ${p} puntos</span>${S.route&&routeItems().length?`<span>Reto ${(()=>{const it=routeItems(),cur=S.active?it.findIndex(x=>x.c.id===S.active.id):-1;return cur>=0?cur+1:it.filter(x=>["ok","skip"].includes(itemStatus(x))).length+1})()} de ${routeItems().length}</span>`:""}</div></div>
    ${banner}
+   ${choiceCard()}
    ${main}
    ${status}
    ${notices?`<div class="stack" style="gap:8px">${notices}</div>`:""}
@@ -1597,6 +1615,7 @@ const FAQ=[
 ["Empezar",[
 ["¿Qué es Brújula?","Una app para conocerte mejor y mejorar poco a poco en 14 áreas de tu vida: sueño, emociones, estudio, dinero, relaciones… Haces un test, ves tu mapa y trabajas un reto pequeño cada semana."],
 ["¿Cómo funciona el reto de grupo?","En la pestaña Grupo apuntas quién participa (solo el nombre, se queda en tu móvil). El viernes, Hoy te prepara un mensaje con tu resultado para el grupo de WhatsApp. Cuando contesten, marcas quién lo ha cumplido (4 días o más) y la app os lo celebra. No hay ranking: se celebra a todos los que lo cumplen."],
+["¿Qué pasa después de las tres primeras semanas? ¿Cuándo llego al nivel 2 y a los otros temas?","Tus 3 áreas se turnan: la semana 4 vuelves a la primera con su segundo reto. Tras unas 9 semanas habrás hecho el nivel 1 de las tres, y Hoy te preguntará cómo sigues: el nivel 2 de tus áreas o cualquier otra área de las 14. Además, cada mes repites el test: tu ruta no se borra, pero si un área ha mejorado mucho se cierra y si otra tiene margen se suma. En Explorar puedes aprender de cualquier tema cuando quieras."],
 ["Ya he hecho lo de hoy y quiero más. ¿Qué hago?","Al final de Hoy tienes «¿Te has quedado con ganas de más?»: los vídeos y lecturas de tu reto, el test «¿Cuánto sé?» de tu área, más conceptos en Explorar, un vistazo a tu siguiente reto, un paso de Propósito o el simulador de Dinero. Lo único que no puedes es adelantar retos: uno cada vez funciona mejor. Aprender, todo lo que quieras."],
 ["¿Qué es la historia de «Para aprender hoy»?","Es una historia corta de alguien de tu edad que hace tu mismo reto. Cada día hay un capítulo con una decisión (seguir o dejarlo, hacer la versión mínima, hacer caso a un amigo…) y tú eliges qué hace. Al momento ves si fue buena idea. El día 7 llega el final, que depende de tus decisiones, y lo comparamos con tu semana real. Después eliges tu propio final: qué harás tú la semana que viene. Sirve para practicar decisiones difíciles sin jugártela. Es opcional."],
 ["¿Puedo comprobar cuánto sé de un tema?","Sí. En Explorar, toca «¿Cuánto sé?» y elige un tema: 10 preguntas con tres respuestas. Antes de empezar te preguntamos cuánto crees que sabes y al final lo comparamos. Verás las soluciones y, para cada fallo, el concepto con su vídeo y su lectura. Puedes repetirlo cuando quieras; no cuenta para tu reto y nadie más ve la nota."],
@@ -1746,6 +1765,7 @@ document.addEventListener("click",e=>{
     toast(first?(k===7?"+30 · Tu brújula está lista":"+15 · Paso guardado"):"Guardado");render();return}
   if(d.gr){const [i,v]=d.gr.split(":"),n=S.grp.m[+i],k=friKey();if(!k||!n)return;const W=S.grp.wk[k]=S.grp.wk[k]||{};W[n]=W[n]===v?undefined:v;if(!W[n])delete W[n];W._me=grpMe();save();render();return}
   if(d.grdel!==undefined){const n=S.grp.m[+d.grdel];S.grp.m.splice(+d.grdel,1);Object.values(S.grp.wk).forEach(W=>delete W[n]);save();render();return}
+  if(d.pick!==undefined){const i=+d.pick,R=S.route;R.closed=(R.closed||[]).filter(x=>x!==i);if(!R.areas.includes(i))R.areas.push(i);R.pick=i;R.choice="pick";save();toast(`Añadida: ${AREAS[i].n}. Tu siguiente reto será de esta área`);render();window.scrollTo({top:0});return}
   if(d.mode){S.exMode=d.mode;S.exQ="";render();return}
   if(d.qz){qzStart(d.qz);render();window.scrollTo({top:0});return}
   if(d.qg!==undefined){S.qz.guess=+d.qg;S.qz.t0=Date.now();render();return}
@@ -1756,7 +1776,7 @@ document.addEventListener("click",e=>{
   const act=d.act;
   if(act==="start"){const un=document.getElementById("uname");if(un&&typeof un.value==="string"&&un.value.trim()){S.name=un.value.trim().slice(0,30);store.set("name",S.name)}S.testing=true;const first=[...Array(NA).keys()].find(i=>[0,1,2].some(j=>S.answers[i*3+j]===undefined));S.step=first===undefined?0:first;render();window.scrollTo({top:0})}
   else if(act==="retest"){S.answers={};save();S.testing=true;S.step=0;render();window.scrollTo({top:0})}
-  else if(act==="next"){if(S.step<NA-1){S.step++;render();window.scrollTo({top:0})}else{S.tests.push({date:today(),scores:scores()});S.route=buildRoute(scores());save();toast("+25 · Mapa y ruta listos");S.view="mapa";S.testing=false;render();window.scrollTo({top:0})}}
+  else if(act==="next"){if(S.step<NA-1){S.step++;render();window.scrollTo({top:0})}else{const first=!S.route;S.tests.push({date:today(),scores:scores()});S.route=first?buildRoute(scores()):mergeRoute(scores());save();toast(first?"+25 · Mapa y ruta listos":"+25 · Mapa nuevo. Tu ruta sigue y se ha actualizado");S.view="mapa";S.testing=false;render();window.scrollTo({top:0})}}
   else if(act==="prev"){S.step--;render()}
   else if(act==="exit"){S.testing=false;render()}
   else if(act==="close"){dl.close()}
@@ -1787,6 +1807,7 @@ document.addEventListener("click",e=>{
   else if(act==="savebuddy"){const v=document.getElementById("buddy").value.trim();if(!v){toast("Escribe un nombre");return}S.buddy=v;S.bud.sent=false;save();render()}
   else if(act==="buddy-skip"){S.bud.skip=true;save();toast("Vale. Puedes hacerlo cuando quieras en Más › Grupo");render()}
   else if(act==="buddy-sent"){S.bud.sent=true;save();toast("¡Hecho! Cada viernes te recordaré escribirle");render()}
+  else if(act==="ch-l2"){S.route.choice="l2";save();toast("Seguimos con el nivel 2");render()}
   else if(act==="more-quiz"){S.exMode="quiz";S.qz=null;go("explorar")}
   else if(act==="more-area"){const a=S.active&&CI[S.active.id];S.exMode="conceptos";S.exArea=a?a.a:null;S.exMyth=false;S.exQ="";go("explorar")}
   else if(act==="more-name"){S.exMode="nombre";S.exQ="";go("explorar")}
