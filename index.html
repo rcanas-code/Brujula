@@ -996,7 +996,7 @@ function vRuta(){
 }
 function vMas(){
   const L=[["dinero","Dinero","Simulador de ahorro e inversión y conceptos clave de finanzas.",160],["grupo","Grupo","Compañero de retos, reto de grupo y compartir logros.",350],["dudas","Dudas frecuentes","¿Quién ve mis respuestas? ¿Y si fallo un día? Respuestas rápidas.",215],["ayuda","Ayuda","Teléfonos y cuándo pedir ayuda. Borrar tus datos.",5]];
-  return `<section class="stack"><div><p class="eyebrow">Más</p><h1>Más herramientas</h1></div><div class="cards">${L.map(([k,t,d,h])=>`<button class="cc area" style="--h:${h}" data-go="${k}"><h3>${t}</h3><p class="muted">${d}</p></button>`).join("")}</div>
+  return `<section class="stack"><div><p class="eyebrow">Más</p><h1>Más herramientas</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Extras para aprender más y resolver dudas. Lo único diario es marcar tu reto en Hoy.</p></div><div class="cards">${L.map(([k,t,d,h])=>`<button class="cc area" style="--h:${h}" data-go="${k}"><h3>${t}</h3><p class="muted">${d}</p></button>`).join("")}</div>
    <div class="card stack"><h3>Copia de seguridad</h3><p class="muted">Tu progreso solo está en este móvil. Si vas a cambiar de móvil o de navegador, copia este código y guárdalo en tus notas. Luego pégalo abajo en el nuevo para recuperarlo todo.</p>
     ${S.showCode?`<p class="share" id="sharetxt" style="word-break:break-all;font-size:.75rem;max-height:120px;overflow:auto">${backupCode()}</p><button class="btn" data-act="copy" style="width:max-content">Copiar código</button>`:`<button class="btn ghost" data-act="showcode" style="width:max-content">Ver mi código</button>`}
     <label for="restore" class="eyebrow">Recuperar mi progreso</label><textarea id="restore" class="field" style="min-height:70px" placeholder="Pega aquí tu código BRUJULA-..."></textarea><button class="btn ghost" data-act="restore" style="width:max-content">Recuperar</button></div>
@@ -1250,7 +1250,7 @@ function vMapa(){
 }
 function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
-  const head=`<div class="stack"><div><p class="eyebrow">Explorar</p><h1>Aprende lo que nadie te explica</h1></div>
+  const head=`<div class="stack"><div><p class="eyebrow">Explorar</p><h1>Aprende lo que nadie te explica</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Entra cuando te pase algo y quieras saber cómo se llama (Ponle nombre) o cuando te pique la curiosidad (Conceptos). No cuenta para tu reto.</p></div>
    <div class="row"><div class="seg"><button data-mode="conceptos" aria-pressed="${S.exMode==="conceptos"}">Conceptos</button><button data-mode="nombre" aria-pressed="${S.exMode==="nombre"}">Ponle nombre</button></div></div>
    <input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca: hábitos, ansiedad, invertir, bulos..."}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"?"":`<div class="chips">${[["sesgo","Ver solo los sesgos"]].map(([q,l])=>`<button class="chip" data-exq="${q}" aria-pressed="${S.exQ===q}">${l}</button>`).join("")}</div>`}</div>`;
   if(S.exMode==="nombre"){
