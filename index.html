@@ -1308,6 +1308,8 @@ function vMapa(){
    <div class="row">${S.route?`<button class="btn" data-go="ruta">Ver mi ruta</button>`:""}${complete()||S.tests.length?`<button class="btn ghost" data-act="retest">Repetir el test</button>`:""}</div>
   </section>`;
 }
+function conceptRank(c){if(c.e==="X")return 900;const l1=planFor(c.a).map(x=>x.id),l2=lvl2(c.a).map(x=>x.id);
+  let i=l1.indexOf(c.id);if(i>=0)return i;if(c.n==="B")return 100;i=l2.indexOf(c.id);if(i>=0)return 200+i;return c.e==="D"?400:300}
 function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   const head=`<div class="stack"><div><p class="eyebrow">Explorar</p><h1>Aprende lo que nadie te explica</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Entra cuando te pase algo y quieras saber cómo se llama (Ponle nombre) o cuando te pique la curiosidad (Conceptos). No cuenta para tu reto.</p></div>
@@ -1318,11 +1320,14 @@ function vExplorar(){
     return `<section class="stack">${head}<p class="muted">Busca la frase que más se parezca a lo que te pasa. Ponerle nombre ya es empezar a resolverlo.</p>
      <div class="feel">${list.map(f=>{const c=CI[f[2]];const h=c?AREAS[c.a].h:5;return `<button class="area" style="--h:${h}" data-${f[2]==="help"?"go":"open"}="${f[2]==="help"?"ayuda":f[2]}"><span>${esc(f[0])}</span><span class="name">${esc(f[1])}${c?" · "+esc(AREAS[c.a].n):" · Pide ayuda"}</span></button>`}).join("")||`<p class="muted">No hay resultados. Prueba con otra palabra.</p>`}</div></section>`;
   }
-  const list=C.filter(c=>(S.exArea===null||c.a===S.exArea)&&(!S.exMyth||c.e==="X")&&(!q||(c.t+" "+c.q+" "+AREAS[c.a].n).toLowerCase().includes(q)));
+  const list=C.filter(c=>(S.exArea===null||c.a===S.exArea)&&(!S.exMyth||c.e==="X")&&(!q||(c.t+" "+c.q+" "+AREAS[c.a].n).toLowerCase().includes(q))).sort((x,y)=>x.a-y.a||conceptRank(x)-conceptRank(y)||(x.id<y.id?-1:1));
+  const tier=c=>c.e==="X"?2:c.n==="B"?0:1,TN=["Lo básico · empieza por aquí","Un paso más","Mitos que conviene desmontar"];
+  const card=c=>`<button class="cc area" style="--h:${AREAS[c.a].h}" data-open="${c.id}"><div class="top2"><span class="chip"><span class="dot"></span>${AREAS[c.a].n}</span><span class="ev ${c.e}">${c.e==="X"?"Mito":c.n==="B"?"Básico":"Intermedio"}</span></div><h3>${esc(c.t)}</h3><p class="muted">${esc(c.q)}</p></button>`;
+  const grouped=S.exArea!==null&&!S.exMyth&&!q;
   return `<section class="stack">${head}
    <div class="chips"><button class="chip" data-area="all" aria-pressed="${S.exArea===null&&!S.exMyth}">Todo</button>${AREAS.map((a,i)=>`<button class="chip area" style="--h:${a.h}" data-area="${i}" aria-pressed="${S.exArea===i}"><span class="dot"></span>${a.n}</button>`).join("")}<button class="chip area" style="--h:5" data-myth="1" aria-pressed="${S.exMyth}"><span class="dot"></span>Solo mitos</button></div>
    <p class="muted">${list.length} conceptos</p>
-   <div class="cards">${list.map(c=>`<button class="cc area" style="--h:${AREAS[c.a].h}" data-open="${c.id}"><div class="top2"><span class="chip"><span class="dot"></span>${AREAS[c.a].n}</span><span class="ev ${c.e}">${c.e==="X"?"Mito":c.n==="B"?"Básico":"Intermedio"}</span></div><h3>${esc(c.t)}</h3><p class="muted">${esc(c.q)}</p></button>`).join("")}</div>
+   ${grouped?[0,1,2].map(t=>{const L=list.filter(c=>tier(c)===t);return L.length?`<div class="stack" style="gap:10px"><h2 style="font-size:1.15rem">${TN[t]}</h2><div class="cards">${L.map(card).join("")}</div></div>`:""}).join(""):`<p class="muted" style="font-size:.85rem;margin-top:-6px">Ordenados de lo más básico a lo más avanzado dentro de cada área.</p><div class="cards">${list.map(card).join("")}</div>`}
   </section>`;
 }
 function fv(m,r,years){const i=r/100/12,n=years*12;return i===0?m*n:m*((Math.pow(1+i,n)-1)/i)*(1+i)}
