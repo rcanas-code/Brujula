@@ -320,6 +320,25 @@ details.fold .fi{margin-right:8px}
 .fbn{flex-basis:100%;margin:2px 0 0;font-size:.78rem;color:var(--muted)}
 .chip.chipon{background:#6B4BB8;color:#fff;border-color:#6B4BB8}
 dialog h2:focus{outline:none}
+.ritem{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-left:6px solid var(--sc);border-radius:14px;padding:10px 12px;background:var(--surface)}
+.ritem.now,.ritem.go{border:2px solid var(--sc);border-left-width:6px;box-shadow:0 3px 10px rgb(255 107 61/.18)}
+.ritem.later,.ritem.lock{background:var(--bg)}
+.ritem.later .rtx b,.ritem.lock .rtx b{color:var(--muted)}
+.rnum{flex:none;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.9rem;background:var(--bg);color:var(--muted);border:2px solid var(--line)}
+.ritem.ok .rnum{background:var(--good);border-color:var(--good);color:#fff}
+.ritem.now .rnum,.ritem.go .rnum{background:var(--accent);border-color:var(--accent);color:#fff}
+.ritem.next .rnum{border-color:var(--opt);color:var(--opt)}
+.rtx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.rmeta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rarea{font-size:.72rem;font-weight:800;border-radius:999px;padding:2px 8px;background:hsl(var(--h) 70% 92%);color:hsl(var(--h) 55% 32%)}
+.rarea.closed{background:var(--bg);color:var(--muted);text-decoration:line-through}
+.rpill{font-size:.72rem;font-weight:800;color:var(--sc)}
+.rsub{font-size:.78rem;color:var(--muted)}
+.rareas{display:flex;flex-wrap:wrap;gap:6px}
+.rleg{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:.75rem;color:var(--muted);font-weight:700}
+.rleg span{display:inline-flex;align-items:center;gap:5px}.rleg i{width:10px;height:10px;border-radius:50%;display:inline-block}
+:root[data-theme="dark"] .rarea{background:hsl(var(--h) 30% 22%);color:hsl(var(--h) 60% 80%)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rarea{background:hsl(var(--h) 30% 22%);color:hsl(var(--h) 60% 80%)}}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1211,21 +1230,26 @@ function vRuta(){
   if(!S.route)return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu ruta aparecerá cuando hagas el test</h1></div><button class="btn" data-act="start" style="width:max-content">Hacer el test</button></section>`;
   const items=routeItems(),done=items.filter(it=>["ok","skip"].includes(itemStatus(it))).length;
   const rn=routeNext(),nextId=rn&&rn.c.id;
+  const ST={ok:["Superado","var(--good)"],skip:["Saltado","var(--muted)"],now:["Ahora","var(--accent)"],next:["Siguiente","var(--opt)"],go:["Te toca","var(--accent)"],later:["Más adelante","#9AA9B5"],lock:["Bloqueado","#9AA9B5"]};
   const node=it=>{const s=itemStatus(it),c=it.c,a=AREAS[c.a],num=items.indexOf(it)+1,isNext=s==="open"&&c.id===nextId;
-    const label=s==="ok"?"Superado":s==="skip"?"Saltado":s==="now"?`<b style="color:var(--c)">Ahora · día ${Math.min(dayN(),7)} de 7</b>`:s==="lock"?`Nivel 2 · se abre cuando termines los 3 retos de nivel 1 de ${a.n}`:isNext?(S.active?"Siguiente: te llegará a Hoy cuando acabes el actual":`<b>Te toca este</b>`):"Más adelante";
-    return `<div class="mini area" style="--h:${a.h};${s==="lock"||(s==="open"&&!isNext)?"opacity:.6":""}${s==="now"||(isNext&&!S.active)?";border:2px solid var(--c)":""}"><span style="display:flex;gap:12px;align-items:center;min-width:0"><span class="pnum" style="${s==="ok"||s==="now"?"background:var(--c);color:#fff":""}">${s==="ok"?"✓":s==="skip"?"~":num}</span><span style="min-width:0"><b>${esc(c.t)}</b><br><span class="muted" style="font-size:.85rem">${a.n} · ${label}</span></span></span>
-     ${isNext&&!S.active?`<button class="btn" data-start="${c.id}">Empezar</button>`:s==="open"&&S.swap?`<button class="btn" data-swap="${c.id}">Cambiar a este</button>`:s!=="lock"?`<button class="btn ghost" style="padding:6px 12px" data-open="${c.id}">Ver</button>`:""}</div>`};
-  return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu camino, paso a paso</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Aquí ves <b>todos tus retos, en el orden en que los harás</b>, uno por semana. Tus áreas: ${activeAreas().map(i=>AREAS[i].n).join(", ")}.${(S.route.closed||[]).length?` Cerradas porque ya son una fortaleza: ${S.route.closed.map(i=>AREAS[i].n).join(", ")}.`:""}</p></div>
+    const k=s==="ok"?"ok":s==="skip"?"skip":s==="now"?"now":s==="lock"?"lock":isNext?(S.active?"next":"go"):"later",[lb,col]=ST[k];
+    const sub=k==="now"?`Día ${Math.min(dayN(),7)} de 7`:k==="next"?"Te llegará a Hoy cuando acabes el actual":k==="lock"?`Se abre al acabar el nivel 1 de ${a.n}`:"";
+    return `<div class="ritem ${k}" style="--sc:${col}"><span class="rnum">${k==="ok"?"✓":k==="skip"?"–":num}</span><span class="rtx"><b>${esc(c.t)}</b><span class="rmeta"><span class="rarea" style="--h:${a.h}">${a.n}</span><span class="rpill">${lb}</span></span>${sub?`<span class="rsub">${sub}</span>`:""}</span>
+     ${k==="go"?`<button class="btn" data-start="${c.id}">Empezar</button>`:s==="open"&&S.swap?`<button class="btn" data-swap="${c.id}">Cambiar</button>`:k!=="lock"?`<button class="btn ghost" style="padding:6px 12px" data-open="${c.id}">Ver</button>`:""}</div>`};
+  const L1=items.filter(i=>i.lvl===1),L2=items.filter(i=>i.lvl===2),d1=L1.filter(it=>["ok","skip"].includes(itemStatus(it))).length,d2=L2.filter(it=>["ok","skip"].includes(itemStatus(it))).length;
+  const l2open=uiGet("rutaL2",L2.some(it=>itemStatus(it)!=="lock"));
+  return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu camino, paso a paso</h1><p class="muted" style="margin-top:8px;max-width:62ch">Todos tus retos, en orden, uno por semana. <b>No tienes que venir a buscarlos:</b> cuando acabas uno, Hoy te trae el siguiente.</p></div>
    ${routeNews()}${choiceCard()}
-   <div class="guide"><p class="eyebrow">No tienes que venir a buscarlos</p><p>Cada vez que terminas un reto, <b>Hoy te propone el siguiente</b>. Esta pantalla es solo el mapa del camino: para ver dónde estás y qué viene. Puedes tocar «Ver» para leer cualquiera.</p></div>
    ${S.swap&&S.active?`<div class="card stack" style="border:2px solid var(--warn)"><h3>Elige otro reto de tu ruta</h3><p class="muted">Toca «Cambiar a este» en cualquier reto disponible. El que dejas queda como saltado, con tus días marcados guardados. Si más adelante repites el test, puede volver a aparecer en tu nueva ruta.</p><button class="btn ghost" data-act="swap-no" style="width:max-content">Mejor sigo con el mío</button></div>`:""}
-   <div class="card stack"><div class="row" style="justify-content:space-between"><b>${done} de ${items.length} retos terminados</b><span class="muted">Creada el ${parse(S.route.date).toLocaleDateString("es-ES")}</span></div><div class="progress"><span style="width:${done/items.length*100}%"></span></div></div>
-   <div class="stack"><h2>Nivel 1 · Lo básico</h2><p class="muted" style="margin-top:-6px">Los retos más sencillos de cada área. Se turnan: un área cada semana.</p><div class="minis">${items.filter(i=>i.lvl===1).map(node).join("")}</div></div>
-   <div class="stack"><h2>Nivel 2 · Un paso más</h2><p class="muted" style="margin-top:-6px">Retos un poco más exigentes. Los de cada área se abren cuando terminas sus 3 retos de nivel 1.</p><div class="minis">${items.filter(i=>i.lvl===2).map(node).join("")}</div></div>
-   <details class="card"><summary>Cómo funciona tu ruta</summary><div style="margin-top:10px">${routeHow().replace('<div class="card stack"><h3>Cómo funciona tu ruta</h3>','<div class="stack">')}</div></details>
-   <div class="card stack"><h3>¿Quieres aprender más?</h3><p class="muted">En Explorar puedes leer cualquier tema, con ejemplos y vídeos, todas las veces que quieras. Los retos, en cambio, los marca tu ruta, uno cada vez: así trabajas lo que más te puede ayudar.</p><button class="btn ghost" data-go="explorar" style="width:max-content">Ir a Explorar</button></div>
-   ${l1Done()?`<div class="card stack"><h3>Añadir otra área a mi ruta</h3><p class="muted">Ya has terminado el nivel 1 de tus áreas. Si quieres trabajar otro tema, elígelo: tu siguiente reto será de esa área.</p>${areaPicker()}</div>`:""}
+   <div class="card stack" style="gap:10px"><div class="row" style="justify-content:space-between"><b>${done} de ${items.length} retos terminados</b><span class="muted" style="font-size:.85rem">Desde el ${parse(S.route.date).toLocaleDateString("es-ES")}</span></div><div class="progress"><span style="width:${done/items.length*100}%"></span></div>
+    <div class="rareas">${activeAreas().map(i=>`<span class="rarea" style="--h:${AREAS[i].h}">${AREAS[i].n}</span>`).join("")}${(S.route.closed||[]).map(i=>`<span class="rarea closed">${AREAS[i].n} · cerrada</span>`).join("")}</div>
+    <div class="rleg">${[["ok"],["now"],["next"],["later"],["lock"]].map(([k])=>`<span><i style="background:${ST[k][1]}"></i>${ST[k][0]}</span>`).join("")}</div></div>
+   <details class="card fold" id="rutal1" style="--fc:var(--accent)" open><summary>Nivel 1 · Lo básico <span class="muted" style="font-weight:600">· ${d1} de ${L1.length}</span></summary><p class="muted" style="font-size:.86rem;margin:8px 0 10px">Los retos más sencillos de cada área. Se turnan: un área cada semana.</p><div class="minis">${L1.map(node).join("")}</div></details>
+   <details class="card fold" id="rutal2" style="--fc:var(--opt)" ${l2open?"open":""}><summary>Nivel 2 · Un paso más <span class="muted" style="font-weight:600">· ${d2} de ${L2.length}</span></summary><p class="muted" style="font-size:.86rem;margin:8px 0 10px">Retos un poco más exigentes. Los de cada área se abren cuando terminas sus 3 retos de nivel 1.</p><div class="minis">${L2.map(node).join("")}</div></details>
+   ${l1Done()?`<div class="card stack" style="border-left:6px solid var(--brand)"><h3>Añadir otra área a mi ruta</h3><p class="muted">Ya has terminado el nivel 1 de tus áreas. Si quieres trabajar otro tema, elígelo: tu siguiente reto será de esa área.</p>${areaPicker()}</div>`:""}
    ${done===items.length?`<div class="card stack"><h3>Ruta completada</h3><p class="muted">Repite el test para actualizar tu mapa, o añade otra área aquí arriba.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:""}
+   <details class="card fold" style="--fc:var(--brand)"><summary>Cómo funciona tu ruta</summary><div style="margin-top:10px">${routeHow().replace('<div class="card stack"><h3>Cómo funciona tu ruta</h3>','<div class="stack">')}</div></details>
+   <details class="card fold" style="--fc:#2A9D8F"><summary>¿Quieres aprender más?</summary><div class="stack" style="margin-top:10px"><p class="muted">En Explorar puedes leer cualquier tema, con ejemplos y vídeos, todas las veces que quieras. Los retos, en cambio, los marca tu ruta, uno cada vez.</p><button class="btn ghost" data-go="explorar" style="width:max-content">Ir a Explorar</button></div></details>
   </section>`;
 }
 const REPORT_TO="";
@@ -1320,7 +1344,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013174904";
+const APP_V="20261013175119";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1357,7 +1381,7 @@ function wayCard(){if(!S.route)return "";const items=routeItems(),N=items.length
 function slim(html){const m=html.match(/<h[23][^>]*>([\s\S]*?)<\/h[23]>/)||html.match(/<p class="eyebrow"[^>]*>([\s\S]*?)<\/p>/);const t=m?m[1].replace(/<[^>]+>/g,""):"Aviso";
   return `<details class="notice"><summary><span class="ndot"></span><span class="nt">${t}</span><span class="nopen">Abrir</span></summary><div class="ninner">${html}</div></details>`}
 const uiGet=(k,d)=>{try{const v=localStorage.getItem("brujula:ui:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},uiSet=(k,v)=>{try{localStorage.setItem("brujula:ui:"+k,JSON.stringify(v))}catch(e){}};
-document.addEventListener("toggle",e=>{const id=e.target&&e.target.id;if(id==="moodbox")uiSet("moodOpen",e.target.open);if(id==="moodmore")uiSet("moodMore",e.target.open)},true);
+document.addEventListener("toggle",e=>{const id=e.target&&e.target.id;if(id==="moodbox")uiSet("moodOpen",e.target.open);if(id==="moodmore")uiSet("moodMore",e.target.open);if(id==="rutal2")uiSet("rutaL2",e.target.open)},true);
 const MOODS=[
  ["contento","😊","Contento","Qué bien. Fíjate en qué lo ha hecho bueno: así es más fácil repetirlo.","Escribe en una línea qué ha hecho bueno tu día.","PEN-09"],
  ["tranquilo","😌","Tranquilo","Buen momento: con calma se piensa mejor y se recarga.","Dedica 10 minutos a algo que eliges tú, sin móvil.","EST-05"],
