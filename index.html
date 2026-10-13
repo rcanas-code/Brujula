@@ -860,6 +860,7 @@ function markMission(m){const t=today();(S.extra[t]=S.extra[t]||[]).push(m);S.br
 const UA=navigator.userAgent||"";
 const inApp=/Instagram|FBAN|FBAV|FB_IAB|WhatsApp|TikTok|musical_ly|Line\/|Snapchat|Twitter/i.test(UA);
 const isIOS=/iPhone|iPad|iPod/i.test(UA);
+const isStandalone=(()=>{try{return !!(navigator.standalone||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches))}catch(e){return false}})();
 let canStore=true;try{localStorage.setItem("brujula:t","1");localStorage.removeItem("brujula:t")}catch(e){canStore=false}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 const KEYS=["answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
@@ -867,6 +868,7 @@ function backupCode(){const o={};KEYS.forEach(k=>o[k]=store.get(k,null));o.v=1;r
 function restoreCode(code){try{const raw=code.trim().replace(/^BRUJULA-/,"");const o=JSON.parse(decodeURIComponent(escape(atob(raw))));if(o.v!==1)throw 0;KEYS.forEach(k=>{if(o[k]!==null&&o[k]!==undefined)store.set(k,o[k])});return true}catch(e){return false}}
 function envBanner(){
   if(inApp)return `<div class="alert"><strong>Ábrela en tu navegador.</strong> Estás dentro de una app (Instagram, WhatsApp…) y aquí tu progreso se puede perder. Toca los tres puntos (⋯) y elige «Abrir en ${isIOS?"Safari":"Chrome"}» o «Abrir en el navegador».</div>`;
+  if(isStandalone&&!S.tests.length&&!answered()&&S.view==="hoy"&&!S.testing)return `<div class="card stack" style="border:2px solid var(--brand)"><h3>¿Ya habías hecho el test en el navegador?</h3><p class="muted">Al abrir Brújula desde el icono de la pantalla de inicio, ${isIOS?"el iPhone":"el móvil"} a veces la trata como una app nueva y no ve lo que hiciste en ${isIOS?"Safari":"el navegador"}. No has perdido nada:</p><ol style="margin:0;padding-left:20px;display:grid;gap:4px"><li>Abre Brújula en ${isIOS?"Safari":"el navegador"}, como antes.</li><li>Ve a <b>Más → Copia de seguridad → Ver mi código</b> y cópialo.</li><li>Vuelve aquí, ve a <b>Más</b> y pégalo en «Recuperar mi progreso».</li></ol><p class="muted" style="font-size:.88rem">Si es la primera vez que la usas, ignora este aviso y empieza el test.</p><button class="btn ghost" data-go="mas" style="width:max-content">Ir a Más</button></div>`;
   if(!canStore)return `<div class="alert"><strong>Tu navegador no está guardando el progreso.</strong> Puede que estés en modo incógnito o privado. Ábrela en una pestaña normal.</div>`;
   return "";}
 /* ---------- guía de la app ---------- */
@@ -874,7 +876,7 @@ const firstTime=()=>S.tests.length<=1&&!S.history.length;
 const onb=k=>`<div class="onb" aria-label="Paso ${k} de 3">${["El test","Tu mapa","Tu primer reto"].map((t,i)=>`<span class="${i+1===k?"on":""}">${i+1}. ${t}</span>`).join("")}</div>`;
 const TIPS=[
  [0,"hoy","Esto es Hoy","Es tu pantalla de cada día. Vuelve, toca «Sí», «Un poco» u «Hoy no» y listo. Eso es todo lo obligatorio.",null],
- [0,"instalar","Tenla a mano","Ponla en la pantalla de inicio de tu móvil, como una app: "+(isIOS?"en Safari, toca el botón Compartir (el cuadrado con la flecha) y elige «Añadir a pantalla de inicio».":"en Chrome, toca los tres puntos (⋮) y elige «Añadir a pantalla de inicio» o «Instalar app»."),null],
+ [0,"instalar","Tenla a mano","Ponla en la pantalla de inicio de tu móvil, como una app: "+(isIOS?"en Safari, toca el botón Compartir (el cuadrado con la flecha) y elige «Añadir a pantalla de inicio».":"en Chrome, toca los tres puntos (⋮) y elige «Añadir a pantalla de inicio» o «Instalar app».")+" A partir de ahora, ábrela siempre desde ese icono. Si desde el icono te pide el test otra vez, no has perdido nada: copia tu código en Más (desde el navegador) y pégalo en el icono.",null],
  [1,"proposito","Nuevo: tu propósito","En Propósito descubres qué te importa y en qué eres bueno, y acabas con una frase que te sirve para decidir (estudios, trabajo, planes). Un paso de 5 minutos por semana. Es opcional.","Ver Propósito"],
  [1,"aprender","Para aprender hoy","Debajo de tu reto, en Hoy, tienes cada día una historia o una curiosidad de un minuto. Es opcional: ábrela solo si te apetece.",null],
  [2,"ruta","Tu ruta","En Ruta ves tu camino completo: qué retos vienen, cuáles has superado y qué se desbloquea después.","Ver mi ruta"],
@@ -1003,7 +1005,7 @@ function vMas(){
    <div class="card stack"><h3>Copia de seguridad</h3><p class="muted">Tu progreso solo está en este móvil. Si vas a cambiar de móvil o de navegador, copia este código y guárdalo en tus notas. Luego pégalo abajo en el nuevo para recuperarlo todo.</p>
     ${S.showCode?`<p class="share" id="sharetxt" style="word-break:break-all;font-size:.75rem;max-height:120px;overflow:auto">${backupCode()}</p><button class="btn" data-act="copy" style="width:max-content">Copiar código</button>`:`<button class="btn ghost" data-act="showcode" style="width:max-content">Ver mi código</button>`}
     <label for="restore" class="eyebrow">Recuperar mi progreso</label><textarea id="restore" class="field" style="min-height:70px" placeholder="Pega aquí tu código BRUJULA-..."></textarea><button class="btn ghost" data-act="restore" style="width:max-content">Recuperar</button></div>
-   <div class="card stack"><h3>Tenla a mano</h3><p class="muted">${isIOS?"En Safari: botón Compartir (el cuadrado con la flecha) y «Añadir a pantalla de inicio».":"En Chrome: los tres puntos (⋮) y «Añadir a pantalla de inicio» o «Instalar app»."} Así la abres como cualquier otra app.</p></div></section>`;
+   <div class="card stack"><h3>Tenla a mano</h3><p class="muted">${isIOS?"En Safari: botón Compartir (el cuadrado con la flecha) y «Añadir a pantalla de inicio».":"En Chrome: los tres puntos (⋮) y «Añadir a pantalla de inicio» o «Instalar app»."} Así la abres como cualquier otra app.</p><p class="muted" style="font-size:.88rem"><b>Ojo:</b> en algunos móviles, sobre todo iPhone, la app del icono no ve lo que hiciste en el navegador. Si te pide el test otra vez, copia tu código de arriba desde el navegador y pégalo en «Recuperar mi progreso» desde el icono. Lo más fácil: añádela a la pantalla de inicio antes de empezar y úsala siempre desde ahí.</p></div></section>`;
 }
 /* ---------- navegación ---------- */
 const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["ruta","Ruta","M5 19c4 0 4-7 8-7s4-7 8-7M5 19a2 2 0 1 0 0 .1M19 5a2 2 0 1 0 0 .1"],["proposito","Propósito","M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 9l-2 5-4 1 2-5z"],["mapa","Mapa","M12 3l8 5v8l-8 5-8-5V8z"],["explorar","Explorar","M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"],["mas","Más","M5 12h.01M12 12h.01M19 12h.01"]];
@@ -1393,6 +1395,7 @@ const FAQ=[
 ["¿Cómo funciona lo del compañero de retos?","Eliges a alguien de confianza y la app te prepara un mensaje para enviárselo por WhatsApp. La app no le envía nada: lo envías tú. Los viernes te prepara otro para contarle cómo vas."]]],
 ["Problemas técnicos",[
 ["Ha desaparecido mi progreso. ¿Qué ha pasado?","Seguramente la has abierto desde otro navegador, en modo incógnito o desde dentro de Instagram o WhatsApp. Ábrela siempre igual, en Chrome o Safari. Si guardaste tu código de copia, recupéralo en Más."],
+["La he añadido a la pantalla de inicio y me pide el test otra vez. ¿Por qué?","En algunos móviles, sobre todo iPhone, la app que abres desde el icono guarda sus datos aparte del navegador, así que no ve lo que hiciste allí. No has perdido nada: abre Brújula en el navegador, ve a Más → Copia de seguridad → Ver mi código y cópialo. Luego ábrela desde el icono, ve a Más y pégalo en «Recuperar mi progreso». A partir de ahí, úsala siempre desde el icono."],
 ["Voy a cambiar de móvil. ¿Pierdo todo?","No, si antes copias tu código en Más → Copia de seguridad y lo guardas en tus notas. En el móvil nuevo, pégalo en «Recuperar mi progreso»."],
 ["¿Cómo la pongo en la pantalla de inicio?","En Safari: botón Compartir y «Añadir a pantalla de inicio». En Chrome: los tres puntos (⋮) y «Añadir a pantalla de inicio» o «Instalar app»."],
 ["Llevo días sin entrar. ¿Tengo que empezar de cero?","No. Al volver, la app te da la bienvenida y te deja seguir donde lo dejaste o empezar la semana de nuevo."]]],
