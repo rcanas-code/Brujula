@@ -884,7 +884,7 @@ const TIPS=[
  [4,"mas","Dinero, grupo y ayuda","En Más tienes el simulador de ahorro, ideas para hacer retos con amigos y los teléfonos de ayuda.","Ver Más"],
  [6,"mapa","Tu mapa","En Mapa está tu foto de hoy. Dentro de un mes repetirás el test y verás cuánto has cambiado.","Ver mi mapa"]];
 const sinceStart=()=>S.tests.length?diff(S.tests[0].date,today()):0;
-function tipCard(){const d=sinceStart(),tip=TIPS.find(t=>t[0]<=d&&!S.tips.includes(t[1]));if(!tip)return "";
+function tipCard(){const d=sinceStart(),tip=TIPS.find(t=>t[0]<=d&&!S.tips.includes(t[1])&&!(t[1]==="instalar"&&isStandalone));if(!tip)return "";
   const [,k,h,txt,btn]=tip,idx=TIPS.indexOf(tip)+1;
   return `<div class="card stack" style="border:2px dashed var(--brand)"><div class="row" style="justify-content:space-between"><p class="eyebrow">Conoce la app · ${idx} de ${TIPS.length}</p></div><h3>${h}</h3><p class="muted">${txt}</p><div class="row">${btn?`<button class="btn" data-tipgo="${k}">${btn}</button>`:""}<button class="btn ghost" data-tipok="${k}">Entendido</button></div></div>`}
 const showPurpose=()=>sinceStart()>=1||pCount()>0;
@@ -1015,12 +1015,21 @@ function go(v){S.view=v;S.testing=false;render();window.scrollTo({top:0})}
 /* ---------- vistas ---------- */
 function compass(){return `<svg class="hero-art" viewBox="0 0 300 300" aria-hidden="true">${AREAS.map((a,i)=>{const ang=i/NA*Math.PI*2-Math.PI/2,r=120,x=150+Math.cos(ang)*r,y=150+Math.sin(ang)*r;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="hsl(${a.h} var(--as) var(--al))"/>`}).join("")}<circle cx="150" cy="150" r="84" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/><path d="M150 82 L166 150 L150 218 L134 150Z" fill="var(--accent)"/><path d="M150 150 L166 150 L150 218 L134 150Z" fill="var(--ink)"/><circle cx="150" cy="150" r="6" fill="var(--surface)"/></svg>`}
 
+function iconCard(){if(isStandalone||answered()||S.tests.length||S.tips.includes("icono0"))return "";
+  const ios=`<ol style="margin:0;padding-left:20px;display:grid;gap:6px"><li>Asegúrate de estar en <b>Safari</b> (no dentro de WhatsApp ni Instagram).</li><li>Toca el botón <b>Compartir</b>: el cuadrado con una flecha hacia arriba. Si no lo ves, toca antes los tres puntos <b>(···)</b>.</li><li>Elige <b>«Añadir a pantalla de inicio»</b> y luego <b>«Añadir»</b>.</li><li><b>Cierra Safari</b> y abre Brújula desde el icono nuevo. Haz el test ahí.</li></ol>`;
+  const android=`<ol style="margin:0;padding-left:20px;display:grid;gap:6px"><li>Asegúrate de estar en <b>Chrome</b> (no dentro de WhatsApp ni Instagram).</li><li>Toca los tres puntos <b>(⋮)</b> de arriba a la derecha.</li><li>Elige <b>«Añadir a pantalla de inicio»</b> o <b>«Instalar app»</b> y confirma.</li><li><b>Cierra Chrome</b> y abre Brújula desde el icono nuevo. Haz el test ahí.</li></ol>`;
+  return `<div class="card stack" style="border:2px solid var(--brand);margin-bottom:18px"><p class="eyebrow">Antes de empezar · 1 minuto</p><h2>Pon Brújula en tu pantalla de inicio</h2>
+   <p class="muted"><b>Por qué ahora:</b> así la abres con un toque, como cualquier app, y tu progreso se guarda en el icono. ${isIOS?"En iPhone es importante hacerlo antes del test: lo que hagas aquí en Safari no se ve después desde el icono.":"Si lo haces después, en algunos móviles el icono empieza de cero."}</p>
+   <p class="eyebrow" style="margin-top:4px">${isIOS?"En iPhone":"En Android"}</p>${isIOS?ios:android}
+   <details><summary class="muted" style="cursor:pointer;font-weight:700">${isIOS?"¿Tienes Android?":"¿Tienes iPhone?"}</summary><div style="margin-top:8px">${isIOS?android:ios}</div></details>
+   <p class="muted" style="font-size:.88rem">No se descarga nada de la App Store ni de Google Play, no pide permisos y no ocupa espacio: es un acceso directo a esta web.</p>
+   <div><button class="btn ghost" data-tipok="icono0" style="width:max-content">Ahora no, prefiero empezar aquí</button></div></div>`}
 function vIntro(){
   const n=answered();
   const PAIN=[["Estoy cansado aunque duermo","Descubres por qué y lo cambias en una semana",215],["Lo dejo todo para el último día","Entiendes qué te frena y empiezas con 10 minutos",25],["Me agobio y no sé qué me pasa","Le pones nombre y sabes qué hacer",330],["Estudio horas y no se me queda","Aprendes a estudiar menos tiempo y recordar más",70],["Me gasto el dinero en cosas que luego no valen la pena","Aprendes a usarlo para lo que de verdad te importa",160],["No sé qué quiero hacer con mi vida","Construyes tu propia dirección, paso a paso",45]];
   const HOW=[["6 minutos · una vez","Te conoces","Un test de 42 frases te enseña tu mapa: en qué estás fuerte y qué te cuesta más."],["1 minuto · cada semana","Un reto pequeño","La app te propone un reto de 7 días con un ejemplo y un plan ya escrito. Tan pequeño que puedes con él."],["10 segundos · cada día","Un toque","Abres la app y tocas «Sí», «Un poco» u «Hoy no». Sumas puntos, racha y logros."],["5 minutos · cada semana","Le das sentido","Construyes tu frase de propósito: para qué haces todo esto."]];
   const CTA=`<div class="row"><button class="btn" data-act="start" style="font-size:1.1rem;padding:14px 28px">${n?"Seguir el test":"Empezar · 6 minutos"}</button></div><p class="muted" style="font-size:.88rem">Gratis. Sin registro. Solo tú ves tus respuestas. <button data-go="dudas" style="background:none;border:0;padding:0;color:var(--brand);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">¿Dudas?</button></p>`;
-  return `<section class="hero">
+  return `${iconCard()}<section class="hero">
    <div><p class="eyebrow">Lo que nadie te explica</p>
     <h1>Aprende lo que nadie te enseña sobre ti.</h1>
     <p class="lead">Vas a aprender a dormir mejor, a estudiar con menos esfuerzo, a entender lo que sientes, a tener una relación sana con el dinero y a descubrir qué quieres. Con pasos tan pequeños que es difícil fallar. Y no vas solo: Brújula te dice cada día qué toca y te anima a seguir.</p>
@@ -1397,7 +1406,8 @@ const FAQ=[
 ["Ha desaparecido mi progreso. ¿Qué ha pasado?","Seguramente la has abierto desde otro navegador, en modo incógnito o desde dentro de Instagram o WhatsApp. Ábrela siempre igual, en Chrome o Safari. Si guardaste tu código de copia, recupéralo en Más."],
 ["La he añadido a la pantalla de inicio y me pide el test otra vez. ¿Por qué?","En algunos móviles, sobre todo iPhone, la app que abres desde el icono guarda sus datos aparte del navegador, así que no ve lo que hiciste allí. No has perdido nada: abre Brújula en el navegador, ve a Más → Copia de seguridad → Ver mi código y cópialo. Luego ábrela desde el icono, ve a Más y pégalo en «Recuperar mi progreso». A partir de ahí, úsala siempre desde el icono."],
 ["Voy a cambiar de móvil. ¿Pierdo todo?","No, si antes copias tu código en Más → Copia de seguridad y lo guardas en tus notas. En el móvil nuevo, pégalo en «Recuperar mi progreso»."],
-["¿Cómo la pongo en la pantalla de inicio?","En Safari: botón Compartir y «Añadir a pantalla de inicio». En Chrome: los tres puntos (⋮) y «Añadir a pantalla de inicio» o «Instalar app»."],
+["¿Cómo la pongo en la pantalla de inicio y cuándo?","Antes de hacer el test. En iPhone: en Safari, botón Compartir (si no lo ves, toca antes «···») y «Añadir a pantalla de inicio». En Android: en Chrome, los tres puntos (⋮) y «Añadir a pantalla de inicio» o «Instalar app». Después cierra el navegador y ábrela siempre desde el icono. No se descarga nada ni pide permisos: es un acceso directo a la web, y se actualiza sola."],
+["Si borro el icono, ¿pierdo mi progreso?","En iPhone, sí: al borrar el icono se borran sus datos. Antes de borrarlo, copia tu código en Más → Copia de seguridad."],
 ["Llevo días sin entrar. ¿Tengo que empezar de cero?","No. Al volver, la app te da la bienvenida y te deja seguir donde lo dejaste o empezar la semana de nuevo."]]],
 ["Si no estoy bien",[
 ["¿Brújula sustituye a un psicólogo?","No. Te ayuda a conocerte y a crear hábitos, pero no sustituye a una persona que te escuche. Si lo estás pasando mal, habla con tu tutor, orientación, tu médico o llama a uno de los teléfonos de Ayuda."]]]
