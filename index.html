@@ -985,6 +985,18 @@ const TOUR=[
 function tourBar(){if(S.tour==null)return "";const k=S.tour,[,t,d]=TOUR[k],last=k===TOUR.length-1;
   return `<div class="tour" role="dialog" aria-label="Guía de la app"><div class="row" style="justify-content:space-between"><span class="dots">${TOUR.map((_,i)=>`<i class="${i===k?"on":""}"></i>`).join("")}</span><span style="font-size:.8rem;opacity:.75">${k+1} de ${TOUR.length}</span></div>
    <h3>${t}</h3><p>${d}</p><div class="row" style="justify-content:space-between">${last?`<span></span>`:`<button class="btn ghost" style="padding:6px 12px" data-tour="end">Salir</button>`}<div class="row" style="gap:8px">${k?`<button class="btn ghost" style="padding:6px 12px" data-tour="prev">Anterior</button>`:""}<button class="btn" style="padding:6px 16px" data-tour="${last?"end":"next"}">${last?"Terminar":"Siguiente"}</button></div></div></div>`}
+function moreCard(){const a=S.active,c=a&&CI[a.id],rn=routeNext(),ai=c?c.a:(rn?rn.c.a:0),ar=AREAS[ai],nx=rn?rn.c:null,qr=(S.quizR||{})[ar.k];
+  const it=(ic,t,d,attr)=>`<button class="mini" ${attr} style="text-align:left;font:inherit;color:inherit;cursor:pointer;width:100%"><span><b>${ic} ${t}</b><br><span class="muted" style="font-size:.85rem">${d}</span></span><span class="muted">→</span></button>`;
+  return `<div class="card stack" style="border:2px dashed var(--opt)"><p class="eyebrow" style="color:var(--opt)">¿Te has quedado con ganas de más?</p><h3>Puedes seguir aprendiendo todo lo que quieras</h3><p class="muted" style="font-size:.88rem">Lo que no puedes es adelantar retos: uno cada vez funciona mejor. Pero aprender no tiene límite. Ideas:</p>
+   <div class="minis">
+    ${c?it("▶","Profundiza en tu reto",`Vídeos, libro y lectura de «${esc(c.t)}». Márcalos como vistos.`,`data-open="${c.id}"`):""}
+    ${it("✓",`¿Cuánto sabes de ${esc(ar.n.toLowerCase())}?`,qr?`Tu última nota: ${qr.last}/10. ¿La mejoras?`:"10 preguntas y las soluciones con enlaces. 3 minutos.",`data-act="more-quiz"`)}
+    ${it("📚",`Más ideas de ${esc(ar.n.toLowerCase())}`,"Los conceptos de tu área en Explorar, de lo básico a lo avanzado.",`data-act="more-area"`)}
+    ${nx?it("👀","Echa un vistazo a lo que viene",`Tu siguiente reto: «${esc(nx.t)}». Puedes leerlo; empezará cuando acabes este.`,`data-open="${nx.id}"`):""}
+    ${pCount()<7?it("🧭","Un paso de Propósito","Descubre qué te importa y en qué eres bueno. 5 minutos.",`data-go="proposito"`):""}
+    ${it("💶","Juega con el simulador de dinero","Cuánto suman los gastos pequeños y qué pasa si empiezas a ahorrar a los 16.",`data-go="dinero"`)}
+    ${it("🏷️","Ponle nombre","Si te pasa algo y no sabes cómo se llama, búscalo aquí.",`data-act="more-name"`)}
+   </div></div>`}
 function endCard(){const it=todayItems(),req=it.filter(x=>x.st==="todo"),time=S.active&&S.active.time;
   if(req.length)return `<div class="card stack"><p class="eyebrow">Has llegado al final de Hoy</p><h3>Aún te falta: ${esc(req.map(x=>x.t.charAt(0).toLowerCase()+x.t.slice(1)).join(" · "))}</h3><p class="muted">Sube hasta «Tu día de hoy» y haz lo que está en naranja. Después vuelve aquí abajo.</p><button class="btn ghost" data-act="totop" style="width:max-content">Subir</button></div>`;
   return `<div class="card stack" style="border:2px solid var(--good)"><p class="eyebrow">Has llegado al final de Hoy</p><h3>✓ Por hoy has terminado</h3><p class="muted">Ya puedes cerrar la app. Lo que está en azul es opcional. ${time?`Mañana a las <b>${esc(time)}</b>, vuelve a Hoy.`:"Mañana, vuelve a Hoy."}</p>
@@ -992,7 +1004,7 @@ function endCard(){const it=todayItems(),req=it.filter(x=>x.st==="todo"),time=S.
 function todayCard(){const it=todayItems(),req=it.filter(x=>x.st==="todo"),all=!req.length;
   const time=S.active&&S.active.time;
   return `<div class="day ${all?"ok":""}"><div class="row" style="justify-content:space-between"><h2>${all?"¡Todo hecho por hoy!":"Tu día de hoy"}</h2><span class="muted" style="font-size:.85rem">${new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"})}</span></div>
-   ${all?`<p>Bien hecho. Ya puedes cerrar la app. ${time?`Mañana, a las <b>${esc(time)}</b>, otro toque.`:"Mañana, otro toque."}</p>`:`<p class="muted" style="font-size:.88rem">Todo lo de hoy se hace en esta pantalla. Haz lo que está en <b>naranja</b> (lo azul es opcional) y <b>baja hasta el final</b>: allí te diremos cuándo has terminado.</p>`}
+   ${all?`<p>Bien hecho. Ya puedes cerrar la app. ${time?`Mañana, a las <b>${esc(time)}</b>, otro toque.`:"Mañana, otro toque."} <span class="muted">¿Quieres más? Al final de esta pantalla tienes ideas para seguir aprendiendo.</span></p>`:`<p class="muted" style="font-size:.88rem">Todo lo de hoy se hace en esta pantalla. Haz lo que está en <b>naranja</b> (lo azul es opcional) y <b>baja hasta el final</b>: allí te diremos cuándo has terminado.</p>`}
    <div style="display:flex;flex-direction:column;gap:8px">${it.map(x=>`<div class="todo ${x.st==="done"?"done":x.st==="opt"?"opt":x.st==="later"?"later":""}${x.o||x.st==="opt"?" isopt":""}"><span class="ic">${CHK}</span><span>${x.o||x.st==="opt"?`<span class="optpill">Opcional</span><br>`:""}<b>${esc(x.t)}</b><small>${esc(x.w)}</small></span>${x.btn?`<button class="btn" data-act="${x.btn}">${x.bl}</button>`:x.go&&x.st!=="done"?`<button class="btn ghost" data-go="${x.go}">Ir</button>`:""}</div>`).join("")}</div></div>`}
 /* ---------- reto de grupo ---------- */
 function friKey(){const d=new Date(),w=d.getDay(),o=w===5?0:w===6?-1:w===0?-2:null;return o===null?null:addDays(today(),o)}
@@ -1267,6 +1279,7 @@ function vHoy(){
       ${nx?`<div class="guide"><p class="eyebrow">Tu siguiente logro</p><p><b>${nx[1]}</b>: ${nx[2]}</p>${nx[4]?bar(nx[4]):""}<button class="btn ghost" data-go="${nx[5]}" style="width:max-content;padding:6px 14px;margin-top:6px">Ir a ${GN[nx[5]]}</button></div>`:`<div class="guide"><p><b>¡Los tienes todos!</b> Enhorabuena.</p></div>`}
       <div class="badges">${B.map(([ic,n,d,on,pr])=>`<div class="bdg ${on?"":"off"}">${svg(ic,on?"var(--accent)":"var(--muted)")}<span>${n}</span>${on?`<span style="color:var(--good);font-size:.75rem">✓ Conseguido</span>`:`<span class="muted" style="font-weight:600;font-size:.75rem">${d}</span>${bar(pr)}`}</div>`).join("")}</div></div></details>`})()}
    ${endCard()}
+   ${S.active&&!todayItems().some(x=>x.st==="todo")?moreCard():""}
    <p class="muted" style="font-size:.85rem">Retos completados: ${S.history.filter(h=>h.finished).length}. Un reto se supera haciéndolo al menos 4 de los 7 días. Puntos: Sí +10 · Un poco +6 · Hoy no +2 · Plan +5 · Revisar la semana +20 · Repetir el test +25.</p>
   </section>`;
 }
@@ -1499,6 +1512,7 @@ const FAQ=[
 ["Empezar",[
 ["¿Qué es Brújula?","Una app para conocerte mejor y mejorar poco a poco en 14 áreas de tu vida: sueño, emociones, estudio, dinero, relaciones… Haces un test, ves tu mapa y trabajas un reto pequeño cada semana."],
 ["¿Cómo funciona el reto de grupo?","En la pestaña Grupo apuntas quién participa (solo el nombre, se queda en tu móvil). El viernes, Hoy te prepara un mensaje con tu resultado para el grupo de WhatsApp. Cuando contesten, marcas quién lo ha cumplido (4 días o más) y la app os lo celebra. No hay ranking: se celebra a todos los que lo cumplen."],
+["Ya he hecho lo de hoy y quiero más. ¿Qué hago?","Al final de Hoy tienes «¿Te has quedado con ganas de más?»: los vídeos y lecturas de tu reto, el test «¿Cuánto sé?» de tu área, más conceptos en Explorar, un vistazo a tu siguiente reto, un paso de Propósito o el simulador de Dinero. Lo único que no puedes es adelantar retos: uno cada vez funciona mejor. Aprender, todo lo que quieras."],
 ["¿Qué es la historia de «Para aprender hoy»?","Es una historia corta de alguien de tu edad que hace tu mismo reto. Cada día hay un capítulo con una decisión (seguir o dejarlo, hacer la versión mínima, hacer caso a un amigo…) y tú eliges qué hace. Al momento ves si fue buena idea. El día 7 llega el final, que depende de tus decisiones, y lo comparamos con tu semana real. Después eliges tu propio final: qué harás tú la semana que viene. Sirve para practicar decisiones difíciles sin jugártela. Es opcional."],
 ["¿Puedo comprobar cuánto sé de un tema?","Sí. En Explorar, toca «¿Cuánto sé?» y elige un tema: 10 preguntas con tres respuestas. Antes de empezar te preguntamos cuánto crees que sabes y al final lo comparamos. Verás las soluciones y, para cada fallo, el concepto con su vídeo y su lectura. Puedes repetirlo cuando quieras; no cuenta para tu reto y nadie más ve la nota."],
 ["¿Es un test psicológico? ¿Me dice si tengo algún problema?","No. No es un diagnóstico ni lo sustituye. Es una foto de cómo te ves tú ahora, para elegir por dónde empezar. Si algo te preocupa de verdad, habla con alguien de confianza o mira la sección Ayuda."],
@@ -1687,6 +1701,9 @@ document.addEventListener("click",e=>{
   else if(act==="savebuddy"){const v=document.getElementById("buddy").value.trim();if(!v){toast("Escribe un nombre");return}S.buddy=v;S.bud.sent=false;save();render()}
   else if(act==="buddy-skip"){S.bud.skip=true;save();toast("Vale. Puedes hacerlo cuando quieras en Más › Grupo");render()}
   else if(act==="buddy-sent"){S.bud.sent=true;save();toast("¡Hecho! Cada viernes te recordaré escribirle");render()}
+  else if(act==="more-quiz"){S.exMode="quiz";S.qz=null;go("explorar")}
+  else if(act==="more-area"){const a=S.active&&CI[S.active.id];S.exMode="conceptos";S.exArea=a?a.a:null;S.exMyth=false;S.exQ="";go("explorar")}
+  else if(act==="more-name"){S.exMode="nombre";S.exQ="";go("explorar")}
   else if(act==="grp-add"){const el=document.getElementById("gname"),v=(el&&el.value||"").trim().slice(0,20);if(!v){toast("Escribe un nombre");return}if(S.grp.m.includes(v)||S.grp.m.length>=40){toast("Ya está en la lista");return}S.grp.m.push(v);save();render();const g=document.getElementById("gname");if(g)g.focus()}
   else if(act==="buddy-week"){S.bud.log[today()]=1;save();toast("+5 · Gracias por mantener el contacto");render()}
   else if(act==="share-done"){S.sharePrompt=null;save();render()}
