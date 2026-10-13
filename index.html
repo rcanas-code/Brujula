@@ -1266,6 +1266,7 @@ function vMas(){
   const L=[["dinero","💶","Dinero","Simulador de ahorro y la calculadora del factor latte.","#1F8A5B","#E3F4EB"],["grupo","👥","Grupo","Compañero de retos, reto de grupo y compartir logros.","#7C4DCC","#EFE8FB"],["dudas","❓","Dudas frecuentes","¿Quién ve mis respuestas? ¿Y si fallo un día?","#2F6FD6","#E8F0FD"],["ayuda","❤️","Ayuda","Teléfonos y a quién acudir si lo pasas mal.","#C8423A","#FBE1DE"]];
   return `<section class="stack"><div><p class="eyebrow">Más</p><h1>Más herramientas</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Extras para aprender más y resolver dudas. Lo único diario es marcar tu reto en Hoy.</p></div>
    <div class="mastiles">${L.map(([k,i,t,d,c,bg])=>`<button class="mastile" style="--mc:${c};--mb:${bg}" data-go="${k}"><span class="mi">${i}</span><b>${t}</b><span>${d}</span></button>`).join("")}</div>
+   <button class="mastile wide" style="--mc:#1F7F8A;--mb:#E0F3F5" data-act="shareapp"><span class="mi">📤</span><b>Comparte Brújula</b><span>Envía el enlace a un amigo, a tu familia o a tu grupo. Cada uno tiene su propia app y sus datos solo en su móvil.</span></button>
    <button class="mastile wide" style="--mc:#E0662F;--mb:#FDEBDF" data-tour="start"><span class="mi">🧭</span><b>Guía de la app</b><span>Un recorrido de 1 minuto por todos los botones.</span></button>
    <p class="eyebrow" style="margin-top:6px">Ajustes y ayuda técnica</p>
    <details class="card fold" style="--fc:#14506B"><summary><span class="fi">🙂</span>Tu nombre${S.name?` <span class="muted" style="font-weight:600">· ${esc(S.name)}</span>`:""}</summary><div class="stack" style="margin-top:10px"><label for="uname2" class="eyebrow">Tu nombre</label><div class="row"><input id="uname2" class="field" style="max-width:240px" maxlength="30" placeholder="Tu nombre o apodo" value="${esc(S.name)}"><button class="btn ghost" data-act="savename">Guardar</button></div><span class="muted" style="font-size:.8rem">Solo se guarda en tu móvil. Déjalo vacío si prefieres que no te llamemos por tu nombre.</span></div></details>
@@ -1344,7 +1345,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013175119";
+const APP_V="20261013175246";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1942,6 +1943,8 @@ document.addEventListener("click",e=>{
     if(act==="rep-mail"){location.href="mailto:"+REPORT_TO+"?subject="+encodeURIComponent("Error en Brújula: "+(S.rep.w||""))+"&body="+encodeURIComponent(tx+"\n\n(Adjunta aquí tu captura)");return}
     try{navigator.clipboard.writeText(tx).then(()=>toast("Copiado. Pégalo en un mensaje a tu profe y adjunta la captura"),()=>toast("No se ha podido copiar. Haz una captura de esta pantalla."))}catch(e){toast("No se ha podido copiar. Haz una captura de esta pantalla.")}}
   else if(act==="goback"){const b=S.back;S.back=null;if(!b)return;S.view=b.v;S.testing=false;render();setTimeout(()=>window.scrollTo({top:b.y}),30)}
+  else if(act==="shareapp"){const url="https://rcanas-code.github.io/Brujula/",txt="Estoy usando Brújula para conocerme mejor y aprender cosas que no te explican en clase. Es gratis, sin registro y lo que pones solo lo ves tú:";
+    if(navigator.share){navigator.share({title:"Brújula",text:txt,url}).catch(()=>{})}else{try{navigator.clipboard.writeText(txt+" "+url).then(()=>toast("Enlace copiado. Pégalo en WhatsApp o donde quieras"),()=>toast(url))}catch(e){toast(url)}}}
   else if(act==="more-quiz"){const c=S.active&&CI[S.active.id],rn=routeNext(),ai=c?c.a:(rn?rn.c.a:null);S.exMode="quiz";if(ai!=null)qzStart(AREAS[ai].k);else S.qz=null;go("explorar")}
   else if(act==="more-area"){const a=S.active&&CI[S.active.id];S.exMode="conceptos";S.exArea=a?a.a:null;S.exMyth=false;S.exQ="";go("explorar")}
   else if(act==="more-name"){S.exMode="nombre";S.exQ="";go("explorar")}
