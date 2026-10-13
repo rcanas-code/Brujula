@@ -298,6 +298,14 @@ details.fold .fi{margin-right:8px}
 .exseg button{border:2px solid var(--brand);background:var(--surface);color:var(--brand);border-radius:14px;padding:10px 4px;font-weight:800;font-size:.85rem;white-space:normal;line-height:1.2;cursor:pointer}
 .exseg button[aria-pressed="true"]{background:var(--brand);color:var(--surface);box-shadow:0 3px 10px rgb(20 80 107/.35)}
 .updbar{position:fixed;left:50%;transform:translateX(-50%);top:10px;z-index:100;max-width:92vw;background:var(--accent);color:#fff;border:0;border-radius:999px;padding:10px 18px;font:inherit;font-weight:800;font-size:.88rem;box-shadow:0 6px 20px rgb(0 0 0/.25);cursor:pointer}
+.mastiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mastile{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:var(--mb);border:2px solid var(--mc);border-radius:18px;padding:14px;font:inherit;color:var(--ink);cursor:pointer;box-shadow:0 2px 0 var(--mc)}
+.mastile .mi{font-size:1.6rem;line-height:1}
+.mastile b{font-family:var(--display);font-size:1.05rem;color:var(--mc)}
+.mastile span:last-child{font-size:.82rem;color:var(--muted);line-height:1.3}
+.mastile.wide{width:100%}
+:root[data-theme="dark"] .mastile{background:var(--surface)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mastile{background:var(--surface)}}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1206,24 +1214,27 @@ function vRuta(){
 }
 const REPORT_TO="";
 function reportCard(){const R=S.rep||{};const where=["Hoy","Ruta","Propósito","Mapa","Explorar","Dinero","El test","Otro sitio"];
-  return `<div class="card stack" id="reportar" style="border-left:6px solid var(--bad)"><h3>🐞 Informar de un error</h3><p class="muted" style="font-size:.9rem">¿Algo no funciona, un enlace no lleva a ningún sitio o hay un texto que no se entiende? Cuéntanoslo y lo arreglamos.</p>
+  return `<details class="card fold" id="reportar" style="--fc:var(--bad)" ${S.repOpen?"open":""}><summary><span class="fi">🐞</span>Informar de un error</summary><div class="stack" style="margin-top:10px"><p class="muted" style="font-size:.9rem">¿Algo no funciona, un enlace no lleva a ningún sitio o hay un texto que no se entiende? Cuéntanoslo y lo arreglamos.</p>
    <p class="eyebrow">1. ¿Dónde ha pasado?</p><div class="chips">${where.map(w=>`<button class="chip" data-repwhere="${w}" aria-pressed="${R.w===w}" style="cursor:pointer">${w}</button>`).join("")}</div>
    <label for="reptxt" class="eyebrow">2. ¿Qué ha pasado?</label><textarea id="reptxt" class="field" rows="3" placeholder="Por ejemplo: toco el enlace del vídeo y no se abre">${esc(R.t||"")}</textarea>
    <div class="guide" style="border-color:var(--line)"><p class="eyebrow">3. Si puedes, haz una captura de pantalla del sitio</p><p style="font-size:.88rem"><b>iPhone:</b> botón lateral + subir volumen a la vez. <b>Android:</b> encendido + bajar volumen a la vez. Luego adjúntala al correo o al mensaje.</p></div>
    ${REPORT_TO?`<button class="btn" data-act="rep-mail" style="max-width:100%;width:max-content;white-space:normal;text-align:left">Enviar por correo (adjunta tu captura)</button>`:""}
    <button class="btn ${REPORT_TO?"ghost":""}" data-act="rep-copy" style="max-width:100%;width:max-content;white-space:normal;text-align:left">Copiar el texto${REPORT_TO?"":" para enviárselo a tu profe"}</button>
-   <p class="muted" style="font-size:.8rem">Solo se envía lo que escribas, la pantalla y el tipo de móvil. Nunca tus respuestas del test ni tus retos.</p></div>`}
+   <p class="muted" style="font-size:.8rem">Solo se envía lo que escribas, la pantalla y el tipo de móvil. Nunca tus respuestas del test ni tus retos.</p></div></details>`}
 function repText(){const R=S.rep||{},t=(document.getElementById("reptxt")||{}).value||R.t||"";return `Error en Brújula\nDónde: ${R.w||"(sin indicar)"}\nQué pasa: ${t.trim()||"(sin texto)"}\nMóvil: ${isIOS?"iPhone":/Android/i.test(UA)?"Android":"Otro"}${isStandalone?" · desde el icono":" · desde el navegador"}\nFecha: ${today()}`}
 function vMas(){
-  const L=[["dinero","Dinero","Simulador de ahorro e inversión y conceptos clave de finanzas.",160],["grupo","Grupo","Compañero de retos, reto de grupo y compartir logros.",350],["dudas","Dudas frecuentes","¿Quién ve mis respuestas? ¿Y si fallo un día? Respuestas rápidas.",215],["ayuda","Ayuda","Teléfonos y cuándo pedir ayuda. Borrar tus datos.",5]];
+  const L=[["dinero","💶","Dinero","Simulador de ahorro y la calculadora del factor latte.","#1F8A5B","#E3F4EB"],["grupo","👥","Grupo","Compañero de retos, reto de grupo y compartir logros.","#7C4DCC","#EFE8FB"],["dudas","❓","Dudas frecuentes","¿Quién ve mis respuestas? ¿Y si fallo un día?","#2F6FD6","#E8F0FD"],["ayuda","❤️","Ayuda","Teléfonos y a quién acudir si lo pasas mal.","#C8423A","#FBE1DE"]];
   return `<section class="stack"><div><p class="eyebrow">Más</p><h1>Más herramientas</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Extras para aprender más y resolver dudas. Lo único diario es marcar tu reto en Hoy.</p></div>
-   <div class="card stack"><label for="uname2" class="eyebrow">Tu nombre</label><div class="row"><input id="uname2" class="field" style="max-width:240px" maxlength="30" placeholder="Tu nombre o apodo" value="${esc(S.name)}"><button class="btn ghost" data-act="savename">Guardar</button></div><span class="muted" style="font-size:.8rem">Solo se guarda en tu móvil. Déjalo vacío si prefieres que no te llamemos por tu nombre.</span></div>
-   ${reportCard()}
-   <div class="card row" style="justify-content:space-between"><span><b>Guía de la app</b><br><span class="muted" style="font-size:.88rem">Un recorrido de 1 minuto por todos los botones.</span></span><button class="btn" data-tour="start">Ver la guía</button></div><div class="cards">${L.map(([k,t,d,h])=>`<button class="cc area" style="--h:${h}" data-go="${k}"><h3>${t}</h3><p class="muted">${d}</p></button>`).join("")}</div>
-   <div class="card stack"><h3>Copia de seguridad</h3><p class="muted">Tu progreso solo está en este móvil. Si vas a cambiar de móvil o de navegador, copia este código y guárdalo en tus notas. Luego pégalo abajo en el nuevo para recuperarlo todo.</p>
+   <div class="mastiles">${L.map(([k,i,t,d,c,bg])=>`<button class="mastile" style="--mc:${c};--mb:${bg}" data-go="${k}"><span class="mi">${i}</span><b>${t}</b><span>${d}</span></button>`).join("")}</div>
+   <button class="mastile wide" style="--mc:#E0662F;--mb:#FDEBDF" data-tour="start"><span class="mi">🧭</span><b>Guía de la app</b><span>Un recorrido de 1 minuto por todos los botones.</span></button>
+   <p class="eyebrow" style="margin-top:6px">Ajustes y ayuda técnica</p>
+   <details class="card fold" style="--fc:#14506B"><summary><span class="fi">🙂</span>Tu nombre${S.name?` <span class="muted" style="font-weight:600">· ${esc(S.name)}</span>`:""}</summary><div class="stack" style="margin-top:10px"><label for="uname2" class="eyebrow">Tu nombre</label><div class="row"><input id="uname2" class="field" style="max-width:240px" maxlength="30" placeholder="Tu nombre o apodo" value="${esc(S.name)}"><button class="btn ghost" data-act="savename">Guardar</button></div><span class="muted" style="font-size:.8rem">Solo se guarda en tu móvil. Déjalo vacío si prefieres que no te llamemos por tu nombre.</span></div></details>
+   <details class="card fold" style="--fc:#2A9D8F"><summary><span class="fi">💾</span>Copia de seguridad</summary><div class="stack" style="margin-top:10px"><p class="muted">Tu progreso solo está en este móvil. Si vas a cambiar de móvil o de navegador, copia este código y guárdalo en tus notas. Luego pégalo abajo en el nuevo para recuperarlo todo.</p>
     ${S.showCode?`<p class="share" id="sharetxt" style="word-break:break-all;font-size:.75rem;max-height:120px;overflow:auto">${backupCode()}</p><button class="btn" data-act="copy" style="width:max-content">Copiar código</button>`:`<button class="btn ghost" data-act="showcode" style="width:max-content">Ver mi código</button>`}
-    <label for="restore" class="eyebrow">Recuperar mi progreso</label><textarea id="restore" class="field" style="min-height:70px" placeholder="Pega aquí tu código BRUJULA-..."></textarea><button class="btn ghost" data-act="restore" style="width:max-content">Recuperar</button></div>
-   <div class="card stack"><h3>Tenla a mano</h3><p class="muted">${isIOS?"En Safari: botón Compartir (el cuadrado con la flecha) y «Añadir a pantalla de inicio».":"En Chrome: los tres puntos (⋮) y «Añadir a pantalla de inicio» o «Instalar app»."} Así la abres como cualquier otra app.</p><p class="muted" style="font-size:.88rem"><b>Ojo:</b> en algunos móviles, sobre todo iPhone, la app del icono no ve lo que hiciste en el navegador. Si te pide el test otra vez, copia tu código de arriba desde el navegador y pégalo en «Recuperar mi progreso» desde el icono. Lo más fácil: añádela a la pantalla de inicio antes de empezar y úsala siempre desde ahí.</p></div></section>`;
+    <label for="restore" class="eyebrow">Recuperar mi progreso</label><textarea id="restore" class="field" style="min-height:70px" placeholder="Pega aquí tu código BRUJULA-..."></textarea><button class="btn ghost" data-act="restore" style="width:max-content">Recuperar</button></div></details>
+   <details class="card fold" style="--fc:#7C4DCC"><summary><span class="fi">📱</span>Tenla a mano en tu pantalla de inicio</summary><div class="stack" style="margin-top:10px"><p class="muted">${isIOS?"En Safari: botón Compartir (el cuadrado con la flecha) y «Añadir a pantalla de inicio».":"En Chrome: los tres puntos (⋮) y «Añadir a pantalla de inicio» o «Instalar app»."} Así la abres como cualquier otra app.</p><p class="muted" style="font-size:.88rem"><b>Ojo:</b> en algunos móviles, sobre todo iPhone, la app del icono no ve lo que hiciste en el navegador. Si te pide el test otra vez, copia tu código de arriba desde el navegador y pégalo en «Recuperar mi progreso» desde el icono. Lo más fácil: añádela a la pantalla de inicio antes de empezar y úsala siempre desde ahí.</p></div></details>
+   ${reportCard()}
+  </section>`;
 }
 /* ---------- navegación ---------- */
 const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["ruta","Ruta","M5 19c4 0 4-7 8-7s4-7 8-7M5 19a2 2 0 1 0 0 .1M19 5a2 2 0 1 0 0 .1"],["proposito","Propósito","M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 9l-2 5-4 1 2-5z"],["mapa","Mapa","M12 3l8 5v8l-8 5-8-5V8z"],["explorar","Explorar","M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"],["mas","Más","M5 12h.01M12 12h.01M19 12h.01"]];
@@ -1293,7 +1304,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013172647";
+const APP_V="20261013173658";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1794,7 +1805,7 @@ function render(){
 document.addEventListener("click",e=>{
   const t=e.target.closest("button,[data-go]");if(!t||t.disabled)return;const d=t.dataset;
   const dl=document.getElementById("dlg");
-  if(d.go){if(dl.open)dl.close();e.preventDefault();const [v,h]=d.go.split("#");go(v,!!t.closest("#nav"));if(h)setTimeout(()=>{const el=document.getElementById(h);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},60);return}
+  if(d.go){if(dl.open)dl.close();e.preventDefault();const [v,h]=d.go.split("#");go(v,!!t.closest("#nav"));if(h)setTimeout(()=>{const el=document.getElementById(h);if(el){if(el.tagName==="DETAILS"){el.open=true;if(h==="reportar")S.repOpen=true}el.scrollIntoView({behavior:"smooth",block:"start"})}},60);return}
   if(d.ans){const [q,x]=d.ans.split(":").map(Number);const now=Date.now(),dt=now-(S.lastAns||S.pageAt||0),fast=S.answers[q]===undefined&&dt<1500;S.lastAns=now;if(diagHit("test",fast)){S.diag="test";toast("No leas en diagonal: lee cada frase entera")}else if(!fast&&S.diag==="test")S.diag=null;S.answers[q]=x;save();render();return}
   if(d.swap){if(dl.open)dl.close();finishReto("skip");S.swap=false;S.more=false;startReto(d.swap);return}
   if(d.start){if(dl.open)dl.close();S.more=false;startReto(d.start);return}
@@ -1840,7 +1851,7 @@ document.addEventListener("click",e=>{
   if(d.pick!==undefined){const i=+d.pick,R=S.route;R.closed=(R.closed||[]).filter(x=>x!==i);if(!R.areas.includes(i))R.areas.push(i);R.pick=i;R.choice="pick";save();toast(`Añadida: ${AREAS[i].n}. Tu siguiente reto será de esta área`);render();window.scrollTo({top:0});return}
   if(d.mood){const t=today(),was=S.mood[t];S.mood[t]=d.mood;save();if(!was)toast("+2 · Gracias por mirarte por dentro");render();return}
   if(d.settime){const el=document.getElementById("atime");if(el)el.value=d.settime;return}
-  if(d.repwhere){const ta=document.getElementById("reptxt");S.rep=Object.assign(S.rep||{},{w:d.repwhere,t:ta?ta.value:""});render();return}
+  if(d.repwhere){S.repOpen=true;const ta=document.getElementById("reptxt");S.rep=Object.assign(S.rep||{},{w:d.repwhere,t:ta?ta.value:""});render();return}
   if(d.mode){S.exMode=d.mode;S.exQ="";render();return}
   if(d.qz){qzStart(d.qz);render();window.scrollTo({top:0});return}
   if(d.qg!==undefined){S.qz.guess=+d.qg;S.qz.t0=Date.now();render();return}
