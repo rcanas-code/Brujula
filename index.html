@@ -346,6 +346,8 @@ dialog h2:focus{outline:none}
 .think .tf{font-size:.74rem;font-weight:800;color:#8A6508;margin-top:auto}
 :root[data-theme="dark"] .think{background:var(--surface)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .think{background:var(--surface)}}
+.dlgback{position:sticky;top:0;z-index:5;background:var(--surface);padding:10px 14px 8px;border-bottom:1px solid var(--line)}
+.dlgback button{border:2px solid var(--brand);background:var(--surface);color:var(--brand);border-radius:999px;padding:6px 14px;font:inherit;font-weight:800;font-size:.88rem;cursor:pointer}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1352,7 +1354,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013175620";
+const APP_V="20261013175951";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1836,12 +1838,13 @@ function pType(p){p=p.replace(/^Los 7 hábitos \(Stephen Covey\)$/,"Los 7 hábit
 function openConcept(id){
   const c=CI[id];if(!c)return;const a=AREAS[c.a],dlg=document.getElementById("dlg");
   const isActive=S.active&&S.active.id===id;
-  dlg.innerHTML=`<div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="row" style="gap:8px"><span class="lv ${c.e==="X"?"X":c.n}">${lvTag(c)}</span>${c.e==="X"?"":`<span class="ev ${c.e}">${EV[c.e]}</span>`}</span></div>
+  dlg.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="row" style="gap:8px"><span class="lv ${c.e==="X"?"X":c.n}">${lvTag(c)}</span>${c.e==="X"?"":`<span class="ev ${c.e}">${EV[c.e]}</span>`}</span></div>
    <div class="cch"><span class="cic big">${/^Es un sesgo/.test(c.q)?"🧩":AICON[a.k]}</span><h2>${esc(c.t)}</h2></div><div><h4>Qué es</h4><p>${esc(c.q)}</p></div><p class="challenge">Reto de la semana: ${esc(c.h)}</p>${exOf(c.id)?`<div><h4>Un ejemplo</h4><p>${esc(exOf(c.id)[0])}</p></div><div><h4>Un plan que puedes copiar</h4><p>${esc(exOf(c.id)[1])}</p></div><div><h4>Si un día cuesta</h4><p>${esc(exOf(c.id)[2])}</p></div>`:""}
    <div><h4>Para aprender más</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${rType(c.r)[0]}</span> ${rType(c.r)[1]}</p><div class="links">${/^app:/.test(c.r[1]||"")?`<a href="#" data-go="${c.r[1].slice(4)}">${esc(rType(c.r)[2])} →</a>`:c.r[1]?`<a href="${c.r[1]}" target="_blank" rel="noopener">${esc(rType(c.r)[2])}</a>`:`<span>${esc(rType(c.r)[2])}</span>`}</div>${seenBtn(c,"r")}${famVid(c)?`<p class="muted" style="font-size:.85rem;margin:10px 0 6px"><span class="chip">YouTube</span> ${famVid(c)[2]?"La misma charla, en YouTube:":"Lo cuenta un referente del tema:"}</p><div class="links"><a href="${famVid(c)[1]}" target="_blank" rel="noopener">${esc(famVid(c)[0])}</a></div>${seenBtn(c,"y")}`:""}${resList(c).includes("v")?`<p class="muted" style="font-size:.85rem;margin:10px 0 6px"><span class="chip">Vídeo</span> Si prefieres verlo:</p><div class="links"><a href="${VID[c.id][1]}" target="_blank" rel="noopener">${esc(VID[c.id][0])}</a></div>${seenBtn(c,"v")}`:""}</div>
    ${!resList(c).includes("p")?"":`<div><h4>Para profundizar</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${pType(c.p)[0]}</span> ${pType(c.p)[2]}</p>${PLINK[c.p]?`<div class="links"><a href="${PLINK[c.p]}" target="_blank" rel="noopener">${esc(pType(c.p)[1])} (YouTube)</a></div>`:`<p><b>${esc(pType(c.p)[1])}</b></p>`}${seenBtn(c,"p")}${BOOKLINK[pType(c.p)[1]]?`<p class="muted" style="font-size:.85rem;margin:8px 0 4px">Para empezar sin el libro, lee esto de su web:</p><div class="links"><a href="${BOOKLINK[pType(c.p)[1]][1]}" target="_blank" rel="noopener">${esc(BOOKLINK[pType(c.p)[1]][0])}</a></div>${seenBtn(c,"b")}`:""}</div>`}
    <div class="row" style="justify-content:flex-end">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${routeItems().some(it=>it.c.id===c.id)?"Está en tu ruta: te llegará en su momento.":"Para aprender. Tus retos los marca tu ruta, uno cada vez."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
   try{dlg.showModal()}catch(e){dlg.setAttribute("open","")}
+  try{if(!(history.state&&history.state.dlg))history.pushState({dlg:1},"")}catch(e){}
   const top=()=>{dlg.scrollTop=0;const h=dlg.querySelector("h2");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}};top();requestAnimationFrame(top);setTimeout(top,60)
 }
 function render(){
@@ -1981,6 +1984,8 @@ document.addEventListener("input",e=>{
 });
 document.addEventListener("toggle",e=>{if(e.target.id==="learn")S.learnOpen=e.target.open},true);
 document.getElementById("dlg").addEventListener("click",e=>{if(e.target.id==="dlg")e.target.close()});
+window.addEventListener("popstate",()=>{const d=document.getElementById("dlg");if(d&&d.open)d.close()});
+document.getElementById("dlg").addEventListener("close",()=>{try{if(history.state&&history.state.dlg)history.back()}catch(e){}});
 if(complete()&&!S.tests.length){S.tests.push({date:today(),scores:scores()})}
 if(!S.route&&curScores()){S.route=buildRoute(curScores())}
 save();
