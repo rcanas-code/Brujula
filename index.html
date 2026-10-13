@@ -1173,7 +1173,7 @@ function vHoy(){
     <div class="stat">${svg("star","var(--warn)")}<span class="big">${p}</span><span class="muted" style="font-size:.8rem">puntos</span></div>
     <div class="stat">${svg("map","var(--brand)")}<span style="font-family:var(--display);font-weight:800;font-size:1.15rem">${L.name}</span>${lv}</div></div>
    <details class="card" ${firstTime()?"open":""} style="margin-top:-6px"><summary style="font-size:.92rem">¿Cómo funcionan la racha, los puntos y la etapa?</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
-    <p><b>Racha:</b> los días en que haces tu reto («Sí» o «Un poco»). Si un día no lo haces, no pasa nada: la racha se mantiene. <b>Si fallas dos días seguidos, la racha vuelve a 0</b>, pero no pierdes nada más: tus puntos, tu etapa y tu reto siguen igual. En cuanto vuelvas a hacerlo, empieza a contar de nuevo.</p>
+    <p><b>Racha:</b> los días en que haces tu reto («Sí» o «Un poco»). <b>Para qué sirve:</b> para que veas de un vistazo si estás siendo constante, que es lo que convierte un reto en costumbre. No es un premio ni se compara con nadie: es tu termómetro. Si un día no lo haces, no pasa nada: la racha se mantiene. <b>Si fallas dos días seguidos, la racha vuelve a 0</b>, pero no pierdes nada más: tus puntos, tu etapa y tu reto siguen igual. En cuanto vuelvas a hacerlo, empieza a contar de nuevo.</p>
     <p><b>Puntos:</b> premian el esfuerzo, no el resultado. Sí +10 · Un poco +6 · Hoy no +2 (por ser sincero) · Plan +5 · Valorar la semana +20 · Repetir el test +25.</p>
     <p><b>Etapa:</b> sube con los puntos: Arranque, En ruta, Travesía, Expedición y Cumbre. No tiene nada que ver con los niveles de tu ruta.</p></div></details>
    ${tipCard()}
@@ -1260,10 +1260,20 @@ function vProposito(){
    <div class="card stack"><h3>Para seguir pensando</h3><div class="minis">${["VAL-07","VAL-08","VAL-02","VAL-10","VAL-09","VAL-06"].map(id=>{const c=CI[id];return `<button class="mini" data-open="${id}" style="text-align:left;font:inherit;color:inherit;cursor:pointer"><span><b>${esc(c.t)}</b><br><span class="muted" style="font-size:.88rem">${esc(c.q)}</span></span></button>`}).join("")}</div></div>
   </section>`;
 }
+function mapHistory(sc,fd){const T=S.tests;
+  if(T.length<2){const r=retestIn();return `<div class="card stack"><p class="eyebrow">Tu historial</p><p class="muted">Cada vez que repitas el test, tu mapa se guardará aquí con su fecha, para que puedas comparar cómo has cambiado con el tiempo.${r!=null?` Podrás repetirlo ${r>0?`dentro de ${r} días`:"ya"}.`:""}</p></div>`}
+  const cmp=S.cmpIdx!=null&&S.cmpIdx<T.length-1?S.cmpIdx:T.length-2,last=T.slice(-6),off=T.length-last.length;
+  const cell=v=>v==null?"–":fmt1(v);
+  return `<div class="card stack"><p class="eyebrow">Tu historial · ${T.length} mapas</p>
+   <p class="muted" style="font-size:.9rem">Elige con qué mapa comparar el de ahora. La línea discontinua del gráfico y los números verdes o rojos cambian según el que elijas.</p>
+   <div class="chips">${T.slice(0,-1).map((t,i)=>`<button class="chip" data-cmp="${i}" aria-pressed="${i===cmp}">${fd(t.date)}</button>`).join("")}</div>
+   <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:.88rem"><thead><tr><th style="text-align:left;padding:6px 4px">Área</th>${last.map((t,i)=>`<th style="padding:6px 4px;white-space:nowrap;${off+i===T.length-1?"color:var(--accent)":""}">${off+i===T.length-1?"Ahora":parse(t.date).toLocaleDateString("es-ES",{day:"numeric",month:"short"})}</th>`).join("")}</tr></thead>
+   <tbody>${AREAS.map((a,ai)=>{const vals=last.map(t=>t.scores[ai]),f=vals.find(v=>v!=null),l=vals[vals.length-1],d=f!=null&&l!=null?l-f:0;return `<tr style="border-top:1px solid var(--line)"><td style="padding:6px 4px">${a.n}</td>${vals.map((v,i)=>`<td style="text-align:center;padding:6px 4px;${i===vals.length-1?"font-weight:800":""}">${cell(v)}${i===vals.length-1&&Math.abs(d)>=.3?` <span style="color:${d>0?"var(--good)":"var(--bad)"}">${d>0?"▲":"▼"}</span>`:""}</td>`).join("")}</tr>`}).join("")}</tbody></table></div>
+   <p class="muted" style="font-size:.82rem">▲ ▼: has subido o bajado al menos 0,3 puntos desde el primer mapa de la tabla. Bajar en algo no es un fracaso: a veces es que ahora te conoces mejor y respondes con más sinceridad.</p></div>`}
 function vMapa(){
   if(S.testing)return vTest();
   const real=!!curScores();const sc=real?curScores():EXAMPLE;
-  const prev=S.tests.length>=2?S.tests[S.tests.length-2].scores:null;
+  const T=S.tests,cmp=real&&T.length>=2?(S.cmpIdx!=null&&S.cmpIdx<T.length-1?S.cmpIdx:T.length-2):null,prev=cmp!=null?T[cmp].scores:null,fd=d=>parse(d).toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"});
   const pr=priorities(sc),strong=sc.map((s,i)=>[s,i]).filter(x=>x[0]>=4).map(x=>AREAS[x[1]].n);
   const alert=complete()&&S.answers[ALERT_Q]>0&&S.answers[ALERT_Q]<=2;
   const nP=sc.filter(s=>s!=null&&s<2.5).length,noData=sc.map((s,i)=>s==null?AREAS[i].n:null).filter(Boolean);
@@ -1276,9 +1286,10 @@ function vMapa(){
    ${S.P.done[7]?northCard(true):""}
    ${real&&firstTime()&&!S.active?`<div class="guide"><p class="eyebrow">Cómo leer tu mapa</p><p>Es una foto de cómo estás <b>ahora</b>, no una nota. Cada área va de 1 a 5: cuanto más lejos del centro, mejor estás en ella. Las 3 más bajas son tus <b>prioridades</b>: ahí es donde un reto pequeño te puede ayudar más. Lo que puntúa alto son tus <b>fortalezas</b>.</p><p class="muted">Ahora, el paso 3: empieza tu primer reto. Lo tienes justo aquí debajo.</p></div>`:""}
    ${real&&!S.active&&!S.history.length&&routeNext()?`<div class="today area" style="--h:${AREAS[routeNext().c.a].h}"><span class="daytag">Paso 3 · Tu primer reto</span><h2>${esc(routeNext().c.t)}</h2><p class="muted">${esc(routeNext().c.h)}</p>${exOf(routeNext().c.id)?`<p class="why">Ejemplo: ${esc(exOf(routeNext().c.id)[0])}</p>`:""}<div class="row"><button class="btn" data-start="${routeNext().c.id}">Empezar mi primer reto</button></div><p class="muted" style="font-size:.88rem">Más abajo tienes tu mapa completo. Puedes volver a él cuando quieras desde la pestaña Mapa.</p></div>`:""}
-   <div class="grid2"><div class="card">${radar(sc,prev)}${prev?`<p class="legend" style="margin-top:6px"><span><i style="background:var(--accent)"></i>Ahora</span><span><i style="background:var(--muted)"></i>Test anterior</span></p>`:""}</div>
+   <div class="grid2"><div class="card">${radar(sc,prev)}${prev?`<p class="legend" style="margin-top:6px"><span><i style="background:var(--accent)"></i>Ahora</span><span><i style="background:var(--muted)"></i>Test del ${fd(T[cmp].date)}</span></p>`:""}</div>
     <div class="card bars">${sc.map((s,i)=>{if(s==null)return `<div class="bar area" style="--h:${AREAS[i].h}"><span>${AREAS[i].n}</span><div class="track"></div><b class="muted" style="font-size:.78rem">Sin datos</b></div>`;const d=prev&&prev[i]!=null?s-prev[i]:0;return `<div class="bar area" style="--h:${AREAS[i].h}"><span>${AREAS[i].n}</span><div class="track"><div class="fill" style="width:${s/5*100}%"></div></div><b>${fmt1(s)}${prev&&Math.abs(d)>=.3?`<small style="color:${d>0?"var(--good)":"var(--bad)"}"> ${d>0?"+":""}${fmt1(d)}</small>`:""}</b></div>`}).join("")}
      <div class="row" style="margin-top:6px"><span class="pill f">4 o más: fortaleza</span><span class="pill m">2,5 a 4: a mejorar</span><span class="pill p">menos de 2,5: prioridad</span></div>${noData.length?`<p class="muted" style="font-size:.82rem;margin-top:8px"><b>Sin datos:</b> ${noData.join(", ")}. Preferiste no responder y está bien así. Esta área no entra en tus prioridades, pero puedes explorarla cuando quieras.</p>`:""}</div></div>
+   ${real?mapHistory(sc,fd):""}
    ${strong.length?`<div class="card"><p class="eyebrow">Tus fortalezas</p><h3 style="margin-top:6px">${strong.join(" · ")}</h3><p class="muted" style="margin-top:6px">Esto ya lo haces bien. Apóyate en ello para trabajar lo demás.</p></div>`:""}
    <div><p class="eyebrow">Por dónde empezar</p><h2>Tus 3 áreas con más margen</h2><p class="muted" style="margin-top:6px">No las trabajas a la vez: haces <b>un reto por semana</b> y estas áreas se van turnando.${real&&retestIn()!=null?` Podrás repetir el test ${retestIn()>0?`dentro de ${retestIn()} días`:"ya"}; Hoy te avisará.`:""}</p></div>
    <div class="prio">${pr.map((i,n)=>{const [k,l]=status(sc[i]);return `<div class="card area stack" style="--h:${AREAS[i].h};gap:10px"><span class="eyebrow">Prioridad ${n+1}</span><h3>${AREAS[i].n}</h3><div class="row" style="justify-content:space-between"><span class="big">${fmt1(sc[i])}</span><span class="pill ${k}">${l}</span></div>
@@ -1397,13 +1408,14 @@ const FAQ=[
 ["¿Qué significan los colores del mapa?","Verde (4 o más): una fortaleza. Amarillo (de 2,5 a 4): va bien, pero se puede mejorar. Rojo (menos de 2,5): una prioridad, es decir, por dónde empezar. Un rojo no es un suspenso. Si un área sale «sin datos», es porque preferiste no responder a sus preguntas."],
 ["Me salen muchas áreas en rojo. ¿Me pasa algo?","Es más normal de lo que crees: casi todo el mundo tiene varias áreas por mejorar. Por eso la app elige solo 3 para empezar. Si te sientes mal a menudo, mira «Cuándo pedir ayuda» en la sección Ayuda."],
 ["¿Por qué solo trabajo 3 áreas?","Porque intentar cambiarlo todo a la vez es la forma más rápida de no cambiar nada. Además, mejorar en una (por ejemplo, el sueño) suele mejorar otras sin que te des cuenta."],
-["¿Puedo repetir el test?","Sí, cuando quieras, desde la pestaña Mapa. Lo ideal es al cabo de un mes: a los 28 días, Hoy te avisa. Verás tu mapa anterior y el nuevo juntos y tendrás una ruta nueva."]]],
+["¿Puedo repetir el test?","Sí, cuando quieras, desde la pestaña Mapa. Lo ideal es al cabo de un mes: a los 28 días, Hoy te avisa. Todos tus mapas se guardan con su fecha: en Mapa → Tu historial puedes comparar el de ahora con cualquiera de los anteriores. Y tendrás una ruta nueva."]]],
 ["Retos y día a día",[
 ["¿Cómo sé en qué punto estoy?","Arriba de Hoy tienes la tarjeta «Dónde estás»: qué reto haces, en qué día vas, cuántos llevas y qué viene después. La ruta completa está en la pestaña Ruta."],
 ["¿Qué tengo que hacer cada día?","Abrir Hoy. Lo naranja es lo que toca, lo azul es opcional y lo verde ya está hecho. Normalmente es hacer tu reto y marcar cómo te ha ido: «Sí», «Un poco» o «Hoy no»."],
 ["¿Por qué solo un reto a la semana?","Un hábito pequeño que repites cambia más que diez que abandonas. Una semana es lo justo para probarlo sin agobiarte."],
 ["¿Qué es eso de «Si… entonces…»?","Es tu plan: «Si son las 22:30, entonces dejo el móvil en el salón». Decidir de antemano cuándo y dónde lo harás aumenta mucho las posibilidades de cumplirlo."],
 ["Se me olvidó marcar un día. ¿Lo he perdido?","No. En «Tus 7 días», toca el círculo de ese día y márcalo."],
+["¿Para qué sirve la racha?","Para que veas de un vistazo si estás siendo constante. Un hábito se crea repitiendo, y ver el número subir ayuda a no cortar la cadena. No es un premio ni se compara con nadie, y un fallo suelto no la rompe."],
 ["Un día no lo he hecho. ¿Pierdo la racha?","No. Un fallo suelto no rompe la racha. Si fallas dos días seguidos, la racha vuelve a 0, pero no pierdes puntos, ni etapa, ni el reto: en cuanto vuelvas a hacerlo, empieza a contar de nuevo. Marca «Hoy no» con sinceridad, que también suma puntos."],
 ["¿Cuándo supero un reto?","Cuando lo has hecho (o hecho «un poco») al menos 4 de los 7 días. Aunque llegues a 4 antes, el reto dura los 7 días: los últimos son los que lo convierten en costumbre. El día 7 lo valoras y pasas al siguiente."],
 ["¿Y si no lo supero?","No pasa nada. Puedes repetir la semana, que suele ser lo mejor, o pasar al siguiente reto igualmente. Tú decides."],
@@ -1484,6 +1496,7 @@ document.addEventListener("click",e=>{
   if(d.myend){S.active.myEnd=d.myend;save();toast("Guardado. Ese es tu final.");render();return}
   if(d.tour){const a=d.tour;if(a==="start")S.tour=0;else if(a==="next")S.tour=Math.min(S.tour+1,TOUR.length-1);else if(a==="prev")S.tour=Math.max(S.tour-1,0);else{S.tour=null;S.tourDone=true;store.set("tourDone",true);go("hoy");return}
     S.view=TOUR[S.tour][0];S.testing=false;render();window.scrollTo({top:0});return}
+  if(d.cmp!==undefined){S.cmpIdx=+d.cmp;render();return}
   if(d.paidea){const el=document.getElementById("pa");if(el)el.value=d.paidea;return}
   if(d.keep){const k=S.keep.find(x=>x.id===d.keep),t=today();if(k.log[t])delete k.log[t];else{k.log[t]=1;toast("+3 · Hábito mantenido")}save();render();return}
   if(d.unkeep){S.keep=S.keep.filter(x=>x.id!==d.unkeep);save();render();return}
