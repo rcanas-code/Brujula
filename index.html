@@ -1457,12 +1457,20 @@ function vDudas(){const q=(S.faqQ||"").toLowerCase();
 function faqFilter(){const q=(S.faqQ||"").trim().toLowerCase();let any=false;
   document.querySelectorAll(".faqg").forEach(g=>{let vis=0;g.querySelectorAll(".faq").forEach(d=>{const m=!q||d.textContent.toLowerCase().includes(q);d.style.display=m?"":"none";if(m)vis++;if(q&&m)d.open=true});g.style.display=vis?"":"none";if(vis)any=true});
   const n=document.getElementById("faqnone");if(n)n.style.display=any?"none":""}
+function rType(r){const t=r[0]||"",u=r[1]||"";if(/^Libro:/.test(t))return ["Libro","Para leer con calma.",t.replace(/^Libro:\s*/,"")];if(/Diary of a CEO/.test(t))return ["Pódcast en vídeo","Entrevista larga en YouTube, en inglés.",t];if(/TED|youtube|TEDx/i.test(t+u))return ["Vídeo","Unos minutos.",t];if(!u)return ["Recurso de ayuda","Están en la sección Ayuda.",t];return ["Web","Para consultar cuando quieras.",t]}
+function pType(p){p=p.replace(/^Los 7 hábitos \(Stephen Covey\)$/,"Los 7 hábitos de la gente altamente efectiva (Stephen Covey)");
+  if(/^Diary of a CEO/.test(p))return ["Pódcast",p.replace("Diary of a CEO: ","Diary of a CEO, entrevista a "),"Una entrevista larga en YouTube, en inglés (con subtítulos)."];
+  if(/^Estudio/.test(p))return ["Estudio científico",p,"La investigación original en la que se basa este concepto."];
+  if(/ANAR|016/.test(p))return ["Recurso de ayuda",p,"Teléfonos gratuitos y confidenciales. Están en la sección Ayuda."];
+  if(/Jugar Bien/.test(p))return ["Web oficial",p,"Información del Gobierno sobre juego y apuestas: jugarbien.es."];
+  return ["Libro",p,"Un libro, para leer con calma si el tema te engancha. Puedes buscarlo en la biblioteca."]}
 function openConcept(id){
   const c=CI[id];if(!c)return;const a=AREAS[c.a],dlg=document.getElementById("dlg");
   const isActive=S.active&&S.active.id===id;
   dlg.innerHTML=`<div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="ev ${c.e}">${EV[c.e]}</span></div>
    <h2>${esc(c.t)}</h2><div><h4>Qué es</h4><p>${esc(c.q)}</p></div><p class="challenge">Reto de la semana: ${esc(c.h)}</p>${exOf(c.id)?`<div><h4>Un ejemplo</h4><p>${esc(exOf(c.id)[0])}</p></div><div><h4>Un plan que puedes copiar</h4><p>${esc(exOf(c.id)[1])}</p></div><div><h4>Si un día cuesta</h4><p>${esc(exOf(c.id)[2])}</p></div>`:""}
-   <div><h4>Para aprender más</h4><div class="links">${c.r[1]?`<a href="${c.r[1]}" target="_blank" rel="noopener">${esc(c.r[0])}</a>`:`<span>${esc(c.r[0])}</span>`}</div><p class="muted" style="margin-top:6px">Para profundizar: ${esc(c.p)}</p></div>
+   <div><h4>Para aprender más</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${rType(c.r)[0]}</span> ${rType(c.r)[1]}</p><div class="links">${c.r[1]?`<a href="${c.r[1]}" target="_blank" rel="noopener">${esc(rType(c.r)[2])}</a>`:`<span>${esc(rType(c.r)[2])}</span>`}</div></div>
+   ${rType(c.r)[2]===pType(c.p)[1]||(rType(c.r)[0]==="Recurso de ayuda"&&pType(c.p)[0]==="Recurso de ayuda")?"":`<div><h4>Para profundizar</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${pType(c.p)[0]}</span> ${pType(c.p)[2]}</p><p><b>${esc(pType(c.p)[1])}</b></p></div>`}
    <div class="row" style="justify-content:flex-end">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${routeItems().some(it=>it.c.id===c.id)?"Está en tu ruta: te llegará en su momento.":"Para aprender. Tus retos los marca tu ruta, uno cada vez."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
   try{dlg.showModal()}catch(e){dlg.setAttribute("open","")}
 }
