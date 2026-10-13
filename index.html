@@ -1308,7 +1308,7 @@ const MOODS=[
  ["cansado","😴","Cansado","Muchas veces el cansancio es sueño acumulado, no pereza.","Esta noche, deja el móvil fuera del cuarto 30 minutos antes de dormir.","SUE-01"],
  ["nervioso","😬","Nervioso","Los nervios son tu cuerpo preparándose para algo que te importa.","Dite «me estoy preparando» y suelta el aire despacio 5 veces.","EST-02"],
  ["agobiado","😫","Agobiado","Cuando hay demasiado, la cabeza se bloquea. Es normal.","Escribe todo lo pendiente y elige solo una cosa para hoy. Antes, suelta el aire despacio 5 veces.","EST-03"],
- ["triste","😢","Triste","Estar triste a veces es normal: suele decir que algo te importa.","Habla 5 minutos con alguien de confianza o sal a caminar 10 minutos.","EMO-07"],
+ ["triste","😢","Triste","Estar triste a veces es normal: suele decir que algo te importa.","Habla 5 minutos con alguien de confianza o sal a caminar 10 minutos.","EMO-01"],
  ["enfadado","😠","Enfadado","La rabia avisa de algo, pero tú decides qué haces con ella.","Antes de responder, sal un momento del sitio y cuenta hasta 10.","EMO-02"],
  ["frustrado","😤","Frustrado","La frustración aparece cuando algo te importa y no sale como querías.","Pregúntate: ¿qué pasó, qué haría distinto y qué hice bien?","PEN-06"],
  ["solo","😔","Solo","Sentirse solo es más común de lo que parece, y se puede cambiar.","Escribe hoy a una persona, aunque sea un mensaje corto.","REL-01"],
@@ -1839,7 +1839,7 @@ document.addEventListener("click",e=>{
   else if(act==="buddy-sent"){S.bud.sent=true;save();toast("¡Hecho! Cada viernes te recordaré escribirle");render()}
   else if(act==="ch-l2"){S.route.choice="l2";save();toast("Seguimos con el nivel 2");render()}
   else if(act==="calm"){const a=S.active?AREAS[CI[S.active.id].a]:AREAS[0];dl.innerHTML=`<div class="dlg area stack" style="--h:${a.h};text-align:center"><h2>Un minuto de calma</h2><div class="breath" aria-hidden="true"></div><p class="muted">Inspira mientras el círculo crece y suelta el aire despacio mientras encoge. Unas 6 veces.</p><div class="row" style="justify-content:center"><button class="btn" data-mis="calma">Hecho (+5)</button><button class="btn ghost" data-act="close">Cerrar</button></div></div>`;try{dl.showModal()}catch(e){dl.setAttribute("open","")}}
-  else if(act==="more-quiz"){S.exMode="quiz";S.qz=null;go("explorar")}
+  else if(act==="more-quiz"){const c=S.active&&CI[S.active.id],rn=routeNext(),ai=c?c.a:(rn?rn.c.a:null);S.exMode="quiz";if(ai!=null)qzStart(AREAS[ai].k);else S.qz=null;go("explorar")}
   else if(act==="more-area"){const a=S.active&&CI[S.active.id];S.exMode="conceptos";S.exArea=a?a.a:null;S.exMyth=false;S.exQ="";go("explorar")}
   else if(act==="more-name"){S.exMode="nombre";S.exQ="";go("explorar")}
   else if(act==="grp-add"){const el=document.getElementById("gname"),v=(el&&el.value||"").trim().slice(0,20);if(!v){toast("Escribe un nombre");return}if(S.grp.m.includes(v)||S.grp.m.length>=40){toast("Ya está en la lista");return}S.grp.m.push(v);save();render();const g=document.getElementById("gname");if(g)g.focus()}
