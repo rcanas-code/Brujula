@@ -51,7 +51,8 @@ button{font:inherit;color:inherit;cursor:pointer}
 .logo svg{width:34px;height:34px}
 .nav{display:flex;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px}
 .nav button{border:0;background:transparent;padding:8px 14px;border-radius:999px;font-weight:700;font-size:.92rem;color:var(--muted)}
-.nav button[aria-current="true"]{background:var(--ink);color:var(--bg)}
+.nav button[aria-current="true"]{background:var(--accent);color:#fff;box-shadow:0 3px 10px rgb(255 107 61/.45);transform:translateY(-2px)}
+.nav button[aria-current="true"] svg{stroke-width:2.6}
 @media (max-width:760px){
   .top .nav{position:fixed;left:0;right:0;bottom:0;z-index:20;border-radius:0;border-width:1px 0 0;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
   .nav button{padding:8px 6px;font-size:.78rem;display:flex;flex-direction:column;align-items:center;gap:2px}
@@ -1292,7 +1293,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="202610131724";
+const APP_V="20261013172647";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
