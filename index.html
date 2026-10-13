@@ -293,6 +293,9 @@ details.fold .fi{margin-right:8px}
 @keyframes wave{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(16deg)}20%,40%{transform:rotate(-8deg)}}
 @media (prefers-reduced-motion:reduce){.wave{animation:none}}
 .backbar{position:sticky;top:8px;z-index:20;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:8px 16px;border-radius:999px;border:2px solid var(--brand);background:var(--surface);color:var(--brand);font:inherit;font-weight:800;font-size:.9rem;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0/.12)}
+.exseg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:100%;background:transparent;padding:0}
+.exseg button{border:2px solid var(--brand);background:var(--surface);color:var(--brand);border-radius:14px;padding:10px 4px;font-weight:800;font-size:.85rem;white-space:normal;line-height:1.2;cursor:pointer}
+.exseg button[aria-pressed="true"]{background:var(--brand);color:var(--surface);box-shadow:0 3px 10px rgb(20 80 107/.35)}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1579,7 +1582,7 @@ function qzView(){
 function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   const head=`<div class="stack"><div><p class="eyebrow">Explorar</p><h1>Aprende lo que nadie te explica</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Entra cuando te pase algo y quieras saber cómo se llama (Ponle nombre) o cuando te pique la curiosidad (Conceptos). No cuenta para tu reto.</p></div>
-   <div class="row"><div class="seg"><button data-mode="conceptos" aria-pressed="${S.exMode==="conceptos"}">Conceptos</button><button data-mode="nombre" aria-pressed="${S.exMode==="nombre"}">Ponle nombre</button><button data-mode="quiz" aria-pressed="${S.exMode==="quiz"}">¿Cuánto sé?</button></div></div>
+   <div class="row"><div class="seg exseg"><button data-mode="conceptos" aria-pressed="${S.exMode==="conceptos"}">📚 Conceptos</button><button data-mode="nombre" aria-pressed="${S.exMode==="nombre"}">🏷️ Ponle nombre</button><button data-mode="quiz" aria-pressed="${S.exMode==="quiz"}">✓ ¿Cuánto sé?</button></div></div>
    ${S.exMode==="quiz"?"":`<input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca: hábitos, ansiedad, invertir, bulos..."}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"?"":`<div class="chips">${[["sesgo","Ver solo los sesgos"]].map(([q,l])=>`<button class="chip" data-exq="${q}" aria-pressed="${S.exQ===q}">${l}</button>`).join("")}</div>`}`}</div>`;
   if(S.exMode==="quiz")return `<section class="stack">${S.qz?`<p class="eyebrow">Explorar · ¿Cuánto sé?</p>`:head}${qzView()}</section>`;
   if(S.exMode==="nombre"){
