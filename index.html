@@ -10,7 +10,7 @@
 /* Layout: app de una columna (máx. 960px) con navegación inferior en móvil y superior en escritorio; cada área tiene su propio tono. */
 :root{
   --bg:#F3F6F8; --surface:#FFFFFF; --surface-2:#E7EEF2; --ink:#14222E; --muted:#56687A; --line:#D3DEE5;
-  --accent:#FF6B3D; --accent-ink:#FFFFFF; --brand:#14506B;
+  --accent:#FF6B3D; --accent-ink:#FFFFFF; --brand:#14506B; --opt:#2F6FD6; --opt-bg:#E8F0FD;
   --good:#2E8B57; --good-bg:#DDF2E5; --warn:#C27A0E; --warn-bg:#FCEFD6; --bad:#C8423A; --bad-bg:#FBE1DE;
   --as:68%; --al:46%; --ab:92%;
   --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
@@ -19,12 +19,12 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0E171F; --surface:#16222D; --surface-2:#1F2E3B; --ink:#E9F0F4; --muted:#9DB0BF; --line:#2A3B4A;
-  --accent:#FF8358; --accent-ink:#1A0E08; --brand:#7CC3E0;
+  --accent:#FF8358; --accent-ink:#1A0E08; --brand:#7CC3E0; --opt:#7FB0FF; --opt-bg:#1B2A42;
   --good:#5CC98A; --good-bg:#16352A; --warn:#F0B04A; --warn-bg:#3A2D14; --bad:#F07A70; --bad-bg:#3D1D1B;
   --as:60%; --al:62%; --ab:22%; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0E171F; --surface:#16222D; --surface-2:#1F2E3B; --ink:#E9F0F4; --muted:#9DB0BF; --line:#2A3B4A;
-  --accent:#FF8358; --accent-ink:#1A0E08; --brand:#7CC3E0;
+  --accent:#FF8358; --accent-ink:#1A0E08; --brand:#7CC3E0; --opt:#7FB0FF; --opt-bg:#1B2A42;
   --good:#5CC98A; --good-bg:#16352A; --warn:#F0B04A; --warn-bg:#3A2D14; --bad:#F07A70; --bad-bg:#3D1D1B;
   --as:60%; --al:62%; --ab:22%; color-scheme:dark}
 *{box-sizing:border-box}
@@ -214,7 +214,12 @@ details.card summary::-webkit-details-marker{display:none}
 .todo.done .ic{background:var(--good);border-color:var(--good)}
 .todo.done .ic svg{opacity:1}
 .todo .ic svg{width:18px;height:18px;opacity:0}
-.todo.opt .ic{border:3px dashed var(--brand)}
+.todo.isopt{background:var(--opt-bg);border:1.5px dashed var(--opt)}
+.todo.isopt .ic{border:3px dashed var(--opt)}
+.todo.isopt.done .ic{background:var(--opt);border:3px solid var(--opt)}
+.todo.isopt .btn{background:var(--opt);color:#fff;border-color:var(--opt)}
+.todo.isopt .btn.ghost{background:transparent;color:var(--opt)}
+.optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
 .todo small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
@@ -284,7 +289,7 @@ const QS=[
 "Los días de clase me levanto descansado.","Me acuesto y me levanto a horas parecidas, también el fin de semana.","Dejo el móvil al menos 30 minutos antes de dormir.",
 "Hago una hora de actividad física al día de media (deporte, educación física, ir andando a clase, todo cuenta).","Hago ejercicios de fuerza al menos dos veces por semana (gimnasio, calistenia, deportes con saltos).","Evito pasar muchas horas seguidas sentado, en clase o fuera.",
 "La mayor parte de lo que como es comida casera, no bollería, snacks ni refrescos.","Como verdura o fruta varias veces al día.","Distingo cuándo como por hambre y cuándo por aburrimiento, estrés o tristeza.",
-"Sé ponerle nombre a lo que siento más allá de «bien» o «mal».","Cuando me enfado o me agobio, consigo calmarme sin hacer daño a nadie ni a mí.","En las últimas dos semanas he disfrutado de cosas que antes me gustaban.",
+"Sé ponerle nombre a lo que siento más allá de «bien» o «mal».","Cuando me enfado o me agobio, consigo calmarme sin hacer daño a nadie ni a mí.","Estas dos últimas semanas he disfrutado con las cosas que me suelen gustar (quedar con amigos, mi música, mi deporte…).",
 "Cuando algo sale mal (un examen, una discusión), no pienso que todo va a salir mal.","Me hablo con respeto cuando me equivoco.","Creo que puedo mejorar en lo que me cuesta si practico.",
 "Cuando empiezo un hábito, lo mantengo varias semanas.","Estudio y hago los trabajos sin dejarlo todo para el último día.","Mi habitación, mi móvil y mis horarios me ponen fácil estudiar y descansar.",
 "Tengo al menos una persona con la que puedo hablar de lo que me preocupa.","Sé decir que no a amigos o pareja sin sentirme culpable.","Cuando discuto con alguien importante (amigos, familia, pareja), sabemos arreglarlo después.",
@@ -762,22 +767,23 @@ function stoState(){const a=S.active;if(!a||!ST[a.id])return null;const s=ST[a.i
   return {s,ch,n,avail,next,done:Object.keys(ch).length}}
 function learnCard(){
   const L=stoState(),open=S.learnOpen?"open":"";
-  if(L){const {s,ch,n,next,done}=L,a=S.active;let body="",tag="";
+  if(L){const {s,ch,n,next,done}=L,a=S.active;let body="",tag="";const nm=s.who.split(",")[0];
+    const how=`<div class="guide"><p class="eyebrow">¿Cómo funciona?</p><p style="font-size:.92rem"><b>${esc(s.who)}</b> está haciendo <b>tu mismo reto</b> esta semana. No es real, pero le pasan cosas que te pueden pasar a ti: cansancio, excusas, amigos que tiran de ti.</p><ol style="margin:6px 0 0;padding-left:20px;display:grid;gap:4px;font-size:.92rem"><li><b>Cada día, un capítulo</b> (6 en total). ${esc(nm)} tiene que tomar una decisión.</li><li><b>Tú eliges</b> qué hace. Al momento ves si fue buena idea y por qué.</li><li><b>El día 7, el final.</b> Depende de lo que hayas elegido, y lo comparamos con cómo te ha ido a ti de verdad esta semana.</li><li><b>Después, tu final:</b> eliges qué harás tú la semana que viene.</li></ol><p class="muted" style="font-size:.85rem;margin-top:6px"><b>¿Para qué?</b> Para practicar decisiones difíciles en otra persona, sin jugártela, antes de que te pasen a ti.</p></div>`;
     const cons=k=>`<div class="example" style="${ch[k]===0?"background:var(--good-bg)":""}"><b>${ch[k]===0?"Buena decisión.":"Mmm…"}</b> ${esc(s.ch[k][3][ch[k]])}</div>`;
     if(S.stoLast!=null&&ch[S.stoLast]!==undefined){const k=S.stoLast;
       body=`<p class="eyebrow">Capítulo ${k+1} de 6</p>${cons(k)}${next>=0?`<button class="btn" data-act="sto-go" style="width:max-content">Seguir con el capítulo ${next+1}</button>`:done<6?`<p class="muted">Mañana, el capítulo ${done+1}.</p>`:n>=7?`<button class="btn" data-act="sto-go" style="width:max-content">Ver el final</button>`:`<p class="muted">El día 7 descubrirás el final.</p>`}`;
     }else if(next>=0){const c=s.ch[next],sw=(next+a.id.charCodeAt(0))%2,ord=sw?[1,0]:[0,1];tag="Nuevo capítulo";
-      body=`<p class="eyebrow">Capítulo ${next+1} de 6 · ${esc(s.who)}</p><p>${esc(c[0])}</p><p><b>${esc(c[1])}</b></p>
+      body=`${done<2?how:""}<p class="eyebrow">Capítulo ${next+1} de 6 · ${esc(s.who)}</p><p>${esc(c[0])}</p><p><b>${esc(c[1])}</b></p>
        <div class="stack" style="gap:8px">${ord.map(o=>`<button class="btn ghost" style="text-align:left" data-sto="${next}:${o}">${esc(c[2][o])}</button>`).join("")}</div>`;
     }else if(done===6&&n>=7){const g=Object.values(ch).filter(v=>v===0).length,ok=g>=4,w=goodDays(a),wok=w>=4;
       body=`<p class="eyebrow">El final de la historia</p><div class="${ok?"example":"alert"}" style="${ok?"background:var(--good-bg)":""}"><b>${ok?"Final bueno.":"Final a medias."}</b> ${esc(ok?s.end.ok:s.end.ko)}</div>
        <p class="muted">Elegiste bien en ${g} de 6 decisiones. Y en tu vida real, esta semana lo hiciste ${w} de 7 días. ${ok&&wok?"Lo tienes claro en la historia y en la vida. Eso es lo difícil.":ok&&!wok?"Sabes lo que funciona; en la vida real cuesta más que en una historia. Prueba la versión mínima la semana que viene.":!ok&&wok?"En la vida real lo has hecho mejor que en la historia. Fíjate en qué te ha funcionado a ti.":"Esta vez no ha salido, ni en la historia ni en la semana. Mira qué decisión cambiarías y empieza solo por esa."}</p>
        ${(()=>{const bad=Object.keys(ch).filter(k=>ch[k]===1);return bad.length?`<div class="guide"><p class="eyebrow">Lo que cambiaría el final</p>${bad.map(k=>`<p style="font-size:.9rem"><b>Capítulo ${+k+1}.</b> Elegiste: ${esc(s.ch[k][2][1])}. Mejor: ${esc(s.ch[k][2][0])}.</p>`).join("")}</div>`:""})()}
-       <p class="eyebrow">Y tu historia, ¿cómo acaba?</p><p class="muted" style="font-size:.85rem;margin-top:-6px">Elige tu final: qué harás tú la semana que viene. Solo lo ves tú.</p>
+       <p class="eyebrow">Ahora te toca a ti: elige tu final</p><p class="muted" style="font-size:.85rem;margin-top:-6px">La historia de ${esc(nm)} ha terminado; la tuya sigue. Elige qué harás tú la semana que viene con este reto. Es un compromiso contigo y solo lo ves tú.</p>
        <div class="stack" style="gap:6px">${["…lo seguiré haciendo, me ha funcionado","…haré la versión mínima los días difíciles","…pondré mi alarma y no fallaré dos días seguidos","…se lo contaré a alguien para que me ayude","…probaré otro reto, este no era para mí"].map(x=>`<button class="btn ghost" style="text-align:left" data-myend="La semana que viene, yo${x}" aria-pressed="${a.myEnd==="La semana que viene, yo"+x}">${a.myEnd==="La semana que viene, yo"+x?"✓ ":""}La semana que viene, yo${x}</button>`).join("")}</div>`;
       tag=a.myEnd?"":"El final";
     }else{const k=done-1;body=`${k>=0?`<p class="eyebrow">Capítulo ${k+1} de 6</p><p>${esc(s.ch[k][0])}</p>${cons(k)}`:""}<p class="muted">${done<6?`Mañana, el capítulo ${done+1}.`:"El día 7 descubrirás el final."}</p>`}
-    return `<details class="card" id="learn" ${open}><summary><div class="row" style="justify-content:space-between"><span>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 1 minuto</span></span>${tag?`<span class="chip" style="background:var(--brand);color:#fff">${tag}</span>`:""}</div><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Cada día, un capítulo nuevo de una historia sobre tu reto: tú decides qué pasa. No es obligatorio; sirve para ver en un minuto qué funciona y qué no. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px">${body}</div></details>`}
+    return `<details class="card" id="learn" ${open}><summary><div class="row" style="justify-content:space-between"><span>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 1 minuto</span></span>${tag?`<span class="chip" style="background:var(--brand);color:#fff">${tag}</span>`:""}</div><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">La historia de ${esc(s.who.split(",")[0])}, que hace tu mismo reto. Cada día, un capítulo: tú decides qué hace y ves si funciona. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px">${body}</div></details>`}
   const ai=S.active?CI[S.active.id].a:routeNext()?routeNext().c.a:0,ar=AREAS[ai],dn=Math.floor(Date.parse(today())/864e5),txt=CUR[ai][dn%CUR[ai].length];
   return `<details class="card" id="learn" ${open}><summary>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 30 segundos</span><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Cada día, una curiosidad nueva sobre ${esc(ar.n.toLowerCase())}. No es obligatorio; sirve para aprender algo útil en 30 segundos. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px"><div class="guide"><p class="eyebrow">¿Sabías que…?</p><p>${esc(txt)}</p></div><p class="muted" style="font-size:.85rem">Mañana, otra.</p></div></details>`}
 const NA=AREAS.length, NQ=QS.length;
@@ -960,10 +966,10 @@ function todayItems(){const t=today(),it=[],a=S.active;
     it.push({t:"Haz tu reto: "+act1.charAt(0).toLowerCase()+act1.slice(1),w:"Si un día cuesta, vale la versión mínima: "+(exOf(c.id)?exOf(c.id)[2].toLowerCase():"empieza y para cuando quieras."),st:a.log[t]&&a.log[t]!=="no"?"done":"todo"});
     it.push({t:"Marca cómo te ha ido",w:"Toca «Sí», «Un poco» u «Hoy no» en tu reto. 10 segundos.",st:a.log[t]?"done":"todo"});
   }else it.push({t:"Valora tu semana",w:"Puntúa del 1 al 5 y decide el siguiente paso. 1 minuto.",st:"todo"});
-  {const L=stoState();if(L&&(L.next>=0||(L.done===6&&L.n>=7&&!a.myEnd)))it.push({t:L.next>=0?"Si te apetece: el capítulo de hoy de tu historia":"Si te apetece: el final de tu historia",w:"Opcional. Un minuto. Tú decides qué pasa.",st:"opt",btn:"learn-open",bl:"Leer"})}
-  if(S.buddy&&S.bud.sent&&new Date().getDay()===5)it.push({t:`Escribe a ${S.buddy} cómo vas`,w:"El mensaje ya está preparado abajo.",st:S.bud.log[t]?"done":"opt"});
-  if(sinceStart()>=1&&pCount()<7)it.push({t:"Un paso de tu propósito (esta semana)",w:"5 minutos en la pestaña Propósito, cuando quieras durante la semana.",st:S.P.lastStep&&diff(S.P.lastStep,t)<7?"done":"opt",go:"proposito"});
-  if(S.P.done[7]&&S.P.pa&&!S.P.pa.done)it.push({t:"Tu paso de propósito: "+S.P.pa.t,w:"Tienes toda la semana.",st:"opt"});
+  {const L=stoState();if(L&&(L.next>=0||(L.done===6&&L.n>=7&&!a.myEnd)))it.push({t:L.next>=0?"Si te apetece: el capítulo de hoy de tu historia":"Si te apetece: el final de tu historia",w:"Opcional. Un minuto. Tú decides qué pasa.",st:"opt",o:1,btn:"learn-open",bl:"Leer"})}
+  if(S.buddy&&S.bud.sent&&new Date().getDay()===5)it.push({t:`Escribe a ${S.buddy} cómo vas`,w:"El mensaje ya está preparado abajo.",st:S.bud.log[t]?"done":"opt",o:1});
+  if(sinceStart()>=1&&pCount()<7)it.push({t:"Un paso de tu propósito (esta semana)",w:"5 minutos en la pestaña Propósito, cuando quieras durante la semana.",st:S.P.lastStep&&diff(S.P.lastStep,t)<7?"done":"opt",o:1,go:"proposito"});
+  if(S.P.done[7]&&S.P.pa&&!S.P.pa.done)it.push({t:"Tu paso de propósito: "+S.P.pa.t,w:"Tienes toda la semana.",st:"opt",o:1});
   return it}
 const TOUR=[
  ["hoy","Hoy: tu pantalla de cada día","Aquí se hace todo lo de tu reto. Arriba, «Dónde estás»; después, «Tu día de hoy» (lo naranja es lo que toca) y tu reto con sus botones. Baja hasta el final: allí te dice si has terminado."],
@@ -985,7 +991,7 @@ function todayCard(){const it=todayItems(),req=it.filter(x=>x.st==="todo"),all=!
   const time=S.active&&S.active.time;
   return `<div class="day ${all?"ok":""}"><div class="row" style="justify-content:space-between"><h2>${all?"¡Todo hecho por hoy!":"Tu día de hoy"}</h2><span class="muted" style="font-size:.85rem">${new Date().toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long"})}</span></div>
    ${all?`<p>Bien hecho. Ya puedes cerrar la app. ${time?`Mañana, a las <b>${esc(time)}</b>, otro toque.`:"Mañana, otro toque."}</p>`:`<p class="muted" style="font-size:.88rem">Todo lo de hoy se hace en esta pantalla. Haz lo que está en <b>naranja</b> (lo azul es opcional) y <b>baja hasta el final</b>: allí te diremos cuándo has terminado.</p>`}
-   <div style="display:flex;flex-direction:column;gap:8px">${it.map(x=>`<div class="todo ${x.st==="done"?"done":x.st==="opt"?"opt":x.st==="later"?"later":""}"><span class="ic">${CHK}</span><span><b>${esc(x.t)}</b><small>${esc(x.w)}</small></span>${x.btn?`<button class="btn" data-act="${x.btn}">${x.bl}</button>`:x.go&&x.st!=="done"?`<button class="btn ghost" data-go="${x.go}">Ir</button>`:""}</div>`).join("")}</div></div>`}
+   <div style="display:flex;flex-direction:column;gap:8px">${it.map(x=>`<div class="todo ${x.st==="done"?"done":x.st==="opt"?"opt":x.st==="later"?"later":""}${x.o||x.st==="opt"?" isopt":""}"><span class="ic">${CHK}</span><span>${x.o||x.st==="opt"?`<span class="optpill">Opcional</span><br>`:""}<b>${esc(x.t)}</b><small>${esc(x.w)}</small></span>${x.btn?`<button class="btn" data-act="${x.btn}">${x.bl}</button>`:x.go&&x.st!=="done"?`<button class="btn ghost" data-go="${x.go}">Ir</button>`:""}</div>`).join("")}</div></div>`}
 /* ---------- reto de grupo ---------- */
 function friKey(){const d=new Date(),w=d.getDay(),o=w===5?0:w===6?-1:w===0?-2:null;return o===null?null:addDays(today(),o)}
 function grpMe(){return S.active?goodDays(S.active):null}
@@ -1347,7 +1353,7 @@ function vMapa(){
   const msg=nP===0?"Tienes una base sólida. Elige un área para subir de nivel.":nP<=2?"Tienes mucho a favor. Ahora sabes dónde poner energía.":"Hay varias cosas que pesan ahora mismo. Es normal: vamos de una en una.";
   return `<section class="stack">
    ${real?"":`<p class="example">Esto es un ejemplo para que veas cómo queda. <button class="btn" style="padding:6px 14px;margin-left:6px" data-act="start">Haz el test</button></p>`}
-   ${alert?`<div class="alert"><strong>Antes de nada:</strong> has dicho que últimamente no disfrutas de las cosas que te gustaban. Si te pasa desde hace más de dos semanas, cuéntaselo a alguien de confianza, a tu tutor o a tu médico. Pedir ayuda es una decisión inteligente. <button class="btn ghost" style="padding:6px 14px;margin-top:8px" data-go="ayuda">Ver dónde pedir ayuda</button></div>`:""}
+   ${alert?`<div class="alert"><strong>Antes de nada:</strong> has dicho que estas dos últimas semanas no disfrutas con las cosas que te suelen gustar. Si te pasa desde hace más de dos semanas, cuéntaselo a alguien de confianza, a tu tutor o a tu médico. Pedir ayuda es una decisión inteligente. <button class="btn ghost" style="padding:6px 14px;margin-top:8px" data-go="ayuda">Ver dónde pedir ayuda</button></div>`:""}
    ${real&&firstTime()&&!S.active?onb(2):""}
    <div><p class="eyebrow">${real?"Tu mapa":"Mapa de ejemplo"}</p><h1>${msg}</h1></div>
    ${S.P.done[7]?northCard(true):""}
@@ -1374,7 +1380,7 @@ function qzView(){
   if(!S.qz){return `<div class="guide"><p class="eyebrow">¿Cuánto sé de…?</p><p>Ponte a prueba cuando quieras: <b>10 preguntas por tema</b>, tres respuestas cada una. Al final verás las soluciones y qué ver o leer para aprenderlo. Puedes repetirlo las veces que quieras. Nadie más ve tus resultados.</p></div>
    <div class="cards">${AREAS.map(a=>{const r=R[a.k];return `<button class="cc area" style="--h:${a.h}" data-qz="${a.k}"><div class="top2"><span class="chip"><span class="dot"></span>${a.n}</span>${r?`<span class="lv ${r.last>=8?"B":r.last>=5?"I":"X"}">${r.last}/10</span>`:""}</div><h3>¿Cuánto sé de ${esc(a.n.toLowerCase())}?</h3><p class="muted">${r?`Última vez: ${r.last}/10 · Tu mejor nota: ${r.best}/10`:"10 preguntas · unos 3 minutos"}</p></button>`}).join("")}</div>`}
   const Z=S.qz,a=AREAS[AK[Z.k]],Q=QZ[Z.k];
-  if(Z.guess===null)return `<div class="card stack area" style="--h:${a.h}"><span class="chip" style="width:max-content"><span class="dot"></span>${a.n}</span><h2>Antes de empezar: ¿cuánto crees que sabes de ${esc(a.n.toLowerCase())}?</h2><p class="muted">Al final lo comparamos con lo que has acertado.</p><div class="row">${QG.map((g,i)=>`<button class="btn ghost" data-qg="${i}">${g}</button>`).join("")}</div><button class="btn ghost" data-qx="exit" style="width:max-content;padding:6px 14px">Volver</button></div>`;
+  if(Z.guess===null)return `<div class="card stack area" style="--h:${a.h}"><span class="chip" style="width:max-content"><span class="dot"></span>${a.n}</span><h2>Antes de empezar: ¿cuánto crees que sabes de ${esc(a.n.toLowerCase())}?</h2><p class="muted">Al final lo comparamos con lo que has acertado. <b>¿Para qué?</b> Saber cuánto sabes de verdad es una habilidad: si crees que sabes más de lo que sabes, no repasas; si crees que sabes menos, no te atreves. Se entrena comparando lo que crees con lo que aciertas.</p><div class="row">${QG.map((g,i)=>`<button class="btn ghost" data-qg="${i}">${g}</button>`).join("")}</div><button class="btn ghost" data-qx="exit" style="width:max-content;padding:6px 14px">Volver</button></div>`;
   if(Z.step<10){const it=Z.L[Z.step],q=Q[it.i];return `<div class="card stack area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="muted" style="font-size:.85rem">Pregunta ${Z.step+1} de 10</span></div><div class="progress"><span style="width:${Z.step*10}%"></span></div><h2 style="font-size:1.2rem">${esc(q[1])}</h2><div class="stack" style="gap:8px">${it.o.map(o=>`<button class="btn ghost" style="text-align:left;justify-content:flex-start;white-space:normal" data-qa="${o}">${esc(q[2+o])}</button>`).join("")}</div><div class="row" style="justify-content:space-between"><button class="btn ghost" data-qx="${Z.step?"back":"exit"}" style="padding:6px 14px">${Z.step?"Anterior":"Salir"}</button><span class="muted" style="font-size:.8rem">Las soluciones, al final</span></div></div>`}
   const ok=Z.ans.filter(x=>x===0).length,band=ok>=8?2:ok>=5?1:0;
   const msg=band===Z.guess?"Te conoces bien: lo que creías saber coincide con lo que sabes.":band>Z.guess?"Sabes más de lo que creías. Bien visto.":"Creías saber algo más de lo que has acertado. Es muy normal: nos pasa a casi todos. Lo bueno es que ya sabes qué repasar.";
@@ -1487,6 +1493,7 @@ const FAQ=[
 ["Empezar",[
 ["¿Qué es Brújula?","Una app para conocerte mejor y mejorar poco a poco en 14 áreas de tu vida: sueño, emociones, estudio, dinero, relaciones… Haces un test, ves tu mapa y trabajas un reto pequeño cada semana."],
 ["¿Cómo funciona el reto de grupo?","En la pestaña Grupo apuntas quién participa (solo el nombre, se queda en tu móvil). El viernes, Hoy te prepara un mensaje con tu resultado para el grupo de WhatsApp. Cuando contesten, marcas quién lo ha cumplido (4 días o más) y la app os lo celebra. No hay ranking: se celebra a todos los que lo cumplen."],
+["¿Qué es la historia de «Para aprender hoy»?","Es una historia corta de alguien de tu edad que hace tu mismo reto. Cada día hay un capítulo con una decisión (seguir o dejarlo, hacer la versión mínima, hacer caso a un amigo…) y tú eliges qué hace. Al momento ves si fue buena idea. El día 7 llega el final, que depende de tus decisiones, y lo comparamos con tu semana real. Después eliges tu propio final: qué harás tú la semana que viene. Sirve para practicar decisiones difíciles sin jugártela. Es opcional."],
 ["¿Puedo comprobar cuánto sé de un tema?","Sí. En Explorar, toca «¿Cuánto sé?» y elige un tema: 10 preguntas con tres respuestas. Antes de empezar te preguntamos cuánto crees que sabes y al final lo comparamos. Verás las soluciones y, para cada fallo, el concepto con su vídeo y su lectura. Puedes repetirlo cuando quieras; no cuenta para tu reto y nadie más ve la nota."],
 ["¿Es un test psicológico? ¿Me dice si tengo algún problema?","No. No es un diagnóstico ni lo sustituye. Es una foto de cómo te ves tú ahora, para elegir por dónde empezar. Si algo te preocupa de verdad, habla con alguien de confianza o mira la sección Ayuda."],
 ["¿Cuánto tiempo me va a llevar?","El test, unos 6 minutos, una sola vez. Después, un toque al día de unos 10 segundos para marcar tu reto. Todo lo demás (historias, curiosidades, propósito) es opcional."],
