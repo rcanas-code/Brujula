@@ -736,9 +736,9 @@ function learnCard(){
        <div class="stack" style="gap:6px">${["…lo seguiré haciendo, me ha funcionado","…haré la versión mínima los días difíciles","…pondré mi alarma y no fallaré dos días seguidos","…se lo contaré a alguien para que me ayude","…probaré otro reto, este no era para mí"].map(x=>`<button class="btn ghost" style="text-align:left" data-myend="La semana que viene, yo${x}" aria-pressed="${a.myEnd==="La semana que viene, yo"+x}">${a.myEnd==="La semana que viene, yo"+x?"✓ ":""}La semana que viene, yo${x}</button>`).join("")}</div>`;
       tag=a.myEnd?"":"El final";
     }else{const k=done-1;body=`${k>=0?`<p class="eyebrow">Capítulo ${k+1} de 6</p><p>${esc(s.ch[k][0])}</p>${cons(k)}`:""}<p class="muted">${done<6?`Mañana, el capítulo ${done+1}.`:"El día 7 descubrirás el final."}</p>`}
-    return `<details class="card" id="learn" ${open}><summary><div class="row" style="justify-content:space-between"><span>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 1 minuto</span></span>${tag?`<span class="chip" style="background:var(--brand);color:#fff">${tag}</span>`:""}</div><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Una historia sobre tu reto. Tú decides qué pasa.</span></summary><div class="stack" style="margin-top:12px">${body}</div></details>`}
+    return `<details class="card" id="learn" ${open}><summary><div class="row" style="justify-content:space-between"><span>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 1 minuto</span></span>${tag?`<span class="chip" style="background:var(--brand);color:#fff">${tag}</span>`:""}</div><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Cada día, un capítulo nuevo de una historia sobre tu reto: tú decides qué pasa. No es obligatorio; sirve para ver en un minuto qué funciona y qué no. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px">${body}</div></details>`}
   const ai=S.active?CI[S.active.id].a:routeNext()?routeNext().c.a:0,ar=AREAS[ai],dn=Math.floor(Date.parse(today())/864e5),txt=CUR[ai][dn%CUR[ai].length];
-  return `<details class="card" id="learn" ${open}><summary>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 30 segundos</span><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Una curiosidad sobre ${esc(ar.n.toLowerCase())}.</span></summary><div class="stack" style="margin-top:12px"><div class="guide"><p class="eyebrow">¿Sabías que…?</p><p>${esc(txt)}</p></div><p class="muted" style="font-size:.85rem">Mañana, otra.</p></div></details>`}
+  return `<details class="card" id="learn" ${open}><summary>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 30 segundos</span><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Cada día, una curiosidad nueva sobre ${esc(ar.n.toLowerCase())}. No es obligatorio; sirve para aprender algo útil en 30 segundos. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px"><div class="guide"><p class="eyebrow">¿Sabías que…?</p><p>${esc(txt)}</p></div><p class="muted" style="font-size:.85rem">Mañana, otra.</p></div></details>`}
 const NA=AREAS.length, NQ=QS.length;
 const EXAMPLE=[3.7,4.3,3,2.7,3.3,2,4.7,2.3,3,4,2.7,2.3,4,3.7];
 /* ---------- estado ---------- */
@@ -875,7 +875,8 @@ const onb=k=>`<div class="onb" aria-label="Paso ${k} de 3">${["El test","Tu mapa
 const TIPS=[
  [0,"hoy","Esto es Hoy","Es tu pantalla de cada día. Vuelve, toca «Sí», «Un poco» u «Hoy no» y listo. Eso es todo lo obligatorio.",null],
  [0,"instalar","Tenla a mano","Ponla en la pantalla de inicio de tu móvil, como una app: "+(isIOS?"en Safari, toca el botón Compartir (el cuadrado con la flecha) y elige «Añadir a pantalla de inicio».":"en Chrome, toca los tres puntos (⋮) y elige «Añadir a pantalla de inicio» o «Instalar app»."),null],
- [1,"proposito","Nuevo: tu propósito","En la pestaña Propósito construyes tu frase, la que da sentido a tus retos. Un paso corto por semana, a tu ritmo.","Ver Propósito"],
+ [1,"proposito","Nuevo: tu propósito","En Propósito descubres qué te importa y en qué eres bueno, y acabas con una frase que te sirve para decidir (estudios, trabajo, planes). Un paso de 5 minutos por semana. Es opcional.","Ver Propósito"],
+ [1,"aprender","Para aprender hoy","Debajo de tu reto, en Hoy, tienes cada día una historia o una curiosidad de un minuto. Es opcional: ábrela solo si te apetece.",null],
  [2,"ruta","Tu ruta","En Ruta ves tu camino completo: qué retos vienen, cuáles has superado y qué se desbloquea después.","Ver mi ruta"],
  [3,"explorar","¿Te pasa algo y no sabes cómo se llama?","En Explorar, la sección «Ponle nombre» te ayuda a encontrarlo y a saber qué hacer.","Ir a Explorar"],
  [4,"mas","Dinero, grupo y ayuda","En Más tienes el simulador de ahorro, ideas para hacer retos con amigos y los teléfonos de ayuda.","Ver Más"],
@@ -968,14 +969,24 @@ function rescueBanner(){
   if(n<7&&last3.every(v=>v==="no"))return `<div class="card stack" style="border:2px solid var(--warn)"><h3>Quizá este reto es demasiado grande ahora</h3><p class="muted">Llevas 3 días con «Hoy no». Es una señal útil, no un fracaso.</p><div class="row"><button class="btn" data-act="r-mini">Probar la versión de 2 minutos</button><button class="btn ghost" data-act="r-change">Cambiar de reto</button></div></div>`;
   return "";
 }
+const retestIn=()=>{const l=S.tests.length?S.tests[S.tests.length-1].date:null;return l?Math.max(0,28-diff(l,today())):null};
+const rotaTxt=()=>{if(!S.route)return "";const A=S.route.areas.map(i=>AREAS[i].n);return A.map((n,k)=>`semana ${k+1}: ${n}`).join(" · ")+(A.length>1?` · semana ${A.length+1}: ${A[0]} otra vez…`:"")};
+function routeHow(){const r=retestIn();return `<div class="card stack"><h3>Cómo funciona tu ruta</h3>
+  <div class="stack" style="gap:10px">
+   <p><b>1. Un solo reto cada vez, no tres.</b> Tienes 3 áreas prioritarias, pero no las trabajas a la vez: haces un reto por semana y las áreas se van turnando (${rotaTxt()}).</p>
+   <p><b>2. Superar un reto.</b> Lo superas si lo haces (o haces la versión mínima) al menos 4 de los 7 días. Si no llegas, puedes repetir la semana o pasar al siguiente.</p>
+   <p><b>3. Cuándo pasas al nivel 2.</b> Cada área tiene 3 retos básicos (nivel 1). Cuando terminas los 3 de un área, se abre el nivel 2 de esa área, con retos un poco más exigentes.</p>
+   <p><b>4. Repetir el test.</b> A los 28 días de tu último test, Hoy te avisa para repetirlo, ver cuánto has cambiado y crear una ruta nueva.${r!=null?` ${r>0?`Te quedan <b>${r} días</b>.`:"<b>Ya puedes repetirlo.</b>"}`:""}</p>
+  </div></div>`}
 function vRuta(){
   if(!S.route)return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu ruta aparecerá cuando hagas el test</h1></div><button class="btn" data-act="start" style="width:max-content">Hacer el test</button></section>`;
   const items=routeItems(),done=items.filter(it=>["ok","skip"].includes(itemStatus(it))).length;
   const node=it=>{const s=itemStatus(it),c=it.c,a=AREAS[c.a];
     const icon={ok:"✓",skip:"~",now:"●",lock:"",open:""}[s],label={ok:"Superado",skip:"Saltado",now:"En curso",lock:"Bloqueado",open:"Disponible"}[s];
-    return `<div class="mini area" style="--h:${a.h};${s==="lock"?"opacity:.5":""}${s==="now"?";border:2px solid var(--c)":""}"><span style="display:flex;gap:12px;align-items:center;min-width:0"><span class="pnum" style="${s==="ok"?"background:var(--c);color:#fff":""}${s==="lock"?"":""}">${icon||`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="${s==="lock"?"M6 11h12v9H6zM9 11V8a3 3 0 0 1 6 0v3":"M9 6l6 6-6 6"}"/></svg>`}</span><span style="min-width:0"><b>${esc(c.t)}</b><br><span class="muted" style="font-size:.85rem">${a.n} · ${label}${s==="lock"?`: supera el nivel 1 de ${a.n}`:""}</span></span></span>
+    return `<div class="mini area" style="--h:${a.h};${s==="lock"?"opacity:.5":""}${s==="now"?";border:2px solid var(--c)":""}"><span style="display:flex;gap:12px;align-items:center;min-width:0"><span class="pnum" style="${s==="ok"?"background:var(--c);color:#fff":""}${s==="lock"?"":""}">${icon||`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="${s==="lock"?"M6 11h12v9H6zM9 11V8a3 3 0 0 1 6 0v3":"M9 6l6 6-6 6"}"/></svg>`}</span><span style="min-width:0"><b>${esc(c.t)}</b><br><span class="muted" style="font-size:.85rem">${a.n} · ${label}${s==="lock"?`: se abre al terminar los 3 retos de nivel 1 de ${a.n}`:""}</span></span></span>
      ${s==="open"&&!S.active?`<button class="btn" data-start="${c.id}">Empezar</button>`:s==="open"?`<button class="btn ghost" data-open="${c.id}">Ver</button>`:""}</div>`};
-  return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu camino, paso a paso</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Tu ruta se basa en tus 3 áreas con más margen: ${S.route.areas.map(i=>AREAS[i].n).join(", ")}. Un reto por semana. Lo superas si lo haces al menos 4 de los 7 días. Al superar el nivel 1 de un área, se desbloquea su nivel 2.</p></div>
+  return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu camino, paso a paso</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Tu ruta se basa en tus 3 áreas con más margen: ${S.route.areas.map(i=>AREAS[i].n).join(", ")}. </p></div>
+   ${routeHow()}
    <div class="card stack"><div class="row" style="justify-content:space-between"><b>${done} de ${items.length} pasos</b><span class="muted">Creada el ${parse(S.route.date).toLocaleDateString("es-ES")}</span></div><div class="progress"><span style="width:${done/items.length*100}%"></span></div></div>
    <div class="stack"><h2>Nivel 1 · Lo básico</h2><div class="minis">${items.filter(i=>i.lvl===1).map(node).join("")}</div></div>
    <div class="stack"><h2>Nivel 2 · Un paso más</h2><div class="minis">${items.filter(i=>i.lvl===2).map(node).join("")}</div></div>
@@ -1057,7 +1068,7 @@ function vTest(){
 }
 function stepText(n,c){
   if(n===1)return ["Prepárate","Hoy solo te preparas: escribe tu plan y elige tu hora. El reto de verdad empieza mañana."];
-  if(n<=6)return ["Hazlo",(n===2&&firstTime()?"Hoy empieza de verdad. Haz tu reto y, cuando lo hayas hecho (o al final del día), vuelve y toca un botón. ":"")+c.h+(exOf(c.id)?` Si hoy cuesta, haz la versión mínima: ${exOf(c.id)[2]}`:" Si hoy cuesta, vale la versión de 2 minutos: empieza y para cuando quieras.")];
+  if(n<=6)return ["Hazlo",(n===2&&firstTime()?"Hoy empieza de verdad. Haz tu reto y, cuando lo hayas hecho (o al final del día), vuelve y toca un botón. ":"")+c.h];
   return ["Revisa","Has llegado al día 7. ¿Te ha servido este reto?"];
 }
 function wayCard(){if(!S.route)return "";const items=routeItems(),N=items.length;if(!N)return "";
@@ -1073,7 +1084,7 @@ function vHoy(){
   if(!complete()&&!S.tests.length)return vIntro();
   const p=points(),L=level(p),st=streak(),hour=new Date().getHours();
   const hi=hour<14?"Buenos días":hour<21?"Buenas tardes":"Buenas noches";
-  const lv=L.to?`<div class="lvl"><span style="width:${(p-L.from)/(L.to-L.from)*100}%"></span></div><span class="muted" style="font-size:.78rem">${L.to-p} para el siguiente nivel</span>`:`<span class="muted" style="font-size:.78rem">Nivel máximo</span>`;
+  const lv=L.to?`<div class="lvl"><span style="width:${(p-L.from)/(L.to-L.from)*100}%"></span></div><span class="muted" style="font-size:.78rem">${L.to-p} para la siguiente etapa</span>`:`<span class="muted" style="font-size:.78rem">Etapa máxima</span>`;
   let main="";
   if(!S.active){
     const items=routeItems(),nx=routeNext(),pos=nx?items.indexOf(nx)+1:items.length;
@@ -1096,6 +1107,7 @@ function vHoy(){
       <button class="btn" data-act="saveplan" style="width:max-content">Guardar mi plan (+5)</button>`;
     else if(n===1)action=`<div class="example" style="background:var(--good-bg)"><b>Plan listo:</b> ${esc(S.active.plan)}${S.active.time?` · Te toca abrir Brújula a las ${esc(S.active.time)}.`:""}</div>
       <p class="muted">Si ya lo has hecho hoy, márcalo. Si no, no pasa nada: empiezas mañana.</p>`;
+    if(n>=2&&n<7&&!v)action+=`<div class="guide"><p class="eyebrow">¿Hoy no puedes con el reto entero?</p><p>Haz la <b>versión mínima</b>: ${esc(E?E[2].replace(/\.$/,""):"empieza y hazlo solo 2 minutos")}.</p><p class="muted" style="font-size:.88rem">Si la haces, marca «Un poco». Cuenta para superar el reto (igual que «Sí») y mantiene tu racha. Por qué: lo que crea el hábito es no cortar la cadena, aunque sea en pequeño.</p></div>`;
     if(n>=5&&n<7&&goodDays(S.active)>=4)action+=`<div class="example" style="background:var(--good-bg)"><b>Ya lo has conseguido: ${goodDays(S.active)} días.</b> Puedes darlo por superado y pasar al siguiente paso, o terminar la semana con calma. Las dos opciones están bien.</div><div><button class="btn" data-act="early">Superar y seguir (+20)</button></div>`;
     if(n<7)action+=(n===1&&!S.active.plan)?"":`<div class="checkin">${[["si","Sí","+10"],["poco","Un poco","+6"],["no","Hoy no","+2"]].map(([k,l,s])=>`<button data-log="${k}" aria-pressed="${v===k}">${l}<small>${s}</small></button>`).join("")}</div>
       ${v?`<p class="muted">${v==="si"?"Hecho. Mañana, otro toque.":v==="poco"?"Un poco cuenta. La versión mínima también suma.":"Gracias por ser sincero. Un día malo no rompe tu racha: solo cuenta no fallar dos seguidos."}</p>`:""}`;
@@ -1123,7 +1135,10 @@ function vHoy(){
    <div class="status"><div class="stat">${svg("fire","var(--accent)")}<span class="big">${st}</span><span class="muted" style="font-size:.8rem">días de racha</span></div>
     <div class="stat">${svg("star","var(--warn)")}<span class="big">${p}</span><span class="muted" style="font-size:.8rem">puntos</span></div>
     <div class="stat">${svg("map","var(--brand)")}<span style="font-family:var(--display);font-weight:800;font-size:1.15rem">${L.name}</span>${lv}</div></div>
-   ${firstTime()?`<p class="muted" style="font-size:.85rem;margin-top:-6px"><b>Racha:</b> días seguidos registrando tu reto (un fallo suelto no la rompe). <b>Puntos:</b> los ganas al registrar, planificar y valorar. <b>Nivel:</b> sube con los puntos.</p>`:""}
+   <details class="card" ${firstTime()?"open":""} style="margin-top:-6px"><summary style="font-size:.92rem">¿Cómo funcionan la racha, los puntos y la etapa?</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
+    <p><b>Racha:</b> los días en que haces tu reto («Sí» o «Un poco»). Si un día no lo haces, no pasa nada: la racha se mantiene. <b>Si fallas dos días seguidos, la racha vuelve a 0</b>, pero no pierdes nada más: tus puntos, tu etapa y tu reto siguen igual. En cuanto vuelvas a hacerlo, empieza a contar de nuevo.</p>
+    <p><b>Puntos:</b> premian el esfuerzo, no el resultado. Sí +10 · Un poco +6 · Hoy no +2 (por ser sincero) · Plan +5 · Valorar la semana +20 · Repetir el test +25.</p>
+    <p><b>Etapa:</b> sube con los puntos: Arranque, En ruta, Travesía, Expedición y Cumbre. No tiene nada que ver con los niveles de tu ruta.</p></div></details>
    ${tipCard()}
    ${reviewCard()||(S.P.done[7]?northCard(true):"")}
    ${purposeCard()}
@@ -1193,8 +1208,14 @@ function pBody(k){
    <button class="btn" data-psave="7" style="width:max-content">Guardar mi frase (+30)</button>`;
 }
 function vProposito(){
-  const steps=[[1,"Lo que me importa","Elige tus valores","3 min"],[2,"En qué soy bueno","Tus fortalezas y lo que dicen los demás","10 min"],[3,"Lo que me enciende","Qué te da y qué te quita energía","1 semana"],[4,"A quién quiero aportar","Lo que te gustaría mejorar","5 min"],[5,"Mi yo dentro de 10 años","Una carta desde tu mejor versión","10 min"],[6,"Experimentos","Tres pruebas en la vida real","2-3 semanas"],[7,"Mi frase","Tu brújula en una frase","5 min"]];
-  return `<section class="stack"><div><p class="eyebrow">Propósito</p><h1>Para qué haces lo que haces</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">A tu edad nadie tiene que tener claro su propósito. Se construye probando, y cambia con los años. Este recorrido te ayuda a encontrar una dirección provisional que dé sentido a tus retos. Haz un paso por semana, a tu ritmo.</p></div>
+  const steps=[[1,"Lo que me importa","Elige tus valores","3 min"],[2,"En qué soy bueno","Elige tus fortalezas","3 min"],[3,"Lo que me enciende","Qué te da y qué te quita energía","3 min"],[4,"A quién quiero aportar","Lo que te gustaría mejorar","5 min"],[5,"Mi yo dentro de 10 años","Imagina tu vida a los 26","3 min"],[6,"Experimentos","Tres pruebas en la vida real","2-3 semanas"],[7,"Mi frase","Tu brújula en una frase","5 min"]];
+  return `<section class="stack"><div><p class="eyebrow">Propósito</p><h1>Para qué haces lo que haces</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">A tu edad nadie tiene que tener claro su propósito. Se descubre probando y cambia con los años. Aquí no buscas «tu misión en la vida»: buscas una dirección para ahora.</p></div>
+   ${S.P.done[7]?"":`<div class="card stack" style="gap:10px">
+    <p><b>Para qué sirve.</b> Para conocer qué te importa, en qué eres bueno y a quién te gustaría aportar algo. Con eso eliges con más criterio: qué estudiar, en qué trabajar, con quién estar, en qué gastar tu tiempo.</p>
+    <p><b>Por qué hacerlo.</b> Los retos de tu ruta mejoran cómo estás; el propósito te dice hacia dónde vas. Cuando sabes para qué haces algo, cuesta menos hacerlo y es más difícil que otros decidan por ti.</p>
+    <p><b>A dónde te lleva.</b> Al final tendrás tu frase, por ejemplo: <em>«Quiero ayudar a que la gente se sienta mejor, para gente mayor, usando mi amabilidad, porque me importa la familia.»</em> Aparecerá en Hoy, cada reto te recordará cómo te acerca a ella y cada mes la revisarás.</p>
+    <p><b>Cómo.</b> 7 pasos, uno por semana, de unos 3 a 5 minutos, casi todo tocando opciones. Hoy te avisa (en azul) cuando toca un paso. Es <b>opcional</b>: no afecta a tus retos ni a tu ruta, pero es lo que da sentido a todo lo demás.</p>
+   </div>`}
    ${northCard(false)}
    <div class="psteps">${steps.map(([k,t,d,time])=>{const ok=!!S.P.done[k],open=S.pOpen===k;return `<div class="pstep ${ok?"ok":""}"><button data-popen="${k}" aria-expanded="${open}"><span class="pnum">${ok?"✓":k}</span><span><b>${t}</b><br><span class="muted" style="font-size:.88rem">${d} · ${time}</span></span><span class="pill ${ok?"f":"m"}">${ok?"Hecho":"Pendiente"}</span></button>${open?`<div class="pbody">${pBody(k)}</div>`:""}</div>`}).join("")}</div>
    ${S.P.versions.length?`<div class="card stack"><h3>Cómo ha cambiado tu brújula</h3><div class="minis">${S.P.versions.slice().reverse().map(v=>`<div class="mini"><span><span class="muted" style="font-size:.8rem">${parse(v.d).toLocaleDateString("es-ES")}</span><br>${v.s}</span></div>`).join("")}</div></div>`:""}
@@ -1221,7 +1242,7 @@ function vMapa(){
     <div class="card bars">${sc.map((s,i)=>{if(s==null)return `<div class="bar area" style="--h:${AREAS[i].h}"><span>${AREAS[i].n}</span><div class="track"></div><b class="muted" style="font-size:.78rem">Sin datos</b></div>`;const d=prev&&prev[i]!=null?s-prev[i]:0;return `<div class="bar area" style="--h:${AREAS[i].h}"><span>${AREAS[i].n}</span><div class="track"><div class="fill" style="width:${s/5*100}%"></div></div><b>${fmt1(s)}${prev&&Math.abs(d)>=.3?`<small style="color:${d>0?"var(--good)":"var(--bad)"}"> ${d>0?"+":""}${fmt1(d)}</small>`:""}</b></div>`}).join("")}
      <div class="row" style="margin-top:6px"><span class="pill f">4 o más: fortaleza</span><span class="pill m">2,5 a 4: a mejorar</span><span class="pill p">menos de 2,5: prioridad</span></div>${noData.length?`<p class="muted" style="font-size:.82rem;margin-top:8px"><b>Sin datos:</b> ${noData.join(", ")}. Preferiste no responder y está bien así. Esta área no entra en tus prioridades, pero puedes explorarla cuando quieras.</p>`:""}</div></div>
    ${strong.length?`<div class="card"><p class="eyebrow">Tus fortalezas</p><h3 style="margin-top:6px">${strong.join(" · ")}</h3><p class="muted" style="margin-top:6px">Esto ya lo haces bien. Apóyate en ello para trabajar lo demás.</p></div>`:""}
-   <div><p class="eyebrow">Por dónde empezar</p><h2>Tus 3 áreas con más margen</h2></div>
+   <div><p class="eyebrow">Por dónde empezar</p><h2>Tus 3 áreas con más margen</h2><p class="muted" style="margin-top:6px">No las trabajas a la vez: haces <b>un reto por semana</b> y estas áreas se van turnando.${real&&retestIn()!=null?` Podrás repetir el test ${retestIn()>0?`dentro de ${retestIn()} días`:"ya"}; Hoy te avisará.`:""}</p></div>
    <div class="prio">${pr.map((i,n)=>{const [k,l]=status(sc[i]);return `<div class="card area stack" style="--h:${AREAS[i].h};gap:10px"><span class="eyebrow">Prioridad ${n+1}</span><h3>${AREAS[i].n}</h3><div class="row" style="justify-content:space-between"><span class="big">${fmt1(sc[i])}</span><span class="pill ${k}">${l}</span></div>
      <div class="minis">${planFor(i).map(c=>`<div class="mini"><span>${esc(c.t)}</span>${real&&!(firstTime()&&!S.active)?`<button class="btn ghost" data-open="${c.id}">Ver</button>`:""}</div>`).join("")}</div></div>`}).join("")}</div>
    <div class="row">${S.route?`<button class="btn" data-go="ruta">Ver mi ruta</button>`:""}${complete()||S.tests.length?`<button class="btn ghost" data-act="retest">Repetir el test</button>`:""}</div>
@@ -1338,29 +1359,31 @@ const FAQ=[
 ["¿Qué significan los colores del mapa?","Verde (4 o más): una fortaleza. Amarillo (de 2,5 a 4): va bien, pero se puede mejorar. Rojo (menos de 2,5): una prioridad, es decir, por dónde empezar. Un rojo no es un suspenso. Si un área sale «sin datos», es porque preferiste no responder a sus preguntas."],
 ["Me salen muchas áreas en rojo. ¿Me pasa algo?","Es más normal de lo que crees: casi todo el mundo tiene varias áreas por mejorar. Por eso la app elige solo 3 para empezar. Si te sientes mal a menudo, mira «Cuándo pedir ayuda» en la sección Ayuda."],
 ["¿Por qué solo trabajo 3 áreas?","Porque intentar cambiarlo todo a la vez es la forma más rápida de no cambiar nada. Además, mejorar en una (por ejemplo, el sueño) suele mejorar otras sin que te des cuenta."],
-["¿Puedo repetir el test?","Sí, cuando quieras, desde la pestaña Mapa. Lo ideal es al cabo de un mes: verás tu mapa anterior y el nuevo juntos y tendrás una ruta nueva."]]],
+["¿Puedo repetir el test?","Sí, cuando quieras, desde la pestaña Mapa. Lo ideal es al cabo de un mes: a los 28 días, Hoy te avisa. Verás tu mapa anterior y el nuevo juntos y tendrás una ruta nueva."]]],
 ["Retos y día a día",[
 ["¿Cómo sé en qué punto estoy?","Arriba de Hoy tienes la tarjeta «Dónde estás»: qué reto haces, en qué día vas, cuántos llevas y qué viene después. La ruta completa está en la pestaña Ruta."],
 ["¿Qué tengo que hacer cada día?","Abrir Hoy. Lo naranja es lo que toca, lo azul es opcional y lo verde ya está hecho. Normalmente es hacer tu reto y marcar cómo te ha ido: «Sí», «Un poco» o «Hoy no»."],
 ["¿Por qué solo un reto a la semana?","Un hábito pequeño que repites cambia más que diez que abandonas. Una semana es lo justo para probarlo sin agobiarte."],
 ["¿Qué es eso de «Si… entonces…»?","Es tu plan: «Si son las 22:30, entonces dejo el móvil en el salón». Decidir de antemano cuándo y dónde lo harás aumenta mucho las posibilidades de cumplirlo."],
 ["Se me olvidó marcar un día. ¿Lo he perdido?","No. En «Tus 7 días», toca el círculo de ese día y márcalo."],
-["Un día no lo he hecho. ¿Pierdo la racha?","No. Un fallo suelto no rompe la racha: solo se rompe si fallas dos días seguidos. Marca «Hoy no» con sinceridad, que también suma puntos."],
+["Un día no lo he hecho. ¿Pierdo la racha?","No. Un fallo suelto no rompe la racha. Si fallas dos días seguidos, la racha vuelve a 0, pero no pierdes puntos, ni etapa, ni el reto: en cuanto vuelvas a hacerlo, empieza a contar de nuevo. Marca «Hoy no» con sinceridad, que también suma puntos."],
 ["¿Cuándo supero un reto?","Cuando lo has hecho (o hecho «un poco») al menos 4 de los 7 días. Si ya llevas 4 el día 5 o el 6, puedes darlo por superado y seguir."],
 ["¿Y si no lo supero?","No pasa nada. Puedes repetir la semana, que suele ser lo mejor, o pasar al siguiente reto igualmente. Tú decides."],
 ["Este reto me cuesta demasiado. ¿Puedo cambiarlo?","Sí. Si marcas «Hoy no» tres días seguidos, la app te propone una versión de 2 minutos o cambiar de reto. También puedes elegir otro en Explorar."],
-["¿Puedo hacer más de un reto a la vez?","Uno principal cada vez, para no agobiarte. Cuando superas un reto, puedes seguir marcando ese hábito (hasta 2) mientras haces el siguiente."],
+["¿Puedo hacer más de un reto a la vez?","No: uno cada vez, para no agobiarte. Tus 3 áreas prioritarias se van turnando, una por semana. Cuando superas un reto, puedes seguir marcando ese hábito (hasta 2) mientras haces el siguiente."],
+["¿Qué es la versión mínima?","La forma más pequeña de tu reto, para los días difíciles. Por ejemplo, si tu reto es dejar el móvil 30 minutos antes de dormir, la versión mínima es dejarlo 10. Si la haces, marca «Un poco»: cuenta para superar el reto y mantiene tu racha."],
+["¿Cuándo paso al nivel 2?","Cada área tiene 3 retos básicos. Cuando terminas los 3 de un área (superados o saltados), se abre su nivel 2. Lo ves en la pestaña Ruta."],
 ["¿La app me avisa cada día?","No puede enviarte notificaciones. Por eso el primer día eliges una hora y pones una alarma en tu móvil llamada «Brújula»."]]],
 ["Ruta, puntos y niveles",[
 ["¿Qué es mi ruta?","El orden de tus retos, sacado de tus 3 áreas prioritarias. Tiene dos niveles: primero lo básico y después un paso más. La ves completa en la pestaña Ruta."],
-["¿Para qué sirven los puntos?","Para que veas tu esfuerzo. Sí +10 · Un poco +6 · Hoy no +2 · Plan +5 · Valorar la semana +20 · Repetir el test +25. Con los puntos subes de nivel: Arranque, En ruta, Travesía, Expedición y Cumbre."],
+["¿Para qué sirven los puntos?","Para que veas tu esfuerzo. Sí +10 · Un poco +6 · Hoy no +2 · Plan +5 · Valorar la semana +20 · Repetir el test +25. Con los puntos subes de etapa: Arranque, En ruta, Travesía, Expedición y Cumbre."],
 ["¿Hay ranking con mis compañeros?","No, y no lo habrá. Cada persona va a su ritmo. Compararse aquí no ayuda."]]],
 ["Propósito",[
-["¿Qué es la pestaña Propósito?","Siete pasos cortos para descubrir qué te importa y qué te mueve, hasta escribir tu frase de propósito. Se hace un paso por semana, sin prisa."],
+["¿Qué es la pestaña Propósito y para qué sirve?","Siete pasos cortos (uno por semana, unos 5 minutos, casi todo tocando opciones) para descubrir qué te importa, en qué eres bueno y a quién te gustaría aportar. Al final tienes tu frase de propósito, que te ayuda a elegir estudios, trabajo o planes con más criterio y da sentido a tus retos. Es opcional, pero muy recomendable."],
 ["¿Tengo que saber ya a qué me quiero dedicar?","No. Casi nadie lo sabe a tu edad. El propósito no se encuentra de golpe: se descubre probando cosas. Para eso están los experimentos."],
 ["¿Puedo cambiar mi frase?","Sí. Cada mes la app te pregunta si sigue siendo tu frase. Cambiarla es normal: significa que te conoces mejor."]]],
 ["Historias, curiosidades y extras",[
-["¿Qué es «Para aprender hoy»?","Una tarjeta opcional en Hoy. Si tu reto tiene historia, cada día lees un capítulo y decides qué hace el protagonista. El día 7 ves el final y escribes el tuyo. Si no, ves una curiosidad de tu área."],
+["¿Qué es «Para aprender hoy» y es obligatorio?","No es obligatorio. Es una tarjeta en Hoy, debajo de tu reto, que cambia cada día. Si tu reto tiene historia, lees un capítulo de un minuto y decides qué hace el protagonista; el día 7 ves el final y eliges el tuyo. Si no, ves una curiosidad de tu área. Sirve para aprender algo útil sin esfuerzo y entender mejor por qué funciona tu reto."],
 ["¿Qué son los sesgos?","Errores de pensamiento que tenemos todos, como creer solo lo que nos da la razón o pensar que todo el mundo se fija en nosotros. Conocerlos te hace más difícil de engañar. En Explorar, toca «Ver solo los sesgos»."],
 ["¿Y las ideas extra que salen en Hoy?","Son misiones opcionales: respirar un minuto, ver un vídeo, un concepto nuevo… Si te apetece, adelante. Si no, «Por hoy está bien»."],
 ["¿Cómo funciona lo del compañero de retos?","Eliges a alguien de confianza y la app te prepara un mensaje para enviárselo por WhatsApp. La app no le envía nada: lo envías tú. Los viernes te prepara otro para contarle cómo vas."]]],
