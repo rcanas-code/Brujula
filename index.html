@@ -984,13 +984,14 @@ function vRuta(){
   const node=it=>{const s=itemStatus(it),c=it.c,a=AREAS[c.a];
     const icon={ok:"✓",skip:"~",now:"●",lock:"",open:""}[s],label={ok:"Superado",skip:"Saltado",now:"En curso",lock:"Bloqueado",open:"Disponible"}[s];
     return `<div class="mini area" style="--h:${a.h};${s==="lock"?"opacity:.5":""}${s==="now"?";border:2px solid var(--c)":""}"><span style="display:flex;gap:12px;align-items:center;min-width:0"><span class="pnum" style="${s==="ok"?"background:var(--c);color:#fff":""}${s==="lock"?"":""}">${icon||`<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="${s==="lock"?"M6 11h12v9H6zM9 11V8a3 3 0 0 1 6 0v3":"M9 6l6 6-6 6"}"/></svg>`}</span><span style="min-width:0"><b>${esc(c.t)}</b><br><span class="muted" style="font-size:.85rem">${a.n} · ${label}${s==="lock"?`: se abre al terminar los 3 retos de nivel 1 de ${a.n}`:""}</span></span></span>
-     ${s==="open"&&!S.active?`<button class="btn" data-start="${c.id}">Empezar</button>`:s==="open"?`<button class="btn ghost" data-open="${c.id}">Ver</button>`:""}</div>`};
+     ${s==="open"&&!S.active?`<button class="btn" data-start="${c.id}">Empezar</button>`:s==="open"&&S.swap?`<button class="btn" data-swap="${c.id}">Cambiar a este</button>`:s==="open"?`<button class="btn ghost" data-open="${c.id}">Ver</button>`:""}</div>`};
   return `<section class="stack"><div><p class="eyebrow">Mi ruta</p><h1>Tu camino, paso a paso</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Tu ruta se basa en tus 3 áreas con más margen: ${S.route.areas.map(i=>AREAS[i].n).join(", ")}. </p></div>
+   ${S.swap&&S.active?`<div class="card stack" style="border:2px solid var(--warn)"><h3>Elige otro reto de tu ruta</h3><p class="muted">Toca «Cambiar a este» en cualquier reto disponible. El que dejas queda como saltado, con tus días marcados guardados. Si más adelante repites el test, puede volver a aparecer en tu nueva ruta.</p><button class="btn ghost" data-act="swap-no" style="width:max-content">Mejor sigo con el mío</button></div>`:""}
    ${routeHow()}
    <div class="card stack"><div class="row" style="justify-content:space-between"><b>${done} de ${items.length} pasos</b><span class="muted">Creada el ${parse(S.route.date).toLocaleDateString("es-ES")}</span></div><div class="progress"><span style="width:${done/items.length*100}%"></span></div></div>
    <div class="stack"><h2>Nivel 1 · Lo básico</h2><div class="minis">${items.filter(i=>i.lvl===1).map(node).join("")}</div></div>
    <div class="stack"><h2>Nivel 2 · Un paso más</h2><div class="minis">${items.filter(i=>i.lvl===2).map(node).join("")}</div></div>
-   <div class="card stack"><h3>¿Te apetece otro reto?</h3><p class="muted">Puedes empezar cualquier reto desde Explorar. Tu ruta te espera donde la dejaste.</p><button class="btn ghost" data-go="explorar" style="width:max-content">Ir a Explorar</button></div>
+   <div class="card stack"><h3>¿Quieres aprender más?</h3><p class="muted">En Explorar puedes leer cualquier tema, con ejemplos y vídeos, todas las veces que quieras. Los retos, en cambio, los marca tu ruta, uno cada vez: así trabajas lo que más te puede ayudar.</p><button class="btn ghost" data-go="explorar" style="width:max-content">Ir a Explorar</button></div>
    ${done===items.length?`<div class="card stack"><h3>Ruta completada</h3><button class="btn" data-act="retest" style="width:max-content">Repetir el test y crear una ruta nueva</button></div>`:""}
   </section>`;
 }
@@ -1369,7 +1370,8 @@ const FAQ=[
 ["Un día no lo he hecho. ¿Pierdo la racha?","No. Un fallo suelto no rompe la racha. Si fallas dos días seguidos, la racha vuelve a 0, pero no pierdes puntos, ni etapa, ni el reto: en cuanto vuelvas a hacerlo, empieza a contar de nuevo. Marca «Hoy no» con sinceridad, que también suma puntos."],
 ["¿Cuándo supero un reto?","Cuando lo has hecho (o hecho «un poco») al menos 4 de los 7 días. Si ya llevas 4 el día 5 o el 6, puedes darlo por superado y seguir."],
 ["¿Y si no lo supero?","No pasa nada. Puedes repetir la semana, que suele ser lo mejor, o pasar al siguiente reto igualmente. Tú decides."],
-["Este reto me cuesta demasiado. ¿Puedo cambiarlo?","Sí. Si marcas «Hoy no» tres días seguidos, la app te propone una versión de 2 minutos o cambiar de reto. También puedes elegir otro en Explorar."],
+["Este reto me cuesta demasiado. ¿Puedo cambiarlo?","Sí. Si marcas «Hoy no» tres días seguidos, la app te propone la versión mínima o cambiar a otro reto de tu ruta, sin perder lo que llevas marcado. Lo que no puedes es cambiar a cualquier reto de Explorar: tus retos los marca tu ruta, para que trabajes lo que más te ayuda."],
+["Si en Explorar veo algo que me interesa, ¿puedo hacerlo?","Puedes leerlo todo, con ejemplos y vídeos, cuando quieras. Pero no puedes convertirlo en tu reto: los retos salen de tu ruta, uno cada vez, para que trabajes tus áreas con más margen. Cuando repitas el test, tu ruta cambiará según cómo estés."],
 ["¿Puedo hacer más de un reto a la vez?","No: uno cada vez, para no agobiarte. Tus 3 áreas prioritarias se van turnando, una por semana. Cuando superas un reto, puedes seguir marcando ese hábito (hasta 2) mientras haces el siguiente."],
 ["¿Qué es la versión mínima?","La forma más pequeña de tu reto, para los días difíciles. Por ejemplo, si tu reto es dejar el móvil 30 minutos antes de dormir, la versión mínima es dejarlo 10. Si la haces, marca «Un poco»: cuenta para superar el reto y mantiene tu racha."],
 ["¿Cuándo paso al nivel 2?","Cada área tiene 3 retos básicos. Cuando terminas los 3 de un área (superados o saltados), se abre su nivel 2. Lo ves en la pestaña Ruta."],
@@ -1410,7 +1412,7 @@ function openConcept(id){
   dlg.innerHTML=`<div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="ev ${c.e}">${EV[c.e]}</span></div>
    <h2>${esc(c.t)}</h2><div><h4>Qué es</h4><p>${esc(c.q)}</p></div><p class="challenge">Reto de la semana: ${esc(c.h)}</p>${exOf(c.id)?`<div><h4>Un ejemplo</h4><p>${esc(exOf(c.id)[0])}</p></div><div><h4>Un plan que puedes copiar</h4><p>${esc(exOf(c.id)[1])}</p></div><div><h4>Si un día cuesta</h4><p>${esc(exOf(c.id)[2])}</p></div>`:""}
    <div><h4>Para aprender más</h4><div class="links">${c.r[1]?`<a href="${c.r[1]}" target="_blank" rel="noopener">${esc(c.r[0])}</a>`:`<span>${esc(c.r[0])}</span>`}</div><p class="muted" style="margin-top:6px">Para profundizar: ${esc(c.p)}</p></div>
-   <div class="row" style="justify-content:flex-end">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<button class="btn" data-start="${c.id}">${S.active?"Cambiar a este reto":"Empezar este reto"}</button>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
+   <div class="row" style="justify-content:flex-end">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${routeItems().some(it=>it.c.id===c.id)?"Está en tu ruta: te llegará en su momento.":"Para aprender. Tus retos los marca tu ruta, uno cada vez."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
   try{dlg.showModal()}catch(e){dlg.setAttribute("open","")}
 }
 function render(){
@@ -1425,6 +1427,7 @@ document.addEventListener("click",e=>{
   const dl=document.getElementById("dlg");
   if(d.go){if(dl.open)dl.close();go(d.go);return}
   if(d.ans){const [q,x]=d.ans.split(":").map(Number);S.answers[q]=x;save();render();return}
+  if(d.swap){if(dl.open)dl.close();finishReto("skip");S.swap=false;S.more=false;startReto(d.swap);return}
   if(d.start){if(dl.open)dl.close();S.more=false;startReto(d.start);return}
   if(d.log){const k=today();S.active.log[k]=S.active.log[k]===d.log?undefined:d.log;if(!S.active.log[k])delete S.active.log[k];save();if(S.active.log[k])toast(d.log==="si"?"+10 · ¡Bien!":d.log==="poco"?"+6 · Algo es algo":"+2 · Mañana más");render();return}
   if(d.dot){const order=[undefined,"si","poco","no"],cur=S.active.log[d.dot],nx=order[(order.indexOf(cur)+1)%4];if(nx)S.active.log[d.dot]=nx;else delete S.active.log[d.dot];save();render();return}
@@ -1486,7 +1489,8 @@ document.addEventListener("click",e=>{
   else if(act==="r-keep"){S.rescued=true;render()}
   else if(act==="r-restart"){S.active.start=today();S.active.log={};S.active.rating=null;S.rescued=true;save();toast("Semana reiniciada. ¡A por ello!");render()}
   else if(act==="r-mini"){S.rescued=true;toast("Hoy basta con 2 minutos: empieza y para cuando quieras");render()}
-  else if(act==="r-change"){S.rescued=true;go("ruta")}
+  else if(act==="r-change"){S.rescued=true;S.swap=true;go("ruta")}
+  else if(act==="swap-no"){S.swap=false;go("hoy")}
   else if(act==="sto-go"){S.stoLast=null;render()}
   else if(act==="learn-open"){S.learnOpen=true;S.stoLast=null;render();const el=document.getElementById("learn");if(el)el.scrollIntoView({behavior:"smooth",block:"start"})}
   else if(act==="myend"){const v=document.getElementById("myend").value.trim();if(!v){toast("Escribe tu final");return}S.active.myEnd=v;save();toast("Guardado. Ese es tu final.");render()}
