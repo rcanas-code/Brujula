@@ -291,6 +291,7 @@ details.fold .fi{margin-right:8px}
 .wave{display:inline-block;font-size:1.3em;transform-origin:70% 70%;animation:wave 1.6s ease-in-out 2}
 @keyframes wave{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(16deg)}20%,40%{transform:rotate(-8deg)}}
 @media (prefers-reduced-motion:reduce){.wave{animation:none}}
+.backbar{position:sticky;top:8px;z-index:20;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;padding:8px 16px;border-radius:999px;border:2px solid var(--brand);background:var(--surface);color:var(--brand);font:inherit;font-weight:800;font-size:.9rem;cursor:pointer;box-shadow:0 2px 8px rgb(0 0 0/.12)}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1221,7 +1222,8 @@ function vMas(){
 /* ---------- navegación ---------- */
 const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["ruta","Ruta","M5 19c4 0 4-7 8-7s4-7 8-7M5 19a2 2 0 1 0 0 .1M19 5a2 2 0 1 0 0 .1"],["proposito","Propósito","M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 9l-2 5-4 1 2-5z"],["mapa","Mapa","M12 3l8 5v8l-8 5-8-5V8z"],["explorar","Explorar","M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"],["mas","Más","M5 12h.01M12 12h.01M19 12h.01"]];
 function renderNav(){const pend=S.active&&(()=>{try{return todayItems().some(x=>x.st==="todo")}catch(e){return false}})();document.getElementById("nav").innerHTML=NAV.map(([k,l,p])=>`<button data-go="${k}" class="${S.tour!=null&&TOUR[S.tour][0]===k?"tourhl":""}" aria-current="${S.view===k&&!S.testing}">${k==="hoy"&&pend&&S.view!=="hoy"?'<span class="dot" aria-label="Tienes algo pendiente hoy"></span>':""}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>${l}</button>`).join("")}
-function go(v){S.view=v;S.testing=false;render();window.scrollTo({top:0})}
+const VNAME={hoy:"Hoy",ruta:"Ruta",proposito:"Propósito",mapa:"Mapa",explorar:"Explorar",mas:"Más",dinero:"Dinero",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
+function go(v,fromNav){if(fromNav||S.tour!=null)S.back=null;else if(v!==S.view&&!S.testing)S.back={v:S.view,y:window.scrollY};S.view=v;S.testing=false;render();window.scrollTo({top:0})}
 
 /* ---------- vistas ---------- */
 function compass(){return `<svg class="hero-art" viewBox="0 0 300 300" aria-hidden="true">${AREAS.map((a,i)=>{const ang=i/NA*Math.PI*2-Math.PI/2,r=120,x=150+Math.cos(ang)*r,y=150+Math.sin(ang)*r;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="16" fill="hsl(${a.h} var(--as) var(--al))"/>`}).join("")}<circle cx="150" cy="150" r="84" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/><path d="M150 82 L166 150 L150 218 L134 150Z" fill="var(--accent)"/><path d="M150 150 L166 150 L150 218 L134 150Z" fill="var(--ink)"/><circle cx="150" cy="150" r="6" fill="var(--surface)"/></svg>`}
@@ -1757,7 +1759,7 @@ function openConcept(id){
 function render(){
   renderNav();
   const v={hoy:vHoy,ruta:vRuta,mas:vMas,proposito:vProposito,mapa:vMapa,explorar:vExplorar,dinero:vDinero,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
-  document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
+  document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${S.back&&S.back.v!==S.view&&!S.testing?`<button class="backbar" data-act="goback">← Volver a ${VNAME[S.back.v]||"atrás"}</button>`:""}${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
   if(S.view==="dudas"&&S.faqQ)faqFilter();
   const tb=document.getElementById("tourbox");if(tb)tb.innerHTML=tourBar();
   try{const hb=document.querySelector(".helpbtn");if(hb)hb.classList.toggle("tourhl",S.tour!=null&&TOUR[S.tour][0]==="ayuda")}catch(e){}
@@ -1766,7 +1768,7 @@ function render(){
 document.addEventListener("click",e=>{
   const t=e.target.closest("button,[data-go]");if(!t||t.disabled)return;const d=t.dataset;
   const dl=document.getElementById("dlg");
-  if(d.go){if(dl.open)dl.close();e.preventDefault();const [v,h]=d.go.split("#");go(v);if(h)setTimeout(()=>{const el=document.getElementById(h);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},60);return}
+  if(d.go){if(dl.open)dl.close();e.preventDefault();const [v,h]=d.go.split("#");go(v,!!t.closest("#nav"));if(h)setTimeout(()=>{const el=document.getElementById(h);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},60);return}
   if(d.ans){const [q,x]=d.ans.split(":").map(Number);const now=Date.now(),dt=now-(S.lastAns||S.pageAt||0),fast=S.answers[q]===undefined&&dt<1500;S.lastAns=now;if(diagHit("test",fast)){S.diag="test";toast("No leas en diagonal: lee cada frase entera")}else if(!fast&&S.diag==="test")S.diag=null;S.answers[q]=x;save();render();return}
   if(d.swap){if(dl.open)dl.close();finishReto("skip");S.swap=false;S.more=false;startReto(d.swap);return}
   if(d.start){if(dl.open)dl.close();S.more=false;startReto(d.start);return}
@@ -1859,6 +1861,7 @@ document.addEventListener("click",e=>{
   else if(act==="rep-copy"||act==="rep-mail"){const tx=repText(),ta=document.getElementById("reptxt");S.rep=Object.assign(S.rep||{},{t:ta?ta.value:""});if(!(ta&&ta.value.trim())){toast("Escribe en una frase qué ha pasado");return}
     if(act==="rep-mail"){location.href="mailto:"+REPORT_TO+"?subject="+encodeURIComponent("Error en Brújula: "+(S.rep.w||""))+"&body="+encodeURIComponent(tx+"\n\n(Adjunta aquí tu captura)");return}
     try{navigator.clipboard.writeText(tx).then(()=>toast("Copiado. Pégalo en un mensaje a tu profe y adjunta la captura"),()=>toast("No se ha podido copiar. Haz una captura de esta pantalla."))}catch(e){toast("No se ha podido copiar. Haz una captura de esta pantalla.")}}
+  else if(act==="goback"){const b=S.back;S.back=null;if(!b)return;S.view=b.v;S.testing=false;render();setTimeout(()=>window.scrollTo({top:b.y}),30)}
   else if(act==="more-quiz"){const c=S.active&&CI[S.active.id],rn=routeNext(),ai=c?c.a:(rn?rn.c.a:null);S.exMode="quiz";if(ai!=null)qzStart(AREAS[ai].k);else S.qz=null;go("explorar")}
   else if(act==="more-area"){const a=S.active&&CI[S.active.id];S.exMode="conceptos";S.exArea=a?a.a:null;S.exMyth=false;S.exQ="";go("explorar")}
   else if(act==="more-name"){S.exMode="nombre";S.exQ="";go("explorar")}
