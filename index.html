@@ -148,7 +148,7 @@ button.chip[aria-pressed="true"]{background:var(--cb);border-color:var(--c)}
 .feel .name{font-weight:800;color:var(--c)}
 
 /* Dialog */
-dialog{border:0;border-radius:22px;padding:0;max-width:560px;width:calc(100% - 32px);background:var(--surface);color:var(--ink)}
+dialog{border:0;border-radius:22px;padding:0;max-height:88vh;overflow:auto;overscroll-behavior:contain;max-width:560px;width:calc(100% - 32px);background:var(--surface);color:var(--ink)}
 dialog::backdrop{background:rgb(10 20 30 / .55)}
 .dlg{padding:24px;display:flex;flex-direction:column;gap:14px;border-top:8px solid var(--c)}
 .dlg h4{margin:0;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -319,6 +319,7 @@ details.fold .fi{margin-right:8px}
 .fchip.all{background:var(--warn);color:#fff}
 .fbn{flex-basis:100%;margin:2px 0 0;font-size:.78rem;color:var(--muted)}
 .chip.chipon{background:#6B4BB8;color:#fff;border-color:#6B4BB8}
+dialog h2:focus{outline:none}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1319,7 +1320,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013174523";
+const APP_V="20261013174904";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1808,6 +1809,7 @@ function openConcept(id){
    ${!resList(c).includes("p")?"":`<div><h4>Para profundizar</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${pType(c.p)[0]}</span> ${pType(c.p)[2]}</p>${PLINK[c.p]?`<div class="links"><a href="${PLINK[c.p]}" target="_blank" rel="noopener">${esc(pType(c.p)[1])} (YouTube)</a></div>`:`<p><b>${esc(pType(c.p)[1])}</b></p>`}${seenBtn(c,"p")}${BOOKLINK[pType(c.p)[1]]?`<p class="muted" style="font-size:.85rem;margin:8px 0 4px">Para empezar sin el libro, lee esto de su web:</p><div class="links"><a href="${BOOKLINK[pType(c.p)[1]][1]}" target="_blank" rel="noopener">${esc(BOOKLINK[pType(c.p)[1]][0])}</a></div>${seenBtn(c,"b")}`:""}</div>`}
    <div class="row" style="justify-content:flex-end">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${routeItems().some(it=>it.c.id===c.id)?"Está en tu ruta: te llegará en su momento.":"Para aprender. Tus retos los marca tu ruta, uno cada vez."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
   try{dlg.showModal()}catch(e){dlg.setAttribute("open","")}
+  const top=()=>{dlg.scrollTop=0;const h=dlg.querySelector("h2");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}};top();requestAnimationFrame(top);setTimeout(top,60)
 }
 function render(){
   renderNav();
