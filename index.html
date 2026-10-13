@@ -251,7 +251,8 @@ details.card summary::-webkit-details-marker{display:none}
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
 .bdg{border-radius:16px;padding:14px 10px;text-align:center;background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.85rem;font-weight:700}
 .bdg svg{width:40px;height:40px}
-.bdg.off{opacity:.38;filter:grayscale(1)}
+.bdg.off{background:var(--bg);border-style:dashed}
+.bdg.off svg{opacity:.45}
 .share{background:var(--surface-2);border-radius:12px;padding:12px;font-weight:600;user-select:all}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;z-index:30}
 .minis{display:flex;flex-direction:column;gap:8px}
@@ -853,19 +854,20 @@ const ICON={
  loop:'<path d="M4 12a8 8 0 0 1 14-5l2-2v6h-6l2-2a5 5 0 1 0 1 6"/>'};
 const svg=(k,c)=>`<svg viewBox="0 0 24 24" fill="none" stroke="${c||"currentColor"}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
 function badges(){const logs=allLogs(),areasDone=new Set(S.history.filter(h=>h.finished).map(h=>CI[h.id]?.a)),st=streak();
- return [
-  ["step","Primer paso","Tu primer registro",logs.length>0],
-  ["plan","Con plan","Escribe tu «si..., entonces...»",S.history.some(h=>h.plan)||!!(S.active&&S.active.plan)],
-  ["heart","Sinceridad","Registra un día que no salió",logs.some(([,v])=>v==="no")],
-  ["week","Semana completa","Termina tu primer reto",S.history.some(h=>h.finished)],
-  ["fire","Racha de 7","7 días sin fallar dos seguidos",st>=7],
-  ["fire","Racha de 21","21 días seguidos",st>=21],
-  ["map","Tres frentes","Retos en 3 áreas distintas",areasDone.size>=3],
-  ["loop","Segunda vuelta","Repite el test",S.tests.length>=2],
-  ["star","Nivel 2","Desbloquea el nivel 2 de un área",S.route?S.route.areas.some(i=>planFor(i).every(c=>passedIds().has(c.id))):false],
-  ["map","Brújula propia","Escribe tu frase de propósito",!!S.P.done[7]],
-  ["step","Explorador","Haz tus 3 experimentos",S.P.exp.every(x=>x.d)],
-  ["star","Cumbre","Llega a 900 puntos",points()>=900]]}
+  const lv2=S.route?Math.max(0,...S.route.areas.map(i=>planFor(i).filter(c=>passedIds().has(c.id)).length)):0,nexp=S.P.exp.filter(x=>x.d).length,pt=points(),dn=S.active?Math.min(dayN(),7):0;
+  return [
+  ["step","Primer paso","Marca tu reto en Hoy por primera vez: «Sí», «Un poco» u «Hoy no».",logs.length>0,null,"hoy"],
+  ["plan","Con plan","El día 1 de un reto, guarda tu plan «Si…, entonces…» en Hoy.",S.history.some(h=>h.plan)||!!(S.active&&S.active.plan),null,"hoy"],
+  ["heart","Sinceridad","Un día que no hagas tu reto, márcalo con «Hoy no». Ser sincero también cuenta.",logs.some(([,v])=>v==="no"),null,"hoy"],
+  ["week","Semana completa","Llega al día 7 de tu reto y valora la semana.",S.history.some(h=>h.finished),[dn,7],"hoy"],
+  ["fire","Racha de 7","Haz tu reto 7 días sin fallar dos seguidos.",st>=7,[Math.min(st,7),7],"hoy"],
+  ["fire","Racha de 21","Llega a 21 días de racha.",st>=21,[Math.min(st,21),21],"hoy"],
+  ["map","Tres frentes","Termina retos de 3 áreas distintas. Tu ruta te las irá trayendo.",areasDone.size>=3,[Math.min(areasDone.size,3),3],"ruta"],
+  ["loop","Segunda vuelta","Repite el test. Hoy te avisará cuando pase un mes.",S.tests.length>=2,null,"mapa"],
+  ["star","Nivel 2","Supera los 3 retos de nivel 1 de un área.",lv2>=3,[Math.min(lv2,3),3],"ruta"],
+  ["map","Brújula propia","Completa los 7 pasos de Propósito y escribe tu frase.",!!S.P.done[7],[pCount(),7],"proposito"],
+  ["step","Explorador","Haz los 3 experimentos de la pestaña Propósito.",S.P.exp.every(x=>x.d),[nexp,3],"proposito"],
+  ["star","Cumbre","Llega a 900 puntos.",pt>=900,[Math.min(pt,900),900],"hoy"]]}
 
 /* ---------- reto activo ---------- */
 function startReto(id){S.active={id,start:today(),plan:"",log:{},rating:null};save();toast("Reto empezado. ¡A por el día 1!");go("hoy")}
@@ -1259,7 +1261,11 @@ function vHoy(){
    ${groupCards()}
    ${missionCard()}
    ${shareTxt?`<div class="card stack"><p class="eyebrow">Compartir mi logro</p><p class="share" id="sharetxt">${esc(shareTxt)}</p><button class="btn ghost" data-act="copy" style="width:max-content">Copiar para pegarlo en el grupo</button></div>`:""}
-   ${(()=>{const B=badges();return `<details class="card"><summary>Tus logros · ${B.filter(b=>b[3]).length} de ${B.length}</summary><div class="badges" style="margin-top:12px">${B.map(([ic,n,d,on])=>`<div class="bdg ${on?"":"off"}">${svg(ic,on?"var(--accent)":"var(--muted)")}<span>${n}</span><span class="muted" style="font-weight:600;font-size:.75rem">${d}</span></div>`).join("")}</div></details>`})()}
+   ${(()=>{const B=badges(),got=B.filter(b=>b[3]).length,nx=(()=>{const L=B.filter(b=>!b[3]&&b[1]!=="Sinceridad");return L.filter(b=>b[4]).sort((x,y)=>y[4][0]/y[4][1]-x[4][0]/x[4][1])[0]||L[0]||B.find(b=>!b[3])})(),GN={hoy:"Hoy",ruta:"Ruta",mapa:"Mapa",proposito:"Propósito"},bar=pr=>pr?`<div class="progress" style="height:6px;width:100%"><span style="width:${Math.round(pr[0]/pr[1]*100)}%"></span></div><span class="muted" style="font-size:.72rem">${pr[0]} de ${pr[1]}</span>`:"";
+     return `<details class="card"><summary>Tus logros · ${got} de ${B.length}<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Medallas que ganas al usar la app. Toca para ver cómo conseguir las que te faltan.</span></summary><div class="stack" style="margin-top:12px">
+      <p class="muted" style="font-size:.88rem">Cada logro se consigue haciendo algo concreto en la app. Se desbloquean solos: no tienes que reclamarlos. Son solo para ti y no cuentan para superar tu reto.</p>
+      ${nx?`<div class="guide"><p class="eyebrow">Tu siguiente logro</p><p><b>${nx[1]}</b>: ${nx[2]}</p>${nx[4]?bar(nx[4]):""}<button class="btn ghost" data-go="${nx[5]}" style="width:max-content;padding:6px 14px;margin-top:6px">Ir a ${GN[nx[5]]}</button></div>`:`<div class="guide"><p><b>¡Los tienes todos!</b> Enhorabuena.</p></div>`}
+      <div class="badges">${B.map(([ic,n,d,on,pr])=>`<div class="bdg ${on?"":"off"}">${svg(ic,on?"var(--accent)":"var(--muted)")}<span>${n}</span>${on?`<span style="color:var(--good);font-size:.75rem">✓ Conseguido</span>`:`<span class="muted" style="font-weight:600;font-size:.75rem">${d}</span>${bar(pr)}`}</div>`).join("")}</div></div></details>`})()}
    ${endCard()}
    <p class="muted" style="font-size:.85rem">Retos completados: ${S.history.filter(h=>h.finished).length}. Un reto se supera haciéndolo al menos 4 de los 7 días. Puntos: Sí +10 · Un poco +6 · Hoy no +2 · Plan +5 · Revisar la semana +20 · Repetir el test +25.</p>
   </section>`;
