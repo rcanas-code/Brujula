@@ -339,6 +339,13 @@ dialog h2:focus{outline:none}
 .rleg span{display:inline-flex;align-items:center;gap:5px}.rleg i{width:10px;height:10px;border-radius:50%;display:inline-block}
 :root[data-theme="dark"] .rarea{background:hsl(var(--h) 30% 22%);color:hsl(var(--h) 60% 80%)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .rarea{background:hsl(var(--h) 30% 22%);color:hsl(var(--h) 60% 80%)}}
+.thinks{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.think{display:flex;flex-direction:column;gap:4px;text-align:left;background:#FBF3DC;border:1.5px solid #E2C46A;border-left:5px solid #B8860B;border-radius:14px;padding:10px 12px;font:inherit;color:var(--ink);cursor:pointer}
+.think .tq{font-family:var(--display);font-weight:800;font-size:.92rem;line-height:1.25}
+.think .tt{font-size:.76rem;color:var(--muted);font-weight:700}
+.think .tf{font-size:.74rem;font-weight:800;color:#8A6508;margin-top:auto}
+:root[data-theme="dark"] .think{background:var(--surface)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .think{background:var(--surface)}}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1345,7 +1352,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013175246";
+const APP_V="20261013175620";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1382,7 +1389,7 @@ function wayCard(){if(!S.route)return "";const items=routeItems(),N=items.length
 function slim(html){const m=html.match(/<h[23][^>]*>([\s\S]*?)<\/h[23]>/)||html.match(/<p class="eyebrow"[^>]*>([\s\S]*?)<\/p>/);const t=m?m[1].replace(/<[^>]+>/g,""):"Aviso";
   return `<details class="notice"><summary><span class="ndot"></span><span class="nt">${t}</span><span class="nopen">Abrir</span></summary><div class="ninner">${html}</div></details>`}
 const uiGet=(k,d)=>{try{const v=localStorage.getItem("brujula:ui:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},uiSet=(k,v)=>{try{localStorage.setItem("brujula:ui:"+k,JSON.stringify(v))}catch(e){}};
-document.addEventListener("toggle",e=>{const id=e.target&&e.target.id;if(id==="moodbox")uiSet("moodOpen",e.target.open);if(id==="moodmore")uiSet("moodMore",e.target.open);if(id==="rutal2")uiSet("rutaL2",e.target.open)},true);
+document.addEventListener("toggle",e=>{const id=e.target&&e.target.id;if(id==="moodbox")uiSet("moodOpen",e.target.open);if(id==="moodmore")uiSet("moodMore",e.target.open);if(id==="rutal2")uiSet("rutaL2",e.target.open);if(id==="pthink")uiSet("pThink",e.target.open)},true);
 const MOODS=[
  ["contento","😊","Contento","Qué bien. Fíjate en qué lo ha hecho bueno: así es más fácil repetirlo.","Escribe en una línea qué ha hecho bueno tu día.","PEN-09"],
  ["tranquilo","😌","Tranquilo","Buen momento: con calma se piensa mejor y se recarga.","Dedica 10 minutos a algo que eliges tú, sin móvil.","EST-05"],
@@ -1575,7 +1582,8 @@ function vProposito(){
    ${northCard(false)}
    <div class="psteps">${steps.map(([k,t,d,time])=>{const ok=!!S.P.done[k],open=S.pOpen===k;return `<div class="pstep ${ok?"ok":""}"><button data-popen="${k}" aria-expanded="${open}"><span class="pnum">${ok?"✓":k}</span><span><b>${t}</b><br><span class="muted" style="font-size:.88rem">${d} · ${time}</span></span><span class="pill ${ok?"f":"m"}">${ok?"Hecho":"Pendiente"}</span></button>${open?`<div class="pbody">${pBody(k)}</div>`:""}</div>`}).join("")}</div>
    ${S.P.versions.length?`<div class="card stack"><h3>Cómo ha cambiado tu brújula</h3><div class="minis">${S.P.versions.slice().reverse().map(v=>`<div class="mini"><span><span class="muted" style="font-size:.8rem">${parse(v.d).toLocaleDateString("es-ES")}</span><br>${v.s}</span></div>`).join("")}</div></div>`:""}
-   <div class="card stack"><h3>Para seguir pensando</h3><div class="minis">${["VAL-07","VAL-08","VAL-02","VAL-10","VAL-09","VAL-06"].map(id=>{const c=CI[id];return `<button class="mini" data-open="${id}" style="text-align:left;font:inherit;color:inherit;cursor:pointer"><span><b>${esc(c.t)}</b><br><span class="muted" style="font-size:.88rem">${esc(c.q)}</span></span></button>`}).join("")}</div></div>
+   <details class="card fold" id="pthink" style="--fc:#B8860B" ${uiGet("pThink",true)?"open":""}><summary>Para seguir pensando <span class="muted" style="font-weight:600">· 7 ideas</span></summary><p class="muted" style="font-size:.86rem;margin:8px 0 10px">Preguntas cortas para darle vueltas a tu propósito. Toca una para leer la idea completa, con un ejemplo y un vídeo.</p>
+    <div class="thinks">${[["VAL-11","¿Para qué haces lo que haces?"],["VAL-07","¿Qué podrías probar este mes?"],["VAL-08","¿Qué harías si no te diera vergüenza?"],["VAL-02","¿Qué le da sentido a tu semana?"],["VAL-09","¿Qué te mueve: sentirte seguro, conectado o crecer?"],["VAL-10","¿Qué te está enseñando un problema que tienes?"],["VAL-06","¿La pasión llega antes o después?"]].map(([id,qq])=>{const c=CI[id],n=resList(c).length,sn=seenN(c);return `<button class="think" data-open="${id}"><span class="tq">${qq}</span><span class="tt">${esc(c.t)}</span><span class="tf">${sn?`✓ ${sn} de ${n} vistos`:"Leer →"}</span></button>`}).join("")}</div></details>
   </section>`;
 }
 function mapHistory(sc,fd){const T=S.tests;
