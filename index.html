@@ -312,6 +312,13 @@ details.fold .fi{margin-right:8px}
 .sesgotag{display:inline-block;width:max-content;font-size:.72rem;font-weight:800;color:#6B4BB8;background:#EFE8FB;border-radius:999px;padding:2px 10px}
 :root[data-theme="dark"] .cic{background:hsl(var(--h) 30% 22%)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cic{background:hsl(var(--h) 30% 22%)}}
+.filterbar{position:sticky;top:6px;z-index:15;display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--warn-bg);border:2px solid var(--warn);border-radius:16px;padding:10px 12px;box-shadow:0 3px 10px rgb(0 0 0/.1)}
+.filterbar .fbl{font-weight:800;font-size:.85rem}
+.fchip{border:2px solid var(--warn);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 10px;font:inherit;font-weight:800;font-size:.82rem;cursor:pointer}
+.fchip b{color:var(--bad);margin-left:2px}
+.fchip.all{background:var(--warn);color:#fff}
+.fbn{flex-basis:100%;margin:2px 0 0;font-size:.78rem;color:var(--muted)}
+.chip.chipon{background:#6B4BB8;color:#fff;border-color:#6B4BB8}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -1312,7 +1319,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013174117";
+const APP_V="20261013174523";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1607,7 +1614,7 @@ function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   const head=`<div class="stack"><div><p class="eyebrow">Explorar</p><h1>Aprende lo que nadie te explica</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Entra cuando te pase algo y quieras saber cómo se llama (Ponle nombre) o cuando te pique la curiosidad (Conceptos). No cuenta para tu reto.</p></div>
    <div class="row"><div class="seg exseg"><button data-mode="conceptos" aria-pressed="${S.exMode==="conceptos"}">📚 Conceptos</button><button data-mode="nombre" aria-pressed="${S.exMode==="nombre"}">🏷️ Ponle nombre</button><button data-mode="quiz" aria-pressed="${S.exMode==="quiz"}">✓ ¿Cuánto sé?</button></div></div>
-   ${S.exMode==="quiz"?"":`<input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca: hábitos, ansiedad, invertir, bulos..."}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"?"":`<div class="chips">${[["sesgo","🧩 Ver solo los sesgos"]].map(([q,l])=>`<button class="chip" data-exq="${q}" aria-pressed="${S.exQ===q}">${l}</button>`).join("")}</div>`}`}</div>`;
+   ${S.exMode==="quiz"?"":`<input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca: hábitos, ansiedad, invertir, bulos..."}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"?"":`<div class="chips">${[["sesgo","🧩 Ver solo los sesgos"]].map(([q,l])=>`<button class="chip${S.exQ===q?" chipon":""}" data-exq="${q}" aria-pressed="${S.exQ===q}">${S.exQ===q?"🧩 Viendo solo sesgos ✕":l}</button>`).join("")}</div>`}`}</div>`;
   if(S.exMode==="quiz")return `<section class="stack">${S.qz?`<p class="eyebrow">Explorar · ¿Cuánto sé?</p>`:head}${qzView()}</section>`;
   if(S.exMode==="nombre"){
     const list=FEEL.filter(f=>!q||(f[0]+f[1]).toLowerCase().includes(q));
@@ -1622,6 +1629,7 @@ function vExplorar(){
    <div class="chips"><button class="chip" data-area="all" aria-pressed="${S.exArea===null&&!S.exMyth}">Todo</button>${AREAS.map((a,i)=>`<button class="chip area" style="--h:${a.h}" data-area="${i}" aria-pressed="${S.exArea===i}">${AICON[a.k]} ${a.n}</button>`).join("")}<button class="chip area" style="--h:5" data-myth="1" aria-pressed="${S.exMyth}">⚠️ Solo mitos</button></div>
    ${q==="sesgo"?`<div class="guide"><p class="eyebrow">¿Qué es un sesgo?</p><p>Un <b>sesgo</b> es un atajo que toma tu cerebro para decidir rápido. Casi siempre te ayuda, pero a veces te engaña de forma predecible: te hace creer lo que te da la razón, comprar porque «está rebajado» o pensar que a ti no te va a pasar. Todos los tenemos, también la gente lista. Conocerlos por su nombre te hace más difícil de engañar.</p><p class="muted" style="font-size:.88rem">Aquí tienes todos los sesgos de la app, de todas las áreas. Toca uno para ver un ejemplo y un reto.</p></div>`:""}
    ${!list.length?`<div class="card stack"><p><b>No hay nada con este filtro.</b></p><p class="muted">Toca «Todo» (o quita el área elegida) y vuelve a probar.</p><button class="btn ghost" data-area="all" style="width:max-content">Ver todo</button></div>`:""}
+   ${(()=>{const F=[];if(S.exQ)F.push([S.exQ==="sesgo"?"🧩 Solo sesgos":`🔍 «${esc(S.exQ)}»`,"q"]);if(S.exArea!==null)F.push([`${AICON[AREAS[S.exArea].k]} ${AREAS[S.exArea].n}`,"area"]);if(S.exMyth)F.push(["⚠️ Solo mitos","myth"]);return F.length?`<div class="filterbar"><span class="fbl">Estás viendo:</span>${F.map(([l,k])=>`<button class="fchip" data-clr="${k}">${l} <b>✕</b></button>`).join("")}${F.length>1?`<button class="fchip all" data-clr="all">Quitar todo</button>`:""}<p class="fbn">${F.length>1?"Se combinan: solo ves lo que cumple todos a la vez. ":""}Toca ✕ para quitar un filtro o «Todo» para verlo todo.</p></div>`:""})()}
    ${(()=>{const tot=list.reduce((a,c)=>a+resList(c).length,0),sn=list.reduce((a,c)=>a+seenN(c),0);return `<div class="card row" style="justify-content:space-between;padding:12px 16px"><span><b>${list.length} conceptos</b> · Recursos vistos o leídos: <b>${sn} de ${tot}</b></span><span class="muted" style="font-size:.82rem">Márcalos dentro de cada concepto</span></div><div class="lvl" style="margin-top:-8px"><span style="width:${tot?sn/tot*100:0}%"></span></div>`})()}
    ${grouped?[0,1,2].map(t=>{const L=list.filter(c=>tier(c)===t);return L.length?`<div class="stack" style="gap:10px"><h2 style="font-size:1.15rem">${TN[t]}</h2><div class="cards">${L.map(card).join("")}</div></div>`:""}).join(""):`<p class="muted" style="font-size:.85rem;margin-top:-6px">Ordenados de lo más básico a lo más avanzado dentro de cada área.</p><div class="cards">${list.map(card).join("")}</div>`}
   </section>`;
@@ -1860,12 +1868,13 @@ document.addEventListener("click",e=>{
   if(d.mood){const t=today(),was=S.mood[t];S.mood[t]=d.mood;save();if(!was)toast("+2 · Gracias por mirarte por dentro");render();return}
   if(d.settime){const el=document.getElementById("atime");if(el)el.value=d.settime;return}
   if(d.repwhere){S.repOpen=true;const ta=document.getElementById("reptxt");S.rep=Object.assign(S.rep||{},{w:d.repwhere,t:ta?ta.value:""});render();return}
+  if(d.clr){if(d.clr==="q")S.exQ="";if(d.clr==="area")S.exArea=null;if(d.clr==="myth")S.exMyth=false;if(d.clr==="all"){S.exQ="";S.exArea=null;S.exMyth=false}render();return}
   if(d.mode){S.exMode=d.mode;S.exQ="";render();return}
   if(d.qz){qzStart(d.qz);render();window.scrollTo({top:0});return}
   if(d.qg!==undefined){S.qz.guess=+d.qg;S.qz.t0=Date.now();render();return}
   if(d.qa!==undefined){const Z=S.qz,now=Date.now(),fast=now-(Z.t0||now)<2500;Z.t0=now;if(diagHit("quiz",fast))Z.diag=1;else if(!fast)Z.diag=0;Z.ans[Z.step]=+d.qa;Z.step++;if(Z.step===10){const ok=Z.ans.filter(x=>x===0).length,r=S.quizR[Z.k]||{best:0,n:0};S.quizR[Z.k]={last:ok,best:Math.max(r.best,ok),n:r.n+1,date:today()};store.set("quiz",S.quizR);toast(ok+" de 10")}render();window.scrollTo({top:0});return}
   if(d.qx){if(d.qx==="back"){S.qz.step--;S.qz.ans.pop();S.qz.t0=Date.now()}else S.qz=null;render();window.scrollTo({top:0});return}
-  if(d.area){if(d.area==="all"){S.exArea=null;S.exMyth=false}else{S.exArea=S.exArea===+d.area?null:+d.area;S.exMyth=false}render();return}
+  if(d.area){if(d.area==="all"){S.exArea=null;S.exMyth=false;S.exQ=""}else{S.exArea=S.exArea===+d.area?null:+d.area;S.exMyth=false}render();return}
   if(d.myth){S.exMyth=!S.exMyth;S.exArea=null;render();return}
   const act=d.act;
   if(act==="start"){const un=document.getElementById("uname");if(un&&typeof un.value==="string"&&un.value.trim()){S.name=un.value.trim().slice(0,30);store.set("name",S.name)}S.testing=true;const first=[...Array(NA).keys()].find(i=>[0,1,2].some(j=>S.answers[i*3+j]===undefined));S.step=first===undefined?0:first;render();window.scrollTo({top:0})}
