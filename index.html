@@ -306,6 +306,12 @@ details.fold .fi{margin-right:8px}
 .mastile.wide{width:100%}
 :root[data-theme="dark"] .mastile{background:var(--surface)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mastile{background:var(--surface)}}
+.cch{display:flex;align-items:center;gap:12px}
+.cic{flex:none;width:42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:1.35rem;background:hsl(var(--h) 70% 92%);border:2px solid hsl(var(--h) 55% 55%)}
+.cic.big{width:52px;height:52px;font-size:1.7rem}
+.sesgotag{display:inline-block;width:max-content;font-size:.72rem;font-weight:800;color:#6B4BB8;background:#EFE8FB;border-radius:999px;padding:2px 10px}
+:root[data-theme="dark"] .cic{background:hsl(var(--h) 30% 22%)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .cic{background:hsl(var(--h) 30% 22%)}}
 .optpill{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--opt);border:1.5px solid var(--opt);border-radius:999px;padding:1px 8px;margin-bottom:3px}
 .todo.later .ic{border:3px dashed var(--line)}
 .todo.done b{text-decoration:line-through;color:var(--muted)}
@@ -371,6 +377,8 @@ const AREAS=[
  ["PEN","Autoestima y cómo te hablas",265],["HAB","Hábitos",25],["REL","Relaciones",350],["ATE","Atención y pantallas",190],
  ["EST","Estrés",5],["VAL","Propósito y valores",45],["DIN","Dinero",160],["EDU","Estudio",70],["CRI","Criterio y convivencia",305],["AUT","Autoconocimiento",285]
 ].map(([k,n,h])=>({k,n,h}));
+const AICON={SUE:"😴",MOV:"🏃",ALI:"🥗",EMO:"💛",PEN:"🪞",HAB:"🔁",REL:"🤝",ATE:"📱",EST:"🌬️",VAL:"🧭",DIN:"💶",EDU:"📚",CRI:"🔎",AUT:"🧠"};
+const lvTag=c=>c.e==="X"?"⚠️ Mito":c.n==="B"?"🌱 Básico":"🚀 Intermedio";
 const AK=Object.fromEntries(AREAS.map((a,i)=>[a.k,i]));
 
 const QS=[
@@ -1304,7 +1312,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013173658";
+const APP_V="20261013174117";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 const DIAG={};let noticeOpenAt=0;
@@ -1599,7 +1607,7 @@ function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   const head=`<div class="stack"><div><p class="eyebrow">Explorar</p><h1>Aprende lo que nadie te explica</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Entra cuando te pase algo y quieras saber cómo se llama (Ponle nombre) o cuando te pique la curiosidad (Conceptos). No cuenta para tu reto.</p></div>
    <div class="row"><div class="seg exseg"><button data-mode="conceptos" aria-pressed="${S.exMode==="conceptos"}">📚 Conceptos</button><button data-mode="nombre" aria-pressed="${S.exMode==="nombre"}">🏷️ Ponle nombre</button><button data-mode="quiz" aria-pressed="${S.exMode==="quiz"}">✓ ¿Cuánto sé?</button></div></div>
-   ${S.exMode==="quiz"?"":`<input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca: hábitos, ansiedad, invertir, bulos..."}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"?"":`<div class="chips">${[["sesgo","Ver solo los sesgos"]].map(([q,l])=>`<button class="chip" data-exq="${q}" aria-pressed="${S.exQ===q}">${l}</button>`).join("")}</div>`}`}</div>`;
+   ${S.exMode==="quiz"?"":`<input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca: hábitos, ansiedad, invertir, bulos..."}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"?"":`<div class="chips">${[["sesgo","🧩 Ver solo los sesgos"]].map(([q,l])=>`<button class="chip" data-exq="${q}" aria-pressed="${S.exQ===q}">${l}</button>`).join("")}</div>`}`}</div>`;
   if(S.exMode==="quiz")return `<section class="stack">${S.qz?`<p class="eyebrow">Explorar · ¿Cuánto sé?</p>`:head}${qzView()}</section>`;
   if(S.exMode==="nombre"){
     const list=FEEL.filter(f=>!q||(f[0]+f[1]).toLowerCase().includes(q));
@@ -1608,10 +1616,10 @@ function vExplorar(){
   }
   const list=C.filter(c=>(S.exArea===null||c.a===S.exArea)&&(!S.exMyth||c.e==="X")&&(!q||(c.t+" "+c.q+" "+AREAS[c.a].n).toLowerCase().includes(q))).sort((x,y)=>x.a-y.a||conceptRank(x)-conceptRank(y)||(x.id<y.id?-1:1));
   const tier=c=>c.e==="X"?2:c.n==="B"?0:1,TN=["Lo básico · empieza por aquí","Un paso más","Mitos que conviene desmontar"];
-  const card=c=>`<button class="cc area" style="--h:${AREAS[c.a].h}" data-open="${c.id}"><div class="top2"><span class="chip"><span class="dot"></span>${AREAS[c.a].n}</span><span class="lv ${c.e==="X"?"X":c.n}">${c.e==="X"?"Mito":c.n==="B"?"Básico":"Intermedio"}</span></div><h3>${esc(c.t)}</h3><p class="muted">${esc(c.q)}</p>${(()=>{const n=resList(c).length,s=seenN(c);return n?`<p style="font-size:.8rem;font-weight:700;margin-top:6px;color:${s===n?"var(--good)":"var(--muted)"}">${s===n?"✓ ":""}Recursos: ${s} de ${n}</p>`:""})()}</button>`;
+  const card=c=>`<button class="cc area" style="--h:${AREAS[c.a].h}" data-open="${c.id}"><div class="top2"><span class="chip"><span class="dot"></span>${AREAS[c.a].n}</span><span class="lv ${c.e==="X"?"X":c.n}">${lvTag(c)}</span></div><div class="cch"><span class="cic">${/^Es un sesgo/.test(c.q)?"🧩":AICON[AREAS[c.a].k]}</span><h3>${esc(c.t)}</h3></div>${/^Es un sesgo/.test(c.q)?`<span class="sesgotag">🧩 Sesgo</span>`:""}<p class="muted">${esc(c.q)}</p>${(()=>{const n=resList(c).length,s=seenN(c);return n?`<p style="font-size:.8rem;font-weight:700;margin-top:6px;color:${s===n?"var(--good)":"var(--muted)"}">${s===n?"✓ ":""}Recursos: ${s} de ${n}</p>`:""})()}</button>`;
   const grouped=S.exArea!==null&&!S.exMyth&&!q;
   return `<section class="stack">${head}
-   <div class="chips"><button class="chip" data-area="all" aria-pressed="${S.exArea===null&&!S.exMyth}">Todo</button>${AREAS.map((a,i)=>`<button class="chip area" style="--h:${a.h}" data-area="${i}" aria-pressed="${S.exArea===i}"><span class="dot"></span>${a.n}</button>`).join("")}<button class="chip area" style="--h:5" data-myth="1" aria-pressed="${S.exMyth}"><span class="dot"></span>Solo mitos</button></div>
+   <div class="chips"><button class="chip" data-area="all" aria-pressed="${S.exArea===null&&!S.exMyth}">Todo</button>${AREAS.map((a,i)=>`<button class="chip area" style="--h:${a.h}" data-area="${i}" aria-pressed="${S.exArea===i}">${AICON[a.k]} ${a.n}</button>`).join("")}<button class="chip area" style="--h:5" data-myth="1" aria-pressed="${S.exMyth}">⚠️ Solo mitos</button></div>
    ${q==="sesgo"?`<div class="guide"><p class="eyebrow">¿Qué es un sesgo?</p><p>Un <b>sesgo</b> es un atajo que toma tu cerebro para decidir rápido. Casi siempre te ayuda, pero a veces te engaña de forma predecible: te hace creer lo que te da la razón, comprar porque «está rebajado» o pensar que a ti no te va a pasar. Todos los tenemos, también la gente lista. Conocerlos por su nombre te hace más difícil de engañar.</p><p class="muted" style="font-size:.88rem">Aquí tienes todos los sesgos de la app, de todas las áreas. Toca uno para ver un ejemplo y un reto.</p></div>`:""}
    ${!list.length?`<div class="card stack"><p><b>No hay nada con este filtro.</b></p><p class="muted">Toca «Todo» (o quita el área elegida) y vuelve a probar.</p><button class="btn ghost" data-area="all" style="width:max-content">Ver todo</button></div>`:""}
    ${(()=>{const tot=list.reduce((a,c)=>a+resList(c).length,0),sn=list.reduce((a,c)=>a+seenN(c),0);return `<div class="card row" style="justify-content:space-between;padding:12px 16px"><span><b>${list.length} conceptos</b> · Recursos vistos o leídos: <b>${sn} de ${tot}</b></span><span class="muted" style="font-size:.82rem">Márcalos dentro de cada concepto</span></div><div class="lvl" style="margin-top:-8px"><span style="width:${tot?sn/tot*100:0}%"></span></div>`})()}
@@ -1786,8 +1794,8 @@ function pType(p){p=p.replace(/^Los 7 hábitos \(Stephen Covey\)$/,"Los 7 hábit
 function openConcept(id){
   const c=CI[id];if(!c)return;const a=AREAS[c.a],dlg=document.getElementById("dlg");
   const isActive=S.active&&S.active.id===id;
-  dlg.innerHTML=`<div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="row" style="gap:8px"><span class="lv ${c.e==="X"?"X":c.n}">${c.e==="X"?"Mito":c.n==="B"?"Básico":"Intermedio"}</span>${c.e==="X"?"":`<span class="ev ${c.e}">${EV[c.e]}</span>`}</span></div>
-   <h2>${esc(c.t)}</h2><div><h4>Qué es</h4><p>${esc(c.q)}</p></div><p class="challenge">Reto de la semana: ${esc(c.h)}</p>${exOf(c.id)?`<div><h4>Un ejemplo</h4><p>${esc(exOf(c.id)[0])}</p></div><div><h4>Un plan que puedes copiar</h4><p>${esc(exOf(c.id)[1])}</p></div><div><h4>Si un día cuesta</h4><p>${esc(exOf(c.id)[2])}</p></div>`:""}
+  dlg.innerHTML=`<div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="row" style="gap:8px"><span class="lv ${c.e==="X"?"X":c.n}">${lvTag(c)}</span>${c.e==="X"?"":`<span class="ev ${c.e}">${EV[c.e]}</span>`}</span></div>
+   <div class="cch"><span class="cic big">${/^Es un sesgo/.test(c.q)?"🧩":AICON[a.k]}</span><h2>${esc(c.t)}</h2></div><div><h4>Qué es</h4><p>${esc(c.q)}</p></div><p class="challenge">Reto de la semana: ${esc(c.h)}</p>${exOf(c.id)?`<div><h4>Un ejemplo</h4><p>${esc(exOf(c.id)[0])}</p></div><div><h4>Un plan que puedes copiar</h4><p>${esc(exOf(c.id)[1])}</p></div><div><h4>Si un día cuesta</h4><p>${esc(exOf(c.id)[2])}</p></div>`:""}
    <div><h4>Para aprender más</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${rType(c.r)[0]}</span> ${rType(c.r)[1]}</p><div class="links">${/^app:/.test(c.r[1]||"")?`<a href="#" data-go="${c.r[1].slice(4)}">${esc(rType(c.r)[2])} →</a>`:c.r[1]?`<a href="${c.r[1]}" target="_blank" rel="noopener">${esc(rType(c.r)[2])}</a>`:`<span>${esc(rType(c.r)[2])}</span>`}</div>${seenBtn(c,"r")}${famVid(c)?`<p class="muted" style="font-size:.85rem;margin:10px 0 6px"><span class="chip">YouTube</span> ${famVid(c)[2]?"La misma charla, en YouTube:":"Lo cuenta un referente del tema:"}</p><div class="links"><a href="${famVid(c)[1]}" target="_blank" rel="noopener">${esc(famVid(c)[0])}</a></div>${seenBtn(c,"y")}`:""}${resList(c).includes("v")?`<p class="muted" style="font-size:.85rem;margin:10px 0 6px"><span class="chip">Vídeo</span> Si prefieres verlo:</p><div class="links"><a href="${VID[c.id][1]}" target="_blank" rel="noopener">${esc(VID[c.id][0])}</a></div>${seenBtn(c,"v")}`:""}</div>
    ${!resList(c).includes("p")?"":`<div><h4>Para profundizar</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${pType(c.p)[0]}</span> ${pType(c.p)[2]}</p>${PLINK[c.p]?`<div class="links"><a href="${PLINK[c.p]}" target="_blank" rel="noopener">${esc(pType(c.p)[1])} (YouTube)</a></div>`:`<p><b>${esc(pType(c.p)[1])}</b></p>`}${seenBtn(c,"p")}${BOOKLINK[pType(c.p)[1]]?`<p class="muted" style="font-size:.85rem;margin:8px 0 4px">Para empezar sin el libro, lee esto de su web:</p><div class="links"><a href="${BOOKLINK[pType(c.p)[1]][1]}" target="_blank" rel="noopener">${esc(BOOKLINK[pType(c.p)[1]][0])}</a></div>${seenBtn(c,"b")}`:""}</div>`}
    <div class="row" style="justify-content:flex-end">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${routeItems().some(it=>it.c.id===c.id)?"Está en tu ruta: te llegará en su momento.":"Para aprender. Tus retos los marca tu ruta, uno cada vez."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
