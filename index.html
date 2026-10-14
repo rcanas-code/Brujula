@@ -6,7 +6,7 @@
 <title>Brújula</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=Pixelify+Sans:wght@500;700&display=swap">
 <style>
 /* Layout: app de una columna (máx. 960px) con navegación inferior en móvil y superior en escritorio; cada área tiene su propio tono. */
 :root{
@@ -435,6 +435,11 @@ section:has(> .exback) .filterbar{top:58px}
 .explan{display:grid;gap:8px}.explan>div{padding:8px 10px;border-left:4px solid var(--back);background:color-mix(in srgb,var(--back) 7%,var(--surface));border-radius:8px}.explan p{margin:2px 0 0;font-size:.88rem}
 .ytlink{display:inline-flex;align-items:center;gap:6px;width:max-content;max-width:100%;padding:8px 14px;border-radius:999px;background:#FF0033;color:#fff;font-weight:800;text-decoration:none;font-size:.9rem}
 .yoav.isav{padding:0;overflow:hidden}.yoav.isav svg{display:block}.aved{display:grid;gap:8px}.avprev{display:flex;justify-content:center}.avprev svg{border-radius:50%;box-shadow:0 4px 14px rgb(0 0 0/.15)}.avopts{display:flex;flex-wrap:wrap;gap:6px}.avopts button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}.avopts button.on{background:var(--back);border-color:var(--back);color:var(--back-ink)}.avsw{display:flex;flex-wrap:wrap;gap:7px}.avsw button{width:30px;height:30px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line);cursor:pointer}.avsw button.on{box-shadow:0 0 0 3px var(--ink)}.aved .adl{margin:6px 0 0}
+.pjwrap{display:inline-flex;align-items:flex-end;justify-content:center;background:#1E2B38;border-radius:14px;border-bottom:4px solid #5FA86C;box-sizing:border-box;overflow:hidden;vertical-align:middle}.pjwrap svg{display:block}
+.pjhero{display:flex;gap:14px;align-items:flex-end;background:#1E2B38;color:#fff;border-radius:16px;padding:14px}.pjstage{flex:none;background:#26394B;border-bottom:6px solid #5FA86C;padding:10px 8px 0;display:flex;justify-content:center}.pjstage svg{display:block}
+.pxchip{align-self:flex-start;font-family:"Pixelify Sans",var(--display);font-weight:700;font-size:.82rem;background:#FF6B3D;color:#1E2B38;padding:3px 8px}.pxname{font-family:"Pixelify Sans",var(--display);font-weight:700;font-size:1.35rem;line-height:1.1}.pjdesc{font-size:.86rem;color:#C7D3DC}.pxsm{font-family:"Pixelify Sans",var(--display);font-size:.78rem}
+.pjevo{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;text-align:center}.pjevo>div{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}.pjevo .pxsm{font-size:.62rem;max-width:100%;overflow:hidden;text-overflow:ellipsis}.pjmini{background:#1E2B38;padding:4px 2px 0;border-bottom:3px solid #5FA86C;display:flex;justify-content:center}.pjmini.cur{outline:3px solid #FF6B3D}.pjmini svg{display:block}
+.pjgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.pjbtn{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 4px 8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;color:var(--ink);font:inherit;cursor:pointer;min-height:96px}.pjbtn.on{border:3px solid #FF6B3D}.pjthumb{width:100%;display:flex;justify-content:center;background:#1E2B38;border-bottom:3px solid #5FA86C;padding-top:4px}.pjthumb svg{display:block}
 .hiav{border:0;background:none;padding:0;margin-right:8px;vertical-align:middle;cursor:pointer;display:inline-block}.hiav svg{display:block;border-radius:50%}
 </style>
 
@@ -1446,7 +1451,7 @@ function vMas(){
 /* ---------- navegación ---------- */
 const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["ruta","Ruta","M5 19c4 0 4-7 8-7s4-7 8-7M5 19a2 2 0 1 0 0 .1M19 5a2 2 0 1 0 0 .1"],["proposito","Propósito","M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 9l-2 5-4 1 2-5z"],["mapa","Mapa","M12 3l8 5v8l-8 5-8-5V8z"],["explorar","Explorar","M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"],["mas","Más","M5 12h.01M12 12h.01M19 12h.01"]];
 function renderNav(){const pend=S.active&&(()=>{try{return todayItems().some(x=>x.st==="todo")}catch(e){return false}})();document.getElementById("nav").innerHTML=NAV.map(([k,l,p])=>`<button data-go="${k}" class="${S.tour!=null&&TOUR[S.tour][0]===k?"tourhl":""}" aria-current="${S.view===k&&!S.testing}">${k==="hoy"&&pend&&S.view!=="hoy"?'<span class="dot" aria-label="Tienes algo pendiente hoy"></span>':""}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>${l}</button>`).join("")}
-const VNAME={hoy:"Hoy",ruta:"Ruta",proposito:"Propósito",mapa:"Mapa",explorar:"Explorar",mas:"Más",dinero:"Dinero",repaso:"Repaso",perro:"Test perro o gato",adic:"Test de adicción",curiosidad:"Descubre",cuerpo:"Tu cuerpo",crono:"Cronotipo",yo:"Sobre mí",estoico:"Test estoico",simcuerpo:"Simulador del cuerpo",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
+const VNAME={hoy:"Hoy",ruta:"Ruta",proposito:"Propósito",mapa:"Mapa",explorar:"Explorar",mas:"Más",dinero:"Dinero",repaso:"Repaso",perro:"Test perro o gato",adic:"Test de adicción",curiosidad:"Descubre",cuerpo:"Tu cuerpo",crono:"Cronotipo",yo:"Sobre mí",personaje:"Tu personaje",estoico:"Test estoico",simcuerpo:"Simulador del cuerpo",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
 function go(v,fromNav){if(fromNav||S.tour!=null)S.back=null;else if(v!==S.view&&!S.testing)S.back={v:S.view,y:window.scrollY};S.view=v;S.testing=false;render();window.scrollTo({top:0})}
 
 /* ---------- vistas ---------- */
@@ -1511,7 +1516,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014133228";
+const APP_V="20261014180642";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1663,7 +1668,7 @@ function vHoy(){
   const notices=[routeNews(),tipCard(),reviewCard(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y crea una ruta nueva (+25).</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",...groupCards()].filter(Boolean).map(slim).join("");
   const B=badges(),got=B.filter(b=>b[3]).length;
   return `<section class="stack hoy2">
-   <div><p class="hello">${S.me&&S.me.av?`<button class="hiav" data-go="yo" aria-label="Sobre mí">${avSVG(S.me.av,40)}</button>`:""}${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
+   <div><p class="hello"><button class="hiav" data-go="yo" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ ${p} puntos</span>${S.route&&routeItems().length?`<span>Reto ${(()=>{const it=routeItems(),cur=S.active?it.findIndex(x=>x.c.id===S.active.id):-1;return cur>=0?cur+1:it.filter(x=>["ok","skip"].includes(itemStatus(x))).length+1})()} de ${routeItems().length}</span>`:""}</div></div>
    ${banner}
    ${choiceCard()}
@@ -2080,8 +2085,8 @@ function vYo(){
   const top=sc?sc.map((v,i)=>[v,i]).filter(x=>x[0]!=null).sort((a,b)=>b[0]-a[0]):[];
   const done=S.history.filter(h=>h.passed).length,cur=S.cur.hist.filter(x=>x.st==="hecha"),fav=cur.filter(x=>x.like===2).map(x=>DSCI[x.id]).filter(Boolean),ps=pSent(S.P.f);
   const row=(ic,lab,val,go,lb)=>`<div class="yorow"><span class="yi">${ic}</span><div><p class="eyebrow" style="margin:0">${lab}</p><div>${val}</div></div>${go?`<button class="yolink" ${go}>${lb||"Ver"} →</button>`:""}</div>`;
-  return `<section class="stack"><div class="yohead"><button class="yoav${M.av?" isav":""}" style="background:${M.av?"transparent":M.c}" data-act="yo-av" aria-label="Cambiar avatar">${avAvatar(76)}</button><div><p class="eyebrow">Sobre mí</p><h1 style="margin:0">${esc(S.name||"Sin nombre")}</h1><p class="muted" style="margin:2px 0 0">${M.age?M.age+" años · ":""}${r?r.t[2]+" "+r.t[3]:"Cronotipo sin descubrir"}</p></div></div>
-   ${S.yoEdit?`<div class="card stack"><h3>Edita tu perfil</h3><label class="adl">Nombre<input class="cin" id="yo-name" value="${esc(S.name||"")}" maxlength="30"></label><label class="adl">Edad<input class="cin" id="yo-age" inputmode="numeric" value="${M.age||""}" style="max-width:6em"></label><p class="adl" style="margin:0">Avatar</p>${S.me.av?avEditor():`<div class="row"><button class="btn" data-act="av-new">🎨 Crear mi avatar estilo anime</button></div><div class="avgrid">${AVE.map(e=>`<button class="${M.a===e?"on":""}" data-ava="${e}">${e}</button>`).join("")}</div><p class="adl" style="margin:0">Color</p><div class="avcol">${AVC.map(c=>`<button class="${M.c===c?"on":""}" style="background:${c}" data-avc="${c}" aria-label="Color"></button>`).join("")}</div>`}<div class="yosim"><p class="adl" style="margin:0">Para el simulador del cuerpo <span class="muted">(opcional)</span></p><p class="muted" style="font-size:.82rem;margin:2px 0 8px">Estos datos solo sirven para que el dibujo del <b>simulador de salud</b> se parezca a ti. No se usan para nada más y se quedan en tu móvil.</p><div class="seg">${[["chico","🙋‍♂️ Chico"],["chica","🙋‍♀️ Chica"]].map(([v,l])=>`<button data-bsex="${v}" aria-pressed="${S.me.sex===v}">${l}</button>`).join("")}</div><div class="skins" style="margin-top:8px">${SKIN.map((c,i)=>`<button class="${S.me.skin===i?"on":""}" style="background:${c}" data-bskin="${i}" aria-label="Tono de piel ${i+1}"></button>`).join("")}</div></div><button class="btn" data-act="yo-save" style="width:max-content">Guardar</button></div>`:`<button class="btn ghost" data-act="yo-av" style="width:max-content">✏️ Editar nombre, edad y avatar</button>`}
+  return `<section class="stack"><div class="yohead"><button class="yoav isav" data-go="personaje" aria-label="Cambiar de personaje">${avAvatar(76)}</button><div><p class="eyebrow">Sobre mí</p><h1 style="margin:0">${esc(S.name||"Sin nombre")}</h1><p class="muted" style="margin:2px 0 0">${M.age?M.age+" años · ":""}${r?r.t[2]+" "+r.t[3]:"Cronotipo sin descubrir"}</p></div></div>
+   ${S.yoEdit?`<div class="card stack"><h3>Edita tu perfil</h3><label class="adl">Nombre<input class="cin" id="yo-name" value="${esc(S.name||"")}" maxlength="30"></label><label class="adl">Edad<input class="cin" id="yo-age" inputmode="numeric" value="${M.age||""}" style="max-width:6em"></label><p class="adl" style="margin:0">Personaje</p><button class="btn ghost" data-go="personaje" style="width:max-content">🎮 Cambiar de personaje</button><div class="yosim"><p class="adl" style="margin:0">Para el simulador del cuerpo <span class="muted">(opcional)</span></p><p class="muted" style="font-size:.82rem;margin:2px 0 8px">Estos datos solo sirven para que el dibujo del <b>simulador de salud</b> se parezca a ti. No se usan para nada más y se quedan en tu móvil.</p><div class="seg">${[["chico","🙋‍♂️ Chico"],["chica","🙋‍♀️ Chica"]].map(([v,l])=>`<button data-bsex="${v}" aria-pressed="${S.me.sex===v}">${l}</button>`).join("")}</div><div class="skins" style="margin-top:8px">${SKIN.map((c,i)=>`<button class="${S.me.skin===i?"on":""}" style="background:${c}" data-bskin="${i}" aria-label="Tono de piel ${i+1}"></button>`).join("")}</div></div><button class="btn" data-act="yo-save" style="width:max-content">Guardar</button></div>`:`<button class="btn ghost" data-act="yo-av" style="width:max-content">✏️ Editar nombre y edad</button>`}
    <div class="card stack yocard">
     ${row("🧭","Mi propósito",ps?esc(ps):`<span class="muted">Aún sin frase (paso ${Math.min(pCount()+1,7)} de 7)</span>`,`data-act="yo-p" data-v="${ps?7:Math.min(pCount()+1,7)}"`,ps?"Cambiar":"Seguir")}
     ${row("💎","Mis valores",S.P.v&&S.P.v.length?S.P.v.map(esc).join(" · "):`<span class="muted">Sin elegir</span>`,`data-act="yo-p" data-v="1"`,S.P.v&&S.P.v.length?"Cambiar":"Elegir")}
@@ -2198,55 +2203,398 @@ function vSimBody(){
     <p class="muted" style="font-size:.78rem;margin:0">Aproximado, a partir de datos de la OMS y de estudios sobre hábitos y salud. Cada cuerpo es distinto: la genética y la suerte también cuentan. Pero los hábitos son la parte que depende de ti.</p></div>
    <button class="btn ghost" data-go="cuerpo" style="width:max-content">🫀 Ver para qué sirve cada órgano</button></section>`;
 }
-/* ---------- avatar estilo anime ---------- */
-const AVH=[["rapado","Rapado"],["corto","Corto"],["puntas","Puntas"],["afro","Afro"],["rizos","Rizos"],["media","Media melena"],["melena","Melena"],["coleta","Coleta"],["coletas","Dos coletas"],["trenzas","Trenzas"],["mono","Moño"]];
-const AVHC=["#1C1C1C","#3B2416","#6B4226","#A8743C","#E2C27A","#B5462B","#9E9E9E","#F2F2F2","#3A6FE0","#E25BA8","#2FAE72","#7A4FD1","#F08A24"];
-const AVSK=["#FBE3D0","#F2D3B8","#E3B48E","#C98E64","#A9714B","#7A4A2E","#55331F"];
-const AVEY=["#4A2C1A","#1E1E1E","#2E8B57","#2F6FD6","#C98A14","#8A4FD1","#C93C3C"];
-const AVSH=["#FF6B3D","#0F766E","#2F6FD6","#7C4DCC","#1C1C1C","#F2F2F2","#E3A008","#C93C3C"];
-const AVBG=["#FFE2D6","#D8F2EE","#DCE7FB","#EADFFB","#FFF1C7","#FADADD","#E6E6E6","#1E2B38"];
-const AV0={h:"corto",hc:2,sk:2,ey:0,ex:"sonrisa",gl:0,fr:0,sh:0,bg:0};
-function avSVG(a,size){a=Object.assign({},AV0,a||{});const sx=a.sx||(S.me&&S.me.sex)||"",boy=sx==="chico",girl=sx==="chica";const hc=AVHC[a.hc]||AVHC[2],sk=AVSK[a.sk]||AVSK[2],ey=AVEY[a.ey]||AVEY[0],sh=AVSH[a.sh]||AVSH[0],bg=AVBG[a.bg]||AVBG[0],ol="rgba(0,0,0,.35)";
-  const back={afro:`<circle cx="60" cy="44" r="38" fill="${hc}"/>${[[28,30],[40,14],[60,8],[80,14],[92,30],[96,50],[24,50]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="12" fill="${hc}"/>`).join("")}`,
-   rizos:`${[[32,34],[44,20],[60,16],[76,20],[88,34],[90,54],[30,54],[34,72],[86,72]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="11" fill="${hc}"/>`).join("")}`,
-   media:`<path d="M29 52 Q27 18 60 17 Q93 18 91 52 L92 86 Q80 88 78 70 L42 70 Q40 88 28 86Z" fill="${hc}"/>`,
-   melena:`<path d="M29 52 Q27 18 60 17 Q93 18 91 52 L95 106 Q78 102 76 72 L44 72 Q42 102 25 106Z" fill="${hc}"/>`,
-   coleta:`<path d="M84 34 Q108 40 104 70 Q102 92 92 104 Q96 80 88 62Z" fill="${hc}"/>`,
-   coletas:`<path d="M30 40 Q6 50 12 80 Q16 96 26 102 Q22 80 32 62Z" fill="${hc}"/><path d="M90 40 Q114 50 108 80 Q104 96 94 102 Q98 80 88 62Z" fill="${hc}"/>`,
-   trenzas:`${[70,80,90,100].map(y=>`<ellipse cx="33" cy="${y}" rx="6" ry="6.5" fill="${hc}" stroke="${ol}" stroke-width=".6"/><ellipse cx="87" cy="${y}" rx="6" ry="6.5" fill="${hc}" stroke="${ol}" stroke-width=".6"/>`).join("")}`,
-   mono:`<circle cx="60" cy="13" r="11" fill="${hc}"/>`}[a.h]||"";
-  const front={rapado:`<path d="M34 47 Q34 22 60 22 Q86 22 86 47 Q75 33 60 33 Q45 33 34 47Z" fill="${hc}" opacity=".8"/>`,
-   corto:`<path d="M32 52 Q29 17 60 16 Q91 17 88 52 L84 40 L77 47 L71 36 L64 45 L58 34 L52 45 L46 37 L40 47 L36 40Z" fill="${hc}"/>`,
-   puntas:`<path d="M30 54 L20 30 L35 34 L32 12 L47 24 L54 4 L62 22 L73 6 L75 25 L90 14 L85 34 L101 32 L89 54 L83 40 L75 47 L69 36 L61 45 L53 36 L47 47 L39 40Z" fill="${hc}"/>`,
-   afro:`<path d="M30 48 Q28 22 60 18 Q92 22 90 48 Q84 32 60 32 Q36 32 30 48Z" fill="${hc}"/>`,
-   rizos:`<path d="M31 50 Q30 22 60 20 Q90 22 89 50 Q82 34 72 38 Q66 30 60 36 Q52 30 46 38 Q38 34 31 50Z" fill="${hc}"/>`}[a.h]||`<path d="M31 53 Q29 17 60 16 Q91 17 89 53 Q85 35 70 31 Q62 44 44 40 Q37 45 31 53Z" fill="${hc}"/>`;
-  const eye=x=>{const o=x<60?-1:1;if(a.ex==="alegre")return `<path d="M${x-7} 61 Q${x} 54 ${x+7} 61" fill="none" stroke="#2a1a14" stroke-width="2.4" stroke-linecap="round"/>`+(girl?`<path d="M${x+o*6.5} 59.5 l${o*3.5} -2.5" stroke="#2a1a14" stroke-width="1.6" stroke-linecap="round"/>`:"");
-   if(boy)return `<ellipse cx="${x}" cy="61" rx="6.2" ry="6.6" fill="#fff"/><ellipse cx="${x}" cy="61.6" rx="4.4" ry="5.2" fill="${ey}"/><ellipse cx="${x}" cy="62.2" rx="2.1" ry="2.8" fill="#141414"/><circle cx="${x+1.8}" cy="59" r="1.4" fill="#fff"/><path d="M${x-7} 56.5 L${x+7} 55.8" fill="none" stroke="#2a1a14" stroke-width="2.6" stroke-linecap="round"/>`;
-   return `<ellipse cx="${x}" cy="60" rx="7" ry="8.6" fill="#fff"/><ellipse cx="${x}" cy="61" rx="5.2" ry="6.8" fill="${ey}"/><ellipse cx="${x}" cy="62" rx="2.5" ry="3.6" fill="#141414"/><circle cx="${x+2}" cy="57.5" r="1.8" fill="#fff"/><circle cx="${x-2}" cy="64" r=".9" fill="#fff"/><path d="M${x-8} 55 Q${x} 49 ${x+8} 54" fill="none" stroke="#2a1a14" stroke-width="2.4" stroke-linecap="round"/>`+(girl?`<path d="M${x+o*7.5} 54.5 l${o*3.6} -3.2 M${x+o*8.2} 57 l${o*3.8} -1.6" stroke="#2a1a14" stroke-width="1.6" stroke-linecap="round"/>`:"")};
-  const bc=hc==="#F2F2F2"?"#9E9E9E":hc,brows=boy?`<path d="M42 50 L55 48.5" fill="none" stroke="${bc}" stroke-width="3.4" stroke-linecap="round"/><path d="M65 48.5 L78 50" fill="none" stroke="${bc}" stroke-width="3.4" stroke-linecap="round"/>`:`<path d="M43 49 Q49 ${girl?45:46} 55 48" fill="none" stroke="${bc}" stroke-width="${girl?1.6:2}" stroke-linecap="round"/><path d="M65 48 Q71 ${girl?45:46} 77 49" fill="none" stroke="${bc}" stroke-width="${girl?1.6:2}" stroke-linecap="round"/>`;
-  const mouth={sonrisa:boy?`<path d="M54 76 Q60 79 66 76" fill="none" stroke="#6a3a2e" stroke-width="2" stroke-linecap="round"/>`:girl?`<path d="M54.5 75 Q60 80 65.5 75" fill="none" stroke="#c0485a" stroke-width="2.2" stroke-linecap="round"/>`:`<path d="M54 75 Q60 80 66 75" fill="none" stroke="#7a2e22" stroke-width="2" stroke-linecap="round"/>`,alegre:`<path d="M53 73 Q60 83 67 73Z" fill="#9b2f2f"/><path d="M56 78 Q60 81 64 78" fill="#f07a7a"/>`,seria:`<path d="M55 76 L65 76" stroke="#7a2e22" stroke-width="2" stroke-linecap="round"/>`}[a.ex]||"";
-  return `<svg viewBox="0 0 120 120" width="${size||120}" height="${size||120}" role="img" aria-label="Avatar"><defs><clipPath id="avclip"><circle cx="60" cy="60" r="60"/></clipPath></defs><g clip-path="url(#avclip)"><circle cx="60" cy="60" r="60" fill="${bg}"/>${back}
-   ${boy?`<path d="M14 122 Q16 96 60 94 Q104 96 106 122Z" fill="${sh}"/><rect x="50" y="80" width="20" height="17" rx="5" fill="${sk}"/>`:`<path d="M22 122 Q24 99 60 96 Q96 99 98 122Z" fill="${sh}"/><rect x="53" y="82" width="14" height="15" rx="5" fill="${sk}"/>`}
-   <ellipse cx="34" cy="61" rx="4.5" ry="6" fill="${sk}"/><ellipse cx="86" cy="61" rx="4.5" ry="6" fill="${sk}"/>
-   <path d="${boy?"M34 48 Q34 74 44 83 L54 89 Q60 91 66 89 L76 83 Q86 74 86 48 Q86 24 60 24 Q34 24 34 48Z":girl?"M35 50 Q35 80 60 89 Q85 80 85 50 Q85 24 60 24 Q35 24 35 50Z":"M34 50 Q34 82 60 90 Q86 82 86 50 Q86 24 60 24 Q34 24 34 50Z"}" fill="${sk}"/>
-   ${eye(49)}${eye(71)}${brows}
-   ${boy?"":`<ellipse cx="42" cy="70" rx="4.5" ry="2.4" fill="#ff7a8a" opacity="${girl?.55:.4}"/><ellipse cx="78" cy="70" rx="4.5" ry="2.4" fill="#ff7a8a" opacity="${girl?.55:.4}"/>`}
-   ${a.fr?[[44,67],[47,69],[41,69],[76,67],[73,69],[79,69]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r=".9" fill="#8a5a3a"/>`).join(""):""}
-   <path d="M59 66 Q60 69 62 68" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="1.2" stroke-linecap="round"/>${mouth}${front}
-   ${a.gl?`<g fill="none" stroke="#1c1c1c" stroke-width="1.8"><circle cx="49" cy="61" r="9.5"/><circle cx="71" cy="61" r="9.5"/><path d="M58.5 60 Q60 58 61.5 60"/></g>`:""}</g></svg>`}
-function avAvatar(size){const M=S.me;return M.av?avSVG(M.av,size):`<span style="font-size:${size*.55}px;line-height:1">${M.a}</span>`}
-function avEditor(){const a=Object.assign({},AV0,S.me.av||{});const sw=(arr,k)=>`<div class="avsw">${arr.map((c,i)=>`<button class="${a[k]===i?"on":""}" style="background:${c}" data-avk="${k}:${i}" aria-label="${k} ${i+1}"></button>`).join("")}</div>`;
-  return `<div class="aved"><div class="avprev">${avSVG(a,150)}</div><p class="muted" style="font-size:.8rem;margin:0;text-align:center">Estilo anime con diseños propios: no copiamos personajes de ninguna serie.</p>
-   <p class="adl">Cara</p><div class="seg">${[["chico","🙋‍♂️ Chico"],["chica","🙋‍♀️ Chica"]].map(([v,l])=>`<button data-bsex="${v}" aria-pressed="${S.me.sex===v}">${l}</button>`).join("")}</div>
-   <p class="adl">Peinado</p><div class="avopts">${AVH.map(([k,l])=>`<button class="${a.h===k?"on":""}" data-avh="${k}">${l}</button>`).join("")}</div>
-   <p class="adl">Color de pelo</p>${sw(AVHC,"hc")}
-   <p class="adl">Piel</p>${sw(AVSK,"sk")}
-   <p class="adl">Ojos</p>${sw(AVEY,"ey")}
-   <p class="adl">Expresión</p><div class="avopts">${[["sonrisa","🙂 Sonrisa"],["alegre","😄 Alegre"],["seria","😐 Seria"]].map(([k,l])=>`<button class="${a.ex===k?"on":""}" data-avx="${k}">${l}</button>`).join("")}</div>
-   <p class="adl">Extras</p><div class="avopts"><button class="${a.gl?"on":""}" data-avt="gl">👓 Gafas</button><button class="${a.fr?"on":""}" data-avt="fr">✨ Pecas</button></div>
-   <p class="adl">Camiseta</p>${sw(AVSH,"sh")}
-   <p class="adl">Fondo</p>${sw(AVBG,"bg")}
-   <div class="row"><button class="btn ghost" data-act="av-rand">🎲 Aleatorio</button><button class="btn ghost" data-act="av-emoji">Usar un emoji</button></div></div>`}
+/* ---------- personaje pixel ---------- */
+function pjGrid(P){
+    P = P || {};
+    const tipo = P.tipo ?? 'persona';
+    const e = Math.max(1, Math.min(5, Number(P.etapa ?? 3) || 3));
+    const px = Number(P.px ?? 6) || 6;
+    const lock = P.bloqueado === true || P.bloqueado === 'true';
+    const girl = (P.rasgos ?? 'chico') === 'chica';
+    const KINDS = ['robot', 'pirata', 'ninja', 'caballero', 'mago', 'astronauta', 'samurai', 'luchador', 'magica', 'heroe', 'vaquero', 'detective', 'vikingo', 'vampiro', 'alien', 'piloto', 'hechicera', 'zombi'];
+    const isHuman = tipo === 'persona' || KINDS.indexOf(tipo) >= 0;
+    const peinado = tipo === 'persona' ? (P.peinado ?? (girl ? 'largo' : 'corto')) : (tipo === 'hechicera' ? 'largo' : 'corto');
+    const ancha = tipo === 'persona' && (P.complexion ?? 'normal') === 'ancha';
+    const gafas = tipo === 'persona' && (P.gafas === true || P.gafas === 'true');
+    const shade = (hex, k) => {
+      const n = parseInt(String(hex).replace('#', ''), 16);
+      const f = (v) => Math.max(0, Math.min(255, Math.round(v * k)));
+      return 'rgb(' + f((n >> 16) & 255) + ',' + f((n >> 8) & 255) + ',' + f(n & 255) + ')';
+    };
+    const FUR = { gato: '#E08A3C', perro: '#C98E54', golden: '#E3A857', dino: '#36A79B' };
+    const hair = P.pelo ?? (isHuman ? '#6B4226' : FUR[tipo]);
+    const fur = isHuman ? hair : (P.pelo ?? FUR[tipo]);
+    const skin = P.piel ?? '#F2C9A0';
+    const shirt = P.ropa ?? '#FF6B3D';
+    const pal = {
+      K: '#2B1D1A', H: hair, h: shade(hair, 1.3), S: skin, s: shade(skin, 0.86),
+      E: '#1E1E2A', w: '#FFFFFF', B: '#EF8F8F', M: girl ? '#D9536A' : '#B5534A',
+      T: shirt, t: shade(shirt, 0.8), P: '#2F3E5C', p: '#24304A', O: '#F4F4F4',
+      R: '#7A4A22', b: '#5A3A22', G: '#F2B632', g: '#C98A14', X: '#2A9D8F', x: '#1F7A70',
+      C: '#14506B', c: '#0F3D52', Y: '#FFE066',
+      F: fur, D: shade(fur, 0.65), L: tipo === 'dino' ? '#FFF1C9' : '#FBE7CF', q: '#F2A0A8', N: '#E87A8A', m: '#5A3A22', W: '#FFFFFF',
+      A: '#B8C2CC', a: '#7C8A96', V: '#38E1F2', v: '#1BA9BD', Z: '#C8423A', z: '#FF8A3D',
+      U: '#5B3FA8', u: '#45308A', Q: '#CDEBF7', n: '#1E3A5F', k: '#232A3A',
+      j: '#7BC96F', J: '#5AA650', f: '#ECE6F0', '3': '#C9C0D3', i: '#A4BC8E', I: '#83A06E', l: '#F49AC1',
+      y: '#F6D04D', o: '#9A6A3A', d: '#5A3D2B', r: '#8E1B2B', '1': '#C8A86B', '2': '#A88A52'
+    };
+    const HUMAN = [
+      '........................',
+      '........KKKKKKKK........',
+      '......KKHHHHHHHHKK......',
+      '.....KHHHhhHHHHHHHK.....',
+      '....KHHhhHHHHHHHHHHK....',
+      '....KHHHHHHHHHHHHHHK....',
+      '....KHHHHHHHHHHHHHHK....',
+      '....KHSSHSSSSSSHSSHK....',
+      '....KHSSSSSSSSSSSSHK....',
+      '....KSSwESSSSSSwESSK....',
+      '....KSSEESSSSSSEESSK....',
+      '....KSBBSSSSSSSSBBSK....',
+      '....KSSSSSSMMSSSSSSK....',
+      '.....KsSSSSSSSSSSsK.....',
+      '......KKKKsSSsKKKK......',
+      '....KKKTTTTTTTTTTKKK....',
+      '...KTTKTTTTTTTTTTKTTK...',
+      '...KTtKTTTTTTTTTTKtTK...',
+      '...KTtKTTTTTTTTTTKtTK...',
+      '...KTtKTTTTttTTTTKtTK...',
+      '...KSSKTTTTTTTTTTKSSK...',
+      '...KKKKTTTTTTTTTTKKKK...',
+      '......KPPPPPPPPPPK......',
+      '......KPPPPKKPPPPK......',
+      '......KPPPK..KPPPK......',
+      '......KPPPK..KPPPK......',
+      '......KpPPK..KpPPK......',
+      '.....KOOOOK..KOOOOK.....',
+      '.....KKKKKK..KKKKKK.....',
+      '........................'
+    ];
+    const BODY = [
+      '...KFFFFLLLLLLLLFFFFK...',
+      '...KFFFFLLLLLLLLFFFFK.K.',
+      '...KFFFFLLLLLLLLFFFFKKFK',
+      '...KFFFFLLLLLLLLFFFFKFK.',
+      '...KFFFFLLLLLLLLFFFFFK..',
+      '...KFFFFFLLLLLLFFFFFK...',
+      '...KFFFFFFFFFFFFFFFFK...',
+      '....KWWKKKKKKKKKKWWK....',
+      '....KKKK........KKKK....'
+    ];
+    const E5 = '........................';
+    const CAT = [E5, E5, E5, E5, E5,
+      '.....KK..........KK.....',
+      '.....KFK........KFK.....',
+      '.....KFFK......KFFK.....',
+      '.....KFqFKKKKKKFqFK.....',
+      '.....KFFFFFFFFFFFFK.....',
+      '....KFFFFFFFFFFFFFFK....',
+      '....KFFwEFFFFFFwEFFK....',
+      '....KFFEEFFFFFFEEFFK....',
+      '....KFBFFFFNNFFFFBFK....',
+      '....KFFFFFmFFmFFFFFK....',
+      '.....KFFFFFFFFFFFFK.....',
+      '......KKFFFFFFFFKK......',
+      '.....KFFFFFFFFFFFFK.....',
+      '....KFFFFLLLLLLFFFFK....',
+      '....KFFFLLLLLLLLFFFK....'
+    ].concat(BODY, [E5]);
+    const DOG = [E5, E5, E5, E5, E5,
+      '......KKKKKKKKKKKK......',
+      '.....KFFFFFFFFFFFFK.....',
+      '...KKKFFFFFFFFFFFFKKK...',
+      '..KDDKFFFFFFFFFFFFKDDK..',
+      '..KDDKFFwEFFFFwEFFKDDK..',
+      '..KDDKFFEEFFFFEEFFKDDK..',
+      '..KDDKFFFFFFFFFFFFKDDK..',
+      '..KDDKFBFLLKKLLFBFKDDK..',
+      '...KDKFFLLLmmLLLFFKDK...',
+      '....KKFFFLLLLLLFFFKK....',
+      '......KKFFFFFFFFKK......',
+      '.....KFFFFFFFFFFFFK.....',
+      '....KFFFFLLLLLLFFFFK....',
+      '....KFFFLLLLLLLLFFFK....'
+    ].concat(BODY, [E5, E5]);
+    const DINO = [E5,
+      '..........KzzK..........',
+      '.........KzzzzK.........',
+      '........KKKKKKKK........',
+      '......KKFFFFFFFFKK......',
+      '.....KFFFFFFFFFFFFK.....',
+      '....KFFFFFFFFFFFFFFK....',
+      '....KFFwEFFFFFFwEFFK....',
+      '....KFFEEFFFFFFEEFFK....',
+      '...KFFFFFFFFFFFFFFFFK...',
+      '...KFBFFFFFFFFFFFFBFK...',
+      '...KFFLLLLLLLLLLLLFFK...',
+      '...KFFLLmLLLLLLmLLFFK...',
+      '....KFFLLmmmmmmLLFFK....',
+      '.....KKFFFFFFFFFFKK.....',
+      '....KFFFFFFFFFFFFFFK....',
+      '...KFFKFLLLLLLLLFKFFK...',
+      '...KFFKFLLLLLLLLFKFFK...',
+      '....KKKFLLLLLLLLFKKK....',
+      '....KFFFLLLLLLLLFFFK....',
+      '....KFFFLLLLLLLLFFFK.KK.',
+      '....KFFFLLLLLLLLFFFKKFFK',
+      '....KFFFFLLLLLLFFFFFFFK.',
+      '....KFFFFFFFFFFFFFFFKK..',
+      '....KFFFKKKKKKKKFFFK....',
+      '....KFFFK......KFFFK....',
+      '...KWFWFK......KWFWFK...',
+      '...KKKKKK......KKKKKK...',
+      E5, E5];
+    const base = tipo === 'gato' ? CAT : (tipo === 'perro' || tipo === 'golden') ? DOG : tipo === 'dino' ? DINO : HUMAN;
+    let g = base.map((r) => r.padEnd(24, '.').slice(0, 24).split(''));
+    while (g.length < 30) g.push(E5.split(''));
+    const set = (r, c, ch, onlyEmpty) => {
+      if (r < 0 || r >= g.length || c < 0 || c >= g[r].length) return;
+      if (onlyEmpty && g[r][c] !== '.') return;
+      g[r][c] = ch;
+    };
+    const remap = (m, r0, r1) => {
+      for (let r = r0 ?? 0; r <= (r1 ?? 29); r++) for (let c = 0; c < 24; c++) if (m[g[r][c]]) g[r][c] = m[g[r][c]];
+    };
+    if (isHuman) {
+      if (peinado === 'largo') {
+        for (let r = 6; r <= 16; r++) { set(r, 3, 'H', true); set(r, 20, 'H', true); set(r, 2, 'K', true); set(r, 21, 'K', true); }
+        [4, 5, 18, 19].forEach((c) => { set(13, c, 'H', true); set(14, c, 'H', true); });
+        set(17, 2, 'K', true); set(17, 21, 'K', true);
+      }
+      if (peinado === 'coleta') {
+        [[3, 20], [3, 21], [4, 20], [4, 21], [4, 22], [5, 21], [5, 22], [6, 21], [6, 22], [7, 21], [7, 22], [8, 22], [9, 22]].forEach(([r, c]) => set(r, c, 'H', true));
+        [[2, 20], [2, 21], [3, 22], [10, 22], [5, 23], [6, 23], [7, 23], [8, 23]].forEach(([r, c]) => set(r, c, 'K', true));
+      }
+      if (peinado === 'afro') {
+        for (let r = 0; r <= 10; r++) for (let c = 0; c < 24; c++) {
+          const d = Math.pow((c - 11.5) / 10.5, 2) + Math.pow((r - 5) / 5.6, 2);
+          if (d <= 1) set(r, c, (r + c) % 5 === 0 ? 'h' : 'H', true);
+        }
+      }
+      if (peinado === 'rapado') {
+        for (let r = 3; r <= 8; r++) for (let c = 5; c <= 18; c++) if (g[r][c] === 'H' || g[r][c] === 'h') g[r][c] = r <= 4 ? 'h' : 'S';
+        for (let c = 6; c <= 17; c++) if (g[2][c] === 'H') g[2][c] = 'h';
+      }
+      if (tipo === 'persona' && girl) { set(8, 7, 'K'); set(8, 16, 'K'); }
+      if (gafas) {
+        for (let c = 6; c <= 9; c++) { set(8, c, 'K'); set(11, c, 'K'); }
+        for (let c = 14; c <= 17; c++) { set(8, c, 'K'); set(11, c, 'K'); }
+        [9, 10].forEach((r) => { set(r, 6, 'K'); set(r, 9, 'K'); set(r, 14, 'K'); set(r, 17, 'K'); });
+        for (let c = 10; c <= 13; c++) set(9, c, 'K');
+      }
+      if (tipo === 'robot') {
+        remap({ S: 'A', s: 'a', H: 'a', h: 'A', B: 'A', M: 'K', T: 'a', t: 'K', P: 'k', p: 'k', O: 'k', w: 'A', E: 'A' });
+        for (let c = 6; c <= 17; c++) { set(9, c, 'V'); set(10, c, 'v'); }
+        [9, 11, 13].forEach((c) => set(12, c, 'K'));
+        set(0, 11, 'V'); set(0, 12, 'V');
+        set(18, 11, 'V'); set(18, 12, 'V');
+      }
+      if (tipo === 'pirata') {
+        remap({ H: 'Z', h: 'Z' }, 2, 5);
+        set(3, 8, 'w'); set(3, 14, 'w'); set(4, 11, 'w');
+        [[4, 20], [4, 21], [5, 21], [5, 22]].forEach(([r, c]) => set(r, c, 'Z', true));
+        for (let c = 5; c <= 9; c++) set(8, c, 'K');
+        [[9, 7], [9, 8], [10, 7], [10, 8]].forEach(([r, c]) => set(r, c, 'K'));
+        for (let r = 16; r <= 20; r++) for (let c = 0; c < 24; c++) if (g[r][c] === 'T' || g[r][c] === 't') g[r][c] = r % 2 === 0 ? 'w' : 'n';
+        for (let c = 7; c <= 16; c++) set(21, c, 'R');
+        set(21, 11, 'G'); set(21, 12, 'G');
+        remap({ O: 'b' }, 27, 27);
+      }
+      if (tipo === 'ninja') {
+        remap({ H: 'k', h: 'k' });
+        for (let r = 11; r <= 13; r++) for (let c = 5; c <= 18; c++) if ('SsBM'.indexOf(g[r][c]) >= 0) g[r][c] = 'k';
+        for (let c = 5; c <= 18; c++) set(6, c, 'Z');
+        set(6, 20, 'Z', true); set(7, 21, 'Z', true); set(8, 21, 'Z', true);
+        remap({ T: 'k', t: 'n', P: 'k', p: 'n', O: 'k' }, 15, 29);
+        for (let c = 7; c <= 16; c++) set(21, c, 'Z');
+      }
+      if (tipo === 'caballero') {
+        remap({ H: 'A', h: 'a' }, 1, 8);
+        [10, 11, 12, 13].forEach((c) => set(0, c, 'Z', true));
+        remap({ T: 'A', t: 'a' }, 15, 21);
+        [[17, 11], [17, 12], [18, 11], [18, 12]].forEach(([r, c]) => set(r, c, 'Z'));
+      }
+      if (tipo === 'mago') {
+        for (let r = 0; r <= 5; r++) {
+          const half = 1 + r * 1.4;
+          for (let c = 0; c < 24; c++) if (Math.abs(c - 11.5) <= half) g[r][c] = 'U';
+        }
+        for (let c = 3; c <= 20; c++) g[6][c] = 'u';
+        set(2, 11, 'Y'); set(4, 13, 'Y'); set(3, 10, 'Y');
+        remap({ T: 'U', t: 'u' }, 15, 21);
+        for (let r = 22; r <= 26; r++) { for (let c = 7; c <= 16; c++) g[r][c] = r === 26 ? 'u' : 'U'; g[r][6] = 'K'; g[r][17] = 'K'; }
+      }
+      if (tipo === 'astronauta') {
+        for (let r = 0; r <= 15; r++) for (let c = 0; c < 24; c++) {
+          if (g[r][c] !== '.') continue;
+          const d = Math.pow((c - 11.5) / 11.2, 2) + Math.pow((r - 7.2) / 7.8, 2);
+          if (d <= 0.92) g[r][c] = 'Q'; else if (d <= 1.12) g[r][c] = 'K';
+        }
+        remap({ T: 'O', t: 'A', P: 'O', p: 'A', O: 'a' }, 15, 29);
+        set(17, 13, 'Z'); set(17, 14, 'Z'); set(18, 13, 'V'); set(18, 14, 'V');
+      }
+      const fill = (r0, r1, c0, c1, ch, onlyNonEmpty) => { for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) { if (onlyNonEmpty && g[r][c] === '.') continue; set(r, c, ch); } };
+      if (tipo === 'samurai') {
+        fill(0, 0, 10, 13, 'H');
+        remap({ T: 'Z', t: 'r', P: 'k', p: 'n' }, 15, 29);
+        fill(15, 16, 3, 6, 'a', true); fill(15, 16, 17, 20, 'a', true);
+        fill(21, 21, 7, 16, 'k');
+      }
+      if (tipo === 'luchador') {
+        remap({ T: 'w', t: 'A', P: 'w', p: 'A' }, 15, 29);
+        remap({ O: 'S' }, 27, 27);
+        fill(21, 21, 7, 16, 'k');
+        fill(6, 6, 5, 18, 'Z'); set(6, 20, 'Z', true); set(7, 21, 'Z', true);
+      }
+      if (tipo === 'magica') {
+        remap({ H: 'l', h: 'w' });
+        [[3, 20], [3, 21], [4, 21], [4, 22], [5, 22], [6, 22], [7, 22], [3, 3], [3, 2], [4, 2], [4, 1], [5, 1], [6, 1], [7, 1]].forEach(([r, c]) => set(r, c, 'l', true));
+        set(8, 7, 'K'); set(8, 16, 'K');
+        remap({ T: 'w', t: 'A' }, 15, 21);
+        [[16, 11], [16, 12], [17, 10], [17, 13], [17, 11], [17, 12]].forEach(([r, c]) => set(r, c, 'l'));
+        fill(22, 23, 5, 18, 'l'); set(22, 4, 'K'); set(22, 19, 'K'); set(23, 4, 'K'); set(23, 19, 'K');
+        remap({ P: 'w', p: 'A' }, 24, 26);
+        remap({ O: 'l' }, 27, 27);
+      }
+      if (tipo === 'heroe') {
+        remap({ T: 'C', t: 'c', P: 'C', p: 'c' }, 15, 29);
+        remap({ O: 'Z' }, 27, 27);
+        for (let c = 5; c <= 18; c++) { if (g[9][c] === 'S') g[9][c] = 'k'; if (g[10][c] === 'S') g[10][c] = 'k'; }
+        [[17, 11], [17, 12], [18, 11], [18, 12]].forEach(([r, c]) => set(r, c, 'y'));
+        fill(21, 21, 7, 16, 'y');
+        for (let r = 15; r <= 26; r++) [1, 2, 21, 22].forEach((c) => set(r, c, 'Z', true));
+      }
+      if (tipo === 'vaquero') {
+        fill(0, 1, 7, 16, 'o'); fill(2, 2, 7, 16, 'd'); fill(3, 3, 2, 21, 'd');
+        fill(14, 15, 9, 14, 'Z', true);
+        for (let r = 16; r <= 21; r++) [7, 9, 14, 16].forEach((c) => { if (g[r][c] === 'T' || g[r][c] === 't') g[r][c] = 'o'; });
+        remap({ P: 'n', p: 'k', O: 'b' }, 22, 29);
+      }
+      if (tipo === 'detective') {
+        fill(1, 2, 7, 16, 'd'); fill(2, 2, 7, 16, 'k'); fill(3, 3, 4, 19, 'd');
+        remap({ T: '1', t: '2' }, 15, 21);
+        for (let r = 22; r <= 24; r++) for (let c = 6; c <= 17; c++) if (g[r][c] !== '.') g[r][c] = c === 6 || c === 17 ? 'K' : '1';
+        set(15, 11, 'L'); set(15, 12, 'L');
+      }
+      if (tipo === 'vikingo') {
+        remap({ H: 'A', h: 'a' }, 1, 4);
+        [[2, 3], [1, 3], [0, 2], [2, 20], [1, 20], [0, 21]].forEach(([r, c]) => set(r, c, 'L', true));
+        for (let r = 12; r <= 14; r++) for (let c = 5; c <= 18; c++) if ('SsBM'.indexOf(g[r][c]) >= 0) g[r][c] = 'H';
+        remap({ T: 'r', t: 'Z' }, 15, 21);
+        fill(15, 15, 4, 19, 'L', true);
+        fill(21, 21, 7, 16, 'o');
+      }
+      if (tipo === 'vampiro') {
+        remap({ S: 'f', s: '3', B: '3', H: 'k', h: 'n' });
+        set(12, 11, 'w'); set(12, 12, 'w');
+        for (let r = 14; r <= 27; r++) [1, 2, 21, 22].forEach((c) => set(r, c, r < 16 ? 'r' : 'k', true));
+        [[13, 3], [13, 4], [13, 19], [13, 20], [14, 3], [14, 4], [14, 19], [14, 20]].forEach(([r, c]) => set(r, c, 'r', true));
+        remap({ T: 'w', t: 'A', P: 'k', p: 'k' }, 15, 29);
+        set(15, 11, 'Z'); set(15, 12, 'Z');
+      }
+      if (tipo === 'alien') {
+        remap({ S: 'j', s: 'J', B: 'J', H: 'j', h: 'J' });
+        [[0, 7], [1, 7], [0, 16], [1, 16]].forEach(([r, c]) => set(r, c, 'J'));
+        set(0, 6, 'y'); set(0, 17, 'y');
+        fill(9, 10, 6, 9, 'E'); fill(9, 10, 14, 17, 'E'); set(9, 7, 'w'); set(9, 15, 'w');
+        remap({ T: 'A', t: 'a', P: 'a', p: 'k' }, 15, 29);
+      }
+      if (tipo === 'piloto') {
+        fill(3, 3, 5, 18, 'k', true);
+        [[8, 4], [9, 4], [8, 19], [9, 19]].forEach(([r, c]) => set(r, c, 'k'));
+        set(10, 5, 'k'); set(11, 6, 'k');
+        remap({ T: 'z', t: 'r', P: 'z', p: 'r', O: 'k' }, 15, 29);
+        fill(17, 18, 10, 13, 'k'); set(17, 11, 'V');
+      }
+      if (tipo === 'hechicera') {
+        for (let r = 0; r <= 4; r++) { const half = 0.5 + r * 1.3; for (let c = 0; c < 24; c++) if (Math.abs(c - 11.5) <= half) g[r][c] = 'k'; }
+        fill(4, 4, 6, 17, 'U'); fill(5, 5, 1, 22, 'k');
+        set(8, 7, 'K'); set(8, 16, 'K');
+        remap({ T: 'X', t: 'x' }, 15, 21);
+        for (let r = 22; r <= 26; r++) { for (let c = 7; c <= 16; c++) g[r][c] = r === 26 ? 'x' : 'X'; g[r][6] = 'K'; g[r][17] = 'K'; }
+      }
+      if (tipo === 'zombi') {
+        remap({ S: 'i', s: 'I', B: 'I', M: 'K' });
+        fill(9, 10, 15, 16, 'w');
+        set(11, 8, 'K'); set(11, 9, 'r'); set(11, 10, 'K');
+        remap({ T: 'C', t: 'c', P: 'n', p: 'k' }, 15, 29);
+        set(19, 9, 'i'); set(18, 14, 'i'); set(25, 8, 'i');
+      }
+      if (e >= 2) {
+        for (let r = 16; r <= 21; r++) { set(r, 8, 'R'); set(r, 15, 'R'); }
+        if (tipo !== 'mago' && tipo !== 'hechicera') [7, 8, 9, 14, 15, 16].forEach((c) => set(26, c, 'b'));
+        for (let c = 6; c <= 17; c++) if (g[27][c] === 'O' || g[27][c] === 'a' || g[27][c] === 'k') g[27][c] = 'b';
+      }
+      if (e >= 3) {
+        for (let c = 9; c <= 14; c++) set(14, c, 'X');
+        for (let c = 7; c <= 16; c++) set(15, c, 'X');
+        set(16, 10, 'x'); set(17, 10, 'x');
+      }
+      if (e >= 4) {
+        set(18, 12, 'G'); set(18, 13, 'G'); set(19, 12, 'G'); set(19, 13, 'g');
+        for (let r = 15; r <= 27; r++) [1, 2, 21, 22].forEach((c) => set(r, c, r > 22 ? 'c' : 'C', true));
+      }
+      if (e >= 5) {
+        for (let c = 7; c <= 16; c++) set(21, c, 'G');
+        [[15, 1], [15, 22], [16, 1], [16, 22]].forEach(([r, c]) => set(r, c, 'G'));
+      }
+    } else {
+      const neck = tipo === 'gato' ? 16 : 15;
+      if (e >= 2) {
+        for (let c = 7; c <= 16; c++) if (g[neck][c] !== '.') g[neck][c] = 'R';
+        set(neck + 1, 11, 'G'); set(neck + 1, 12, 'G'); set(neck + 2, 11, 'g'); set(neck + 2, 12, 'g');
+      }
+      if (e >= 3) {
+        for (let c = 8; c <= 15; c++) set(neck + 1, c, 'X');
+        for (let c = 9; c <= 14; c++) set(neck + 2, c, 'X');
+        for (let c = 10; c <= 13; c++) set(neck + 3, c, 'x');
+        set(neck + 4, 11, 'x'); set(neck + 4, 12, 'x');
+      }
+      if (e >= 4) {
+        for (let r = neck; r <= 27; r++) [0, 1, 2].forEach((c) => set(r, c, r > 23 ? 'c' : 'C', true));
+        for (let r = neck; r <= 19; r++) [21, 22, 23].forEach((c) => set(r, c, 'C', true));
+      }
+    }
+    if (e >= 5) [[1, 3], [3, 21], [9, 1], [12, 22], [6, 2]].forEach(([r, c]) => set(r, c, 'Y', true));
+    if (ancha) {
+      g = g.map((row, r) => r >= 13 ? row.slice(0, 11).concat([row[11], row[11]], row.slice(11)) : ['.'].concat(row, ['.']));
+    }
+  return {g, pal, lock};
+}
+function pjSVG(P,px,cls){const {g,pal,lock}=pjGrid(P);let W=g[0].length,H=30,out="";
+  for(let r=0;r<H;r++){let c=0;while(c<W){const ch=g[r][c];if(ch==="."){c++;continue}let e=c;while(e+1<W&&g[r][e+1]===ch)e++;
+    out+=`<rect x="${c}" y="${r}" width="${e-c+1}" height="1" fill="${lock?"rgba(70,84,98,.28)":(pal[ch]||"#f0f")}"/>`;c=e+1}}
+  return `<svg class="${cls||"pjsvg"}" viewBox="0 0 ${W} ${H}" width="${W*px}" height="${H*px}" shape-rendering="crispEdges" role="img" aria-label="${pjLabel(P)}">${out}</svg>`}
+const PJPELO=["#1C1C1C","#3B2416","#6B4226","#A8743C","#E2C27A","#B5462B","#9E9E9E","#F2F2F2","#3A6FE0","#E25BA8"];
+const PJPIEL=["#FBE3D0","#F2C9A0","#E3B48E","#C98E64","#A9714B","#7A4A2E","#55331F"];
+const PJROPA=["#FF6B3D","#0F766E","#2F6FD6","#7C4DCC","#C8423A","#E3A008","#14506B","#2A9D8F","#1C1C1C"];
+const PJFUR=["#E08A3C","#E3A857","#C98E54","#9E9E9E","#3A3A3A","#F2E6D8","#36A79B","#3E7CB1","#7C4DCC","#E25B5B"];
+const PJT=[["Personas","Luego eliges pelo, piel, ropa y gafas",[["chico","persona","Chico","Pelo, piel, ropa, gafas y complexión a tu gusto."],["chica","persona","Chica","Pelo, piel, ropa, gafas y complexión a tu gusto."]]],
+ ["Aventura","Arquetipos con diseño propio",[["robot","robot","Robot","Metal, visor azul y una antena que capta ideas."],["pirata","pirata","Pirata","Pañuelo, parche y camiseta de rayas."],["ninja","ninja","Ninja","Silencioso y constante: avanza sin hacer ruido."],["caballero","caballero","Caballero","Casco con penacho y armadura."],["mago","mago","Mago","Sombrero de estrellas y túnica."],["astronauta","astronauta","Astronauta","Casco de cristal y traje blanco."],["samurai","samurai","Samurái","Moño, armadura roja y mucha disciplina."],["luchador","luchador","Luchador","Kimono blanco, cinturón negro y cinta roja."],["magica","magica","Mágica","Coletas rosas y un lazo con poderes."],["heroe","heroe","Héroe","Antifaz, capa roja y emblema dorado."],["vaquero","vaquero","Vaquero","Sombrero, chaleco y pañuelo."],["detective","detective","Detective","Gabardina y sombrero: nada se le escapa."],["vikingo","vikingo","Vikingo","Casco con cuernos y barba."],["vampiro","vampiro","Vampiro","Capa negra y roja: aprende de noche."],["alien","alien","Alien","Verde, con antenas y ojos enormes."],["piloto","piloto","Piloto","Traje naranja y cascos de radio."],["hechicera","hechicera","Hechicera","Sombrero puntiagudo y vestido verde."],["zombi","zombi","Zombi","Un poco despistado, pero muy simpático."]]],
+ ["Animales","También evolucionan",[["gato","gato","Gato","Curioso por naturaleza."],["golden","golden","Golden","Leal y con ganas de aprender."],["dino","dino","Dinosaurio","Pequeño ahora, enorme al final."]]]];
+const PJSTG=[["Caminante","Ropa básica"],["Explorador","Mochila y botas"],["Cartógrafo","Bufanda de viaje"],["Guía","Brújula y capa"],["Leyenda","Detalles dorados"]];
+const PJANIM=["gato","perro","golden","dino"],PJNOSKIN=["robot","alien","zombi","vampiro"],PJNOHAIR=["robot","alien","ninja","magica","vampiro","caballero"];
+function pjFind(id){for(const g of PJT)for(const it of g[2])if(it[0]===id)return it;return PJT[0][2][0]}
+function pjCfg(){const M=S.me||{};if(M.pj)return M.pj;const ch=M.sex==="chica";return {id:ch?"chica":"chico",tipo:"persona",rasgos:ch?"chica":"chico",peinado:ch?"largo":"corto",complexion:"normal",gafas:false,pelo:"#6B4226",piel:PJPIEL[M.skin!=null?Math.min(M.skin+1,6):1],ropa:"#FF6B3D"}}
+function pjStage(){return 1}
+function pjLabel(P){const it=pjFind(P&&P.id);return "Tu personaje: "+it[2]+", etapa "+PJSTG[(Number(P&&P.etapa)||1)-1][0]}
+function avAvatar(size){const P=Object.assign({},pjCfg(),{etapa:pjStage()});return `<span class="pjwrap" style="width:${size}px;height:${size}px">${pjSVG(P,size*.82/30)}</span>`}
+function vPersonaje(){
+  if(!S.pjDraft)S.pjDraft=Object.assign({},pjCfg());const P=S.pjDraft,st=pjStage(),it=pjFind(P.id),isP=P.tipo==="persona",isA=PJANIM.includes(P.tipo);
+  const sw=(arr,k)=>`<div class="avsw">${arr.map(c=>`<button class="${P[k]===c?"on":""}" style="background:${c}" data-pjc="${k}|${c}" aria-label="Color"></button>`).join("")}</div>`;
+  const chip=(k,opts)=>`<div class="avopts">${opts.map(([v,l])=>`<button class="${P[k]===v?"on":""}" data-pjo="${k}|${v}">${l}</button>`).join("")}</div>`;
+  const opts=isP?`<p class="adl">Peinado</p>${chip("peinado",[["corto","Corto"],["largo","Melena"],["coleta","Coleta"],["afro","Afro"],["rapado","Rapado"]])}
+   <p class="adl">Complexión</p>${chip("complexion",[["normal","Normal"],["ancha","Ancha"]])}
+   <p class="adl">Extras</p><div class="avopts"><button class="${P.gafas?"on":""}" data-pjo="gafas|${P.gafas?"":"1"}">👓 Gafas</button></div>
+   <p class="adl">Pelo</p>${sw(PJPELO,"pelo")}<p class="adl">Piel</p>${sw(PJPIEL,"piel")}<p class="adl">Ropa</p>${sw(PJROPA,"ropa")}`
+   :isA?`<p class="adl">Pelaje</p>${sw(PJFUR,"pelo")}`
+   :`${PJNOSKIN.includes(P.tipo)?"":`<p class="adl">Piel</p>${sw(PJPIEL,"piel")}`}${PJNOHAIR.includes(P.tipo)?"":`<p class="adl">Pelo</p>${sw(PJPELO,"pelo")}`}`;
+  return `<section class="stack"><div><p class="eyebrow">Sobre mí</p><h1 style="margin:0">Tu personaje</h1><p class="muted" style="margin:4px 0 0">Elige quién te acompaña en Brújula. Puedes cambiarlo cuando quieras sin perder nada.</p></div>
+   <div class="pjhero"><div class="pjstage">${pjSVG(Object.assign({},P,{etapa:st}),5)}</div><div class="stack" style="gap:6px"><span class="pxchip">ETAPA ${st}</span><span class="pxname">${it[2]}</span><span class="pjdesc">${it[3]}</span></div></div>
+   <div class="card stack"><h3 style="margin:0">Así evoluciona</h3><div class="pjevo">${PJSTG.map((x,i)=>`<div><div class="pjmini${i+1===st?" cur":""}">${pjSVG(Object.assign({},P,{etapa:i+1,bloqueado:i+1>st}),1.6)}</div><span class="pxsm">${x[0]}</span><span class="muted" style="font-size:.72rem">${x[1]}</span></div>`).join("")}</div><p class="muted" style="font-size:.82rem;margin:0">Evoluciona al subir de nivel y conseguir trofeos. Siempre se ve nítido: gana equipo.</p></div>
+   ${PJT.map(([t,n,items])=>`<div class="stack" style="gap:8px"><div class="row" style="justify-content:space-between;align-items:baseline"><h3 style="margin:0">${t}</h3><span class="muted" style="font-size:.8rem">${n}</span></div><div class="pjgrid">${items.map(([id,tipo,lab])=>{const cfg=Object.assign({},P,{id,tipo,rasgos:id==="chica"?"chica":id==="chico"?"chico":P.rasgos,peinado:id==="chica"&&P.id!=="chica"?"largo":id==="chico"&&P.id!=="chico"?"corto":P.peinado,etapa:st});if(!isP&&tipo==="persona"){cfg.pelo="#6B4226"}if(PJANIM.includes(tipo)&&!isA)cfg.pelo={gato:"#E08A3C",golden:"#E3A857",dino:"#36A79B"}[tipo];return `<button class="pjbtn${P.id===id?" on":""}" data-pjt="${id}" aria-pressed="${P.id===id}"><span class="pjthumb">${pjSVG(cfg,1.6)}</span><span class="pxsm">${lab}</span></button>`}).join("")}</div></div>`).join("")}
+   <div class="card stack" style="gap:6px"><h3 style="margin:0">Personaliza</h3>${opts||'<p class="muted" style="margin:0">Este personaje tiene su propio estilo.</p>'}</div>
+   <div class="row"><button class="btn" data-act="pj-save">Elegir este</button><button class="btn ghost" data-act="pj-cancel">Cancelar</button></div></section>`}
 function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   const exSub=S.exMode!=="conceptos"||S.exArea!==null||S.exMyth||!!S.exQ||!!S.qz,exBack=exSub?`<button class="backbar exback" data-act="ex-home">← Volver al inicio de Explorar</button>`:"";
@@ -2517,7 +2865,7 @@ function openConcept(id){
 }
 function render(){
   renderNav();
-  const v={hoy:vHoy,ruta:vRuta,mas:vMas,proposito:vProposito,mapa:vMapa,explorar:vExplorar,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
+  const v={hoy:vHoy,ruta:vRuta,mas:vMas,proposito:vProposito,mapa:vMapa,explorar:vExplorar,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,personaje:vPersonaje,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
   document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${S.back&&S.back.v!==S.view&&!S.testing?`<button class="backbar" data-act="goback">← Volver a ${VNAME[S.back.v]||"atrás"}</button>`:""}${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
   if(S.view==="dudas"&&S.faqQ)faqFilter();
   const tb=document.getElementById("tourbox");if(tb)tb.innerHTML=tourBar();
@@ -2580,16 +2928,13 @@ document.addEventListener("click",e=>{
   if(d.rva!==undefined&&S.rv){const Z=S.rv;Z.ans[Z.step]=+d.rva;Z.step++;Z.flip=false;if(Z.step===Z.items.length&&friKey()){const ok=Z.ans.filter(x=>x===0).length;S.rev[Z.fk]={ok,n:Z.items.length,date:today()};store.set("rev",S.rev)}render();window.scrollTo({top:0});return}
   if(d.adt){S.adic={type:d.adt,ans:{},show:false};store.set("adicT",S.adic);render();window.scrollTo({top:0});return}
   if(d.bh){const [k,v]=d.bh.split(":");S.bsim[k]=+v;store.set("bsim",S.bsim);const y=window.scrollY;render();window.scrollTo(0,y);return}
+  if(d.pjt){const it=pjFind(d.pjt),P=S.pjDraft||Object.assign({},pjCfg());const was=P.id;P.id=it[0];P.tipo=it[1];if(it[1]==="persona"){P.rasgos=it[0];if(was!==it[0])P.peinado=it[0]==="chica"?"largo":"corto";if(!PJPELO.includes(P.pelo))P.pelo="#6B4226"}else if(PJANIM.includes(it[1])){P.pelo={gato:"#E08A3C",golden:"#E3A857",dino:"#36A79B"}[it[1]]}else if(!PJPELO.includes(P.pelo))P.pelo="#6B4226";S.pjDraft=P;const y=window.scrollY;render();window.scrollTo(0,y);return}
+  if(d.pjo){const [k,v]=d.pjo.split("|");S.pjDraft[k]=k==="gafas"?!!v:v;const y=window.scrollY;render();window.scrollTo(0,y);return}
+  if(d.pjc){const [k,v]=d.pjc.split("|");S.pjDraft[k]=v;const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.bsex){yoKeep();S.bsim.sex=d.bsex;S.me.sex=d.bsex;store.set("bsim",S.bsim);store.set("me",S.me);const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.bskin!==undefined){yoKeep();S.bsim.skin=+d.bskin;S.me.skin=+d.bskin;store.set("bsim",S.bsim);store.set("me",S.me);const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.stq){const [i,v]=d.stq.split(":").map(Number);S.stoic.ans[i]=v;store.set("stoic",S.stoic);const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.cr){const [i,v]=d.cr.split(":").map(Number);S.crono.ans[i]=v;store.set("crono",S.crono);const y=window.scrollY;render();window.scrollTo(0,y);return}
-  if(d.avh){S.me.av=Object.assign({},AV0,S.me.av,{h:d.avh});yoKeep();store.set("me",S.me);render();return}
-  if(d.avk){const [k,v]=d.avk.split(":");S.me.av=Object.assign({},AV0,S.me.av,{[k]:+v});yoKeep();store.set("me",S.me);render();return}
-  if(d.avx){S.me.av=Object.assign({},AV0,S.me.av,{ex:d.avx});yoKeep();store.set("me",S.me);render();return}
-  if(d.avt){const a=Object.assign({},AV0,S.me.av);a[d.avt]=a[d.avt]?0:1;S.me.av=a;yoKeep();store.set("me",S.me);render();return}
-  if(d.ava){S.me.a=d.ava;store.set("me",S.me);yoKeep();render();return}
-  if(d.avc){S.me.c=d.avc;store.set("me",S.me);yoKeep();render();return}
   if(d.curlike!==undefined){const h=curNow(false);if(h){const ta=document.getElementById("cur-learn");if(ta)h.learned=ta.value.trim().slice(0,300);h.like=+d.curlike;curSave();const y=window.scrollY;render();window.scrollTo(0,y)}return}
   if(d.adl!==undefined){S.adic.num=S.adic.num||{};S.adic.num.learn=+d.adl;store.set("adicT",S.adic);const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.adq){const [i,v]=d.adq.split(":").map(Number);S.adic.ans[i]=v;store.set("adicT",S.adic);const y=window.scrollY;render();window.scrollTo(0,y);return}
@@ -2611,9 +2956,8 @@ document.addEventListener("click",e=>{
   else if(act==="sto-edit"){S.stoic.show=false;store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="sto-redo"){S.stoic={ans:{},show:false,res:S.stoic.res};store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="yo-p"){const k=+d.v;S.pOpen=k;go("proposito");setTimeout(()=>{const el=document.querySelector(`[data-popen="${k}"]`);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},80)}
-  else if(act==="av-new"){S.me.av=Object.assign({},AV0,{h:S.me.sex==="chica"?"melena":"corto",sk:S.me.skin!=null?Math.min(S.me.skin+1,6):2});yoKeep();store.set("me",S.me);render()}
-  else if(act==="av-emoji"){S.me.av=null;yoKeep();store.set("me",S.me);render()}
-  else if(act==="av-rand"){const r=n=>Math.floor(Math.random()*n);const hp=S.me.sex==="chico"?["rapado","corto","puntas","afro","rizos","coleta"]:S.me.sex==="chica"?["afro","rizos","media","melena","coleta","coletas","trenzas","mono","corto"]:AVH.map(x=>x[0]);S.me.av={h:hp[r(hp.length)],hc:r(AVHC.length),sk:r(AVSK.length),ey:r(AVEY.length),ex:["sonrisa","alegre","seria"][r(3)],gl:r(4)===0?1:0,fr:r(4)===0?1:0,sh:r(AVSH.length),bg:r(AVBG.length)};yoKeep();store.set("me",S.me);render()}
+  else if(act==="pj-save"){S.me.pj=S.pjDraft||pjCfg();S.pjDraft=null;store.set("me",S.me);toast("¡Personaje elegido!");go("yo",true)}
+  else if(act==="pj-cancel"){S.pjDraft=null;go("yo",true)}
   else if(act==="yo-av"){S.yoEdit=!S.yoEdit;render()}
   else if(act==="yo-save"){yoKeep();S.yoEdit=false;if(S.name)store.set("name",S.name);store.set("me",S.me);toast("Guardado");render()}
   else if(act==="cur-del"){S.curDel=+d.v;render()}
