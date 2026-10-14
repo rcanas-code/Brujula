@@ -483,6 +483,7 @@ section:has(> .exback) .filterbar{top:58px}
 .lqbox{border:2px solid var(--brand);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;margin:6px 0}
 .lqbox.fog{border-color:#9B7BFF}.lqbox.wait{border-style:dashed}.practica{border-left:4px solid var(--line);padding:6px 10px}
 .doneline{display:flex;gap:10px;align-items:flex-start;background:var(--good-bg);border:2px solid var(--good);border-radius:4px;padding:10px 12px}.doneline .bigck{color:var(--good);font-weight:800;font-size:1.3rem;line-height:1}
+.valline{margin:0;font-size:.9rem;color:#7C4DCC;font-weight:600}
 .lqbox.ok{border-color:var(--good);background:var(--good-bg)}
 .lqo{text-align:left;justify-content:flex-start;white-space:normal}
 .lqno{margin:0;color:var(--warn);font-weight:700;font-size:.9rem}
@@ -1647,7 +1648,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014195341";
+const APP_V="20261014195822";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1788,7 +1789,7 @@ function vHoy(){
     const week=n<7&&!(n===1&&!S.active.plan)?`<div class="week">${dots}</div><div class="wkleg"><span><i class="si"></i>Sí</span><span><i class="poco"></i>Un poco</span><span><i class="no"></i>Hoy no</span><span><i></i>Sin marcar</span></div><p class="muted" style="font-size:.82rem;margin-top:-4px">${g} de 7 días. Con 4 lo superas. ¿Se te olvidó un día? Toca su círculo.</p>`:"";
     const extra=`<details class="more2"><summary>Ver el plan, el ejemplo y para qué sirve</summary><div class="stack" style="margin-top:10px;gap:10px">${tl}<p class="muted" style="font-size:.9rem">${esc(c.q)}</p><p class="why"><b>Por qué importa:</b> ${AREA_WHY[c.a]}.${S.P.done[7]&&S.P.f.que?` Y eso te acerca a tu propósito: ${esc(S.P.f.verb)} ${esc(S.P.f.que)}.`:""}</p>${S.active.plan?`<p style="font-size:.92rem"><b>Tu plan:</b> ${esc(S.active.plan)}${S.active.time?` · Tu hora: ${esc(S.active.time)}`:""}</p>${calBox()}`:""}${E&&!(n===1&&!S.active.plan)?`<div class="guide"><p class="eyebrow">Un ejemplo</p><p>${esc(E[0])}</p></div>`:""}${S.more?moreBox(c):`<button class="btn ghost" data-act="more" style="width:max-content;padding:8px 16px">Quiero saber más</button>`}</div></details>`;
     main=`<div class="today area hoycard ${pend?"tocar":"ok"}" style="--h:${a.h}"><div class="row" style="justify-content:space-between">${tag}<span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
-      <h2>${esc(c.t)}</h2>${lead}${action}${pend?"":`<div class="doneline"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`}${week}${extra}</div>`;
+      <h2>${esc(c.t)}</h2>${valLine(a.k)}${lead}${action}${pend?"":`<div class="doneline"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`}${week}${extra}</div>`;
   }
   const banner=rescueBanner();
   const lastT=S.tests.length?S.tests[S.tests.length-1].date:null,retest=lastT&&diff(lastT,today())>=28;
@@ -1876,11 +1877,12 @@ function pBody(k){
 function vProposito(){
   const steps=[[1,"Lo que me importa","Elige tus valores","3 min"],[2,"En qué soy bueno","Elige tus fortalezas","3 min"],[3,"Lo que me enciende","Qué te da y qué te quita energía","3 min"],[4,"A quién quiero aportar","Lo que te gustaría mejorar","5 min"],[5,"Mi yo dentro de 10 años","Imagina tu vida a los 26","3 min"],[6,"Experimentos","Tres pruebas en la vida real","2-3 semanas"],[7,"Mi frase","Tu brújula en una frase","5 min"]];
   return `<section class="stack"><div><p class="eyebrow">Propósito</p><h1>Para qué haces lo que haces</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">A tu edad nadie tiene que tener claro su propósito. Se descubre probando y cambia con los años. Aquí no buscas «tu misión en la vida»: buscas una dirección para ahora.</p></div>
+   ${propBanner()}
    ${S.P.done[7]?"":`<div class="card stack" style="gap:10px">
     <p><b>Para qué sirve.</b> Simon Sinek lo llama <em>encontrar tu porqué</em>: para conocer qué te importa, en qué eres bueno y a quién te gustaría aportar algo. Con eso eliges con más criterio: qué estudiar, en qué trabajar, con quién estar, en qué gastar tu tiempo.</p>
     <p><b>Por qué hacerlo.</b> Los retos de tu ruta mejoran cómo estás; el propósito te dice hacia dónde vas. Cuando sabes para qué haces algo, cuesta menos hacerlo y es más difícil que otros decidan por ti.</p>
     <p><b>A dónde te lleva.</b> Al final tendrás tu frase, por ejemplo: <em>«Quiero ayudar a que la gente se sienta mejor, para gente mayor, usando mi amabilidad, porque me importa la familia.»</em> Aparecerá en Hoy, cada reto te recordará cómo te acerca a ella y cada mes la revisarás.</p>
-    <p><b>Cómo.</b> 7 pasos, uno por semana, de unos 3 a 5 minutos, casi todo tocando opciones. Hoy te avisa (en azul) cuando toca un paso. Es <b>opcional</b>: no afecta a tus retos ni a tu ruta, pero es lo que da sentido a todo lo demás.</p>
+    <p><b>Cómo.</b> 7 pasos, uno por semana, de unos 3 a 5 minutos, casi todo tocando opciones. Hoy te avisa (en azul) cuando toca un paso. No afecta a tus retos ni a tu ruta, pero es el camino de la <b>Cima de la Brújula</b>: te da su trofeo, enciende tus valores en cada reto y es la llave para el final del curso.</p>
    </div>`}
    ${northCard(false)}
    <button class="dogban curban" data-go="curiosidad"><span class="dbi">🔭</span><span><b>¿No sabes qué te gusta? Descúbrelo probando</b><small>Una propuesta corta cada semana. ${(()=>{const n=S.cur.hist.filter(x=>x.st==="hecha").length;return n?`Llevas ${n} hecha${n>1?"s":""}.`:"Investiga, prueba, sal o crea."})()}</small></span><span class="tgo">→</span></button>
@@ -2786,6 +2788,7 @@ function fBlocked(k){const F=(S.g.fin||{})[k];return !!(F&&F.next&&today()<F.nex
 function gArea(k){
   const d=GDIF[k];if(!d)return null;const T=S.g.tr[k]||(S.g.tr[k]={}),t=today(),thr=GTHR[d];
   const cs=C.filter(c=>AREAS[c.a].k===k),learned=cs.filter(c=>cDone(c.id)).length,need=Math.min(3,cs.length);
+  if(k==="VAL")return gVal(k,d,T,t,thr,learned,cs);
   const q=(S.quizR||{})[k],hasQ=(QZ[k]||[]).length>=10,qPass=q&&(q.pass||(q.best>=thr?q.date:null));
   const retos=S.history.filter(h=>h.passed&&aK(h.id)===k).map(h=>h.end).sort();
   const F=(S.g.fin||{})[k],Rf=(S.g.ref||{})[k];let ch=false,openO=null;
@@ -2923,7 +2926,7 @@ function mwDone(k){return mwCs(k).filter(c=>cDone(c.id)).length}
 function mwSeen(){
   const R=new Set(),K=Object.keys(MWPOS);
   ((S.route&&S.route.areas)||[]).forEach(i=>AREAS[i]&&R.add(AREAS[i].k));
-  (S.g.rev||[]).forEach(k=>R.add(k));
+  (S.g.rev||[]).forEach(k=>R.add(k));R.add("VAL");
   if(S.active){const k=aK(S.active.id);if(k)R.add(k)}
   K.forEach(k=>{const T=(S.g.tr||{})[k];if((T&&T.b)||(!GDIF[k]&&mwDone(k)>=3))MWNB[k].forEach(n=>R.add(n))});
   if(R.size<3)["SUE","DIN","CIV"].forEach(k=>{if(R.size<3)R.add(k)});
@@ -2990,7 +2993,7 @@ function vRegion(){
   else{const A=gArea(k),T=A.T,q=(S.quizR||{})[k],thr=GTHR[GDIF[k]],need=Math.min(3,cs.length),inRoute=((S.route&&S.route.areas)||[]).some(i=>AREAS[i].k===k);
     const qPass=q&&(q.pass||q.best>=thr);
     head=`<div class="regico">${trSVG(GICO[k],A.metal,3)}</div><div class="stack" style="gap:2px"><span class="rarea" style="--h:${a.h};align-self:flex-start">${esc(a.n)}</span><h1 class="pxname" style="font-size:1.5rem;margin:0">${esc(GREG[k])}</h1><span class="muted" style="font-size:.85rem">${GMET[A.metal]} · ${"★".repeat(GDIF[k])}</span></div>`;
-    const st=[
+    const st=k==="VAL"?valStops(k,A):[
       ["LEE Y RESPONDE",`Comprueba ${need} lecturas`,nd>=need||!!T.b,`${Math.min(nd,need)} de ${need} · abre «Lecturas de esta región»`,nd<need?`<button class="btn ghost sm" data-act="reglect">Ver lecturas</button>`:""],
       ["QUIZ",`El quiz: ${thr} de 10 para el bronce`,!!qPass||!!T.b,qPass?"Aprobado":qBlocked(k)?"Hoy ya lo has intentado: vuelve mañana":(QZ[k]||[]).length>=10?"10 preguntas al azar · unos 4 minutos":"Llega pronto",!qPass&&!qBlocked(k)&&(QZ[k]||[]).length>=10?`<button class="btn sm" data-gact="quiz|${k}">Hacer el quiz</button>`:""],
       ["RETO REAL",PHOTO[k]?"Un reto de 7 días + prueba con foto (plata)":"Un reto de 7 días de esta región (plata)",!!T.p,T.p?"Superado":A.act&&A.act[0]==="foto"?"¡Reto superado! Falta la prueba para que la plata brille":!T.b?"Se abre con el bronce":inRoute?"Te llega en Hoy cuando le toque en tus retos semanales, como pronto el día después del bronce":"Esta región aún no está en tus retos. Al terminar el nivel 1 podrás añadirla desde «Tus retos semanales»",T.b&&!T.p?(A.act&&A.act[0]==="foto"?`<button class="btn sm" data-gact="foto|${k}">📷 ${esc(A.act[2])}</button>`:`<button class="btn ghost sm" data-go="ruta">Ver mis retos</button>`):""],
@@ -3056,6 +3059,7 @@ function yoDash(){
    <div class="card stack" style="gap:8px"><h3 class="pxname" style="font-size:1.05rem">${nx?`Próxima evolución: ${nx.name}`:"Has llegado a Leyenda"}</h3>
     ${nx?`<p class="muted" style="margin:0;font-size:.85rem">Equipo nuevo: ${esc(pjGear(G.st).toLowerCase())}</p>${nx.req.map(r=>{const [a,b]=r[1].split(" / ").map(Number);return `<div class="yoreq"><span>${esc(r[0])}</span>${seg(a,b)}<span class="muted">${r[1]}</span></div>`}).join("")}<p class="muted" style="margin:0;font-size:.8rem">El nivel mide tu constancia; los trofeos, lo que dominas. Hacen falta los dos.</p>`:`<p class="muted" style="margin:0">Tu personaje ya luce todo su equipo.</p>`}
     <div class="pjevo">${PJSTG.map((x,i)=>`<div><div class="pjmini${i+1===G.st?" cur":""}">${pjSVG(Object.assign({},P,{etapa:i+1,bloqueado:i+1>G.st}),1.4)}</div><span class="pxsm">${x[0]}</span></div>`).join("")}</div></div>
+   ${valCard()}
    ${logrosCard()}
    <div class="yobtns"><button class="btn" data-go="coleccion">🏆 Mi colección</button><button class="btn ghost" data-go="personaje">Cambiar personaje</button><button class="btn ghost" data-act="g-snd" aria-pressed="${S.g.snd!==false}">${S.g.snd===false?"🔇 Sonido: no":"🔊 Sonido: sí"}</button></div>
    <details class="card fold"><summary><span class="fi">✨</span>¿Cómo gano XP?</summary><ul style="margin:10px 0 0;padding-left:18px;font-size:.92rem"><li>Marcar tu reto: Sí +10 · Un poco +6 · Hoy no +2</li><li>Tu plan del reto: +5 · Valorar la semana: +20</li><li>Comprobar una lectura: +5</li><li>Aprobar el quiz de una región: +20</li><li>Superar un reto de 7 días: +30 (hasta 3 por semana)</li><li>Entrenar en una región: +5 por día</li><li>Descubre: +40 · Repaso semanal: +20 · Paso de Propósito: +15</li><li>Aprobar un test final: +50</li></ul><p class="muted" style="font-size:.8rem;margin:8px 0 0">Tus tests y «¿Cómo te sientes hoy?» no dan XP: son para conocerte.</p></details>
@@ -3174,6 +3178,37 @@ function urlIntake(){let q;try{q=new URLSearchParams(location.search)}catch(e){r
 
 S.cls=store.get("cls",null);
 function cpy(t){try{navigator.clipboard.writeText(t).then(()=>toast("Copiado"),()=>prompt("Copia el texto:",t))}catch(e){prompt("Copia el texto:",t)}}
+
+/* ---------- Propósito = camino de la Cima de la Brújula ---------- */
+function gVal(k,d,T,t,thr,learned,cs){
+  const D=(S.P&&S.P.done)||{},F=(S.g.fin||{})[k];let ch=false;const n14=[1,2,3,4].filter(i=>D[i]).length;
+  if(!T.b&&n14===4){T.b=t;ch=true}
+  if(T.b&&!T.p&&D[5]&&D[6]&&t>=addDays(T.b,1)){T.p=t;ch=true}
+  const openO=T.p?addDays(T.p,GWAIT[d]):null;
+  if(T.p&&!T.o&&D[7]&&t>=openO&&F&&F.pass&&F.pass>=openO){T.o=t;ch=true}
+  if(ch)store.set("game",S.g);
+  const metal=T.o?"oro":T.p?"plata":T.b?"bronce":"ninguno";let next,act=null,checks=null;
+  if(!T.b){next=`Bronce: completa los pasos 1 a 4 de tu Propósito (llevas ${n14} de 4).`;act=["prop",k,"Ir a Propósito"]}
+  else if(!T.p){if(t<addDays(T.b,1))next="Plata: se abre mañana. Entonces, completa los pasos 5 (tu carta a los 26) y 6 (tus 3 pruebas en la vida real).";
+    else{next=`Plata: completa los pasos 5 (tu carta a los 26) y 6 (tus 3 pruebas en la vida real).${D[5]?" El 5 ya está.":""}${D[6]?" El 6 ya está.":""}`;act=["prop",k,"Ir a Propósito"]}}
+  else if(!T.o){if(t<openO){const n=dDiff(t,openO);next=`Oro: el test final se abre en ${n} día${n>1?"s":""} (el ${fmtD(openO)}). Mientras, escribe tu frase (paso 7) y entrena.`;act=D[7]?["train",k,"Entrenar"]:["prop",k,"Escribir mi frase"]}
+    else{const fOk=F&&F.pass&&F.pass>=openO;checks=[[!!D[7],"Tu frase de propósito (paso 7)"],[fOk,`Test final (${thr} de 10)`]];next="Oro: completa estas dos cosas.";
+      if(!D[7])act=["prop",k,"Escribir mi frase"];else if(!fOk){if(fBlocked(k))next+=` Podrás repetir el test final el ${fmtD(F.next)}.`;else act=["final",k,"Hacer el test final"]}}}
+  else next="Oro conseguido: tu brújula ya señala hacia dónde vas. Revísala cuando quieras.";
+  return {k,d,metal,T,next,act,checks,learned,total:cs.length,openO}}
+function valStops(k,A){const D=(S.P&&S.P.done)||{},T=A.T,n14=[1,2,3,4].filter(i=>D[i]).length,b=(lbl,on)=>on?`<button class="btn sm" data-go="proposito">${lbl}</button>`:"";
+  return [["PROPÓSITO · PASOS 1-4","Valores, fortalezas, energía y a quién aportar (bronce)",!!T.b,T.b?"Conseguido":`${n14} de 4 pasos`,b("Ir a Propósito",!T.b)],
+    ["PROPÓSITO · PASOS 5-6","Tu carta a los 26 y tus 3 pruebas reales (plata)",!!T.p,T.p?"Conseguido":!T.b?"Se abre con el bronce":(A.next||""),b("Ir a Propósito",!!T.b&&!T.p)],
+    ["RETO FINAL","Tu frase de propósito + test final (oro)",!!T.o,T.o?"Oro conseguido":T.p?(A.next||""):"Se abre 7 días después de la plata",T.p&&!T.o&&A.act?(A.act[0]==="prop"?b(A.act[2],true):`<button class="btn sm" data-gact="${A.act[0]}|${A.act[1]}">${esc(A.act[2])}</button>`):""],
+    ["EL ESPEJO","Al final del curso te espera tu Alter Ego",false,"Para enfrentarte a él necesitarás tu frase de propósito y tu carta a los 26 años. Guárdalas bien.",""]]}
+function propBanner(){const A=gArea("VAL");if(!A)return "";return `<div class="card exreg"><span class="regico">${trSVG(GICO.VAL,A.metal,2)}</span><div class="stack" style="gap:2px;flex:1;min-width:0"><span class="pxname" style="font-size:1rem">${esc(GREG.VAL)}</span><span class="muted" style="font-size:.82rem">Estos 7 pasos son el camino de esta región del mapa: pasos 1-4 → bronce · 5-6 → plata · 7 y test final → oro. Y tu frase y tu carta serán la llave para el final del curso.</span></div><button class="btn ghost sm" data-reg="VAL">Ver en el mapa</button></div>`}
+/* ---------- tus valores en los retos ---------- */
+const AVAL={SUE:["Salud","Tranquilidad"],MOV:["Salud","Superación","Esfuerzo"],ALI:["Salud"],EMO:["Tranquilidad","Honestidad"],PEN:["Superación","Tranquilidad"],HAB:["Esfuerzo","Superación","Independencia"],REL:["Amistad","Familia","Lealtad","Respeto"],ATE:["Libertad","Aprender","Independencia"],EST:["Tranquilidad","Salud"],VAL:["Superación","Aprender"],DIN:["Libertad","Independencia","Seguridad","Esfuerzo"],EDU:["Aprender","Superación","Esfuerzo"],CRI:["Justicia","Libertad","Honestidad","Aprender"],AUT:["Honestidad","Aprender"],ANI:["Naturaleza","Respeto","Ayudar"],CIU:["Justicia","Libertad","Respeto"],ADI:["Libertad","Salud","Independencia"],STO:["Tranquilidad","Superación"],CIV:["Respeto","Ayudar","Justicia"]};
+function valFlames(){const c={};((S.P&&S.P.v)||[]).forEach(v=>c[v]=0);S.history.filter(h=>h.passed).forEach(h=>{(AVAL[aK(h.id)]||[]).forEach(v=>{if(v in c)c[v]++})});return c}
+const vGrade=n=>n>=6?["Hoguera","🔥🔥🔥"]:n>=3?["Llama","🔥🔥"]:n>=1?["Chispa","🔥"]:["Por encender","·"];
+function valLine(k){const m=((S.P&&S.P.v)||[]).filter(v=>(AVAL[k]||[]).includes(v));return m.length?`<p class="valline">✨ Este reto alimenta lo que te importa: <b>${m.map(esc).join(" y ")}</b></p>`:""}
+function valCard(){const V=valFlames(),ks=Object.keys(V);
+  return `<div class="card stack" style="gap:8px"><h3 class="pxname" style="font-size:1.05rem">Tus valores</h3>${ks.length?`${ks.map(v=>{const [g,f]=vGrade(V[v]);return `<div class="yoreq"><span><b>${esc(v)}</b></span><span>${f}</span><span class="muted">${g}</span></div>`}).join("")}<p class="muted" style="margin:0;font-size:.8rem">Cada reto superado de un tema que tiene que ver con un valor tuyo lo aviva: chispa (1 reto), llama (3) y hoguera (6).</p>`:`<p class="muted" style="margin:0">Elige lo que te importa en Propósito (paso 1) y verás cómo tus retos lo van encendiendo.</p><button class="btn ghost sm" data-go="proposito" style="width:max-content">Ir a Propósito</button>`}</div>`}
 /* pregunta rápida al final de cada lectura */
 function lqWait(id){const c=CI[id];if(!c)return 15;const E=exOf(id)||[];const w=(c.q+" "+c.h+" "+E.join(" ")).split(/\s+/).length;return Math.max(15,Math.min(45,Math.round(w/3.5)))}
 function lqReady(id){const L=S.lqRead;return !!(L&&L.id===id&&L.scrolled&&Date.now()-L.t0>=lqWait(id)*1000)}
@@ -3398,6 +3433,7 @@ const FAQ=[
 ["¿Puedo quitar el sonido de los premios?","Sí. En la pantalla de felicitación o en Yo, con el botón «Sonido de premios». Si el móvil está en silencio, normalmente no suena."],
 ["¿Se puede perder un trofeo?","No. Lo conseguido nunca se pierde, aunque dejes la app un tiempo."],
 ["Un ejemplo: ¿cómo avanza alguien de verdad?","Nora empieza en el Puerto de las Mil Monedas (Dinero). Semana 1: comprueba 3 lecturas y aprueba el quiz con 9 de 10: trofeo de bronce y se descubren dos regiones vecinas. Semanas 2 y 3: cumple su reto de ahorro 5 de 7 días: trofeo de plata. Luego espera 14 días a que se abra el test final; mientras, entrena en la sala de entreno y avanza en otras regiones. En la semana 4 llega al nivel 5 y evoluciona a Exploradora. En la semana 6 aprueba el test final, hace otro reto y escribe su reflexión: trofeo de oro. Lo tienes en dibujo en Dudas, en «La aventura de Nora»."],
+["¿Qué tiene que ver Propósito con el mapa?","Los 7 pasos de Propósito son el camino de la Cima de la Brújula. Pasos 1 a 4: bronce. Pasos 5 y 6: plata. Tu frase (paso 7) y el test final: oro. Los valores que eliges en el paso 1 aparecen en tus retos y se van encendiendo (chispa, llama, hoguera) con cada reto superado. Y tu frase y tu carta a los 26 años serán la llave para enfrentarte al jefe final del curso."],
 ["¿Qué es la sala de entreno?","Mientras esperas a que se abra el test final de una región, puedes entrenar con 10 preguntas del quiz, sin límite y sin perder nada. Verás cuántos días faltan. Cada día que entrenas en una región suma +5 XP."]]],
 ["Empezar",[
 ["¿Qué es Brújula?","Una app para conocerte mejor y mejorar poco a poco en 14 áreas de tu vida: sueño, emociones, estudio, dinero, relaciones… Haces un test, ves tu mapa y trabajas un reto pequeño cada semana."],
@@ -3599,7 +3635,7 @@ document.addEventListener("click",e=>{
   if(d.carta!=null){S.cartaN=+d.carta;render();window.scrollTo({top:0});return}
   if(d.lq!=null&&S.lq){const id=S.lq.id;if(+d.lq===0){S.g.ok=S.g.ok||{};S.g.ok[id]=today();store.set("game",S.g);S.lq=null;toast(GDIF[aK(id)]?"+5 · ¡Correcto! La lectura cuenta":"¡Correcto!")}else{S.g.lqf=S.g.lqf||{};S.g.lqf[id]=today();store.set("game",S.g);S.lq=null;toast("Esta no era. Vuelve a leerla: mañana tendrás otra pregunta.")}
     const bx=dl.querySelector(".lqbox");if(bx)bx.outerHTML=lqBox(id);render();return}
-  if(d.gact){const [a,k]=d.gact.split("|");if(a==="quiz"){S.exMode="quiz";qzStart(k);go("explorar")}else if(a==="area"){S.reg=k;S.regOpen=true;go("region")}else if(a==="final")fzStart(k);else if(a==="train")trStart(k);else if(a==="foto"){S.fotoK=k;go("prueba")}else if(a==="ref"){S.refOpen=k;render()}return}
+  if(d.gact){const [a,k]=d.gact.split("|");if(a==="quiz"){S.exMode="quiz";qzStart(k);go("explorar")}else if(a==="area"){S.reg=k;S.regOpen=true;go("region")}else if(a==="final")fzStart(k);else if(a==="train")trStart(k);else if(a==="prop")go("proposito");else if(a==="foto"){S.fotoK=k;go("prueba")}else if(a==="ref"){S.refOpen=k;render()}return}
   if(d.fa!==undefined){const Z=S.fz;if(!Z)return;Z.ans.push(+d.fa);Z.step++;if(Z.step===Z.items.length){const ok=Z.ans.filter(x=>x===0).length,th=GTHR[GDIF[Z.k]],F=S.g.fin[Z.k]||{};F.last=ok;F.date=today();F.n=(F.n||0)+1;if(ok>=th){F.pass=F.pass||today();F.fails=0;F.next=null}else{F.fails=(F.fails||0)+1;F.next=addDays(today(),F.fails>=2?7:3)}S.g.fin[Z.k]=F;store.set("game",S.g)}render();window.scrollTo({top:0});return}
   if(d.pjt){const it=pjFind(d.pjt),P=S.pjDraft||Object.assign({},pjCfg());const was=P.id;P.id=it[0];P.tipo=it[1];if(it[1]==="persona"){P.rasgos=it[0];if(was!==it[0])P.peinado=it[0]==="chica"?"largo":"corto";if(!PJPELO.includes(P.pelo))P.pelo="#6B4226"}else if(PJANIM.includes(it[1])){P.pelo={gato:"#E08A3C",golden:"#E3A857",dino:"#36A79B"}[it[1]]}else if(!PJPELO.includes(P.pelo))P.pelo="#6B4226";S.pjDraft=P;const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.pjo){const [k,v]=d.pjo.split("|");S.pjDraft[k]=k==="gafas"?!!v:v;const y=window.scrollY;render();window.scrollTo(0,y);return}
