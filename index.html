@@ -1495,7 +1495,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014130111";
+const APP_V="20261014130713";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
