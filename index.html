@@ -401,6 +401,7 @@ dialog h2:focus{outline:none}
 .pop{animation:pop .3s ease}
 .cmpt{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.cmpt th,.cmpt td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--line)}.cmpt th:first-child,.cmpt td:first-child{text-align:left;color:var(--muted)}.cmpt th{font-size:.8rem;font-weight:700;vertical-align:bottom}.cmpt .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.cmpt td:not(:first-child){white-space:nowrap}.cmpt td:first-child{font-size:.9rem}.cmpt tr.tot td{font-weight:800;font-size:1rem;border-bottom:0;color:var(--ink,inherit)}.cmpt tr.tot td:first-child{color:inherit}.cmpmsg{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--accent) 12%,transparent)}
 .cchips{display:flex;flex-wrap:wrap;gap:8px}.cchips .chip{cursor:pointer;width:auto;flex:0 0 auto;max-width:100%;padding:6px 10px;font-size:.8rem}#caprichos>*{min-width:0}.crow{grid-template-columns:minmax(0,1fr);min-width:0}.crow>*{min-width:0}.crow2 select{min-width:0;width:100%}.cenj button{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#capres .kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}#capres .kpi{padding:10px 8px}#capres .big{font-size:1.15rem}#capres .kpi .eyebrow{font-size:.62rem}.crow{border:1px solid var(--line);border-left:5px solid var(--e);border-radius:12px;padding:10px 8px;display:grid;gap:8px}.crow1,.crow2{display:flex;gap:8px;align-items:center}.cin{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0}.crow1 .cin{flex:1;font-weight:700}.cprice{display:flex;align-items:center;gap:4px;font-weight:700}.cprice .cin{width:5.5em;text-align:right}.crow2 select{flex:1}.cdel{border:0;background:transparent;color:var(--muted);font-size:1.1rem;padding:6px 8px;cursor:pointer}.cenj{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.cenj button{border:1.5px solid var(--x);background:transparent;color:var(--ink);border-radius:999px;padding:7px 2px;font:inherit;font-size:.74rem;font-weight:700;cursor:pointer}.cenj button.on{background:var(--x);color:#fff}.cmeta{margin:0;font-size:.85rem;color:var(--muted)}.cbar{display:grid;grid-template-columns:minmax(0,7.5em) 1fr auto;gap:8px;align-items:center;font-size:.85rem}.cbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cbt{height:12px;border-radius:6px;background:var(--surface-2);overflow:hidden}.cbt i{display:block;height:100%;border-radius:6px}.cbv{font-variant-numeric:tabular-nums;font-weight:700}.cplan{border-radius:14px;padding:14px;background:color-mix(in srgb,var(--accent) 10%,transparent);display:grid;gap:10px}.cplan.good{background:color-mix(in srgb,var(--good) 12%,transparent)}.cplan h3{margin:0}.cplan p{margin:0}.linkbtn{border:0;background:none;padding:0;color:var(--c,var(--accent));font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+.rvcard{border:2px solid var(--brand,var(--accent));background:color-mix(in srgb,var(--accent) 7%,var(--surface))}.rvcard h3{margin:0}.rvdone{display:flex;gap:12px;align-items:center;border-left:5px solid var(--good)}.rvi{font-size:1.5rem}.rvold{margin:0;font-size:.85rem;font-weight:700;color:var(--accent)}.rvback{padding:14px;border-radius:12px;background:var(--surface-2);font-size:1.05rem;line-height:1.45;border-left:4px solid var(--c)}
 </style>
 
 <div class="wrap">
@@ -936,7 +937,7 @@ const EXAMPLE=[3.7,4.3,3,2.7,3.3,2,4.7,2.3,3,4,2.7,2.3,4,3.7];
 const store={get(k,d){try{const v=localStorage.getItem("brujula:"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("brujula:"+k,JSON.stringify(v))}catch(e){}}};
 const P0=()=>({v:[],s:[],s3:"",up:"",down:"",flow:"",causes:[],who:"",letter:"",upL:[],downL:[],whoL:[],fut:[],proud:[],exp:[{t:"",d:false},{t:"",d:false},{t:"",d:false}],f:{verb:"ayudar",que:"",quien:"",s:"",v:""},done:{},pa:null,paHist:[],versions:[],fDate:null,lastReview:null,reviews:0});
 let S={mood:store.get("mood",{}),grp:Object.assign({m:[],wk:{}},store.get("grp",{})),name:store.get("name",""),quizR:store.get("quiz",{}),qz:null,seen:store.get("seen",{}),tour:null,tourDone:store.get("tourDone",false),view:"hoy",answers:store.get("answers",{}),active:store.get("active",null),history:store.get("history",[]),tests:store.get("tests",[]),buddy:store.get("buddy",""),P:Object.assign(P0(),store.get("purpose",{})),pOpen:null,route:store.get("route",null),keep:store.get("keep",[]),extra:store.get("extra",{}),grat:store.get("grat",[]),more:false,rescued:false,breath:false,misIdx:0,misClosed:false,tips:store.get("tips",[]),bud:store.get("bud",{sent:false,skip:false,log:{}}),sharePrompt:store.get("sharePrompt",null),
-  step:0,exMode:"conceptos",exArea:null,exMyth:false,exQ:"",sim:{m:30,r:5,age:18,wait:10,fee:0},lat:{d:1.5,y:40},capr:store.get("capr",[]),caprH:store.get("caprH",8)};
+  step:0,exMode:"conceptos",exArea:null,exMyth:false,exQ:"",sim:{m:30,r:5,age:18,wait:10,fee:0},lat:{d:1.5,y:40},capr:store.get("capr",[]),learn:store.get("learn",{}),rev:store.get("rev",{}),rv:null,caprH:store.get("caprH",8)};
 const save=()=>{store.set("answers",S.answers);store.set("active",S.active);store.set("history",S.history);store.set("tests",S.tests);store.set("buddy",S.buddy);store.set("purpose",S.P);store.set("route",S.route);store.set("keep",S.keep);store.set("extra",S.extra);store.set("grat",S.grat);store.set("tips",S.tips);store.set("bud",S.bud);store.set("sharePrompt",S.sharePrompt);store.set("grp",S.grp);store.set("mood",S.mood)};
 const VALUES=["Aprender","Ayudar","Honestidad","Libertad","Familia","Amistad","Creatividad","Justicia","Aventura","Salud","Esfuerzo","Lealtad","Respeto","Naturaleza","Independencia","Diversión","Seguridad","Espiritualidad","Belleza","Liderazgo","Humor","Tranquilidad","Reconocimiento","Superación"];
 const STRENGTHS=["Creatividad","Curiosidad","Juicio","Amor por aprender","Perspectiva","Valentía","Perseverancia","Honestidad","Entusiasmo","Capacidad de amar","Amabilidad","Inteligencia social","Trabajo en equipo","Sentido de la justicia","Liderazgo","Capacidad de perdonar","Humildad","Prudencia","Autocontrol","Sensibilidad por la belleza","Gratitud","Esperanza","Humor","Espiritualidad"];
@@ -1013,7 +1014,7 @@ function badges(){const logs=allLogs(),areasDone=new Set(S.history.filter(h=>h.f
   ["star","Cumbre","Llega a 900 puntos.",pt>=900,[Math.min(pt,900),900],"hoy"]]}
 
 /* ---------- reto activo ---------- */
-function startReto(id){S.active={id,start:today(),plan:"",log:{},rating:null};save();toast("Reto empezado. ¡A por el día 1!");go("hoy")}
+function startReto(id){markLearn(id);S.active={id,start:today(),plan:"",log:{},rating:null};save();toast("Reto empezado. ¡A por el día 1!");go("hoy")}
 function dayN(){return S.active?Math.min(diff(S.active.start,today())+1,99):0}
 function goodDays(a){let g=0;for(let k=0;k<7;k++){const v=a.log[addDays(a.start,k)];if(v==="si"||v==="poco")g++}return g}
 function finishReto(next){const a=S.active,passed=goodDays(a)>=4;S.history.push({id:a.id,start:a.start,end:today(),plan:a.plan,log:a.log,rating:a.rating,finished:true,passed,skipped:next==="skip",sto:a.sto,myEnd:a.myEnd});
@@ -1055,7 +1056,7 @@ const isIOS=/iPhone|iPad|iPod/i.test(UA);
 const isStandalone=(()=>{try{return !!(navigator.standalone||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches))}catch(e){return false}})();
 let canStore=true;try{localStorage.setItem("brujula:t","1");localStorage.removeItem("brujula:t")}catch(e){canStore=false}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-const KEYS=["capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
+const KEYS=["learn","rev","capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
 function backupCode(){const o={};KEYS.forEach(k=>o[k]=store.get(k,null));o.v=1;return "BRUJULA-"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
 function restoreCode(code){try{const raw=code.trim().replace(/^BRUJULA-/,"");const o=JSON.parse(decodeURIComponent(escape(atob(raw))));if(o.v!==1)throw 0;KEYS.forEach(k=>{if(o[k]!==null&&o[k]!==undefined)store.set(k,o[k])});return true}catch(e){return false}}
 function envBanner(){
@@ -1179,10 +1180,47 @@ function grpEditor(){
    ${ks.length?`<div><p class="eyebrow" style="margin-bottom:4px">Semanas anteriores</p>${ks.map(k=>{const r=grpDone(k);return `<p class="muted" style="font-size:.88rem">Viernes ${k.split("-").reverse().slice(0,2).join("/")}: lo cumplisteis ${r.yes.length} de ${S.grp.m.length+1}${r.yes.length?` (${esc(grpList(r.yes))})`:""}</p>`}).join("")}</div>`:""}
   </div>${grpFriCard()}`;
 }
+/* ---------- repaso semanal ---------- */
+function markLearn(id){if(!CI[id])return;const t=today(),x=S.learn[id];if(x&&x.l===t)return;S.learn[id]={f:x?x.f:t,l:t};store.set("learn",S.learn)}
+function rvSeed(s){let h=2166136261;for(const ch of s){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return ()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return ((h>>>0)%10000)/10000}}
+function rvItems(fk){
+  const R=rvSeed(fk),from=addDays(fk,-6),old1=addDays(fk,-35),old2=addDays(fk,-14);
+  const L=Object.entries(S.learn).filter(([id])=>CI[id]);
+  const shuf=a=>{a=a.slice();for(let j=a.length-1;j>0;j--){const r=Math.floor(R()*(j+1));[a[j],a[r]]=[a[r],a[j]]}return a};
+  const wk=shuf(L.filter(([,x])=>x.l>=from).map(([id])=>id));
+  const oldPref=shuf(L.filter(([id,x])=>x.f<=addDays(fk,-21)&&x.f>=old1&&!wk.includes(id)).map(([id])=>id));
+  const oldAny=shuf(L.filter(([id,x])=>x.f<=old2&&!wk.includes(id)&&!oldPref.includes(id)).map(([id])=>id));
+  const old=[...oldPref,...oldAny];
+  const nW=Math.min(wk.length,4),nO=Math.min(old.length,5-nW>1&&wk.length<4?5-nW:1);
+  const ids=[...wk.slice(0,nW).map(id=>[id,0]),...old.slice(0,nO).map(id=>[id,1])];
+  return ids.map(([id,isOld])=>{const qs=(QZ[id.slice(0,3)]||[]).map((q,i)=>[q,i]).filter(([q])=>q[0]===id);
+    if(qs.length){const [,qi]=qs[Math.floor(R()*qs.length)],o=shuf([0,1,2]);return {id,old:isOld,type:"q",qi,o}}
+    return {id,old:isOld,type:"f"}});
+}
+function rvCard(){
+  const fk=friKey();if(!fk)return "";const done=S.rev[fk];
+  if(done)return `<div class="card rvdone"><span class="rvi">🔁</span><div><b>Repaso de la semana hecho</b><p class="muted" style="margin:2px 0 0">Has recordado ${done.ok} de ${done.n}. <button class="linkbtn" data-act="rv-start">Repetirlo</button></p></div></div>`;
+  const it=rvItems(fk);if(!it.length)return "";
+  return `<div class="card stack rvcard"><p class="eyebrow">Viernes · 2 minutos</p><h3>🔁 Repaso de la semana</h3><p class="muted">${it.length} ${it.length===1?"pregunta":"preguntas"} sobre lo que has leído esta semana${it.some(x=>x.old)?" y alguna de hace unas semanas":""}. Intentar recordar es lo que hace que algo se quede: releer no sirve casi de nada.</p><button class="btn" data-act="rv-start" style="width:max-content">Empezar el repaso</button></div>`;
+}
+function vRepaso(){
+  const Z=S.rv;
+  if(!Z||!Z.items.length)return `<section class="stack"><p class="eyebrow">Repaso de la semana</p><h1>Nada que repasar todavía</h1><p class="muted">Cuando abras conceptos durante la semana, el viernes podrás repasarlos aquí.</p><button class="btn" data-go="explorar" style="width:max-content">Ir a Explorar</button></section>`;
+  const n=Z.items.length;
+  if(Z.step<n){const it=Z.items[Z.step],c=CI[it.id],a=AREAS[c.a];
+    const top=`<div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="muted" style="font-size:.85rem">${Z.step+1} de ${n}</span></div><div class="progress"><span style="width:${Z.step/n*100}%"></span></div>${it.old?`<p class="rvold">De hace unas semanas: ¿aún te acuerdas?</p>`:""}`;
+    if(it.type==="q"){const q=QZ[it.id.slice(0,3)][it.qi];return `<section class="stack"><p class="eyebrow">Repaso de la semana</p><div class="card stack area" style="--h:${a.h}">${top}<h2 style="font-size:1.2rem">${esc(q[1])}</h2><div class="stack" style="gap:8px">${it.o.map(o=>`<button class="btn ghost" style="text-align:left;justify-content:flex-start;white-space:normal;max-width:100%" data-rva="${o}">${esc(q[2+o])}</button>`).join("")}</div><p class="muted" style="font-size:.8rem">Las soluciones, al final</p></div></section>`}
+    return `<section class="stack"><p class="eyebrow">Repaso de la semana</p><div class="card stack area" style="--h:${a.h}">${top}<h2 style="font-size:1.2rem">¿Cuál es la idea clave de «${esc(c.t)}»?</h2>${Z.flip?`<div class="rvback">${esc(c.q)}</div><p class="muted">Sé sincero: nadie más lo ve.</p><div class="row"><button class="btn" data-rva="0">Lo recordaba</button><button class="btn ghost" data-rva="1">No del todo</button></div>`:`<p class="muted">Intenta decirla en voz alta o en tu cabeza antes de mirar. Aunque falles, el esfuerzo de intentarlo ya te ayuda a recordarla.</p><button class="btn" data-act="rv-flip" style="width:max-content">Ver la respuesta</button>`}</div></section>`}
+  const ok=Z.ans.filter(x=>x===0).length;
+  return `<section class="stack"><p class="eyebrow">Repaso de la semana</p><div class="card stack" style="border:2px solid var(--good)"><h1>Has recordado ${ok} de ${n}</h1><p>${ok===n?"¡Todo! Lo de esta semana se ha quedado.":ok>=n/2?"Buen repaso. Lo que has fallado, échale un vistazo ahora: es justo el momento en que más se fija.":"Es normal olvidar: nos pasa a todos. Mira ahora lo que has fallado; repasar justo después de fallar es cuando más se aprende."}</p><div class="row"><button class="btn" data-go="hoy">Volver a Hoy</button></div></div>
+   <h2 style="font-size:1.15rem">Las soluciones</h2><div class="stack" style="gap:10px">${Z.items.map((it,j)=>{const c=CI[it.id],g=Z.ans[j]===0;
+     if(it.type==="q"){const q=QZ[it.id.slice(0,3)][it.qi];return `<div class="card stack" style="gap:6px;border-left:5px solid var(${g?"--good":"--warn"})"><p style="font-weight:700">${j+1}. ${esc(q[1])}</p><p style="color:var(${g?"--good":"--warn"});font-weight:700">${g?"✓ Acertada":"✗ Tu respuesta: "+esc(q[2+Z.ans[j]])}</p>${g?"":`<p><b>Correcta:</b> ${esc(q[2])}</p>`}<p class="muted" style="font-size:.9rem">${esc(q[5])}</p><button class="btn ghost" data-open="${it.id}" style="max-width:100%;width:max-content;padding:6px 14px;white-space:normal;text-align:left">Repasar: ${esc(c.t)} →</button></div>`}
+     return `<div class="card stack" style="gap:6px;border-left:5px solid var(${g?"--good":"--warn"})"><p style="font-weight:700">${j+1}. Idea clave de «${esc(c.t)}»</p><p style="color:var(${g?"--good":"--warn"});font-weight:700">${g?"✓ La recordabas":"✗ No del todo"}</p><p class="muted" style="font-size:.9rem">${esc(c.q)}</p><button class="btn ghost" data-open="${it.id}" style="max-width:100%;width:max-content;padding:6px 14px;white-space:normal;text-align:left">Repasar: ${esc(c.t)} →</button></div>`}).join("")}</div></section>`;
+}
 /* ---------- grupo guiado ---------- */
 function progressLine(){const a=S.active;if(!a)return "";const c=CI[a.id];return `llevo ${goodDays(a)} de 7 días con mi reto «${c.t}»`}
 function groupCards(){
-  const t=today(),B=S.bud,out=[];const gf=grpFriCard();if(gf)out.push(gf);
+  const t=today(),B=S.bud,out=[];const gf=grpFriCard();if(gf)out.push(gf);const rc=rvCard();if(rc)out.push(rc);
   if(S.sharePrompt&&CI[S.sharePrompt]){const c=CI[S.sharePrompt],msg=`¡He superado mi reto «${c.t}» en Brújula! Retos superados: ${S.history.filter(h=>h.passed).length}.`;
     out.push(`<div class="card stack" style="border:2px solid var(--good)"><p class="eyebrow">Reto superado</p><h3>¿Lo compartes con tu grupo o tu compañero?</h3><p class="muted">Contarlo refuerza lo que has conseguido. Es opcional.</p><p class="share" id="cp-share">${esc(msg)}</p><div class="row"><button class="btn" data-act="copy" data-copyid="cp-share">Copiar mensaje</button><button class="btn ghost" data-act="share-done">Ahora no</button></div></div>`)}
   if(S.active&&S.active.plan&&(dayN()>=3||S.history.length)&&!S.buddy&&!B.skip)out.push(`<div class="card stack" style="border:2px dashed var(--brand)"><p class="eyebrow">Opcional · 1 minuto</p><h3>¿Quieres a alguien que te pregunte cómo vas?</h3><p class="muted">Saber que un amigo te va a preguntar cada viernes ayuda mucho a no abandonar. No hace falta que use Brújula. Tú solo le mandas un mensaje y la app te recordará cada viernes qué decirle.</p>
@@ -1299,7 +1337,7 @@ function vMas(){
 /* ---------- navegación ---------- */
 const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["ruta","Ruta","M5 19c4 0 4-7 8-7s4-7 8-7M5 19a2 2 0 1 0 0 .1M19 5a2 2 0 1 0 0 .1"],["proposito","Propósito","M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 9l-2 5-4 1 2-5z"],["mapa","Mapa","M12 3l8 5v8l-8 5-8-5V8z"],["explorar","Explorar","M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"],["mas","Más","M5 12h.01M12 12h.01M19 12h.01"]];
 function renderNav(){const pend=S.active&&(()=>{try{return todayItems().some(x=>x.st==="todo")}catch(e){return false}})();document.getElementById("nav").innerHTML=NAV.map(([k,l,p])=>`<button data-go="${k}" class="${S.tour!=null&&TOUR[S.tour][0]===k?"tourhl":""}" aria-current="${S.view===k&&!S.testing}">${k==="hoy"&&pend&&S.view!=="hoy"?'<span class="dot" aria-label="Tienes algo pendiente hoy"></span>':""}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>${l}</button>`).join("")}
-const VNAME={hoy:"Hoy",ruta:"Ruta",proposito:"Propósito",mapa:"Mapa",explorar:"Explorar",mas:"Más",dinero:"Dinero",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
+const VNAME={hoy:"Hoy",ruta:"Ruta",proposito:"Propósito",mapa:"Mapa",explorar:"Explorar",mas:"Más",dinero:"Dinero",repaso:"Repaso",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
 function go(v,fromNav){if(fromNav||S.tour!=null)S.back=null;else if(v!==S.view&&!S.testing)S.back={v:S.view,y:window.scrollY};S.view=v;S.testing=false;render();window.scrollTo({top:0})}
 
 /* ---------- vistas ---------- */
@@ -1364,7 +1402,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014070358";
+const APP_V="20261014075649";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1903,7 +1941,7 @@ function pType(p){p=p.replace(/^Los 7 hábitos \(Stephen Covey\)$/,"Los 7 hábit
   if(/Jugar Bien/.test(p))return ["Web oficial",p,"Información del Gobierno sobre juego y apuestas: jugarbien.es."];
   return ["Libro",p,"Un libro, para leer con calma si el tema te engancha. Puedes buscarlo en la biblioteca."]}
 function openConcept(id){
-  const c=CI[id];if(!c)return;const a=AREAS[c.a],dlg=document.getElementById("dlg");
+  const c=CI[id];if(!c)return;markLearn(id);const a=AREAS[c.a],dlg=document.getElementById("dlg");
   const isActive=S.active&&S.active.id===id;
   dlg.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="row" style="gap:8px"><span class="lv ${c.e==="X"?"X":c.n}">${lvTag(c)}</span>${c.e==="X"?"":`<span class="ev ${c.e}">${EV[c.e]}</span>`}</span></div>
    <div class="cch"><span class="cic big">${/^Es un sesgo/.test(c.q)?"🧩":AICON[a.k]}</span><h2>${esc(c.t)}</h2></div><div><h4>Qué es</h4><p>${esc(c.q)}</p></div><p class="challenge">Reto de la semana: ${esc(c.h)}</p>${exOf(c.id)?`<div><h4>Un ejemplo</h4><p>${esc(exOf(c.id)[0])}</p></div><div><h4>Un plan que puedes copiar</h4><p>${esc(exOf(c.id)[1])}</p></div><div><h4>Si un día cuesta</h4><p>${esc(exOf(c.id)[2])}</p></div>`:""}
@@ -1916,7 +1954,7 @@ function openConcept(id){
 }
 function render(){
   renderNav();
-  const v={hoy:vHoy,ruta:vRuta,mas:vMas,proposito:vProposito,mapa:vMapa,explorar:vExplorar,dinero:vDinero,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
+  const v={hoy:vHoy,ruta:vRuta,mas:vMas,proposito:vProposito,mapa:vMapa,explorar:vExplorar,dinero:vDinero,repaso:vRepaso,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
   document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${S.back&&S.back.v!==S.view&&!S.testing?`<button class="backbar" data-act="goback">← Volver a ${VNAME[S.back.v]||"atrás"}</button>`:""}${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
   if(S.view==="dudas"&&S.faqQ)faqFilter();
   const tb=document.getElementById("tourbox");if(tb)tb.innerHTML=tourBar();
@@ -1976,6 +2014,7 @@ document.addEventListener("click",e=>{
   if(d.clr){if(d.clr==="q")S.exQ="";if(d.clr==="area")S.exArea=null;if(d.clr==="myth")S.exMyth=false;if(d.clr==="all"){S.exQ="";S.exArea=null;S.exMyth=false}render();return}
   if(d.mode){S.exMode=d.mode;S.exQ="";render();return}
   if(d.qz){qzStart(d.qz);render();window.scrollTo({top:0});return}
+  if(d.rva!==undefined&&S.rv){const Z=S.rv;Z.ans[Z.step]=+d.rva;Z.step++;Z.flip=false;if(Z.step===Z.items.length&&friKey()){const ok=Z.ans.filter(x=>x===0).length;S.rev[Z.fk]={ok,n:Z.items.length,date:today()};store.set("rev",S.rev)}render();window.scrollTo({top:0});return}
   if(d.qg!==undefined){S.qz.guess=+d.qg;S.qz.t0=Date.now();render();return}
   if(d.qa!==undefined){const Z=S.qz,now=Date.now(),fast=now-(Z.t0||now)<2500;Z.t0=now;if(diagHit("quiz",fast))Z.diag=1;else if(!fast)Z.diag=0;Z.ans[Z.step]=+d.qa;Z.step++;if(Z.step===10){const ok=Z.ans.filter(x=>x===0).length,r=S.quizR[Z.k]||{best:0,n:0};S.quizR[Z.k]={last:ok,best:Math.max(r.best,ok),n:r.n+1,date:today()};store.set("quiz",S.quizR);toast(ok+" de 10")}render();window.scrollTo({top:0});return}
   if(d.qx){if(d.qx==="back"){S.qz.step--;S.qz.ans.pop();S.qz.t0=Date.now()}else S.qz=null;render();window.scrollTo({top:0});return}
@@ -1986,6 +2025,8 @@ document.addEventListener("click",e=>{
   else if(act==="cap-add"){const i=+d.v,pr=CAPP[i];S.capr.push(pr?{n:pr[1],p:pr[2],f:pr[3],e:1}:{n:"",p:1,f:"s",e:1});capSave();render();if(!pr){const n=document.getElementById("cn"+(S.capr.length-1));n&&n.focus()}}
   else if(act==="cap-del"){S.capr.splice(+d.v,1);capSave();render()}
   else if(act==="cap-e"){const [i,j]=d.v.split(":").map(Number);if(S.capr[i]){S.capr[i].e=j;capSave();render()}}
+  else if(act==="rv-start"){const fk=friKey()||today();S.rv={fk,items:rvItems(fk),step:0,ans:[],flip:false};go("repaso")}
+  else if(act==="rv-flip"){S.rv.flip=true;render()}
   else if(act==="retest"){S.answers={};save();S.testing=true;S.step=0;render();window.scrollTo({top:0})}
   else if(act==="next"){if(S.step<NA-1){S.step++;render();window.scrollTo({top:0})}else{const first=!S.route;S.tests.push({date:today(),scores:scores()});S.route=first?buildRoute(scores()):mergeRoute(scores());save();toast(first?"+25 · Mapa y ruta listos":"+25 · Mapa nuevo. Tu ruta sigue y se ha actualizado");S.view="mapa";S.testing=false;render();window.scrollTo({top:0})}}
   else if(act==="prev"){S.step--;render()}
@@ -2059,6 +2100,7 @@ document.addEventListener("toggle",e=>{if(e.target.id==="learn")S.learnOpen=e.ta
 document.getElementById("dlg").addEventListener("click",e=>{if(e.target.id==="dlg")e.target.close()});
 window.addEventListener("popstate",()=>{const d=document.getElementById("dlg");if(d&&d.open)d.close()});
 document.getElementById("dlg").addEventListener("close",()=>{try{if(history.state&&history.state.dlg)history.back()}catch(e){}});
+if(!store.get("learnInit",false)){Object.keys(S.seen||{}).forEach(id=>{if(CI[id]&&Object.values(S.seen[id]).some(Boolean)&&!S.learn[id])S.learn[id]={f:today(),l:today()}});if(S.active&&CI[S.active.id]&&!S.learn[S.active.id])S.learn[S.active.id]={f:S.active.start||today(),l:today()};store.set("learn",S.learn);store.set("learnInit",true)}
 if(complete()&&!S.tests.length){S.tests.push({date:today(),scores:scores()})}
 if(!S.route&&curScores()){S.route=buildRoute(curScores())}
 save();
