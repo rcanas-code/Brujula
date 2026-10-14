@@ -399,6 +399,7 @@ dialog h2:focus{outline:none}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 @keyframes pop{0%{transform:scale(.96);opacity:.6}100%{transform:scale(1);opacity:1}}
 .pop{animation:pop .3s ease}
+.cmpt{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.cmpt th,.cmpt td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--line)}.cmpt th:first-child,.cmpt td:first-child{text-align:left;color:var(--muted)}.cmpt th{font-size:.8rem;font-weight:700;vertical-align:bottom}.cmpt .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.cmpt td:not(:first-child){white-space:nowrap}.cmpt td:first-child{font-size:.9rem}.cmpt tr.tot td{font-weight:800;font-size:1rem;border-bottom:0;color:var(--ink,inherit)}.cmpt tr.tot td:first-child{color:inherit}.cmpmsg{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--accent) 12%,transparent)}
 </style>
 
 <div class="wrap">
@@ -1362,7 +1363,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261013183158";
+const APP_V="20261014065655";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1695,7 +1696,7 @@ function vExplorar(){
 function fv(m,r,years){const i=r/100/12,n=years*12;return i===0?m*n:m*((Math.pow(1+i,n)-1)/i)*(1+i)}
 function vDinero(){
   const s=S.sim,end=65,rate=s.r-s.fee,yA=end-s.age,yB=Math.max(0,yA-s.wait);
-  const A=fv(s.m,rate,yA),B=fv(s.m,rate,yB),putA=s.m*12*yA;
+  const A=fv(s.m,rate,yA),B=fv(s.m,rate,yB),putA=s.m*12*yA,putB=s.m*12*yB;
   const W=640,H=300,pl=58,pr=16,pt=16,pb=34,xs=a=>pl+(a-s.age)/(yA||1)*(W-pl-pr),maxV=Math.max(A,1),ys=v=>pt+(1-v/maxV)*(H-pt-pb);
   const ser=f=>{let d="";for(let a=s.age;a<=end;a++){d+=(d?"L":"M")+xs(a).toFixed(1)+" "+ys(f(a-s.age)).toFixed(1)}return d};
   const ticks=[0,.25,.5,.75,1].map(t=>maxV*t);
@@ -1716,12 +1717,18 @@ function vDinero(){
     <div class="sl"><label for="sw">Si esperara <output>${s.wait} años más</output></label><input id="sw" type="range" min="1" max="20" step="1" value="${s.wait}" data-sim="wait"></div>
     <div class="sl"><label for="sf">Comisiones al año <output>${String(s.fee).replace(".",",")} %</output></label><input id="sf" type="range" min="0" max="2.5" step="0.5" value="${s.fee}" data-sim="fee"></div>
    </div>
-   <div class="kpis"><div class="kpi"><p class="eyebrow">Pones de tu bolsillo</p><p class="big">${fmt(putA)}</p></div><div class="kpi"><p class="eyebrow">Tendrías a los 65</p><p class="big">${fmt(A)}</p></div><div class="kpi hot"><p class="eyebrow">Lo que te cuesta esperar ${s.wait} años</p><p class="big">${fmt(A-B)}</p></div></div>
-   <div class="card stack"><div class="legend"><span><i style="background:var(--muted)"></i>Lo que pones</span><span><i style="background:var(--good)"></i>Empiezo a los ${s.age}</span><span><i style="background:var(--accent)"></i>Empiezo a los ${s.age+s.wait}</span></div>
+   <div class="card cmp"><table class="cmpt"><thead><tr><th></th><th><span class="dot" style="background:var(--good)"></span>Empiezo a los ${s.age}</th><th><span class="dot" style="background:var(--accent)"></span>Empiezo a los ${s.age+s.wait}</th></tr></thead><tbody>
+    <tr><td>Años guardando</td><td>${yA}</td><td>${yB}</td></tr>
+    <tr><td>Pones de tu bolsillo</td><td>${fmt(putA)}</td><td>${fmt(putB)}</td></tr>
+    <tr><td>Lo que gana el interés</td><td>${fmt(A-putA)}</td><td>${fmt(B-putB)}</td></tr>
+    <tr class="tot"><td>Tienes a los 65</td><td>${fmt(A)}</td><td>${fmt(B)}</td></tr></tbody></table>
+    <p class="cmpmsg">Si esperas ${s.wait} ${s.wait===1?"año":"años"}, pones <b>${fmt(putA-putB)} menos</b> de tu bolsillo… pero acabas con <b>${fmt(A-B)} menos</b>. ${putA-putB>0&&A-B>0?`Cada euro que dejas de poner al principio te cuesta unos <b>${((A-B)/(putA-putB)).toFixed(1).replace(".",",")} €</b> al final.`:""}</p></div>
+   <div class="card stack"><div class="legend"><span><i style="background:var(--muted)"></i>Lo que pones (línea discontinua)</span><span><i style="background:var(--good)"></i>Empiezo a los ${s.age}</span><span><i style="background:var(--accent)"></i>Empiezo a los ${s.age+s.wait}</span></div>
     <div class="chart"><svg viewBox="0 0 ${W} ${H}" style="min-width:520px;width:100%" role="img" aria-label="Crecimiento del dinero según la edad a la que empiezas">
      ${ticks.map(v=>`<line x1="${pl}" x2="${W-pr}" y1="${ys(v)}" y2="${ys(v)}" stroke="var(--line)"/><text x="${pl-8}" y="${ys(v)+4}" text-anchor="end">${new Intl.NumberFormat("es-ES",{notation:"compact",maximumFractionDigits:0}).format(v)} €</text>`).join("")}
      ${ages.map(a=>`<text x="${xs(a)}" y="${H-10}" text-anchor="middle">${a} años</text>`).join("")}
-     <path d="${ser(y=>s.m*12*y)}" fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 5"/>
+     <path d="${ser(y=>s.m*12*y)}" fill="none" stroke="var(--good)" stroke-width="2" stroke-dasharray="5 5" opacity=".7"/>
+     <path d="${ser(y=>y<=s.wait?0:s.m*12*(y-s.wait))}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 5" opacity=".7"/>
      <path d="${ser(y=>fv(s.m,rate,y))}" fill="none" stroke="var(--good)" stroke-width="3.5"/>
      <path d="${ser(y=>y<=s.wait?0:fv(s.m,rate,y-s.wait))}" fill="none" stroke="var(--accent)" stroke-width="3.5"/>
      <circle cx="${xs(end)}" cy="${ys(A)}" r="6" fill="var(--good)"/><circle cx="${xs(end)}" cy="${ys(B)}" r="6" fill="var(--accent)"/>
