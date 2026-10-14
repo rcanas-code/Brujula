@@ -482,6 +482,7 @@ section:has(> .exback) .filterbar{top:58px}
 .regp{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;padding:12px;min-height:44px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:inherit;font:inherit;cursor:pointer}
 .lqbox{border:2px solid var(--brand);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;margin:6px 0}
 .lqbox.fog{border-color:#9B7BFF}.lqbox.wait{border-style:dashed}.practica{border-left:4px solid var(--line);padding:6px 10px}
+.doneline{display:flex;gap:10px;align-items:flex-start;background:var(--good-bg);border:2px solid var(--good);border-radius:4px;padding:10px 12px}.doneline .bigck{color:var(--good);font-weight:800;font-size:1.3rem;line-height:1}
 .lqbox.ok{border-color:var(--good);background:var(--good-bg)}
 .lqo{text-align:left;justify-content:flex-start;white-space:normal}
 .lqno{margin:0;color:var(--warn);font-weight:700;font-size:.9rem}
@@ -1319,7 +1320,7 @@ const TIPS=[
  [4,"mas","Dinero, grupo y ayuda","En Más tienes el simulador de ahorro, ideas para hacer retos con amigos y los teléfonos de ayuda.","Ver Más"],
  [6,"mapa","Tu mapa","En Mapa está tu foto de hoy. Dentro de un mes repetirás el test y verás cuánto has cambiado.","Ver mi mapa"]];
 const sinceStart=()=>S.tests.length?diff(S.tests[0].date,today()):0;
-function tipCard(){if(S.tour!=null)return "";const d=sinceStart(),tip=TIPS.find(t=>t[0]<=d&&!S.tips.includes(t[1])&&!(S.tourDone&&t[1]!=="instalar")&&!(t[1]==="instalar"&&isStandalone));if(!tip)return "";
+function tipCard(){if(S.tour!=null)return "";const d=sinceStart(),tip=TIPS.find(t=>t[0]<=d&&!S.tips.includes(t[1])&&!(S.tourDone&&t[1]!=="instalar")&&!(t[1]==="instalar"&&(isStandalone||d>7)));if(!tip)return "";
   const [,k,h,txt,btn]=tip,idx=TIPS.indexOf(tip)+1;
   return `<div class="card stack" style="border:2px dashed var(--brand)"><div class="row" style="justify-content:space-between"><p class="eyebrow">Conoce la app · ${idx} de ${TIPS.length}</p></div><h3>${h}</h3><p class="muted">${txt}</p><div class="row">${btn?`<button class="btn" data-tipgo="${k}">${btn}</button>`:""}<button class="btn ghost" data-tipok="${k}">Entendido</button></div></div>`}
 const showPurpose=()=>sinceStart()>=1||pCount()>0;
@@ -1646,7 +1647,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014194327";
+const APP_V="20261014194636";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1749,7 +1750,7 @@ function vHoy(){
   const lv=L.to?`<div class="lvl"><span style="width:${(p-L.from)/(L.to-L.from)*100}%"></span></div><span class="muted" style="font-size:.78rem">${L.to-p} para la siguiente etapa</span>`:`<span class="muted" style="font-size:.78rem">Etapa máxima</span>`;
   let main="";
   if(!S.active){
-    const items=routeItems(),nx=routeNext(),pos=nx?items.indexOf(nx)+1:items.length;
+    const items=routeItems(),nx=routeNext(),pos=nx?items.findIndex(x=>x.c.id===nx.c.id)+1:items.length;
     if(nx){const c=nx.c,a=AREAS[c.a];
       main=`<div class="today area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag">Misión ${pos} de ${items.length}</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
        <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><p class="challenge">Tu reto: ${esc(c.h)}</p>
@@ -1787,35 +1788,33 @@ function vHoy(){
     const week=n<7&&!(n===1&&!S.active.plan)?`<div class="week">${dots}</div><div class="wkleg"><span><i class="si"></i>Sí</span><span><i class="poco"></i>Un poco</span><span><i class="no"></i>Hoy no</span><span><i></i>Sin marcar</span></div><p class="muted" style="font-size:.82rem;margin-top:-4px">${g} de 7 días. Con 4 lo superas. ¿Se te olvidó un día? Toca su círculo.</p>`:"";
     const extra=`<details class="more2"><summary>Ver el plan, el ejemplo y para qué sirve</summary><div class="stack" style="margin-top:10px;gap:10px">${tl}<p class="muted" style="font-size:.9rem">${esc(c.q)}</p><p class="why"><b>Por qué importa:</b> ${AREA_WHY[c.a]}.${S.P.done[7]&&S.P.f.que?` Y eso te acerca a tu propósito: ${esc(S.P.f.verb)} ${esc(S.P.f.que)}.`:""}</p>${S.active.plan?`<p style="font-size:.92rem"><b>Tu plan:</b> ${esc(S.active.plan)}${S.active.time?` · Tu hora: ${esc(S.active.time)}`:""}</p>${calBox()}`:""}${E&&!(n===1&&!S.active.plan)?`<div class="guide"><p class="eyebrow">Un ejemplo</p><p>${esc(E[0])}</p></div>`:""}${S.more?moreBox(c):`<button class="btn ghost" data-act="more" style="width:max-content;padding:8px 16px">Quiero saber más</button>`}</div></details>`;
     main=`<div class="today area hoycard ${pend?"tocar":"ok"}" style="--h:${a.h}"><div class="row" style="justify-content:space-between">${tag}<span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
-      <h2>${esc(c.t)}</h2>${lead}${action}${week}${extra}</div>`;
+      <h2>${esc(c.t)}</h2>${lead}${action}${pend?"":`<div class="doneline"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`}${week}${extra}</div>`;
   }
   const banner=rescueBanner();
   const lastT=S.tests.length?S.tests[S.tests.length-1].date:null,retest=lastT&&diff(lastT,today())>=28;
   const shareTxt=shareText(),reqs=S.active?todayItems().filter(x=>x.st==="todo"):[],pend=reqs.length>0,time=S.active&&S.active.time;
   const nD=S.active?dayN():0,mark=S.active&&nD>=2&&nD<7,nReq=mark?1:reqs.length;
-  const title=!S.active?"Tu próxima misión te espera.":pend?(nReq===1?"Misión de hoy: 1 paso":`Misión de hoy: ${nReq} pasos`):"¡Misión cumplida!";
-  const status=!S.active?"":pend?`<div class="pendhint">⬆ ${mark?"Haz tu reto y márcalo arriba":esc(reqs.map(x=>x.t).join(" · "))}. Después, habrás terminado por hoy.</div>`
-    :`<div class="doneblk"><span class="bigck">✓</span><div><b>Misión del día cumplida</b><span>Ya puedes cerrar la app. ${time?`Mañana, otro toque (tu alarma: ${esc(time)}).`:"Mañana, otro toque."}</span>${S.tourDone?"":`<button class="btn ghost" data-tour="start" style="margin-top:8px;background:#fff;color:var(--good);border-color:#fff;padding:6px 14px">Ver la guía de la app (1 min)</button>`}</div></div>`;
-  const notices=[routeNews(),tipCard(),reviewCard(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y crea una ruta nueva.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",...groupCards()].filter(Boolean).map(slim).join("");
+  const title=!S.active?"Tu próxima misión te espera.":pend?(nReq===1?"Hoy: 1 paso":`Hoy: ${nReq} pasos`):"¡Hecho por hoy!";
+  const status="";
+  const notices=[routeNews(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y crea una ruta nueva.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",reviewCard(),...groupCards(),tipCard()].filter(Boolean).slice(0,1).map(slim).join("");
   const B=badges(),got=B.filter(b=>b[3]).length;
   return `<section class="stack hoy2">
    <div><p class="hello"><button class="hiav" data-go="yo" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
-    <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span>${S.route&&routeItems().length?`<span>Reto ${(()=>{const it=routeItems(),cur=S.active?it.findIndex(x=>x.c.id===S.active.id):-1;return cur>=0?cur+1:it.filter(x=>["ok","skip"].includes(itemStatus(x))).length+1})()} de ${routeItems().length}</span>`:""}</div></div>
+    <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span></div></div>
    ${banner}
    ${choiceCard()}
    ${main}
    ${status}
-   ${mwStepCard()}
+   ${!S.active||!pend?mwStepCard():""}
    ${notices?`<div class="stack" style="gap:8px">${notices}</div>`:""}
    ${S.active?`<div class="optsep">Opcional · si te apetece</div>
    ${moodCard()}
    ${learnCard()}
-   ${hoyTiles()}
+   <div class="tiles"><button class="tile" data-act="calm"><b>🫁 Un minuto de calma</b><span>Respira despacio con el círculo.</span></button></div>
    ${keepCard()}
-   ${S.P.done[7]?northCard(true):""}
    ${purposeCard()}
-   ${shareTxt?`<details class="card fold" style="--fc:#7C4DCC"><summary><span class="fi">📣</span>Compartir mi avance con el grupo</summary><div class="stack" style="margin-top:10px"><p class="share" id="sharetxt">${esc(shareTxt)}</p><button class="btn ghost" data-act="copy" style="width:max-content">Copiar para pegarlo en el grupo</button></div></details>`:""}`:""}
-   ${wayCard()?`<details class="card fold" style="--fc:var(--brand)"><summary><span class="fi">🧭</span>Dónde estás en tu ruta</summary>${wayCard()}</details>`:""}
+   ${shareTxt&&new Date().getDay()===5?`<details class="card fold" style="--fc:#7C4DCC"><summary><span class="fi">📣</span>Compartir mi avance con el grupo</summary><div class="stack" style="margin-top:10px"><p class="share" id="sharetxt">${esc(shareTxt)}</p><button class="btn ghost" data-act="copy" style="width:max-content">Copiar para pegarlo en el grupo</button></div></details>`:""}`:""}
+
    
    
   </section>`;
@@ -2998,7 +2997,7 @@ function vRegion(){
   return `<section class="stack region"><div class="row" style="gap:14px;align-items:center;flex-wrap:nowrap">${head}</div><p class="mwlore">${esc(MWTEASE[k]||"")}</p>${path}${lect}${places?`<div class="stack" style="gap:8px"><h3 style="margin:0">Lugares de la región</h3><div class="regps">${places}</div></div>`:""}<p class="muted" style="font-size:.8rem;margin:0">Todo lo de ${esc(a.n.toLowerCase())} sigue también en Explorar, por si quieres ir directo.</p></section>`}
 function mwStepCard(){
   if(!S.route)return "";const R=mwSeen(),k=mwFocus(R);if(!k||!GDIF[k])return "";const A=gArea(k);if(!A||A.metal==="oro")return "";
-  return `<button class="card mwstep" data-reg="${k}"><span class="regico sm">${trSVG(GICO[k],A.metal,2)}</span><span style="flex:1;text-align:left"><span class="pxchip" style="font-size:.7rem">EN EL MUNDO</span><b style="display:block;margin-top:4px">${esc(GREG[k])} <span class="muted" style="font-weight:600">· ${esc(AREAS[AK[k]].n)}</span></b><span class="muted" style="font-size:.85rem">${esc(A.next||GMET[A.metal])}</span></span><span aria-hidden="true">→</span></button>`}
+  return `<button class="card mwstep" data-reg="${k}"><span class="regico sm">${trSVG(GICO[k],A.metal,2)}</span><span style="flex:1;text-align:left"><span class="pxchip" style="font-size:.7rem">TU AVENTURA</span><b style="display:block;margin-top:4px">${esc(GREG[k])} <span class="muted" style="font-weight:600">· ${esc(AREAS[AK[k]].n)}</span></b><span class="muted" style="font-size:.85rem">${esc(!A.T.b?"Hacia el bronce: lecturas y quiz":!A.T.p?"Hacia la plata: un reto real de la región":(trDaysLeft(k)>0?`Hacia el oro: el test final se abre en ${trDaysLeft(k)} días`:"Hacia el oro: test final, reto y reflexión"))}</span></span><span aria-hidden="true">→</span></button>`}
 function mwScale(){const w=document.querySelector(".mwwrap"),m=w&&w.querySelector(".mw");if(m){const s=Math.min(1,w.clientWidth/MWW);m.style.transform=`scale(${s})`}}
 window.addEventListener("resize",()=>{try{mwScale()}catch(e){}});
 /* ---------- Entreno antes del test final ---------- */
