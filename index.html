@@ -457,7 +457,7 @@ section:has(> .exback) .filterbar{top:58px}
 .mwn.fog{background:#2A2546}.mwn.on{border:3px solid #FFFFFF}
 .mwq{font-family:"Pixelify Sans",var(--display);font-weight:700;font-size:1.3rem;color:#E6DDFF}
 .mwl{position:absolute;width:104px;text-align:center;background:#1E2B38;color:#FFFFFF;font-family:"Pixelify Sans",var(--display);font-size:10px;line-height:1.15;padding:2px 3px;box-sizing:border-box;pointer-events:none;z-index:1}
-.mwpl{position:absolute;z-index:3;pointer-events:none;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}
+.mwpl{position:absolute;z-index:3;pointer-events:none;filter:drop-shadow(0 2px 0 rgba(0,0,0,.35))}.mwpl.moving{z-index:4}.mwpi{transform-origin:50% 100%}.mwpi.walk>*{animation:mwbob .24s steps(2) infinite}@keyframes mwbob{0%{transform:translateY(0)}50%{transform:translateY(-3px)}100%{transform:translateY(0)}}@media (prefers-reduced-motion:reduce){.mwpi.walk>*{animation:none}}
 .mwn.guia{animation:mwguia 1.8s ease-in-out infinite}
 @keyframes mwguia{0%,100%{box-shadow:0 0 0 0 rgba(255,107,61,0)}50%{box-shadow:0 0 0 6px rgba(255,107,61,.7)}}
 .mwcr{animation:mwcr 2.6s ease-in-out infinite}@keyframes mwcr{0%,100%{opacity:.7}50%{opacity:1}}
@@ -1206,6 +1206,13 @@ const lc=s=>s.charAt(0).toLowerCase()+s.slice(1);
 const VERBS=["ayudar a","crear","enseñar","cuidar","mejorar","construir","inspirar","defender"];
 const AREA_WHY=["dormir bien te da energía, buen humor y mejor memoria","moverte mejora tu ánimo y tu concentración","comer mejor te da energía estable durante el día","entender lo que sientes te ayuda a no explotar ni hundirte","tratarte con respeto cuando fallas te ayuda a levantarte y seguir","los buenos hábitos hacen que lo difícil cueste menos","tener buena gente cerca es lo que más protege tu salud","controlar el móvil te devuelve tiempo y concentración","gestionar el estrés te deja rendir sin agotarte","saber qué te importa te ayuda a decidir","el dinero bien usado te da libertad para elegir tu vida","estudiar bien te da mejores notas con menos horas","tener criterio propio hace que no te manipulen","conocerte te ayuda a elegir lo que de verdad te va"];
 const pSent=f=>f.que&&f.quien&&f.s&&f.v?`Quiero ${f.verb} <em>${esc(f.que)}</em> para <em>${esc(f.quien)}</em>, usando mi ${esc(f.s.toLowerCase())}, porque me importa ${esc(f.v.toLowerCase())}.`:"";
+function pOk(k){const P=S.P;if(!P)return false;
+  if(k===1)return P.v.length>=3;if(k===2)return P.s.length>=1;if(k===3)return P.upL.length>=1&&P.downL.length>=1;if(k===4)return P.whoL.length>=1;
+  if(k===5)return P.fut.length>=1&&P.proud.length>=1;
+  if(k===6){const e=P.exp;if(!e.every(x=>x.t&&x.d&&x.dd&&x.r))return false;const ds=e.map(x=>x.dd).sort();return new Set(ds).size===3&&dDiff(ds[0],ds[2])>=7}
+  return !!(P.f&&P.f.que&&P.f.quien)}
+const pWords=t=>String(t||"").trim().split(/\s+/).filter(w=>w.length>1).length;
+function pFix(){const P=S.P;if(!P||!P.done)return;let ch=false;[1,2,3,4,5,6].forEach(k=>{if(P.done[k]&&!pOk(k)){delete P.done[k];ch=true}});if(ch)save()}
 const pCount=()=>[1,2,3,4,5,6,7].filter(k=>S.P.done[k]).length;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fmt=n=>new Intl.NumberFormat("es-ES",{maximumFractionDigits:0}).format(n)+" €";
@@ -1658,7 +1665,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014231201";
+const APP_V="20261015002925";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1871,7 +1878,7 @@ function pBody(k){
   if(k===6)return `<p class="muted">Ahora toca comprobarlo en la vida real con 3 pruebas pequeñas. Elige cada una de la lista. <b>Por qué:</b> lo que te gusta se descubre probando, no pensando.</p>
    ${P.exp.map((x,i)=>`<div class="mini"><span style="flex:1"><label for="p-exp${i}" class="eyebrow">Experimento ${i+1}</label><select id="p-exp${i}" class="field" style="margin-top:6px"><option value="">Elige una prueba…</option>${(x.t&&!EXPS.includes(x.t)?[x.t]:[]).concat(EXPS).map(o=>`<option ${o===x.t?"selected":""}>${esc(o)}</option>`).join("")}</select></span><button class="check area" style="--h:25" data-pexp="${i}" aria-pressed="${x.d}" aria-label="Marcar experimento ${i+1} como hecho"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></button></div>
    ${x.d?`<div class="row" style="gap:6px;margin-top:-4px"><span class="muted" style="font-size:.85rem">¿Te ha encendido?</span>${[["si","Sí"],["algo","Más o menos"],["no","No"]].map(([k,l])=>`<button class="chip" data-pexr="${i}:${k}" aria-pressed="${x.r===k}">${l}</button>`).join("")}</div>`:""}`).join("")}
-   <p class="muted" style="font-size:.85rem">Marca cada experimento cuando lo hagas (+10 XP) y di si te ha encendido. Un «no» también es información valiosa: te dice por dónde no ir.</p><button class="btn" data-psave="6" style="width:max-content">Guardar (+15 XP)</button>`;
+   <p class="muted" style="font-size:.85rem">Marca cada experimento el día que lo hagas (+10 XP) y di si te ha encendido. Un «no» también es información valiosa: te dice por dónde no ir.</p><p class="muted" style="font-size:.85rem"><b>Una prueba por día</b>, y entre la primera y la tercera tienen que pasar al menos 7 días: así es una prueba de verdad, no un clic.</p><button class="btn" data-psave="6" style="width:max-content">Guardar (+15 XP)</button>`;
   const f=P.f,vals=P.v.length?P.v:VALUES,strs=P.s.length?P.s:STRENGTHS;
   const sel=(id,list,cur)=>`<select id="${id}" class="field">${list.map(x=>`<option ${x===cur?"selected":""}>${esc(x)}</option>`).join("")}</select>`;
   const prev=pSent({verb:f.verb,que:f.que||"…",quien:f.quien||"…",s:f.s||strs[0],v:f.v||vals[0]});
@@ -2800,11 +2807,12 @@ function gArea(k){
   const cs=C.filter(c=>AREAS[c.a].k===k),learned=cs.filter(c=>cDone(c.id)).length,need=Math.min(3,cs.length);
   if(k==="VAL")return gVal(k,d,T,t,thr,learned,cs);
   const q=(S.quizR||{})[k],hasQ=(QZ[k]||[]).length>=10,qPass=q&&(q.pass||(q.best>=thr?q.date:null));
-  const retos=S.history.filter(h=>h.passed&&aK(h.id)===k).map(h=>h.end).sort();
+  const H=S.history.filter(h=>h.passed&&aK(h.id)===k&&h.start&&h.end&&dDiff(h.start,h.end)>=6).sort((a,b)=>a.end<b.end?-1:1),retos=H.map(h=>h.end);
+  const rOk=T.b?H.find(h=>h.start>=T.b):null;
   const F=(S.g.fin||{})[k],Rf=(S.g.ref||{})[k];let ch=false,openO=null;
   if(!T.b&&hasQ&&qPass&&learned>=need){T.b=t;ch=true}
-  if(T.b&&!T.p){const r=retos.find(e=>dDiff(T.b,e)>=1);if(r&&!(PHOTO[k]&&!pvOk(k))){T.p=t;T.pr=r;ch=true}}
-  const rr=T.p?retos.find(e=>e>T.p&&e!==T.pr):null;
+  if(T.b&&!T.p){const r=rOk&&rOk.end;if(r&&!(PHOTO[k]&&!pvOk(k))){T.p=t;T.pr=r;ch=true}}
+  const rr=T.p?(H.find(h=>h.start>=T.p&&h.end!==T.pr)||{}).end:null;
   if(T.p){openO=addDays(T.p,GWAIT[d]);if(!T.o&&t>=openO&&F&&F.pass&&F.pass>=openO&&rr&&Rf&&Rf.t){T.o=t;ch=true}}
   if(ch)store.set("game",S.g);
   const metal=T.o?"oro":T.p?"plata":T.b?"bronce":"ninguno";let next,act=null,checks=null;
@@ -2812,9 +2820,9 @@ function gArea(k){
   else if(!T.b){if(learned<need){const n=need-learned;next=`Bronce: domina ${n} lectura${n>1?"s":""} más de esta región (léela, supera su comprobación y repásala sin mirar días después) y aprueba su quiz con ${thr} de 10.`;act=["area",k,"Ver sus lecturas"]}
     else if(qBlocked(k))next=`Bronce: hoy no has llegado al ${thr} de 10. Repasa los conceptos y vuelve a intentarlo mañana.`;
     else{next=`Bronce: aprueba el quiz de la región con ${thr} de 10.`;act=["quiz",k,"Hacer el quiz"]}}
-  else if(!T.p){const w=addDays(T.b,1),r0=retos.find(e=>dDiff(T.b,e)>=1);if(r0&&PHOTO[k]&&!pvOk(k)){const pend=(S.g.req||{})[k];next=S.cls?(pend?"Plata: reto superado. Tu prueba está enviada: cuando tu profe la valide, abre el enlace que te mande.":"Plata: reto superado. Envía la foto de la prueba a tu profe para que la valide."):"Plata: reto superado. Confírmalo con tu palabra de honor.";act=["foto",k,S.cls?(pend?"Ver mi prueba":"Enviar la prueba"):"Confirmar mi reto"]}else if(t<w)next="Plata: se abre mañana. Entonces completa un reto de 7 días de esta región (al menos 4 días cumplidos).";else{next="Plata: completa un reto de 7 días de esta región (al menos 4 días cumplidos).";act=["retos",k,"Elegir un reto"]}}
+  else if(!T.p){const w=addDays(T.b,1),r0=rOk&&rOk.end;if(r0&&PHOTO[k]&&!pvOk(k)){const pend=(S.g.req||{})[k];next=S.cls?(pend?"Plata: reto superado. Tu prueba está enviada: cuando tu profe la valide, abre el enlace que te mande.":"Plata: reto superado. Envía la foto de la prueba a tu profe para que la valide."):"Plata: reto superado. Confírmalo con tu palabra de honor.";act=["foto",k,S.cls?(pend?"Ver mi prueba":"Enviar la prueba"):"Confirmar mi reto"]}else if(t<w)next="Plata: se abre mañana. Entonces empieza un reto de 7 días de esta región (al menos 4 días cumplidos).";else{next=S.active&&aK(S.active.id)===k&&S.active.start>=T.b?"Plata: termina tu reto de 7 días de esta región (al menos 4 días cumplidos).":"Plata: empieza un reto de 7 días de esta región (al menos 4 días cumplidos). Solo cuentan los retos empezados después del bronce.";act=["retos",k,"Elegir un reto"]}}
   else if(!T.o){if(t<openO){const n=dDiff(t,openO);next=`Oro: el test final se abre en ${n} día${n>1?"s":""} (el ${fmtD(openO)}). Mientras, entrena en la sala de entreno.`;act=["train",k,"Entrenar"]}
-    else{const fOk=F&&F.pass&&F.pass>=openO;checks=[[fOk,`Test final (${thr} de 10)`],[!!rr,"Un reto real nuevo de esta región"],[!!(Rf&&Rf.t),"Tu reflexión: qué hiciste, qué pasó y qué cambiarías"]];next="Oro: completa estas tres cosas.";
+    else{const fOk=F&&F.pass&&F.pass>=openO;checks=[[fOk,`Test final (${thr} de 10)`],[!!rr,"Un reto real nuevo de esta región, empezado después de la plata"],[!!(Rf&&Rf.t),"Tu reflexión: qué hiciste, qué pasó y qué cambiarías"]];next="Oro: completa estas tres cosas.";
       if(!fOk){if(!QZF[k])next+=" El test final de esta región llega pronto.";else if(fBlocked(k))next+=` Podrás repetir el test final el ${fmtD(F.next)}.`;else act=["final",k,"Hacer el test final"]}
       if(!act&&!rr)act=["retos",k,"Elegir un reto"];if(!act&&!(Rf&&Rf.t))act=["ref",k,"Escribir mi reflexión"]}}
   else next="Oro conseguido. Puedes repasar cuando quieras: nunca se pierde.";
@@ -2981,8 +2989,8 @@ function vMundo(){
   const nodes=K.map(k=>{const [r,c]=MWPOS[k],seen=R.has(k),A=seen&&GDIF[k]?gArea(k):null,on=k===sel;
     const icon=!seen?`<span class="mwq">?</span>`:GDIF[k]?trSVG(GICO[k],A.metal,2):MWCRY;
     return `<button type="button" class="mwn${seen?"":" fog"}${on?" on":""}${k===f?" guia":""}" data-mw="${k}" style="left:${c*MWT-10}px;top:${r*MWT-16}px" aria-label="${seen?esc(GREG[k]+" ("+AREAS[AK[k]].n+")"):"Región sin descubrir"}" aria-pressed="${on}">${icon}</button>${seen&&(on||k===f)?`<span class="mwl" style="left:${Math.max(0,Math.min(MWW-104,c*MWT-28))}px;top:${r*MWT+38}px">${esc(GREG[k])}</span>`:""}`}).join("");
-  const [fr,fc]=MWPOS[f]||[0,0];
-  const pl=`<div class="mwpl" style="left:${fc*MWT-40}px;top:${fr*MWT-4}px">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),1)}</div>`;
+  const at=S.g.at&&MWPOS[S.g.at]&&R.has(S.g.at)?S.g.at:f,[fr,fc]=MWPOS[at]||[0,0];
+  const pl=`<div class="mwpl" style="left:${fc*MWT-40}px;top:${fr*MWT-4}px"><div class="mwpi">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),1)}</div></div>`;
   const items=S.route?routeItems():[],dn=items.filter(it=>["ok","skip"].includes(itemStatus(it))).length;
   const leg=[["Oro","#F2B632"],["Plata","#A9B4BD"],["Bronce","#D9894A"],["Sin trofeo aún","#6B5A44"],["Para conocerte","#9B7BFF"],["Niebla","#433C6E"],["Tu siguiente paso","#FF6B3D"]];
   return `<section class="stack mundo"><div class="row" style="justify-content:space-between;align-items:baseline"><h1>Mundo</h1><span class="muted" style="font-size:.85rem">${R.size} de ${K.length} regiones descubiertas</span></div>
@@ -2992,6 +3000,12 @@ function vMundo(){
    <div class="card stack mwsel" style="gap:6px"><span class="rarea" style="--h:${inf.open?AREAS[AK[sel]].h:260};align-self:flex-start">${esc(inf.real)}</span><span class="pxname" style="font-size:1.25rem">${esc(inf.name)}</span><p style="margin:0">${esc(inf.text)}</p>${inf.open?`<button class="btn" data-reg="${sel}" style="width:max-content">Entrar en la región</button>`:""}</div>
 
    <details class="card fold"><summary><span class="fi">❔</span>Cómo funciona el Mundo</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem"><p>Cada región es un tema de tu vida con un nombre de aventura. Debajo del nombre verás siempre el tema real.</p><p><b>La niebla</b> se levanta poco a poco: al conseguir el bronce de una región se descubren las de al lado. Si te pica la curiosidad, puedes leer en la Biblioteca lecturas de zonas con niebla, pero solo cuentan (XP y trofeo) las de regiones descubiertas.</p><p><b>Cada región tiene un camino:</b> lecturas con una pregunta rápida, el quiz (bronce), un reto real de 7 días (plata) y el test final con otro reto y tu reflexión (oro). Entre medalla y medalla hay que esperar unos días: así se aprende de verdad.</p><p>Las regiones moradas (Emociones, Autoestima, Autoconocimiento y Adicciones) son para conocerte: no dan XP ni trofeos.</p><div class="row"><button class="btn ghost sm" data-act="carta-again" data-n="3">Ver el ejemplo de Nora</button><button class="btn ghost sm" data-act="carta-again" data-n="0">Repasar la carta de navegación</button></div></div></details></section>`}
+function mwWalk(a,b){const el=document.querySelector(".mwpl"),inner=el&&el.querySelector(".mwpi");if(!el||!MWPOS[a]||!MWPOS[b])return;
+  try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
+  const [ar,ac]=MWPOS[a],[br,bc]=MWPOS[b],dx=(ac-bc)*MWT,dy=(ar-br)*MWT,tiles=Math.abs(ac-bc)+Math.abs(ar-br),dur=Math.max(450,Math.min(1800,tiles*150)),hx=Math.abs(dx)/(Math.abs(dx)+Math.abs(dy)||1);
+  if(!el.animate)return;el.animate([{transform:`translate(${dx}px,${dy}px)`},{transform:`translate(0px,${dy}px)`,offset:hx},{transform:"translate(0,0)"}],{duration:dur,easing:"linear"});
+  inner.style.transform=bc<ac?"scaleX(-1)":"";inner.classList.add("walk");el.classList.add("moving");
+  setTimeout(()=>{inner.classList.remove("walk");inner.style.transform="";el.classList.remove("moving");if(typeof sfx==="function")try{sfx("step")}catch(e){}},dur)}
 function vRegion(){
   const k=S.reg;if(!k||!MWPOS[k])return vMundo();
   const a=AREAS[AK[k]],sens=!GDIF[k],cs=mwCs(k),nd=cs.filter(c=>cDone(c.id)).length;
@@ -3191,16 +3205,19 @@ function cpy(t){try{navigator.clipboard.writeText(t).then(()=>toast("Copiado"),(
 
 /* ---------- Propósito = camino de la Cima de la Brújula ---------- */
 function gVal(k,d,T,t,thr,learned,cs){
-  const D=(S.P&&S.P.done)||{},F=(S.g.fin||{})[k];let ch=false;const n14=[1,2,3,4].filter(i=>D[i]).length;
+  pFix();const D=(S.P&&S.P.done)||{},F=(S.g.fin||{})[k];let ch=false;const n14=[1,2,3,4].filter(i=>D[i]&&pOk(i)).length;
+  const letter=pWords(S.P&&S.P.letter)>=40,ok56=!!(D[5]&&D[6]&&pOk(5)&&pOk(6)&&letter);
+  if(T.b&&n14<4){delete T.b;delete T.p;delete T.o;ch=true}
+  if(T.p&&!ok56){delete T.p;delete T.o;ch=true}
   if(!T.b&&n14===4){T.b=t;ch=true}
-  if(T.b&&!T.p&&D[5]&&D[6]&&t>=addDays(T.b,1)){T.p=t;ch=true}
+  if(T.b&&!T.p&&ok56&&t>=addDays(T.b,1)){T.p=t;ch=true}
   const openO=T.p?addDays(T.p,GWAIT[d]):null;
   if(T.p&&!T.o&&D[7]&&t>=openO&&F&&F.pass&&F.pass>=openO){T.o=t;ch=true}
   if(ch)store.set("game",S.g);
   const metal=T.o?"oro":T.p?"plata":T.b?"bronce":"ninguno";let next,act=null,checks=null;
   if(!T.b){next=`Bronce: completa los pasos 1 a 4 de tu Propósito (llevas ${n14} de 4).`;act=["prop",k,"Ir a Propósito"]}
-  else if(!T.p){if(t<addDays(T.b,1))next="Plata: se abre mañana. Entonces, completa los pasos 5 (tu carta a los 26) y 6 (tus 3 pruebas en la vida real).";
-    else{next=`Plata: completa los pasos 5 (tu carta a los 26) y 6 (tus 3 pruebas en la vida real).${D[5]?" El 5 ya está.":""}${D[6]?" El 6 ya está.":""}`;act=["prop",k,"Ir a Propósito"]}}
+  else if(!T.p){if(t<addDays(T.b,1))next="Plata: se abre mañana. Necesitarás tu carta a los 26 (paso 5) y tus 3 pruebas en la vida real (paso 6), hechas en días distintos.";
+    else{const miss=[];if(!(D[5]&&pOk(5)))miss.push("guarda el paso 5");if(!letter)miss.push("escribe tu carta a los 26 (al menos 40 palabras, en el paso 5)");if(!(D[6]&&pOk(6)))miss.push("haz tus 3 pruebas en la vida real (paso 6: una por día y al menos 7 días entre la primera y la tercera)");next=`Plata: ${miss.join("; ")}.`;act=["prop",k,"Ir a Propósito"]}}
   else if(!T.o){if(t<openO){const n=dDiff(t,openO);next=`Oro: el test final se abre en ${n} día${n>1?"s":""} (el ${fmtD(openO)}). Mientras, escribe tu frase (paso 7) y entrena.`;act=D[7]?["train",k,"Entrenar"]:["prop",k,"Escribir mi frase"]}
     else{const fOk=F&&F.pass&&F.pass>=openO;checks=[[!!D[7],"Tu frase de propósito (paso 7)"],[fOk,`Test final (${thr} de 10)`]];next="Oro: completa estas dos cosas.";
       if(!D[7])act=["prop",k,"Escribir mi frase"];else if(!fOk){if(fBlocked(k))next+=` Podrás repetir el test final el ${fmtD(F.next)}.`;else act=["final",k,"Hacer el test final"]}}}
@@ -3208,7 +3225,7 @@ function gVal(k,d,T,t,thr,learned,cs){
   return {k,d,metal,T,next,act,checks,learned,total:cs.length,openO}}
 function valStops(k,A){const D=(S.P&&S.P.done)||{},T=A.T,n14=[1,2,3,4].filter(i=>D[i]).length,b=(lbl,on)=>on?`<button class="btn sm" data-go="proposito">${lbl}</button>`:"";
   return [["PROPÓSITO · PASOS 1-4","Valores, fortalezas, energía y a quién aportar (bronce)",!!T.b,T.b?"Conseguido":`${n14} de 4 pasos`,b("Ir a Propósito",!T.b)],
-    ["PROPÓSITO · PASOS 5-6","Tu carta a los 26 y tus 3 pruebas reales (plata)",!!T.p,T.p?"Conseguido":!T.b?"Se abre con el bronce":(A.next||""),b("Ir a Propósito",!!T.b&&!T.p)],
+    ["PROPÓSITO · PASOS 5-6","Tu carta a los 26 y 3 pruebas reales en días distintos (plata)",!!T.p,T.p?"Conseguido":!T.b?"Se abre con el bronce":(A.next||""),b("Ir a Propósito",!!T.b&&!T.p)],
     ["RETO FINAL","Tu frase de propósito + test final (oro)",!!T.o,T.o?"Oro conseguido":T.p?(A.next||""):"Se abre 7 días después de la plata",T.p&&!T.o&&A.act?(A.act[0]==="prop"?b(A.act[2],true):`<button class="btn sm" data-gact="${A.act[0]}|${A.act[1]}">${esc(A.act[2])}</button>`):""],
     ["EL ESPEJO","Al final del curso te espera tu Alter Ego",false,"Para enfrentarte a él necesitarás tu frase de propósito y tu carta a los 26 años. Guárdalas bien.",""]]}
 function propBanner(){const A=gArea("VAL");if(!A)return "";return `<div class="card exreg"><span class="regico">${trSVG(GICO.VAL,A.metal,2)}</span><div class="stack" style="gap:2px;flex:1;min-width:0"><span class="pxname" style="font-size:1rem">${esc(GREG.VAL)}</span><span class="muted" style="font-size:.82rem">Estos 7 pasos son el camino de esta región del mapa: pasos 1-4 → bronce · 5-6 → plata · 7 y test final → oro. Y tu frase y tu carta serán la llave para el final del curso.</span></div><button class="btn ghost sm" data-reg="VAL">Ver en el mapa</button></div>`}
@@ -3475,7 +3492,7 @@ const FAQ=[
 ["¿Puedo quitar el sonido de los premios?","Sí. En la pantalla de felicitación o en Yo, con el botón «Sonido de premios». Si el móvil está en silencio, normalmente no suena."],
 ["¿Se puede perder un trofeo?","No. Lo conseguido nunca se pierde, aunque dejes la app un tiempo."],
 ["Un ejemplo: ¿cómo avanza alguien de verdad?","Nora empieza en el Puerto de las Mil Monedas (Dinero). Semana 1: comprueba 3 lecturas y aprueba el quiz con 9 de 10: trofeo de bronce y se descubren dos regiones vecinas. Semanas 2 y 3: cumple su reto de ahorro 5 de 7 días: trofeo de plata. Luego espera 14 días a que se abra el test final; mientras, entrena en la sala de entreno y avanza en otras regiones. En la semana 4 llega al nivel 5 y evoluciona a Exploradora. En la semana 6 aprueba el test final, hace otro reto y escribe su reflexión: trofeo de oro. Lo tienes en dibujo en Dudas, en «La aventura de Nora»."],
-["¿Qué tiene que ver Propósito con el mapa?","Los 7 pasos de Propósito son el camino de la Cima de la Brújula. Pasos 1 a 4: bronce. Pasos 5 y 6: plata. Tu frase (paso 7) y el test final: oro. Los valores que eliges en el paso 1 aparecen en tus retos y se van encendiendo (chispa, llama, hoguera) con cada reto superado. Y tu frase y tu carta a los 26 años serán la llave para enfrentarte al jefe final del curso."],
+["¿Qué tiene que ver Propósito con el mapa?","Los 7 pasos de Propósito son el camino de la Cima de la Brújula. Pasos 1 a 4: bronce. Pasos 5 y 6 (tu carta a los 26 y 3 pruebas reales, hechas a lo largo de al menos una semana): plata. Tu frase (paso 7) y el test final: oro. Los valores que eliges en el paso 1 aparecen en tus retos y se van encendiendo (chispa, llama, hoguera) con cada reto superado. Y tu frase y tu carta a los 26 años serán la llave para enfrentarte al jefe final del curso."],
 ["¿Qué es la sala de entreno?","Mientras esperas a que se abra el test final de una región, puedes entrenar con 10 preguntas del quiz, sin límite y sin perder nada. Verás cuántos días faltan. Cada día que entrenas en una región suma +5 XP."]]],
 ["Empezar",[
 ["¿Qué es Brújula?","Una app para conocerte mejor y mejorar poco a poco en 14 áreas de tu vida: sueño, emociones, estudio, dinero, relaciones… Haces un test, ves tu mapa y trabajas un reto pequeño cada semana."],
@@ -3619,8 +3636,8 @@ document.addEventListener("click",e=>{
   if(d.ans){const [q,x]=d.ans.split(":").map(Number);const now=Date.now(),dt=now-(S.lastAns||S.pageAt||0),fast=S.answers[q]===undefined&&dt<1500;S.lastAns=now;if(diagHit("test",fast)){S.diag="test";toast("No leas en diagonal: lee cada frase entera")}else if(!fast&&S.diag==="test")S.diag=null;S.answers[q]=x;save();render();return}
   if(d.swap){if(dl.open)dl.close();finishReto("skip");S.swap=false;S.more=false;startReto(d.swap);return}
   if(d.start){if(dl.open)dl.close();S.more=false;startReto(d.start);return}
-  if(d.log){const k=today();S.active.log[k]=S.active.log[k]===d.log?undefined:d.log;if(!S.active.log[k])delete S.active.log[k];save();if(S.active.log[k])toast(d.log==="si"?"+10 · ¡Bien!":d.log==="poco"?"+6 · Algo es algo":"+2 · Mañana más");render();return}
-  if(d.dot){const order=[undefined,"si","poco","no"],cur=S.active.log[d.dot],nx=order[(order.indexOf(cur)+1)%4];if(nx)S.active.log[d.dot]=nx;else delete S.active.log[d.dot];save();render();return}
+  if(d.log){if(!S.active)return;const k=today();S.active.log[k]=S.active.log[k]===d.log?undefined:d.log;if(!S.active.log[k])delete S.active.log[k];save();if(S.active.log[k])toast(d.log==="si"?"+10 · ¡Bien!":d.log==="poco"?"+6 · Algo es algo":"+2 · Mañana más");render();return}
+  if(d.dot){if(!S.active||d.dot>today()||d.dot<S.active.start||d.dot>addDays(S.active.start,6))return;const order=[undefined,"si","poco","no"],cur=S.active.log[d.dot],nx=order[(order.indexOf(cur)+1)%4];if(nx)S.active.log[d.dot]=nx;else delete S.active.log[d.dot];save();render();return}
   if(d.rate){S.active.rating=+d.rate;save();render();return}
   if(d.finish){const ok=goodDays(S.active)>=4;finishReto(d.finish);S.more=false;toast(ok?"+20 · Reto superado":"+20 · Semana revisada");render();window.scrollTo({top:0});return}
   if(d.sto){const [k,o]=d.sto.split(":").map(Number);S.active.sto=S.active.sto||{};S.active.sto[k]=o;S.stoLast=k;save();render();return}
@@ -3645,7 +3662,11 @@ document.addEventListener("click",e=>{
   if(d.pque||d.pquien){pReadFields();if(d.pque)S.P.f.que=d.pque;else S.P.f.quien=d.pquien;save();render();return}
   if(d.pv||d.ps||d.pc||d.pu||d.pd||d.pw||d.pj||d.po){pReadFields();const MP={pv:["v",5],ps:["s",3],pc:["causes",3],pu:["upL",5],pd:["downL",5],pw:["whoL",2],pj:["fut",2],po:["proud",3]},ak=Object.keys(MP).find(k=>d[k]!==undefined),[key,max]=MP[ak],val=d[ak];const arr=S.P[key],i=arr.indexOf(val);
     if(i>=0)arr.splice(i,1);else if(arr.length<max)arr.push(val);else toast(`Máximo ${max}. Quita uno para elegir otro.`);save();render();return}
-  if(d.pexp){pReadFields();const x=S.P.exp[+d.pexp];x.d=!x.d;save();if(x.d)toast("+10 · Experimento hecho");render();return}
+  if(d.pexp){pReadFields();pReadExp();const x=S.P.exp[+d.pexp],t=today();
+    if(x.d){x.d=false;delete x.dd;delete x.r;if(S.P.done[6]&&!pOk(6))delete S.P.done[6];save();render();return}
+    if(!x.t){toast("Primero elige qué prueba vas a hacer");render();return}
+    if(S.P.exp.some(y=>y!==x&&y.d&&y.dd===t)){toast("Una prueba por día: haz la siguiente otro día");render();return}
+    x.d=true;x.dd=t;save();toast("+10 · Experimento hecho");render();return}
   if(d.psave){const k=+d.psave,g=id=>{const el=document.getElementById(id);return el?el.value.trim():""};
     if(k===2)S.P.s3=g("p-s3");
     if(k===3){S.P.up=S.P.upL.join(", ");S.P.down=S.P.downL.join(", ")}
@@ -3654,6 +3675,7 @@ document.addEventListener("click",e=>{
     if(k===6)pReadExp();
     if(k===7){const f={verb:g("pf-verb"),que:g("pf-que"),quien:g("pf-quien"),s:g("pf-s"),v:g("pf-v")};const old=S.P.done[7]?pSent(S.P.f):"";if(!f.que||!f.quien){S.P.f=f;save();toast("Completa qué y para quién");render();return}
     if(old&&old!==pSent(f))S.P.versions.push({d:S.P.fDate||today(),s:old});if(!old||old!==pSent(f))S.P.fDate=today();S.P.f=f;}
+    if(k<7&&!pOk(k)){save();toast(k===3?"Elige al menos una cosa que te da energía y otra que te la quita":k===4?"Elige al menos a quién te gustaría aportar":k===5?"Elige a qué te dedicas y qué te da orgullo":k===6?pExpMsg():"Completa este paso antes de guardarlo");render();return}
     const first=!S.P.done[k];S.P.done[k]=true;S.P.lastStep=today();S.pOpen=k<7?k+1:null;save();
     toast(first?(k===7?"+30 · Tu brújula está lista":"+15 · Paso guardado"):"Guardado");render();return}
   if(d.gr){const [i,v]=d.gr.split(":"),n=S.grp.m[+i],k=friKey();if(!k||!n)return;const W=S.grp.wk[k]=S.grp.wk[k]||{};W[n]=W[n]===v?undefined:v;if(!W[n])delete W[n];W._me=grpMe();save();render();return}
@@ -3675,13 +3697,13 @@ document.addEventListener("click",e=>{
   if(d.lqm&&S.lq&&S.lq.multi){const [j,o]=d.lqm.split(":").map(Number);S.lq.a[j]=o;const bx=dl.querySelector(".lqbox");if(bx)bx.outerHTML=lqBox(S.lq.id);return}
   if(d.rec){if(dl.open)dl.close();const pool=lqPool(d.rec);S.rl={id:d.rec,src:pool[Math.floor(Math.random()*pool.length)],o:sh([0,1,2]),pick:null};go("recall");return}
   if(d.rla!=null&&S.rl&&S.rl.pick==null){const id=S.rl.id;S.rl.pick=+d.rla;if(+d.rla===0){S.g.dom=S.g.dom||{};S.g.dom[id]=today();toast(GDIF[aK(id)]?"+5 · ¡Lectura dominada!":"¡Lectura dominada!")}else{S.g.lqf=S.g.lqf||{};S.g.lqf[id]=today()}store.set("game",S.g);render();return}
-  if(d.mw){S.mwSel=d.mw;render();const p=document.querySelector(".mwsel");if(p)p.scrollIntoView({behavior:"smooth",block:"nearest"});return}
-  if(d.reg){if(dl.open)dl.close();S.reg=d.reg;S.regOpen=false;go("region");return}
+  if(d.mw){const R0=mwSeen(),from=S.g.at&&MWPOS[S.g.at]&&R0.has(S.g.at)?S.g.at:mwFocus(R0);S.mwSel=d.mw;if(R0.has(d.mw)&&d.mw!==from){S.g.at=d.mw;store.set("game",S.g)}render();if(S.g.at===d.mw&&d.mw!==from)mwWalk(from,d.mw);const p=document.querySelector(".mwsel");if(p)p.scrollIntoView({behavior:"smooth",block:"nearest"});return}
+  if(d.reg){if(dl.open)dl.close();if(MWPOS[d.reg]&&mwSeen().has(d.reg)&&S.g.at!==d.reg){S.g.at=d.reg;store.set("game",S.g)}S.reg=d.reg;S.regOpen=false;go("region");return}
   if(d.carta!=null){S.cartaN=+d.carta;render();window.scrollTo({top:0});return}
   if(d.lq!=null&&S.lq){const id=S.lq.id;if(+d.lq===0){S.g.ok=S.g.ok||{};S.g.ok[id]=today();store.set("game",S.g);S.lq=null;toast(GDIF[aK(id)]?"+5 · ¡Leída! En dos días podrás dominarla":"¡Leída!")}else{S.g.lqf=S.g.lqf||{};S.g.lqf[id]=today();store.set("game",S.g);S.lq=null;toast("Esta no era. Vuelve a leerla: mañana tendrás otra pregunta.")}
     const bx=dl.querySelector(".lqbox");if(bx)bx.outerHTML=lqBox(id);render();return}
-  if(d.gact){const [a,k]=d.gact.split("|");if(a==="quiz"){S.reg=k;qzStart(k);if(S.qz)go("quiz");else render()}else if(a==="area"){S.reg=k;S.regOpen=true;go("region")}else if(a==="retos"){S.reg=k;go("region");setTimeout(()=>{const e=document.getElementById("regretos");if(e)e.scrollIntoView({behavior:"smooth",block:"start"})},80)}else if(a==="final")fzStart(k);else if(a==="train")trStart(k);else if(a==="prop")go("proposito");else if(a==="foto"){S.fotoK=k;go("prueba")}else if(a==="ref"){S.refOpen=k;render()}return}
-  if(d.fa!==undefined){const Z=S.fz;if(!Z)return;Z.ans.push(+d.fa);Z.step++;if(Z.step===Z.items.length){const ok=Z.ans.filter(x=>x===0).length,th=GTHR[GDIF[Z.k]],F=S.g.fin[Z.k]||{};F.last=ok;F.date=today();F.n=(F.n||0)+1;if(ok>=th){F.pass=F.pass||today();F.fails=0;F.next=null}else{F.fails=(F.fails||0)+1;F.next=addDays(today(),F.fails>=2?7:3)}S.g.fin[Z.k]=F;store.set("game",S.g)}render();window.scrollTo({top:0});return}
+  if(d.gact){const [a,k]=d.gact.split("|");if(a==="quiz"){S.reg=k;qzStart(k);if(S.qz)go("quiz");else render()}else if(a==="area"){S.reg=k;S.regOpen=true;go("region")}else if(a==="retos"){S.reg=k;go("region");setTimeout(()=>{const e=document.getElementById("regretos");if(e)e.scrollIntoView({behavior:"smooth",block:"start"})},80)}else if(a==="final"){const A=gArea(k);if(!(A&&A.act&&A.act[0]==="final")){toast("El test final todavía no está abierto");render();return}fzStart(k)}else if(a==="train")trStart(k);else if(a==="prop")go("proposito");else if(a==="foto"){const A=gArea(k);if(!(A&&A.act&&A.act[0]==="foto")){toast("Primero supera un reto de 7 días de esta región");render();return}S.fotoK=k;go("prueba")}else if(a==="ref"){const A=gArea(k);if(!(A&&A.T.p)){toast("La reflexión se abre con la plata");render();return}S.refOpen=k;render()}return}
+  if(d.fa!==undefined){const Z=S.fz;if(!Z)return;Z.ans.push(+d.fa);Z.step++;if(Z.step===Z.items.length){const ok=Z.ans.filter(x=>x===0).length,th=GTHR[GDIF[Z.k]],F=S.g.fin[Z.k]||{};F.last=ok;F.date=today();F.n=(F.n||0)+1;if(ok>=th){F.pass=today();F.fails=0;F.next=null}else{F.fails=(F.fails||0)+1;F.next=addDays(today(),F.fails>=2?7:3)}S.g.fin[Z.k]=F;store.set("game",S.g)}render();window.scrollTo({top:0});return}
   if(d.pjt){const it=pjFind(d.pjt),P=S.pjDraft||Object.assign({},pjCfg());const was=P.id;P.id=it[0];P.tipo=it[1];if(it[1]==="persona"){P.rasgos=it[0];if(was!==it[0])P.peinado=it[0]==="chica"?"largo":"corto";if(!PJPELO.includes(P.pelo))P.pelo="#6B4226"}else if(PJANIM.includes(it[1])){P.pelo={gato:"#E08A3C",golden:"#E3A857",dino:"#36A79B"}[it[1]]}else if(!PJPELO.includes(P.pelo))P.pelo="#6B4226";S.pjDraft=P;const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.pjo){const [k,v]=d.pjo.split("|");S.pjDraft[k]=k==="gafas"?!!v:v;const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.pjc){const [k,v]=d.pjc.split("|");S.pjDraft[k]=v;const y=window.scrollY;render();window.scrollTo(0,y);return}
@@ -3713,7 +3735,7 @@ document.addEventListener("click",e=>{
   else if(act==="ref-save"){const ta=document.getElementById("g-ref"),v=ta?ta.value.trim():"",n=v.split(/[.!?]+/).filter(x=>x.trim().length>3).length;if(n<3||v.length<80){toast("Escribe al menos tres frases: qué hiciste, qué pasó y qué cambiarías");return}S.g.ref[S.refOpen]={t:v.slice(0,1500),date:today()};store.set("game",S.g);S.refOpen=null;toast("Reflexión guardada");render()}
   else if(act==="fz-done"){S.fz=null;go("coleccion",true)}
   else if(act==="g-snd"){S.g.snd=S.g.snd===false;store.set("game",S.g);if(S.g.snd!==false)gTune("bronce");render()}
-  else if(act==="honor-ok"){const ck=document.getElementById("honorchk");if(!ck||!ck.checked){toast("Marca tu palabra de honor para confirmar");return}S.g.honor=S.g.honor||{};S.g.honor[S.fotoK]=today();store.set("game",S.g);S.reg=S.fotoK;go("region")}
+  else if(act==="honor-ok"){const A0=gArea(S.fotoK);if(!(A0&&A0.act&&A0.act[0]==="foto")){toast("Primero supera un reto de 7 días de esta región");go("mundo");return}const ck=document.getElementById("honorchk");if(!ck||!ck.checked){toast("Marca tu palabra de honor para confirmar");return}S.g.honor=S.g.honor||{};S.g.honor[S.fotoK]=today();store.set("game",S.g);S.reg=S.fotoK;go("region")}
   else if(act==="pr-copy"){const M=prMail(S.fotoK);cpy(`Para: ${M.to}\nAsunto: ${M.sub}\n\n${M.body}`)}
   else if(act==="ok-paste"){const v=(document.getElementById("okpaste")||{}).value||"";applyOk(v)}
   else if(act==="cls-join"){S.cls=S.joinCls;store.set("cls",S.cls);S.joinCls=null;toast("¡Te has unido a la clase!");go("mas",true)}
@@ -3811,6 +3833,7 @@ document.addEventListener("click",e=>{
   else if(act==="reset-no"){S.confirmReset=false;render()}
   else if(act==="reset-yes"){S.g={tr:{},fin:{},ref:{}};store.set("game",S.g);S.answers={};S.active=null;S.history=[];S.tests=[];S.buddy="";S.P=P0();S.route=null;S.keep=[];S.extra={};S.grat=[];S.tips=[];S.capr=[];store.set("capr",[]);S.cur={hist:[]};store.set("cur",S.cur);S.confirmReset=false;save();go("hoy")}
 });
+function pExpMsg(){const e=S.P.exp;if(!e.every(x=>x.t))return "Elige las 3 pruebas";if(!e.every(x=>x.d))return "Marca cada prueba el día que la hagas";if(!e.every(x=>x.r))return "Di si cada prueba te ha encendido";return "Entre la primera y la tercera prueba tienen que pasar al menos 7 días"}
 function pReadExp(){S.P.exp.forEach((x,i)=>{const el=document.getElementById("p-exp"+i);if(el)x.t=el.value.trim()})}
 function pReadFields(){const g=id=>{const el=document.getElementById(id);return el?el.value:null};const P=S.P;
   [["p-s3","s3"],["p-up","up"],["p-down","down"],["p-flow","flow"],["p-who","who"],["p-letter","letter"]].forEach(([id,k])=>{const v=g(id);if(v!==null)P[k]=v});
