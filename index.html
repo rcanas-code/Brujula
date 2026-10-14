@@ -546,6 +546,12 @@ dialog{border:3px solid var(--px-ink)!important;box-shadow:6px 6px 0 var(--px-sh
 .nstep b{display:block;font-size:.9rem}.nstep div span{font-size:.8rem;color:var(--muted)}
 .nwk{display:block;font-family:var(--pxf);font-size:.72rem;color:var(--accent)}.nic{display:flex;justify-content:center;align-items:center;font-size:1.2rem;min-height:28px}
 .nevo{background:#1E2B38;padding:2px;display:inline-flex}
+.prcode{font-family:var(--pxf);font-size:1.9rem;letter-spacing:.06em;text-align:center;background:#1E2B38;color:#FFE27A;padding:10px;border:2px solid var(--px-ink);box-shadow:4px 4px 0 var(--px-sh)}
+.prcode.sm{font-size:1rem;padding:1px 6px;display:inline-block;box-shadow:none}
+.pstep2{display:flex;gap:10px;align-items:flex-start}
+.pfcls{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:6px 0;border-bottom:1px solid var(--line)}
+.albgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.albf{margin:0;display:flex;flex-direction:column;gap:4px}.albf img{width:100%;aspect-ratio:1;object-fit:cover;border:2px solid var(--px-ink)}.albf figcaption{font-size:.75rem;color:var(--muted)}
 .celeb{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:16px;overflow:hidden;color:#fff;background:radial-gradient(circle at 50% 42%,#2B3F66 0%,#16213A 48%,#0B111D 100%);animation:celIn .25s ease-out}
 .celeb .rays{position:absolute;left:50%;top:40%;width:640px;height:640px;margin:-320px 0 0 -320px;border-radius:50%;background:repeating-conic-gradient(rgba(255,230,140,.13) 0 9deg,transparent 9deg 18deg);animation:celSpin 22s linear infinite;pointer-events:none}
 .celeb .cfw{position:absolute;inset:0;pointer-events:none}
@@ -1291,7 +1297,7 @@ const isIOS=/iPhone|iPad|iPod/i.test(UA);
 const isStandalone=(()=>{try{return !!(navigator.standalone||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches))}catch(e){return false}})();
 let canStore=true;try{localStorage.setItem("brujula:t","1");localStorage.removeItem("brujula:t")}catch(e){canStore=false}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-const KEYS=["game","bsim","crono","me","stoic","cur","adicT","dogT2","catT2","learn","rev","capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
+const KEYS=["game","cls","bsim","crono","me","stoic","cur","adicT","dogT2","catT2","learn","rev","capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
 function backupCode(){const o={};KEYS.forEach(k=>o[k]=store.get(k,null));o.v=1;return "BRUJULA-"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
 function restoreCode(code){try{const raw=code.trim().replace(/^BRUJULA-/,"");const o=JSON.parse(decodeURIComponent(escape(atob(raw))));if(o.v!==1)throw 0;KEYS.forEach(k=>{if(o[k]!==null&&o[k]!==undefined)store.set(k,o[k])});return true}catch(e){return false}}
 function envBanner(){
@@ -1562,6 +1568,7 @@ function vMas(){
    <button class="mastile wide" style="--mc:#1F7F8A;--mb:#E0F3F5" data-act="shareapp"><span class="mi">📤</span><b>Comparte Brújula</b><span>Envía el enlace a un amigo, a tu familia o a tu grupo. Cada uno tiene su propia app y sus datos solo en su móvil.</span></button>
    <button class="mastile wide" style="--mc:#E0662F;--mb:#FDEBDF" data-tour="start"><span class="mi">🧭</span><b>Guía de la app</b><span>Un recorrido de 1 minuto por todos los botones.</span></button>
    <p class="eyebrow" style="margin-top:6px">Ajustes y ayuda técnica</p>
+   ${clsCard()}${albCard()}
    <details class="card fold" style="--fc:#14506B"><summary><span class="fi">🙂</span>Tu nombre${S.name?` <span class="muted" style="font-weight:600">· ${esc(S.name)}</span>`:""}</summary><div class="stack" style="margin-top:10px"><label for="uname2" class="eyebrow">Tu nombre</label><div class="row"><input id="uname2" class="field" style="max-width:240px" maxlength="30" placeholder="Tu nombre o apodo" value="${esc(S.name)}"><button class="btn ghost" data-act="savename">Guardar</button></div><span class="muted" style="font-size:.8rem">Solo se guarda en tu móvil. Déjalo vacío si prefieres que no te llamemos por tu nombre.</span></div></details>
    <details class="card fold" style="--fc:#2A9D8F"><summary><span class="fi">💾</span>Copia de seguridad</summary><div class="stack" style="margin-top:10px"><p class="muted">Tu progreso solo está en este móvil. Si vas a cambiar de móvil o de navegador, copia este código y guárdalo en tus notas. Luego pégalo abajo en el nuevo para recuperarlo todo.</p>
     ${S.showCode?`<p class="share" id="sharetxt" style="word-break:break-all;font-size:.75rem;max-height:120px;overflow:auto">${backupCode()}</p><button class="btn" data-act="copy" style="width:max-content">Copiar código</button>`:`<button class="btn ghost" data-act="showcode" style="width:max-content">Ver mi código</button>`}
@@ -1573,7 +1580,7 @@ function vMas(){
 /* ---------- navegación ---------- */
 const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["mundo","Mundo","M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"],["proposito","Propósito","M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 9l-2 5-4 1 2-5z"],["explorar","Explorar","M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM20 20l-4-4"],["mas","Yo","M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c1-4 4-6 8-6s7 2 8 6"]];
 function renderNav(){const pend=S.active&&(()=>{try{return todayItems().some(x=>x.st==="todo")}catch(e){return false}})();document.getElementById("nav").innerHTML=NAV.map(([k,l,p])=>`<button data-go="${k}" class="${S.tour!=null&&TOUR[S.tour][0]===k?"tourhl":""}" aria-current="${S.view===k&&!S.testing}">${k==="hoy"&&pend&&S.view!=="hoy"?'<span class="dot" aria-label="Tienes algo pendiente hoy"></span>':""}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>${l}</button>`).join("")}
-const VNAME={hoy:"Hoy",ruta:"Tus retos",proposito:"Propósito",mapa:"Tu mapa del test",explorar:"Explorar",mas:"Yo",mundo:"Mundo",region:"la región",entreno:"la sala de entreno",carta:"la carta de navegación",dinero:"Dinero",repaso:"Repaso",perro:"Test perro o gato",adic:"Test de adicción",curiosidad:"Descubre",cuerpo:"Tu cuerpo",crono:"Cronotipo",yo:"Sobre mí",personaje:"Tu personaje",coleccion:"Mi colección",final:"Test final",estoico:"Test estoico",simcuerpo:"Simulador del cuerpo",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
+const VNAME={hoy:"Hoy",ruta:"Tus retos",proposito:"Propósito",mapa:"Tu mapa del test",explorar:"Explorar",mas:"Yo",mundo:"Mundo",region:"la región",entreno:"la sala de entreno",carta:"la carta de navegación",prueba:"la prueba",clase:"la clase",profe:"la herramienta del profe",validar:"validar",dinero:"Dinero",repaso:"Repaso",perro:"Test perro o gato",adic:"Test de adicción",curiosidad:"Descubre",cuerpo:"Tu cuerpo",crono:"Cronotipo",yo:"Sobre mí",personaje:"Tu personaje",coleccion:"Mi colección",final:"Test final",estoico:"Test estoico",simcuerpo:"Simulador del cuerpo",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
 function go(v,fromNav){if(fromNav||S.tour!=null)S.back=null;else if(v!==S.view&&!S.testing)S.back={v:S.view,y:window.scrollY};S.view=v;S.testing=false;render();window.scrollTo({top:0})}
 
 /* ---------- vistas ---------- */
@@ -1638,7 +1645,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014191424";
+const APP_V="20261014191925";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -2779,7 +2786,7 @@ function gArea(k){
   const retos=S.history.filter(h=>h.passed&&aK(h.id)===k).map(h=>h.end).sort();
   const F=(S.g.fin||{})[k],Rf=(S.g.ref||{})[k];let ch=false,openO=null;
   if(!T.b&&hasQ&&qPass&&learned>=need){T.b=t;ch=true}
-  if(T.b&&!T.p){const r=retos.find(e=>dDiff(T.b,e)>=1);if(r){T.p=t;T.pr=r;ch=true}}
+  if(T.b&&!T.p){const r=retos.find(e=>dDiff(T.b,e)>=1);if(r&&!(PHOTO[k]&&!pvOk(k))){T.p=t;T.pr=r;ch=true}}
   const rr=T.p?retos.find(e=>e>T.p&&e!==T.pr):null;
   if(T.p){openO=addDays(T.p,GWAIT[d]);if(!T.o&&t>=openO&&F&&F.pass&&F.pass>=openO&&rr&&Rf&&Rf.t){T.o=t;ch=true}}
   if(ch)store.set("game",S.g);
@@ -2788,7 +2795,7 @@ function gArea(k){
   else if(!T.b){if(learned<need){const n=need-learned;next=`Bronce: comprueba ${n} lectura${n>1?"s":""} más de esta región (acierta su pregunta rápida) y aprueba su quiz con ${thr} de 10.`;act=["area",k,"Ver sus lecturas"]}
     else if(qBlocked(k))next=`Bronce: hoy no has llegado al ${thr} de 10. Repasa los conceptos y vuelve a intentarlo mañana.`;
     else{next=`Bronce: aprueba el quiz de la región con ${thr} de 10.`;act=["quiz",k,"Hacer el quiz"]}}
-  else if(!T.p){const w=addDays(T.b,1);if(t<w)next="Plata: se abre mañana. Entonces completa un reto de 7 días de esta región (al menos 4 días cumplidos).";else{next="Plata: completa un reto de 7 días de esta región (al menos 4 días cumplidos).";act=["area",k,"Elegir un reto"]}}
+  else if(!T.p){const w=addDays(T.b,1),r0=retos.find(e=>dDiff(T.b,e)>=1);if(r0&&PHOTO[k]&&!pvOk(k)){const pend=(S.g.req||{})[k];next=S.cls?(pend?"Plata: reto superado. Tu prueba está enviada: cuando tu profe la valide, abre el enlace que te mande.":"Plata: reto superado. Envía la foto de la prueba a tu profe para que la valide."):"Plata: reto superado. Confírmalo con tu palabra de honor.";act=["foto",k,S.cls?(pend?"Ver mi prueba":"Enviar la prueba"):"Confirmar mi reto"]}else if(t<w)next="Plata: se abre mañana. Entonces completa un reto de 7 días de esta región (al menos 4 días cumplidos).";else{next="Plata: completa un reto de 7 días de esta región (al menos 4 días cumplidos).";act=["area",k,"Elegir un reto"]}}
   else if(!T.o){if(t<openO){const n=dDiff(t,openO);next=`Oro: el test final se abre en ${n} día${n>1?"s":""} (el ${fmtD(openO)}). Mientras, entrena en la sala de entreno.`;act=["train",k,"Entrenar"]}
     else{const fOk=F&&F.pass&&F.pass>=openO;checks=[[fOk,`Test final (${thr} de 10)`],[!!rr,"Un reto real nuevo de esta región"],[!!(Rf&&Rf.t),"Tu reflexión: qué hiciste, qué pasó y qué cambiarías"]];next="Oro: completa estas tres cosas.";
       if(!fOk){if(!QZF[k])next+=" El test final de esta región llega pronto.";else if(fBlocked(k))next+=` Podrás repetir el test final el ${fmtD(F.next)}.`;else act=["final",k,"Hacer el test final"]}
@@ -2982,9 +2989,9 @@ function vRegion(){
     const qPass=q&&(q.pass||q.best>=thr);
     head=`<div class="regico">${trSVG(GICO[k],A.metal,3)}</div><div class="stack" style="gap:2px"><span class="rarea" style="--h:${a.h};align-self:flex-start">${esc(a.n)}</span><h1 class="pxname" style="font-size:1.5rem;margin:0">${esc(GREG[k])}</h1><span class="muted" style="font-size:.85rem">${GMET[A.metal]} · ${"★".repeat(GDIF[k])}</span></div>`;
     const st=[
-      ["LEE Y RESPONDE",`Comprueba ${need} lecturas`,nd>=need,`${Math.min(nd,need)} de ${need} · abre «Lecturas de esta región»`,nd<need?`<button class="btn ghost sm" data-act="reglect">Ver lecturas</button>`:""],
-      ["QUIZ",`El quiz: ${thr} de 10 para el bronce`,!!qPass,qPass?"Aprobado":qBlocked(k)?"Hoy ya lo has intentado: vuelve mañana":(QZ[k]||[]).length>=10?"10 preguntas al azar · unos 4 minutos":"Llega pronto",!qPass&&!qBlocked(k)&&(QZ[k]||[]).length>=10?`<button class="btn sm" data-gact="quiz|${k}">Hacer el quiz</button>`:""],
-      ["RETO REAL","Un reto de 7 días de esta región (plata)",!!T.p,T.p?"Superado":!T.b?"Se abre con el bronce":inRoute?"Te llega en Hoy cuando le toque en tus retos semanales, como pronto el día después del bronce":"Esta región aún no está en tus retos. Al terminar el nivel 1 podrás añadirla desde «Tus retos semanales»",T.b&&!T.p?`<button class="btn ghost sm" data-go="ruta">Ver mis retos</button>`:""],
+      ["LEE Y RESPONDE",`Comprueba ${need} lecturas`,nd>=need||!!T.b,`${Math.min(nd,need)} de ${need} · abre «Lecturas de esta región»`,nd<need?`<button class="btn ghost sm" data-act="reglect">Ver lecturas</button>`:""],
+      ["QUIZ",`El quiz: ${thr} de 10 para el bronce`,!!qPass||!!T.b,qPass?"Aprobado":qBlocked(k)?"Hoy ya lo has intentado: vuelve mañana":(QZ[k]||[]).length>=10?"10 preguntas al azar · unos 4 minutos":"Llega pronto",!qPass&&!qBlocked(k)&&(QZ[k]||[]).length>=10?`<button class="btn sm" data-gact="quiz|${k}">Hacer el quiz</button>`:""],
+      ["RETO REAL",PHOTO[k]?"Un reto de 7 días + prueba con foto (plata)":"Un reto de 7 días de esta región (plata)",!!T.p,T.p?"Superado":A.act&&A.act[0]==="foto"?"¡Reto superado! Falta la prueba para que la plata brille":!T.b?"Se abre con el bronce":inRoute?"Te llega en Hoy cuando le toque en tus retos semanales, como pronto el día después del bronce":"Esta región aún no está en tus retos. Al terminar el nivel 1 podrás añadirla desde «Tus retos semanales»",T.b&&!T.p?(A.act&&A.act[0]==="foto"?`<button class="btn sm" data-gact="foto|${k}">📷 ${esc(A.act[2])}</button>`:`<button class="btn ghost sm" data-go="ruta">Ver mis retos</button>`):""],
       ["RETO FINAL","Test final + otro reto + tu reflexión (oro)",!!T.o,T.o?"Oro conseguido":T.p?(A.next||""):`Se abre ${GWAIT[GDIF[k]]} días después de la plata`,T.p&&!T.o&&A.act?`<button class="btn sm" data-gact="${A.act[0]}|${A.act[1]}">${esc(A.act[2])}</button>`:""]];
     const cur=st.findIndex(s=>!s[2]);
     path=`<div class="regpath">${st.map((s,i)=>`<div class="rstop ${s[2]?"done":i===cur?"cur":"lock"}${i%2?" rev":""}"><div class="rnode">${s[2]?"✓":i+1}</div><div class="rcard"><span class="rkind">${s[0]}</span><b>${esc(s[1])}</b><span class="muted" style="font-size:.82rem">${esc(s[3])}</span>${i===cur?s[4]:""}</div></div>${i<st.length-1?`<div class="rpath"></div>`:""}`).join("")}</div>
@@ -3060,6 +3067,111 @@ function trBox(k){const n=trDaysLeft(k);return `<div class="card stack trbox">${
 function hoyTiles(){const a=S.active,c=a&&CI[a.id];if(!c)return "";const k=AREAS[c.a].k;
   const T=[["📍","Ir a la región",GREG[k]||AREAS[c.a].n,MWPOS[k]?`data-reg="${k}"`:`data-go="mundo"`],["📖","Profundiza","Vídeos y libro de tu reto.",`data-open="${c.id}"`],["🫁","Un minuto de calma","Respira despacio con el círculo.",`data-act="calm"`]];
   return `<div class="tiles">${T.map(([i,t,d,at])=>`<button class="tile" ${at}><b>${i} ${t}</b><span>${esc(d)}</span></button>`).join("")}</div>`}
+/* ---------- Retos con foto, clases y validación del profe ---------- */
+const APPURL="https://rcanas-code.github.io/Brujula/";
+const PHOTO={DIN:"tu registro de gastos o de ahorro de la semana (en papel o en captura)",HAB:"tu entorno preparado o tu plan «si…, entonces…» escrito a mano",ATE:"la captura de tu tiempo de pantalla de la semana",EDU:"la hoja donde escribiste lo que recordabas o tu calendario de repasos",ALI:"tu plato equilibrado o las etiquetas que revisaste",CRI:"la captura del verificador o de las dos fuentes que consultaste"};
+const b64u={enc:s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""),dec:s=>{s=String(s).replace(/-/g,"+").replace(/_/g,"/");s+="===".slice(0,(4-s.length%4)%4);return decodeURIComponent(escape(atob(s)))}};
+const bufB64=b=>btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64Buf=s=>{s=String(s).replace(/-/g,"+").replace(/_/g,"/");s+="===".slice(0,(4-s.length%4)%4);return Uint8Array.from(atob(s),c=>c.charCodeAt(0))};
+const ECP={name:"ECDSA",namedCurve:"P-256"},ECS={name:"ECDSA",hash:"SHA-256"};
+function pvOk(k){return !!((S.g.pv||{})[k]||(S.g.honor||{})[k])}
+function prCode(k){const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let r="";const v=crypto.getRandomValues(new Uint8Array(4));v.forEach(x=>r+=A[x%A.length]);return `BRJ-${k}-${r}`}
+function prReq(k){S.g.req=S.g.req||{};if(!S.g.req[k]){S.g.req[k]={c:prCode(k),d:today()};store.set("game",S.g)}return S.g.req[k]}
+function prMail(k){const R=prReq(k),cl=S.cls,a=AREAS[AK[k]],nm=S.name||"(sin nombre)";
+  const pay=b64u.enc(JSON.stringify({v:1,c:R.c,k,cl:cl.i,n:nm,d:R.d}));
+  const sub=`[Brújula] Plata ${a.n} · ${nm} · ${R.c}`;
+  const body=`Hola,\n\nTe envío la foto de mi reto de ${a.n} (${GREG[k]}). Lo que se ve: ${PHOTO[k]}.\nMi código: ${R.c}\n\nPara validarlo, abre este enlace en tu navegador de profe:\n${APPURL}?validar=${pay}\n\n(Recuerda adjuntar la foto antes de enviar.)`;
+  return {to:cl.e,sub,body,href:`mailto:${encodeURIComponent(cl.e)}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`}}
+function vPrueba(){
+  const k=S.fotoK;if(!k||!PHOTO[k])return vMundo();const a=AREAS[AK[k]];
+  const head=`<p class="eyebrow">Prueba de la plata · ${esc(a.n)}</p><h1>${esc(GREG[k])}</h1><p class="mwlore">Has superado el reto. Para que la plata brille, falta demostrarlo en el mundo real.</p>`;
+  const alb=`<label class="btn ghost" style="width:max-content;cursor:pointer">📷 Guardar una foto en mi álbum privado<input id="albfile" type="file" accept="image/*" capture="environment" hidden></label><p class="muted" style="font-size:.8rem;margin:0">El álbum se queda solo en este móvil. Nadie más lo ve.</p>`;
+  if(pvOk(k))return `<section class="stack">${head}<div class="card"><p style="margin:0"><b>¡Prueba superada!</b> La plata ya es tuya.</p></div><button class="btn" data-reg="${k}" style="width:max-content">Volver a la región</button></section>`;
+  if(!S.cls)return `<section class="stack">${head}
+   <div class="card stack" style="gap:10px"><h3>Por tu palabra de honor</h3><p style="margin:0">No estás en ninguna clase de Brújula, así que esta plata va por tu palabra. Un aventurero de verdad no se engaña a sí mismo: el trofeo solo vale si lo has hecho.</p>
+   <p style="margin:0">Si quieres, guarda una foto de ${esc(PHOTO[k])} como recuerdo.</p>${alb}
+   <label class="row" style="gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" id="honorchk" style="width:22px;height:22px;margin-top:2px"><span>Doy mi palabra de que he hecho el reto de verdad.</span></label>
+   <button class="btn" data-act="honor-ok" style="width:max-content">Confirmar mi plata</button></div>
+   <p class="muted" style="font-size:.85rem;margin:0">¿Tu profe usa Brújula? Pídele el enlace de su clase y únete desde Yo: así podrá validar tus pruebas.</p></section>`;
+  const R=prReq(k),M=prMail(k);
+  return `<section class="stack">${head}
+   <div class="card stack" style="gap:12px">
+    <div class="pstep2"><span class="pxchip">1</span><p style="margin:0">Haz una foto de <b>${esc(PHOTO[k])}</b>. Escribe este código en un papel y que salga en la foto:</p></div>
+    <div class="prcode">${R.c}</div>
+    <div class="pstep2"><span class="pxchip">2</span><p style="margin:0"><b>Sin caras, sin nombres y sin datos personales.</b> Solo lo que se pide y el código.</p></div>
+    <div class="pstep2"><span class="pxchip">3</span><p style="margin:0">Envíasela a ${esc(S.cls.n?`tu profe de ${S.cls.n}`:"tu profe")} (${esc(S.cls.e)}). El correo ya va escrito: <b>solo tienes que adjuntar la foto</b>.</p></div>
+    <a class="btn" href="${M.href}" style="width:max-content;text-decoration:none">✉️ Preparar el correo</a>
+    <button class="linkbtn" data-act="pr-copy" style="text-align:left">¿No se abre el correo? Copiar el texto para pegarlo a mano</button>
+    <div class="pstep2"><span class="pxchip">4</span><p style="margin:0">Cuando tu profe lo valide, te responderá con un enlace. <b>Ábrelo en este móvil</b> y la plata llegará sola.</p></div>
+   </div>
+   <details class="card fold"><summary><span class="fi">🔗</span>¿Tienes el enlace pero no se abre en la app?</summary><div class="stack" style="margin-top:10px"><textarea id="okpaste" class="field" rows="3" placeholder="Pega aquí el enlace que te ha enviado tu profe"></textarea><button class="btn ghost" data-act="ok-paste" style="width:max-content">Comprobar</button></div></details>
+   <div class="stack" style="gap:6px">${alb}</div>
+   <p class="muted" style="font-size:.8rem;margin:0">Pedido el ${fmtD(R.d)}. Tu profe solo ve lo que tú le envías por correo: nada más de la app sale de tu móvil.</p></section>`}
+async function applyOk(str){
+  try{const m=String(str).match(/[?&]ok=([A-Za-z0-9_-]+)/);const raw=m?m[1]:String(str).trim();const P=JSON.parse(b64u.dec(raw));
+    if(!S.cls||S.cls.i!==P.cl){toast("Este enlace es de otra clase.");return}
+    const R=(S.g.req||{})[P.k];if(!R||R.c!==P.c){toast("Este enlace no corresponde a tu prueba. Cada código es personal.");return}
+    const key=await crypto.subtle.importKey("jwk",{kty:"EC",crv:"P-256",x:S.cls.x,y:S.cls.y,ext:true},ECP,false,["verify"]);
+    const ok=await crypto.subtle.verify(ECS,key,b64Buf(P.s),new TextEncoder().encode(`${P.c}|${P.k}|${P.cl}`));
+    if(!ok){toast("La firma no es válida. Pide a tu profe que lo revise.");return}
+    S.g.pv=S.g.pv||{};S.g.pv[P.k]=today();delete S.g.req[P.k];store.set("game",S.g);toast("¡Tu profe ha validado la prueba!");S.reg=P.k;go("region")
+  }catch(e){toast("No he podido leer el enlace. Cópialo entero.")}}
+function vClase(){
+  const J=S.joinCls;
+  if(!J)return vMas();
+  return `<section class="stack"><p class="eyebrow">Unirse a una clase</p><h1>${esc(J.n||"Clase")}</h1>
+   <div class="card stack" style="gap:8px"><p style="margin:0">Profe: <b>${esc(J.e)}</b></p><p style="margin:0">Al unirte, las pruebas con foto de Dinero, Hábitos, Atención, Estudio, Alimentación y Criterio se las enviarás a este profe para que las valide.</p><p class="muted" style="font-size:.85rem;margin:0">Tu profe <b>no</b> ve tu progreso ni tus respuestas: solo lo que tú le envíes por correo.</p></div>
+   <div class="row"><button class="btn" data-act="cls-join">Unirme</button><button class="btn ghost" data-act="cls-no">Ahora no</button></div></section>`}
+function clsCard(){
+  return `<details class="card fold"><summary><span class="fi">🏫</span>Mi clase${S.cls?` <span class="muted" style="font-weight:600">· ${esc(S.cls.n)}</span>`:""}</summary><div class="stack" style="margin-top:10px;gap:8px">
+   ${S.cls?`<p style="margin:0">Estás en <b>${esc(S.cls.n)}</b> (${esc(S.cls.e)}). Tus pruebas con foto se las envías a este profe.</p><button class="btn ghost sm" data-act="cls-leave" style="width:max-content">Salir de la clase</button>`:`<p class="muted" style="margin:0">Si tu profe usa Brújula, te dará un enlace para unirte. Ábrelo en este móvil o pégalo aquí:</p><textarea id="clspaste" class="field" rows="2" placeholder="Pega el enlace de tu clase"></textarea><button class="btn ghost sm" data-act="cls-paste" style="width:max-content">Unirme</button><p class="muted" style="font-size:.8rem;margin:0">Sin clase, las pruebas van por tu palabra de honor.</p>`}
+   <hr style="border:0;border-top:1px solid var(--line);width:100%"><button class="linkbtn" data-go="profe" style="text-align:left">¿Eres profe? Herramienta para validar pruebas →</button></div></details>`}
+/* álbum privado (IndexedDB, solo en este móvil) */
+function albDB(){return new Promise((res,rej)=>{try{const r=indexedDB.open("brujula-album",1);r.onupgradeneeded=()=>r.result.createObjectStore("fotos",{keyPath:"id"});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+async function albAdd(rec){const db=await albDB();return new Promise((res,rej)=>{const tx=db.transaction("fotos","readwrite");tx.objectStore("fotos").put(rec);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}
+async function albAll(){const db=await albDB();return new Promise((res,rej)=>{const q=db.transaction("fotos").objectStore("fotos").getAll();q.onsuccess=()=>res(q.result||[]);q.onerror=()=>rej(q.error)})}
+async function albDel(id){const db=await albDB();return new Promise(res=>{const tx=db.transaction("fotos","readwrite");tx.objectStore("fotos").delete(id);tx.oncomplete=()=>res()})}
+function shrink(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const m=640,sc=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*sc);c.height=Math.round(im.height*sc);c.getContext("2d").drawImage(im,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.72))};im.onerror=rej;im.src=fr.result};fr.onerror=rej;fr.readAsDataURL(file)})}
+function albCard(){return `<details class="card fold" id="albfold"><summary><span class="fi">📷</span>Mi álbum privado</summary><div class="stack" style="margin-top:10px;gap:8px"><p class="muted" style="font-size:.85rem;margin:0">Las fotos de tus retos. Se guardan solo en este móvil (no van en la copia de seguridad).</p><div id="album" class="albgrid"><span class="muted">Cargando…</span></div></div></details>`}
+async function albFill(){const el=document.getElementById("album");if(!el)return;try{const L=(await albAll()).sort((a,b)=>b.id-a.id);el.innerHTML=L.length?L.map(f=>`<figure class="albf"><img src="${f.img}" alt="Foto del reto de ${esc((AREAS[AK[f.k]]||{}).n||"")}"><figcaption>${esc(GREG[f.k]||"")} · ${fmtD(f.d)}</figcaption><button class="linkbtn" data-albdel="${f.id}">Borrar</button></figure>`).join(""):`<span class="muted">Todavía no hay fotos.</span>`}catch(e){el.innerHTML=`<span class="muted">Este navegador no permite guardar fotos.</span>`}}
+document.addEventListener("change",async e=>{const t=e.target;if(t&&t.id==="albfile"&&t.files&&t.files[0]){try{const img=await shrink(t.files[0]);await albAdd({id:Date.now(),k:S.fotoK||"",d:today(),img});toast("Foto guardada en tu álbum privado")}catch(err){toast("No he podido guardar la foto")}}});
+/* herramienta del profe */
+function pfGet(){return store.get("profe",null)}
+function pfSet(P){store.set("profe",P)}
+async function pfKeys(){const kp=await crypto.subtle.generateKey(ECP,true,["sign","verify"]);const priv=await crypto.subtle.exportKey("jwk",kp.privateKey),pub=await crypto.subtle.exportKey("jwk",kp.publicKey);return {priv,pub}}
+function pfLink(P,c){return APPURL+"?clase="+b64u.enc(JSON.stringify({i:c.i,n:c.n,e:P.e,x:P.pub.x,y:P.pub.y}))}
+function vProfe(){
+  const P=pfGet();
+  const intro=`<p class="eyebrow">Herramienta del profe</p><h1>Validar pruebas</h1><p class="muted" style="max-width:62ch">Para profes. Tu alumnado te envía por correo la foto de su reto con un código. Tú abres el enlace del correo, compruebas la foto y la validas. La app del alumno solo acepta tu firma, así que no se puede falsificar.</p>`;
+  if(!P||!P.priv)return `<section class="stack">${intro}<div class="card stack" style="gap:10px"><h3>1. Crea tu clave de profe</h3><p style="margin:0">Se crea y se guarda solo en este navegador. Usa siempre el mismo (por ejemplo, el Chrome de tu ordenador).</p><label class="eyebrow" for="pfmail">Tu correo de profe</label><input id="pfmail" class="field" type="email" value="rcanas@lluisacura.cat"><button class="btn" data-act="pf-new" style="width:max-content">Crear mi clave</button></div>
+   <details class="card fold"><summary><span class="fi">🔑</span>Ya tengo una clave (otro ordenador)</summary><div class="stack" style="margin-top:10px"><textarea id="pfimp" class="field" rows="3" placeholder="Pega aquí la copia de tu clave"></textarea><button class="btn ghost" data-act="pf-imp" style="width:max-content">Importar</button></div></details></section>`;
+  return `<section class="stack">${intro}
+   <div class="card stack" style="gap:10px"><h3>Tus clases</h3>${(P.cls||[]).map(c=>`<div class="pfcls"><b>${esc(c.n)}</b><button class="btn ghost sm" data-pfcopy="${c.i}">Copiar enlace para el alumnado</button></div>`).join("")||`<p class="muted" style="margin:0">Todavía no has creado ninguna.</p>`}
+    <div class="row"><input id="pfcls" class="field" style="max-width:220px" placeholder="Nombre, p. ej. 1.º B"><button class="btn sm" data-act="pf-cls">Crear clase</button></div>
+    <p class="muted" style="font-size:.82rem;margin:0">Comparte el enlace por Classroom o WhatsApp. Al abrirlo, cada alumno se une a tu clase.</p></div>
+   <div class="card stack" style="gap:8px"><h3>Gmail: todo en una pestaña</h3><p style="margin:0">Crea un filtro en Gmail: <b>Asunto contiene «[Brújula]»</b> → aplicar la etiqueta <b>Brújula</b> y saltar la bandeja de entrada. Así tendrás todas las pruebas juntas.</p></div>
+   <div class="card stack" style="gap:8px"><h3>Validadas (${(P.log||[]).length})</h3>${(P.log||[]).slice(-8).reverse().map(l=>`<p style="margin:0;font-size:.88rem">${l.ok?"✓":"✕"} ${esc(l.n)} · ${esc(l.k)} · ${esc(l.c)} · ${fmtD(l.d)}</p>`).join("")||`<p class="muted" style="margin:0">Aún nada.</p>`}</div>
+   <details class="card fold"><summary><span class="fi">🔑</span>Copia de seguridad de tu clave</summary><div class="stack" style="margin-top:10px"><p class="muted" style="font-size:.85rem;margin:0">Guárdala en un sitio seguro. Con ella puedes validar desde otro ordenador. No la compartas con el alumnado.</p><button class="btn ghost sm" data-act="pf-exp" style="width:max-content">Copiar mi clave</button></div></details></section>`}
+function vValidar(){
+  const P=pfGet();let R=null;try{R=JSON.parse(b64u.dec(S.valReq))}catch(e){}
+  if(!R)return `<section class="stack"><h1>Enlace no válido</h1><p>Este enlace de validación está incompleto.</p></section>`;
+  const c=P&&(P.cls||[]).find(x=>x.i===R.cl);
+  if(!P||!P.priv||!c)return `<section class="stack"><p class="eyebrow">Validar prueba</p><h1>Este enlace es para su profe</h1><p>Solo se puede validar desde el navegador donde el profe creó su clave y su clase.</p></section>`;
+  const a=AREAS[AK[R.k]]||{n:R.k};
+  if(S.valOut)return `<section class="stack"><p class="eyebrow">Validar prueba · ${esc(c.n)}</p><h1>${S.valOut.ok?"Validada":"Rechazada"}</h1><p>Responde al correo del alumno (Responder en Gmail) y pega este texto:</p><p class="share" id="sharetxt" style="word-break:break-all">${esc(S.valOut.txt)}</p><button class="btn" data-act="val-copy" style="width:max-content">Copiar respuesta</button></section>`;
+  return `<section class="stack"><p class="eyebrow">Validar prueba · ${esc(c.n)}</p><h1>${esc(R.n)} · ${esc(a.n)}</h1>
+   <div class="card stack" style="gap:8px"><p style="margin:0">Región: <b>${esc(GREG[R.k]||R.k)}</b> · pedido el ${fmtD(R.d)}</p><p style="margin:0">Comprueba en la foto del correo:</p><ul style="margin:0;padding-left:18px"><li>Que se ve el código <b class="prcode sm">${esc(R.c)}</b></li><li>Que se ve ${esc(PHOTO[R.k]||"lo que pide el reto")}</li><li>Que no salen caras ni datos personales</li></ul></div>
+   <div class="row"><button class="btn" data-act="val-ok">✓ Validar</button><button class="btn ghost" data-act="val-no">✕ Rechazar</button></div></section>`}
+async function pfSign(R){const P=pfGet();const key=await crypto.subtle.importKey("jwk",P.priv,ECP,false,["sign"]);const sig=await crypto.subtle.sign(ECS,key,new TextEncoder().encode(`${R.c}|${R.k}|${R.cl}`));return APPURL+"?ok="+b64u.enc(JSON.stringify({c:R.c,k:R.k,cl:R.cl,s:bufB64(sig)}))}
+function urlIntake(){let q;try{q=new URLSearchParams(location.search)}catch(e){return}let hit=false;
+  if(q.get("clase")){try{S.joinCls=JSON.parse(b64u.dec(q.get("clase")));S.view="clase"}catch(e){}hit=true}
+  if(q.get("ok")){const v=q.get("ok");hit=true;setTimeout(()=>applyOk(v),400)}
+  if(q.get("validar")){S.valReq=q.get("validar");S.valOut=null;S.view="validar";hit=true}
+  if(q.has("profe")){S.view="profe";hit=true}
+  if(hit)try{history.replaceState(null,"",location.pathname)}catch(e){}}
+
+S.cls=store.get("cls",null);
+function cpy(t){try{navigator.clipboard.writeText(t).then(()=>toast("Copiado"),()=>prompt("Copia el texto:",t))}catch(e){prompt("Copia el texto:",t)}}
 /* pregunta rápida al final de cada lectura */
 function lqBox(id){const qs=lqQs(id);if(!qs.length)return "";
   if((S.g.ok||{})[id])return `<div class="lqbox ok"><b>✓ Lectura comprobada.</b> Ya cuenta en ${esc(GREG[aK(id)]||"su región")}.</div>`;
@@ -3402,10 +3514,11 @@ function openConcept(id){
 }
 function render(){
   renderNav();try{gCheck()}catch(e){}
-  const v={hoy:vHoy,ruta:vRuta,mas:vMas,proposito:vProposito,mapa:vMapa,explorar:vExplorar,mundo:vMundo,region:vRegion,entreno:vEntreno,carta:vCarta,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,personaje:vPersonaje,coleccion:vColeccion,final:vFinal,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
+  const v={hoy:vHoy,ruta:vRuta,mas:vMas,proposito:vProposito,mapa:vMapa,explorar:vExplorar,mundo:vMundo,region:vRegion,entreno:vEntreno,carta:vCarta,prueba:vPrueba,clase:vClase,profe:vProfe,validar:vValidar,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,personaje:vPersonaje,coleccion:vColeccion,final:vFinal,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
   document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${S.back&&S.back.v!==S.view&&!S.testing?`<button class="backbar" data-act="goback">← Volver a ${VNAME[S.back.v]||"atrás"}</button>`:""}${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
   if(S.view==="dudas"&&S.faqQ)faqFilter();
   try{mwScale()}catch(e){}
+  try{albFill()}catch(e){}
   const tb=document.getElementById("tourbox");if(tb)tb.innerHTML=tourBar();
   try{const hb=document.querySelector(".helpbtn");if(hb)hb.classList.toggle("tourhl",S.tour!=null&&TOUR[S.tour][0]==="ayuda")}catch(e){}
 }
@@ -3468,12 +3581,14 @@ document.addEventListener("click",e=>{
   if(d.bh){const [k,v]=d.bh.split(":");S.bsim[k]=+v;store.set("bsim",S.bsim);const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.gsel){S.colSel=d.gsel;S.refOpen=null;render();window.scrollTo({top:0,behavior:"smooth"});return}
   if(d.tra!=null&&S.tr&&S.tr.pick==null){S.tr.pick=+d.tra;if(+d.tra===0)S.tr.ok++;render();return}
+  if(d.pfcopy){const P=pfGet(),c=P&&(P.cls||[]).find(x=>x.i===d.pfcopy);if(c)cpy(pfLink(P,c));return}
+  if(d.albdel){albDel(+d.albdel).then(albFill);return}
   if(d.mw){S.mwSel=d.mw;render();const p=document.querySelector(".mwsel");if(p)p.scrollIntoView({behavior:"smooth",block:"nearest"});return}
   if(d.reg){if(dl.open)dl.close();S.reg=d.reg;S.regOpen=false;go("region");return}
   if(d.carta!=null){S.cartaN=+d.carta;render();window.scrollTo({top:0});return}
   if(d.lq!=null&&S.lq){const id=S.lq.id;if(+d.lq===0){S.g.ok=S.g.ok||{};S.g.ok[id]=today();store.set("game",S.g);S.lq=null;toast(GDIF[aK(id)]?"+5 · ¡Correcto! La lectura cuenta":"¡Correcto!")}else{const qs=lqQs(id),o=qs.filter(x=>x[1]!==S.lq.qi);S.lq={id,qi:(o.length?o[Math.floor(Math.random()*o.length)]:qs[0])[1],o:sh([0,1,2]),wrong:true}}
     const bx=dl.querySelector(".lqbox");if(bx)bx.outerHTML=lqBox(id);render();return}
-  if(d.gact){const [a,k]=d.gact.split("|");if(a==="quiz"){S.exMode="quiz";qzStart(k);go("explorar")}else if(a==="area"){S.reg=k;S.regOpen=true;go("region")}else if(a==="final")fzStart(k);else if(a==="train")trStart(k);else if(a==="ref"){S.refOpen=k;render()}return}
+  if(d.gact){const [a,k]=d.gact.split("|");if(a==="quiz"){S.exMode="quiz";qzStart(k);go("explorar")}else if(a==="area"){S.reg=k;S.regOpen=true;go("region")}else if(a==="final")fzStart(k);else if(a==="train")trStart(k);else if(a==="foto"){S.fotoK=k;go("prueba")}else if(a==="ref"){S.refOpen=k;render()}return}
   if(d.fa!==undefined){const Z=S.fz;if(!Z)return;Z.ans.push(+d.fa);Z.step++;if(Z.step===Z.items.length){const ok=Z.ans.filter(x=>x===0).length,th=GTHR[GDIF[Z.k]],F=S.g.fin[Z.k]||{};F.last=ok;F.date=today();F.n=(F.n||0)+1;if(ok>=th){F.pass=F.pass||today();F.fails=0;F.next=null}else{F.fails=(F.fails||0)+1;F.next=addDays(today(),F.fails>=2?7:3)}S.g.fin[Z.k]=F;store.set("game",S.g)}render();window.scrollTo({top:0});return}
   if(d.pjt){const it=pjFind(d.pjt),P=S.pjDraft||Object.assign({},pjCfg());const was=P.id;P.id=it[0];P.tipo=it[1];if(it[1]==="persona"){P.rasgos=it[0];if(was!==it[0])P.peinado=it[0]==="chica"?"largo":"corto";if(!PJPELO.includes(P.pelo))P.pelo="#6B4226"}else if(PJANIM.includes(it[1])){P.pelo={gato:"#E08A3C",golden:"#E3A857",dino:"#36A79B"}[it[1]]}else if(!PJPELO.includes(P.pelo))P.pelo="#6B4226";S.pjDraft=P;const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.pjo){const [k,v]=d.pjo.split("|");S.pjDraft[k]=k==="gafas"?!!v:v;const y=window.scrollY;render();window.scrollTo(0,y);return}
@@ -3506,6 +3621,21 @@ document.addEventListener("click",e=>{
   else if(act==="ref-save"){const ta=document.getElementById("g-ref"),v=ta?ta.value.trim():"",n=v.split(/[.!?]+/).filter(x=>x.trim().length>3).length;if(n<3||v.length<80){toast("Escribe al menos tres frases: qué hiciste, qué pasó y qué cambiarías");return}S.g.ref[S.refOpen]={t:v.slice(0,1500),date:today()};store.set("game",S.g);S.refOpen=null;toast("Reflexión guardada");render()}
   else if(act==="fz-done"){S.fz=null;go("coleccion",true)}
   else if(act==="g-snd"){S.g.snd=S.g.snd===false;store.set("game",S.g);if(S.g.snd!==false)gTune("bronce");render()}
+  else if(act==="honor-ok"){const ck=document.getElementById("honorchk");if(!ck||!ck.checked){toast("Marca tu palabra de honor para confirmar");return}S.g.honor=S.g.honor||{};S.g.honor[S.fotoK]=today();store.set("game",S.g);S.reg=S.fotoK;go("region")}
+  else if(act==="pr-copy"){const M=prMail(S.fotoK);cpy(`Para: ${M.to}\nAsunto: ${M.sub}\n\n${M.body}`)}
+  else if(act==="ok-paste"){const v=(document.getElementById("okpaste")||{}).value||"";applyOk(v)}
+  else if(act==="cls-join"){S.cls=S.joinCls;store.set("cls",S.cls);S.joinCls=null;toast("¡Te has unido a la clase!");go("mas",true)}
+  else if(act==="cls-no"){S.joinCls=null;go("hoy",true)}
+  else if(act==="cls-leave"){S.cls=null;store.set("cls",null);render()}
+  else if(act==="cls-paste"){const v=(document.getElementById("clspaste")||{}).value||"",m=v.match(/clase=([A-Za-z0-9_-]+)/);try{S.joinCls=JSON.parse(b64u.dec(m?m[1]:v.trim()));go("clase")}catch(e){toast("Ese enlace no es de una clase de Brújula")}}
+  else if(act==="pf-new"){const em=((document.getElementById("pfmail")||{}).value||"").trim();if(!/@/.test(em)){toast("Escribe tu correo");return}pfKeys().then(K=>{pfSet({e:em,priv:K.priv,pub:K.pub,cls:[],log:[]});toast("Clave creada");render()}).catch(()=>toast("Este navegador no permite crear la clave"))}
+  else if(act==="pf-imp"){try{const P=JSON.parse((document.getElementById("pfimp")||{}).value);if(!P.priv||!P.pub)throw 0;pfSet(P);toast("Clave importada");render()}catch(e){toast("Esa copia no es válida")}}
+  else if(act==="pf-cls"){const n=((document.getElementById("pfcls")||{}).value||"").trim();if(!n){toast("Pon un nombre a la clase");return}const P=pfGet();P.cls=P.cls||[];P.cls.push({i:prCode("C").slice(6),n});pfSet(P);render()}
+  else if(act==="pf-exp"){cpy(JSON.stringify(pfGet()))}
+  else if(act==="val-ok"||act==="val-no"){let R;try{R=JSON.parse(b64u.dec(S.valReq))}catch(e){return}const P=pfGet();const fin=txt=>{P.log=P.log||[];P.log.push({ok:act==="val-ok",n:R.n,k:R.k,c:R.c,d:today()});pfSet(P);S.valOut={ok:act==="val-ok",txt};render()};
+    if(act==="val-ok")pfSign(R).then(l=>fin(`¡Validado, ${R.n}! Abre este enlace en tu móvil (en el mismo navegador donde usas Brújula) para recibir tu plata: ${l}`)).catch(()=>toast("No he podido firmar. ¿Es el navegador donde creaste tu clave?"));
+    else fin(`Hola, ${R.n}: todavía no puedo validar tu prueba (${R.c}). Revisa que en la foto se vea el código y ${PHOTO[R.k]||"lo que pide el reto"}, sin caras ni datos personales, y vuelve a enviarla.`)}
+  else if(act==="val-copy"){cpy(S.valOut.txt)}
   else if(act==="tr-next"){S.tr.step++;S.tr.pick=null;render();window.scrollTo({top:0})}
   else if(act==="tr-again"){trStart(S.tr.k)}
   else if(act==="carta-ok"){S.g.carta=S.g.carta||today();store.set("game",S.g);S.cartaN=0;if(S.view==="carta")go("hoy",true);else{render();window.scrollTo({top:0})}}
@@ -3613,6 +3743,7 @@ if(!store.get("learnInit",false)){Object.keys(S.seen||{}).forEach(id=>{if(CI[id]
 if(complete()&&!S.tests.length){S.tests.push({date:today(),scores:scores()})}
 if(!S.route&&curScores()){S.route=buildRoute(curScores())}
 save();
+try{urlIntake()}catch(e){}
 render();
 </script>
 
