@@ -434,6 +434,8 @@ section:has(> .exback) .filterbar{top:58px}
 .yolink{border:1.5px solid var(--back);background:transparent;color:var(--back);border-radius:999px;padding:5px 10px;font:inherit;font-size:.8rem;font-weight:800;white-space:nowrap;cursor:pointer}
 .explan{display:grid;gap:8px}.explan>div{padding:8px 10px;border-left:4px solid var(--back);background:color-mix(in srgb,var(--back) 7%,var(--surface));border-radius:8px}.explan p{margin:2px 0 0;font-size:.88rem}
 .ytlink{display:inline-flex;align-items:center;gap:6px;width:max-content;max-width:100%;padding:8px 14px;border-radius:999px;background:#FF0033;color:#fff;font-weight:800;text-decoration:none;font-size:.9rem}
+.yoav.isav{padding:0;overflow:hidden}.yoav.isav svg{display:block}.aved{display:grid;gap:8px}.avprev{display:flex;justify-content:center}.avprev svg{border-radius:50%;box-shadow:0 4px 14px rgb(0 0 0/.15)}.avopts{display:flex;flex-wrap:wrap;gap:6px}.avopts button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 11px;font:inherit;font-size:.82rem;font-weight:700;cursor:pointer}.avopts button.on{background:var(--back);border-color:var(--back);color:var(--back-ink)}.avsw{display:flex;flex-wrap:wrap;gap:7px}.avsw button{width:30px;height:30px;border-radius:50%;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line);cursor:pointer}.avsw button.on{box-shadow:0 0 0 3px var(--ink)}.aved .adl{margin:6px 0 0}
+.hiav{border:0;background:none;padding:0;margin-right:8px;vertical-align:middle;cursor:pointer;display:inline-block}.hiav svg{display:block;border-radius:50%}
 </style>
 
 <div class="wrap">
@@ -1493,7 +1495,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014125850";
+const APP_V="20261014130111";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1645,7 +1647,7 @@ function vHoy(){
   const notices=[routeNews(),tipCard(),reviewCard(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y crea una ruta nueva (+25).</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",...groupCards()].filter(Boolean).map(slim).join("");
   const B=badges(),got=B.filter(b=>b[3]).length;
   return `<section class="stack hoy2">
-   <div><p class="hello">${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
+   <div><p class="hello">${S.me&&S.me.av?`<button class="hiav" data-go="yo" aria-label="Sobre mí">${avSVG(S.me.av,40)}</button>`:""}${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ ${p} puntos</span>${S.route&&routeItems().length?`<span>Reto ${(()=>{const it=routeItems(),cur=S.active?it.findIndex(x=>x.c.id===S.active.id):-1;return cur>=0?cur+1:it.filter(x=>["ok","skip"].includes(itemStatus(x))).length+1})()} de ${routeItems().length}</span>`:""}</div></div>
    ${banner}
    ${choiceCard()}
@@ -2062,8 +2064,8 @@ function vYo(){
   const top=sc?sc.map((v,i)=>[v,i]).filter(x=>x[0]!=null).sort((a,b)=>b[0]-a[0]):[];
   const done=S.history.filter(h=>h.passed).length,cur=S.cur.hist.filter(x=>x.st==="hecha"),fav=cur.filter(x=>x.like===2).map(x=>DSCI[x.id]).filter(Boolean),ps=pSent(S.P.f);
   const row=(ic,lab,val,go,lb)=>`<div class="yorow"><span class="yi">${ic}</span><div><p class="eyebrow" style="margin:0">${lab}</p><div>${val}</div></div>${go?`<button class="yolink" ${go}>${lb||"Ver"} →</button>`:""}</div>`;
-  return `<section class="stack"><div class="yohead"><button class="yoav" style="background:${M.c}" data-act="yo-av" aria-label="Cambiar avatar">${M.a}</button><div><p class="eyebrow">Sobre mí</p><h1 style="margin:0">${esc(S.name||"Sin nombre")}</h1><p class="muted" style="margin:2px 0 0">${M.age?M.age+" años · ":""}${r?r.t[2]+" "+r.t[3]:"Cronotipo sin descubrir"}</p></div></div>
-   ${S.yoEdit?`<div class="card stack"><h3>Edita tu perfil</h3><label class="adl">Nombre<input class="cin" id="yo-name" value="${esc(S.name||"")}" maxlength="30"></label><label class="adl">Edad<input class="cin" id="yo-age" inputmode="numeric" value="${M.age||""}" style="max-width:6em"></label><p class="adl" style="margin:0">Avatar</p><div class="avgrid">${AVE.map(e=>`<button class="${M.a===e?"on":""}" data-ava="${e}">${e}</button>`).join("")}</div><p class="adl" style="margin:0">Color</p><div class="avcol">${AVC.map(c=>`<button class="${M.c===c?"on":""}" style="background:${c}" data-avc="${c}" aria-label="Color"></button>`).join("")}</div><div class="yosim"><p class="adl" style="margin:0">Para el simulador del cuerpo <span class="muted">(opcional)</span></p><p class="muted" style="font-size:.82rem;margin:2px 0 8px">Estos datos solo sirven para que el dibujo del <b>simulador de salud</b> se parezca a ti. No se usan para nada más y se quedan en tu móvil.</p><div class="seg">${[["chico","🙋‍♂️ Chico"],["chica","🙋‍♀️ Chica"]].map(([v,l])=>`<button data-bsex="${v}" aria-pressed="${S.me.sex===v}">${l}</button>`).join("")}</div><div class="skins" style="margin-top:8px">${SKIN.map((c,i)=>`<button class="${S.me.skin===i?"on":""}" style="background:${c}" data-bskin="${i}" aria-label="Tono de piel ${i+1}"></button>`).join("")}</div></div><button class="btn" data-act="yo-save" style="width:max-content">Guardar</button></div>`:`<button class="btn ghost" data-act="yo-av" style="width:max-content">✏️ Editar nombre, edad y avatar</button>`}
+  return `<section class="stack"><div class="yohead"><button class="yoav${M.av?" isav":""}" style="background:${M.av?"transparent":M.c}" data-act="yo-av" aria-label="Cambiar avatar">${avAvatar(76)}</button><div><p class="eyebrow">Sobre mí</p><h1 style="margin:0">${esc(S.name||"Sin nombre")}</h1><p class="muted" style="margin:2px 0 0">${M.age?M.age+" años · ":""}${r?r.t[2]+" "+r.t[3]:"Cronotipo sin descubrir"}</p></div></div>
+   ${S.yoEdit?`<div class="card stack"><h3>Edita tu perfil</h3><label class="adl">Nombre<input class="cin" id="yo-name" value="${esc(S.name||"")}" maxlength="30"></label><label class="adl">Edad<input class="cin" id="yo-age" inputmode="numeric" value="${M.age||""}" style="max-width:6em"></label><p class="adl" style="margin:0">Avatar</p>${S.me.av?avEditor():`<div class="row"><button class="btn" data-act="av-new">🎨 Crear mi avatar estilo anime</button></div><div class="avgrid">${AVE.map(e=>`<button class="${M.a===e?"on":""}" data-ava="${e}">${e}</button>`).join("")}</div><p class="adl" style="margin:0">Color</p><div class="avcol">${AVC.map(c=>`<button class="${M.c===c?"on":""}" style="background:${c}" data-avc="${c}" aria-label="Color"></button>`).join("")}</div>`}<div class="yosim"><p class="adl" style="margin:0">Para el simulador del cuerpo <span class="muted">(opcional)</span></p><p class="muted" style="font-size:.82rem;margin:2px 0 8px">Estos datos solo sirven para que el dibujo del <b>simulador de salud</b> se parezca a ti. No se usan para nada más y se quedan en tu móvil.</p><div class="seg">${[["chico","🙋‍♂️ Chico"],["chica","🙋‍♀️ Chica"]].map(([v,l])=>`<button data-bsex="${v}" aria-pressed="${S.me.sex===v}">${l}</button>`).join("")}</div><div class="skins" style="margin-top:8px">${SKIN.map((c,i)=>`<button class="${S.me.skin===i?"on":""}" style="background:${c}" data-bskin="${i}" aria-label="Tono de piel ${i+1}"></button>`).join("")}</div></div><button class="btn" data-act="yo-save" style="width:max-content">Guardar</button></div>`:`<button class="btn ghost" data-act="yo-av" style="width:max-content">✏️ Editar nombre, edad y avatar</button>`}
    <div class="card stack yocard">
     ${row("🧭","Mi propósito",ps?esc(ps):`<span class="muted">Aún sin frase (paso ${Math.min(pCount()+1,7)} de 7)</span>`,`data-act="yo-p" data-v="${ps?7:Math.min(pCount()+1,7)}"`,ps?"Cambiar":"Seguir")}
     ${row("💎","Mis valores",S.P.v&&S.P.v.length?S.P.v.map(esc).join(" · "):`<span class="muted">Sin elegir</span>`,`data-act="yo-p" data-v="1"`,S.P.v&&S.P.v.length?"Cambiar":"Elegir")}
@@ -2180,6 +2182,51 @@ function vSimBody(){
     <p class="muted" style="font-size:.78rem;margin:0">Aproximado, a partir de datos de la OMS y de estudios sobre hábitos y salud. Cada cuerpo es distinto: la genética y la suerte también cuentan. Pero los hábitos son la parte que depende de ti.</p></div>
    <button class="btn ghost" data-go="cuerpo" style="width:max-content">🫀 Ver para qué sirve cada órgano</button></section>`;
 }
+/* ---------- avatar estilo anime ---------- */
+const AVH=[["rapado","Rapado"],["corto","Corto"],["puntas","Puntas"],["afro","Afro"],["rizos","Rizos"],["media","Media melena"],["melena","Melena"],["coleta","Coleta"],["coletas","Dos coletas"],["trenzas","Trenzas"],["mono","Moño"]];
+const AVHC=["#1C1C1C","#3B2416","#6B4226","#A8743C","#E2C27A","#B5462B","#9E9E9E","#F2F2F2","#3A6FE0","#E25BA8","#2FAE72","#7A4FD1","#F08A24"];
+const AVSK=["#FBE3D0","#F2D3B8","#E3B48E","#C98E64","#A9714B","#7A4A2E","#55331F"];
+const AVEY=["#4A2C1A","#1E1E1E","#2E8B57","#2F6FD6","#C98A14","#8A4FD1","#C93C3C"];
+const AVSH=["#FF6B3D","#0F766E","#2F6FD6","#7C4DCC","#1C1C1C","#F2F2F2","#E3A008","#C93C3C"];
+const AVBG=["#FFE2D6","#D8F2EE","#DCE7FB","#EADFFB","#FFF1C7","#FADADD","#E6E6E6","#1E2B38"];
+const AV0={h:"corto",hc:2,sk:2,ey:0,ex:"sonrisa",gl:0,fr:0,sh:0,bg:0};
+function avSVG(a,size){a=Object.assign({},AV0,a||{});const hc=AVHC[a.hc]||AVHC[2],sk=AVSK[a.sk]||AVSK[2],ey=AVEY[a.ey]||AVEY[0],sh=AVSH[a.sh]||AVSH[0],bg=AVBG[a.bg]||AVBG[0],ol="rgba(0,0,0,.35)";
+  const back={afro:`<circle cx="60" cy="44" r="38" fill="${hc}"/>${[[28,30],[40,14],[60,8],[80,14],[92,30],[96,50],[24,50]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="12" fill="${hc}"/>`).join("")}`,
+   rizos:`${[[32,34],[44,20],[60,16],[76,20],[88,34],[90,54],[30,54],[34,72],[86,72]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="11" fill="${hc}"/>`).join("")}`,
+   media:`<path d="M29 52 Q27 18 60 17 Q93 18 91 52 L92 86 Q80 88 78 70 L42 70 Q40 88 28 86Z" fill="${hc}"/>`,
+   melena:`<path d="M29 52 Q27 18 60 17 Q93 18 91 52 L95 106 Q78 102 76 72 L44 72 Q42 102 25 106Z" fill="${hc}"/>`,
+   coleta:`<path d="M84 34 Q108 40 104 70 Q102 92 92 104 Q96 80 88 62Z" fill="${hc}"/>`,
+   coletas:`<path d="M30 40 Q6 50 12 80 Q16 96 26 102 Q22 80 32 62Z" fill="${hc}"/><path d="M90 40 Q114 50 108 80 Q104 96 94 102 Q98 80 88 62Z" fill="${hc}"/>`,
+   trenzas:`${[70,80,90,100].map(y=>`<ellipse cx="33" cy="${y}" rx="6" ry="6.5" fill="${hc}" stroke="${ol}" stroke-width=".6"/><ellipse cx="87" cy="${y}" rx="6" ry="6.5" fill="${hc}" stroke="${ol}" stroke-width=".6"/>`).join("")}`,
+   mono:`<circle cx="60" cy="13" r="11" fill="${hc}"/>`}[a.h]||"";
+  const front={rapado:`<path d="M34 47 Q34 22 60 22 Q86 22 86 47 Q75 33 60 33 Q45 33 34 47Z" fill="${hc}" opacity=".8"/>`,
+   corto:`<path d="M32 52 Q29 17 60 16 Q91 17 88 52 L84 40 L77 47 L71 36 L64 45 L58 34 L52 45 L46 37 L40 47 L36 40Z" fill="${hc}"/>`,
+   puntas:`<path d="M30 54 L20 30 L35 34 L32 12 L47 24 L54 4 L62 22 L73 6 L75 25 L90 14 L85 34 L101 32 L89 54 L83 40 L75 47 L69 36 L61 45 L53 36 L47 47 L39 40Z" fill="${hc}"/>`,
+   afro:`<path d="M30 48 Q28 22 60 18 Q92 22 90 48 Q84 32 60 32 Q36 32 30 48Z" fill="${hc}"/>`,
+   rizos:`<path d="M31 50 Q30 22 60 20 Q90 22 89 50 Q82 34 72 38 Q66 30 60 36 Q52 30 46 38 Q38 34 31 50Z" fill="${hc}"/>`}[a.h]||`<path d="M31 53 Q29 17 60 16 Q91 17 89 53 Q85 35 70 31 Q62 44 44 40 Q37 45 31 53Z" fill="${hc}"/>`;
+  const eye=x=>a.ex==="alegre"?`<path d="M${x-7} 61 Q${x} 54 ${x+7} 61" fill="none" stroke="#2a1a14" stroke-width="2.4" stroke-linecap="round"/>`:`<ellipse cx="${x}" cy="60" rx="7" ry="8.6" fill="#fff"/><ellipse cx="${x}" cy="61" rx="5.2" ry="6.8" fill="${ey}"/><ellipse cx="${x}" cy="62" rx="2.5" ry="3.6" fill="#141414"/><circle cx="${x+2}" cy="57.5" r="1.8" fill="#fff"/><circle cx="${x-2}" cy="64" r=".9" fill="#fff"/><path d="M${x-8} 55 Q${x} 49 ${x+8} 54" fill="none" stroke="#2a1a14" stroke-width="2.4" stroke-linecap="round"/>`;
+  const mouth={sonrisa:`<path d="M54 75 Q60 80 66 75" fill="none" stroke="#7a2e22" stroke-width="2" stroke-linecap="round"/>`,alegre:`<path d="M53 73 Q60 83 67 73Z" fill="#9b2f2f"/><path d="M56 78 Q60 81 64 78" fill="#f07a7a"/>`,seria:`<path d="M55 76 L65 76" stroke="#7a2e22" stroke-width="2" stroke-linecap="round"/>`}[a.ex]||"";
+  return `<svg viewBox="0 0 120 120" width="${size||120}" height="${size||120}" role="img" aria-label="Avatar"><defs><clipPath id="avclip"><circle cx="60" cy="60" r="60"/></clipPath></defs><g clip-path="url(#avclip)"><circle cx="60" cy="60" r="60" fill="${bg}"/>${back}
+   <path d="M20 122 Q22 98 60 95 Q98 98 100 122Z" fill="${sh}"/><rect x="52" y="82" width="16" height="15" rx="5" fill="${sk}"/>
+   <ellipse cx="34" cy="61" rx="4.5" ry="6" fill="${sk}"/><ellipse cx="86" cy="61" rx="4.5" ry="6" fill="${sk}"/>
+   <path d="M34 50 Q34 82 60 90 Q86 82 86 50 Q86 24 60 24 Q34 24 34 50Z" fill="${sk}"/>
+   ${eye(49)}${eye(71)}<path d="M43 49 Q49 46 55 48" fill="none" stroke="${hc==="#F2F2F2"?"#9E9E9E":hc}" stroke-width="2" stroke-linecap="round"/><path d="M65 48 Q71 46 77 49" fill="none" stroke="${hc==="#F2F2F2"?"#9E9E9E":hc}" stroke-width="2" stroke-linecap="round"/>
+   <ellipse cx="42" cy="70" rx="4.5" ry="2.4" fill="#ff7a8a" opacity=".45"/><ellipse cx="78" cy="70" rx="4.5" ry="2.4" fill="#ff7a8a" opacity=".45"/>
+   ${a.fr?[[44,67],[47,69],[41,69],[76,67],[73,69],[79,69]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r=".9" fill="#8a5a3a"/>`).join(""):""}
+   <path d="M59 66 Q60 69 62 68" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="1.2" stroke-linecap="round"/>${mouth}${front}
+   ${a.gl?`<g fill="none" stroke="#1c1c1c" stroke-width="1.8"><circle cx="49" cy="61" r="9.5"/><circle cx="71" cy="61" r="9.5"/><path d="M58.5 60 Q60 58 61.5 60"/></g>`:""}</g></svg>`}
+function avAvatar(size){const M=S.me;return M.av?avSVG(M.av,size):`<span style="font-size:${size*.55}px;line-height:1">${M.a}</span>`}
+function avEditor(){const a=Object.assign({},AV0,S.me.av||{});const sw=(arr,k)=>`<div class="avsw">${arr.map((c,i)=>`<button class="${a[k]===i?"on":""}" style="background:${c}" data-avk="${k}:${i}" aria-label="${k} ${i+1}"></button>`).join("")}</div>`;
+  return `<div class="aved"><div class="avprev">${avSVG(a,150)}</div><p class="muted" style="font-size:.8rem;margin:0;text-align:center">Estilo anime con diseños propios: no copiamos personajes de ninguna serie.</p>
+   <p class="adl">Peinado</p><div class="avopts">${AVH.map(([k,l])=>`<button class="${a.h===k?"on":""}" data-avh="${k}">${l}</button>`).join("")}</div>
+   <p class="adl">Color de pelo</p>${sw(AVHC,"hc")}
+   <p class="adl">Piel</p>${sw(AVSK,"sk")}
+   <p class="adl">Ojos</p>${sw(AVEY,"ey")}
+   <p class="adl">Expresión</p><div class="avopts">${[["sonrisa","🙂 Sonrisa"],["alegre","😄 Alegre"],["seria","😐 Seria"]].map(([k,l])=>`<button class="${a.ex===k?"on":""}" data-avx="${k}">${l}</button>`).join("")}</div>
+   <p class="adl">Extras</p><div class="avopts"><button class="${a.gl?"on":""}" data-avt="gl">👓 Gafas</button><button class="${a.fr?"on":""}" data-avt="fr">✨ Pecas</button></div>
+   <p class="adl">Camiseta</p>${sw(AVSH,"sh")}
+   <p class="adl">Fondo</p>${sw(AVBG,"bg")}
+   <div class="row"><button class="btn ghost" data-act="av-rand">🎲 Aleatorio</button><button class="btn ghost" data-act="av-emoji">Usar un emoji</button></div></div>`}
 function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   const exSub=S.exMode!=="conceptos"||S.exArea!==null||S.exMyth||!!S.exQ||!!S.qz,exBack=exSub?`<button class="backbar exback" data-act="ex-home">← Volver al inicio de Explorar</button>`:"";
@@ -2517,6 +2564,10 @@ document.addEventListener("click",e=>{
   if(d.bskin!==undefined){yoKeep();S.bsim.skin=+d.bskin;S.me.skin=+d.bskin;store.set("bsim",S.bsim);store.set("me",S.me);const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.stq){const [i,v]=d.stq.split(":").map(Number);S.stoic.ans[i]=v;store.set("stoic",S.stoic);const y=window.scrollY;render();window.scrollTo(0,y);return}
   if(d.cr){const [i,v]=d.cr.split(":").map(Number);S.crono.ans[i]=v;store.set("crono",S.crono);const y=window.scrollY;render();window.scrollTo(0,y);return}
+  if(d.avh){S.me.av=Object.assign({},AV0,S.me.av,{h:d.avh});yoKeep();store.set("me",S.me);render();return}
+  if(d.avk){const [k,v]=d.avk.split(":");S.me.av=Object.assign({},AV0,S.me.av,{[k]:+v});yoKeep();store.set("me",S.me);render();return}
+  if(d.avx){S.me.av=Object.assign({},AV0,S.me.av,{ex:d.avx});yoKeep();store.set("me",S.me);render();return}
+  if(d.avt){const a=Object.assign({},AV0,S.me.av);a[d.avt]=a[d.avt]?0:1;S.me.av=a;yoKeep();store.set("me",S.me);render();return}
   if(d.ava){S.me.a=d.ava;store.set("me",S.me);yoKeep();render();return}
   if(d.avc){S.me.c=d.avc;store.set("me",S.me);yoKeep();render();return}
   if(d.curlike!==undefined){const h=curNow(false);if(h){const ta=document.getElementById("cur-learn");if(ta)h.learned=ta.value.trim().slice(0,300);h.like=+d.curlike;curSave();const y=window.scrollY;render();window.scrollTo(0,y)}return}
@@ -2540,6 +2591,9 @@ document.addEventListener("click",e=>{
   else if(act==="sto-edit"){S.stoic.show=false;store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="sto-redo"){S.stoic={ans:{},show:false,res:S.stoic.res};store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="yo-p"){const k=+d.v;S.pOpen=k;go("proposito");setTimeout(()=>{const el=document.querySelector(`[data-popen="${k}"]`);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},80)}
+  else if(act==="av-new"){S.me.av=Object.assign({},AV0,{sk:S.me.skin!=null?Math.min(S.me.skin+1,6):2});yoKeep();store.set("me",S.me);render()}
+  else if(act==="av-emoji"){S.me.av=null;yoKeep();store.set("me",S.me);render()}
+  else if(act==="av-rand"){const r=n=>Math.floor(Math.random()*n);S.me.av={h:AVH[r(AVH.length)][0],hc:r(AVHC.length),sk:r(AVSK.length),ey:r(AVEY.length),ex:["sonrisa","alegre","seria"][r(3)],gl:r(4)===0?1:0,fr:r(4)===0?1:0,sh:r(AVSH.length),bg:r(AVBG.length)};yoKeep();store.set("me",S.me);render()}
   else if(act==="yo-av"){S.yoEdit=!S.yoEdit;render()}
   else if(act==="yo-save"){yoKeep();S.yoEdit=false;if(S.name)store.set("name",S.name);store.set("me",S.me);toast("Guardado");render()}
   else if(act==="cur-del"){S.curDel=+d.v;render()}
