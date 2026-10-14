@@ -430,6 +430,7 @@ section:has(> .exback) .filterbar{top:58px}
 .stoladder{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.stoladder div{display:grid;justify-items:center;gap:2px;padding:6px 2px;border-radius:10px;background:var(--surface-2);font-size:.68rem;text-align:center;opacity:.55}.stoladder div span{font-size:1.2rem}.stoladder div.past{opacity:.85}.stoladder div.on{opacity:1;background:var(--back);color:var(--back-ink);transform:scale(1.06)}.stores{border:2px solid var(--back)}.stores h2{margin:0}.stopts{grid-template-columns:repeat(2,minmax(0,1fr))}.stopts button{padding:9px 8px;font-size:.86rem}.stoprac{padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--back) 8%,var(--surface));border:1px solid var(--line)}
 .skins{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.skins button{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer}.skins button.on{border-color:var(--ink)}.bhab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.bhab button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 4px;font:inherit;font-size:.76rem;font-weight:700;line-height:1.25;cursor:pointer}.bhab button.h0.on{background:var(--dg0);border-color:var(--dg0);color:#fff}.bhab button.h1.on{background:var(--dg1);border-color:var(--dg1);color:#1d1600}.bhab button.h2.on{background:var(--dg2);border-color:var(--dg2);color:#fff}.simcard{border:2px solid var(--back)}.simgrid{display:grid;grid-template-columns:minmax(0,44%) 1fr;gap:10px;align-items:start}.simsvg{width:100%;height:auto}.orgst{display:grid;grid-template-columns:auto 1fr auto;gap:6px;align-items:center;font-size:.76rem}.orgst b{white-space:nowrap}.simev{list-style:none;margin:0;padding:0;display:grid;gap:8px}.simev li{display:flex;gap:8px;padding:8px 10px;border-radius:10px;font-size:.88rem}.simev li.bad{background:color-mix(in srgb,var(--dg0) 9%,var(--surface))}.simev li.good{background:color-mix(in srgb,var(--dg2) 11%,var(--surface))}.simgood{margin:0;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--dg2) 11%,var(--surface));font-size:.9rem}
 .yosim{padding:10px 12px;border-radius:12px;border:1px dashed var(--line)}
+.curside{display:grid;justify-items:end;gap:4px}.curdel{border:0;background:none;font-size:1rem;cursor:pointer;padding:2px 4px;opacity:.7}.curdel:hover{opacity:1}.curconf{font-size:.8rem;font-weight:700;white-space:nowrap}
 </style>
 
 <div class="wrap">
@@ -1476,7 +1477,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014124130";
+const APP_V="20261014124922";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1950,7 +1951,7 @@ function curNow(create){const w=weekKey();let h=S.cur.hist.filter(x=>x.w===w&&x.
 function curCard(){const h=curNow(true);if(!h||h.st==="hecha")return "";const c=CURI[h.id];if(!c)return "";
   return `<div class="card stack curcard"><p class="eyebrow">🔭 Tu propuesta de esta semana</p><h3>${c[1]} ${esc(c[3])}</h3><p class="muted">${esc(c[4])}</p><div class="row"><button class="btn" data-go="curiosidad">${h.st==="aceptada"?"Ya la he hecho / ver":"Ver propuesta"}</button></div></div>`}
 function vCuriosidad(){
-  const h=curNow(true),c=h&&CURI[h.id],H=S.cur.hist.slice().reverse();
+  const h=curNow(true),c=h&&CURI[h.id],H=S.cur.hist.map((x,i)=>Object.assign({_i:i},x)).reverse();
   const stl={propuesta:["Propuesta","var(--muted)"],aceptada:["Apuntada","#4A7FC1"],hecha:["Hecha","var(--good)"],cambiada:["Cambiada","var(--muted)"]};
   const LK=["🙁 No es lo mío","🙂 Estuvo bien","🤩 Me encantó"];
   const fav=S.cur.hist.filter(x=>x.like===2).map(x=>CURI[x.id]).filter(Boolean);
@@ -1963,7 +1964,7 @@ function vCuriosidad(){
   return `<section class="stack"><div><p class="eyebrow">Descubre</p><h1>Una cosa nueva cada semana</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Si no sabes qué te gusta, la única forma de averiguarlo es probar. Cada semana, la app te propone algo corto: investigar, probar, salir o crear. Si no te apetece, cámbialo. Lo que hagas queda en tu historial, y lo que más te guste es una pista para tu propósito.</p></div>
    ${body}
    ${fav.length?`<div class="card stack" style="border-left:5px solid var(--good)"><h3>🧭 Pistas para tu propósito</h3><p class="muted" style="font-size:.88rem">Esto es lo que más te ha gustado. Fíjate en qué tienen en común: ¿crear, ayudar, entender, moverte?</p><div class="chips">${fav.map(f=>`<span class="chip">${f[1]} ${esc(f[3])}</span>`).join("")}</div><button class="btn ghost" data-go="proposito" style="width:max-content">Llevarlo a Propósito →</button></div>`:""}
-   <div class="stack" style="gap:8px"><h2 style="font-size:1.15rem">Tu historial</h2>${H.length?H.map(x=>{const k=CURI[x.id];if(!k)return "";const st=stl[x.st]||stl.propuesta;return `<div class="curhist"><span class="chi">${k[1]}</span><div><b>${esc(k[3])}</b><span class="muted" style="font-size:.8rem"> · ${CURC[k[2]][1]} · semana del ${parse(x.w).toLocaleDateString("es-ES",{day:"numeric",month:"short"})}</span>${x.learned?`<p style="margin:2px 0 0;font-size:.88rem">«${esc(x.learned)}»</p>`:""}</div><span class="curst" style="color:${st[1]}">${st[0]}${x.like!=null&&x.st==="hecha"?" "+LK[x.like].split(" ")[0]:""}</span></div>`}).join(""):`<p class="muted">Aún no hay nada. Empieza por la de esta semana.</p>`}</div></section>`;
+   <div class="stack" style="gap:8px"><h2 style="font-size:1.15rem">Tu historial</h2>${H.length?H.map(x=>{const k=CURI[x.id];if(!k)return "";const st=stl[x.st]||stl.propuesta;return `<div class="curhist"><span class="chi">${k[1]}</span><div><b>${esc(k[3])}</b><span class="muted" style="font-size:.8rem"> · ${CURC[k[2]][1]} · semana del ${parse(x.w).toLocaleDateString("es-ES",{day:"numeric",month:"short"})}</span>${x.learned?`<p style="margin:2px 0 0;font-size:.88rem">«${esc(x.learned)}»</p>`:""}</div><div class="curside"><span class="curst" style="color:${st[1]}">${st[0]}${x.like!=null&&x.st==="hecha"?" "+LK[x.like].split(" ")[0]:""}</span>${S.curDel===x._i?`<span class="curconf">¿Borrar? <button class="linkbtn" data-act="cur-del-yes" data-v="${x._i}">Sí</button> · <button class="linkbtn" data-act="cur-del-no">No</button></span>`:`<button class="curdel" data-act="cur-del" data-v="${x._i}" aria-label="Borrar del historial">🗑️</button>`}</div></div>`}).join(""):`<p class="muted">Aún no hay nada. Empieza por la de esta semana.</p>`}${H.length?(S.curDel==="all"?`<div class="row curconf" style="justify-content:flex-end">¿Borrar todo el historial? <button class="btn" data-act="cur-del-all">Sí, borrar todo</button><button class="btn ghost" data-act="cur-del-no">Cancelar</button></div>`:`<button class="linkbtn" data-act="cur-del-ask-all" style="justify-self:end">Borrar todo el historial</button>`):""}<p class="muted" style="font-size:.8rem;margin:0">¿Estabas probando? Toca 🗑️ para borrar lo que no quieras guardar. Se borra solo de tu móvil.</p></div></section>`;
 }
 /* ---------- tu cuerpo ---------- */
 const ORG=[
@@ -2520,6 +2521,11 @@ document.addEventListener("click",e=>{
   else if(act==="sto-redo"){S.stoic={ans:{},show:false,res:S.stoic.res};store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="yo-av"){S.yoEdit=!S.yoEdit;render()}
   else if(act==="yo-save"){yoKeep();S.yoEdit=false;if(S.name)store.set("name",S.name);store.set("me",S.me);toast("Guardado");render()}
+  else if(act==="cur-del"){S.curDel=+d.v;render()}
+  else if(act==="cur-del-no"){S.curDel=null;render()}
+  else if(act==="cur-del-yes"){const i=+d.v;if(S.cur.hist[i])S.cur.hist.splice(i,1);S.curDel=null;curSave();toast("Borrado");render()}
+  else if(act==="cur-del-ask-all"){S.curDel="all";render()}
+  else if(act==="cur-del-all"){S.cur={hist:[]};S.curDel=null;curSave();toast("Historial borrado");render();window.scrollTo({top:0})}
   else if(act==="cur-ok"){const h=curNow(false);if(h){h.st="aceptada";curSave();toast("¡Apuntada! Cuando la hagas, vuelve aquí");render()}}
   else if(act==="cur-next"){const h=curNow(false);if(h)h.st="cambiada";S.cur.hist.push({id:curPick(),w:weekKey(),st:"propuesta",date:today()});curSave();render();window.scrollTo({top:0})}
   else if(act==="cur-save"){const h=curNow(false);if(h){const ta=document.getElementById("cur-learn");h.learned=ta?ta.value.trim().slice(0,300):"";h.st="hecha";h.done=today();curSave();toast("¡Bien hecho! Queda en tu historial");render();window.scrollTo({top:0})}}
@@ -2584,7 +2590,7 @@ document.addEventListener("click",e=>{
     try{navigator.clipboard.writeText(txt).then(ok,()=>{selectText(cid);toast("Selecciona el texto y cópialo")})}catch(err){selectText(cid);toast("Selecciona el texto y cópialo")}}
   else if(act==="reset"){S.confirmReset=true;render()}
   else if(act==="reset-no"){S.confirmReset=false;render()}
-  else if(act==="reset-yes"){S.answers={};S.active=null;S.history=[];S.tests=[];S.buddy="";S.P=P0();S.route=null;S.keep=[];S.extra={};S.grat=[];S.tips=[];S.capr=[];store.set("capr",[]);S.confirmReset=false;save();go("hoy")}
+  else if(act==="reset-yes"){S.answers={};S.active=null;S.history=[];S.tests=[];S.buddy="";S.P=P0();S.route=null;S.keep=[];S.extra={};S.grat=[];S.tips=[];S.capr=[];store.set("capr",[]);S.cur={hist:[]};store.set("cur",S.cur);S.confirmReset=false;save();go("hoy")}
 });
 function pReadExp(){S.P.exp.forEach((x,i)=>{const el=document.getElementById("p-exp"+i);if(el)x.t=el.value.trim()})}
 function pReadFields(){const g=id=>{const el=document.getElementById(id);return el?el.value:null};const P=S.P;
