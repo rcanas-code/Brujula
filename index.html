@@ -431,6 +431,7 @@ section:has(> .exback) .filterbar{top:58px}
 .skins{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.skins button{width:30px;height:30px;border-radius:50%;border:3px solid transparent;cursor:pointer}.skins button.on{border-color:var(--ink)}.bhab{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.bhab button{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:8px 4px;font:inherit;font-size:.76rem;font-weight:700;line-height:1.25;cursor:pointer}.bhab button.h0.on{background:var(--dg0);border-color:var(--dg0);color:#fff}.bhab button.h1.on{background:var(--dg1);border-color:var(--dg1);color:#1d1600}.bhab button.h2.on{background:var(--dg2);border-color:var(--dg2);color:#fff}.simcard{border:2px solid var(--back)}.simgrid{display:grid;grid-template-columns:minmax(0,44%) 1fr;gap:10px;align-items:start}.simsvg{width:100%;height:auto}.orgst{display:grid;grid-template-columns:auto 1fr auto;gap:6px;align-items:center;font-size:.76rem}.orgst b{white-space:nowrap}.simev{list-style:none;margin:0;padding:0;display:grid;gap:8px}.simev li{display:flex;gap:8px;padding:8px 10px;border-radius:10px;font-size:.88rem}.simev li.bad{background:color-mix(in srgb,var(--dg0) 9%,var(--surface))}.simev li.good{background:color-mix(in srgb,var(--dg2) 11%,var(--surface))}.simgood{margin:0;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--dg2) 11%,var(--surface));font-size:.9rem}
 .yosim{padding:10px 12px;border-radius:12px;border:1px dashed var(--line)}
 .curside{display:grid;justify-items:end;gap:4px}.curdel{border:0;background:none;font-size:1rem;cursor:pointer;padding:2px 4px;opacity:.7}.curdel:hover{opacity:1}.curconf{font-size:.8rem;font-weight:700;white-space:nowrap}
+.yolink{border:1.5px solid var(--back);background:transparent;color:var(--back);border-radius:999px;padding:5px 10px;font:inherit;font-size:.8rem;font-weight:800;white-space:nowrap;cursor:pointer}
 </style>
 
 <div class="wrap">
@@ -1479,7 +1480,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014125158";
+const APP_V="20261014125415";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -2046,20 +2047,20 @@ function vYo(){
   const M=S.me,sc=curScores?curScores():null,r=crRes(),st=S.stoic&&S.stoic.res;
   const top=sc?sc.map((v,i)=>[v,i]).filter(x=>x[0]!=null).sort((a,b)=>b[0]-a[0]):[];
   const done=S.history.filter(h=>h.passed).length,cur=S.cur.hist.filter(x=>x.st==="hecha"),fav=cur.filter(x=>x.like===2).map(x=>DSCI[x.id]).filter(Boolean),ps=pSent(S.P.f);
-  const row=(ic,lab,val,go)=>`<div class="yorow"><span class="yi">${ic}</span><div><p class="eyebrow" style="margin:0">${lab}</p><div>${val}</div></div>${go?`<button class="linkbtn" ${go}>${/data-go/.test(go)?"Ver":"Hacer"}</button>`:""}</div>`;
+  const row=(ic,lab,val,go,lb)=>`<div class="yorow"><span class="yi">${ic}</span><div><p class="eyebrow" style="margin:0">${lab}</p><div>${val}</div></div>${go?`<button class="yolink" ${go}>${lb||"Ver"} →</button>`:""}</div>`;
   return `<section class="stack"><div class="yohead"><button class="yoav" style="background:${M.c}" data-act="yo-av" aria-label="Cambiar avatar">${M.a}</button><div><p class="eyebrow">Sobre mí</p><h1 style="margin:0">${esc(S.name||"Sin nombre")}</h1><p class="muted" style="margin:2px 0 0">${M.age?M.age+" años · ":""}${r?r.t[2]+" "+r.t[3]:"Cronotipo sin descubrir"}</p></div></div>
    ${S.yoEdit?`<div class="card stack"><h3>Edita tu perfil</h3><label class="adl">Nombre<input class="cin" id="yo-name" value="${esc(S.name||"")}" maxlength="30"></label><label class="adl">Edad<input class="cin" id="yo-age" inputmode="numeric" value="${M.age||""}" style="max-width:6em"></label><p class="adl" style="margin:0">Avatar</p><div class="avgrid">${AVE.map(e=>`<button class="${M.a===e?"on":""}" data-ava="${e}">${e}</button>`).join("")}</div><p class="adl" style="margin:0">Color</p><div class="avcol">${AVC.map(c=>`<button class="${M.c===c?"on":""}" style="background:${c}" data-avc="${c}" aria-label="Color"></button>`).join("")}</div><div class="yosim"><p class="adl" style="margin:0">Para el simulador del cuerpo <span class="muted">(opcional)</span></p><p class="muted" style="font-size:.82rem;margin:2px 0 8px">Estos datos solo sirven para que el dibujo del <b>simulador de salud</b> se parezca a ti. No se usan para nada más y se quedan en tu móvil.</p><div class="seg">${[["chico","🙋‍♂️ Chico"],["chica","🙋‍♀️ Chica"]].map(([v,l])=>`<button data-bsex="${v}" aria-pressed="${S.me.sex===v}">${l}</button>`).join("")}</div><div class="skins" style="margin-top:8px">${SKIN.map((c,i)=>`<button class="${S.me.skin===i?"on":""}" style="background:${c}" data-bskin="${i}" aria-label="Tono de piel ${i+1}"></button>`).join("")}</div></div><button class="btn" data-act="yo-save" style="width:max-content">Guardar</button></div>`:`<button class="btn ghost" data-act="yo-av" style="width:max-content">✏️ Editar nombre, edad y avatar</button>`}
    <div class="card stack yocard">
-    ${row("🧭","Mi propósito",ps?esc(ps):`<span class="muted">Aún sin frase (paso ${Math.min(pCount()+1,7)} de 7)</span>`,`data-go="proposito"`)}
-    ${row("💎","Mis valores",S.P.v&&S.P.v.length?S.P.v.map(esc).join(" · "):`<span class="muted">Sin elegir</span>`,S.P.v&&S.P.v.length?"":`data-go="proposito"`)}
-    ${row("💪","Mis fortalezas",S.P.s&&S.P.s.length?S.P.s.map(esc).join(" · "):`<span class="muted">Sin elegir</span>`,S.P.s&&S.P.s.length?"":`data-go="proposito"`)}
-    ${row("🌙","Mi cronotipo",r?`${r.t[2]} <b>${r.t[3]}</b>${r.mun?` · medianoche biológica ${hhmm(r.mun.msfsc)}`:""}`:`<span class="muted">Sin descubrir</span>`,`data-go="crono"`)}
-    ${row("🏛️","Mi nivel estoico",st?`${st.e} <b>${st.n}</b>`:`<span class="muted">Sin hacer el test</span>`,`data-go="estoico"`)}
-    ${row("🗺️","Lo que mejor llevo",top.length?top.slice(0,2).map(x=>AICON[TA[x[1]].k]+" "+TA[x[1]].n).join(" · "):`<span class="muted">Haz el test inicial</span>`,top.length?`data-go="mapa"`:"")}
-    ${row("🎯","Lo que quiero mejorar",top.length?top.slice(-2).reverse().map(x=>AICON[TA[x[1]].k]+" "+TA[x[1]].n).join(" · "):"—","")}
-    ${row("⏳","Mi cuerpo en el futuro","Simula cómo estarás según tus hábitos",`data-go="simcuerpo"`)}
-    ${row("🏆","Retos superados",`<b>${done}</b> · racha de ${streak()} días`,"")}
-    ${row("🔭","Lo que he descubierto",cur.length?`${cur.length} propuesta${cur.length>1?"s":""} hecha${cur.length>1?"s":""}${fav.length?` · me encantó: ${fav.slice(0,3).map(f=>f[1]+" "+esc(f[3])).join(", ")}`:""}`:`<span class="muted">Aún nada</span>`,`data-go="curiosidad"`)}
+    ${row("🧭","Mi propósito",ps?esc(ps):`<span class="muted">Aún sin frase (paso ${Math.min(pCount()+1,7)} de 7)</span>`,`data-act="yo-p" data-v="${ps?7:Math.min(pCount()+1,7)}"`,ps?"Cambiar":"Seguir")}
+    ${row("💎","Mis valores",S.P.v&&S.P.v.length?S.P.v.map(esc).join(" · "):`<span class="muted">Sin elegir</span>`,`data-act="yo-p" data-v="1"`,S.P.v&&S.P.v.length?"Cambiar":"Elegir")}
+    ${row("💪","Mis fortalezas",S.P.s&&S.P.s.length?S.P.s.map(esc).join(" · "):`<span class="muted">Sin elegir</span>`,`data-act="yo-p" data-v="2"`,S.P.s&&S.P.s.length?"Cambiar":"Elegir")}
+    ${row("🌙","Mi cronotipo",r?`${r.t[2]} <b>${r.t[3]}</b>${r.mun?` · medianoche biológica ${hhmm(r.mun.msfsc)}`:""}`:`<span class="muted">Sin descubrir</span>`,`data-go="crono"`,r?"Cambiar":"Descubrir")}
+    ${row("🏛️","Mi nivel estoico",st?`${st.e} <b>${st.n}</b>`:`<span class="muted">Sin hacer el test</span>`,`data-go="estoico"`,st?"Repetir":"Hacer test")}
+    ${row("🗺️","Lo que mejor llevo",top.length?top.slice(0,2).map(x=>AICON[TA[x[1]].k]+" "+TA[x[1]].n).join(" · "):`<span class="muted">Haz el test inicial</span>`,`data-go="mapa"`,top.length?"Ver mapa":"Hacer test")}
+    ${row("🎯","Lo que quiero mejorar",top.length?top.slice(-2).reverse().map(x=>AICON[TA[x[1]].k]+" "+TA[x[1]].n).join(" · "):"—",top.length?`data-go="ruta"`:"",top.length?"Ver ruta":"")}
+    ${row("⏳","Mi cuerpo en el futuro","Simula cómo estarás según tus hábitos",`data-go="simcuerpo"`,"Simular")}
+    ${row("🏆","Retos superados",`<b>${done}</b> · racha de ${streak()} días`,`data-go="hoy"`,"Ir a Hoy")}
+    ${row("🔭","Lo que he descubierto",cur.length?`${cur.length} propuesta${cur.length>1?"s":""} hecha${cur.length>1?"s":""}${fav.length?` · me encantó: ${fav.slice(0,3).map(f=>f[1]+" "+esc(f[3])).join(", ")}`:""}`:`<span class="muted">Aún nada</span>`,`data-go="curiosidad"`,"Ver")}
    </div>
    <p class="muted" style="font-size:.82rem">Todo esto está solo en tu móvil. Los resultados de los tests de Adicciones o del perro no aparecen aquí a propósito: son solo para ti.</p></section>`;
 }
@@ -2521,6 +2522,7 @@ document.addEventListener("click",e=>{
   else if(act==="sto-show"){const r=stoRes();if(r){S.stoic.show=true;S.stoic.res={n:SLV[r.k][2],e:SLV[r.k][1],k:r.k,date:today()};store.set("stoic",S.stoic)}render();window.scrollTo({top:0})}
   else if(act==="sto-edit"){S.stoic.show=false;store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="sto-redo"){S.stoic={ans:{},show:false,res:S.stoic.res};store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
+  else if(act==="yo-p"){const k=+d.v;S.pOpen=k;go("proposito");setTimeout(()=>{const el=document.querySelector(`[data-popen="${k}"]`);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},80)}
   else if(act==="yo-av"){S.yoEdit=!S.yoEdit;render()}
   else if(act==="yo-save"){yoKeep();S.yoEdit=false;if(S.name)store.set("name",S.name);store.set("me",S.me);toast("Guardado");render()}
   else if(act==="cur-del"){S.curDel=+d.v;render()}
