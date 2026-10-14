@@ -400,6 +400,7 @@ dialog h2:focus{outline:none}
 @keyframes pop{0%{transform:scale(.96);opacity:.6}100%{transform:scale(1);opacity:1}}
 .pop{animation:pop .3s ease}
 .cmpt{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}.cmpt th,.cmpt td{padding:8px 6px;text-align:right;border-bottom:1px solid var(--line)}.cmpt th:first-child,.cmpt td:first-child{text-align:left;color:var(--muted)}.cmpt th{font-size:.8rem;font-weight:700;vertical-align:bottom}.cmpt .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}.cmpt td:not(:first-child){white-space:nowrap}.cmpt td:first-child{font-size:.9rem}.cmpt tr.tot td{font-weight:800;font-size:1rem;border-bottom:0;color:var(--ink,inherit)}.cmpt tr.tot td:first-child{color:inherit}.cmpmsg{margin:12px 0 0;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.cchips{display:flex;flex-wrap:wrap;gap:8px}.cchips .chip{cursor:pointer;width:auto;flex:0 0 auto;max-width:100%;padding:6px 10px;font-size:.8rem}#caprichos>*{min-width:0}.crow{grid-template-columns:minmax(0,1fr);min-width:0}.crow>*{min-width:0}.crow2 select{min-width:0;width:100%}.cenj button{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#capres .kpis{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}#capres .kpi{padding:10px 8px}#capres .big{font-size:1.15rem}#capres .kpi .eyebrow{font-size:.62rem}.crow{border:1px solid var(--line);border-left:5px solid var(--e);border-radius:12px;padding:10px 8px;display:grid;gap:8px}.crow1,.crow2{display:flex;gap:8px;align-items:center}.cin{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0}.crow1 .cin{flex:1;font-weight:700}.cprice{display:flex;align-items:center;gap:4px;font-weight:700}.cprice .cin{width:5.5em;text-align:right}.crow2 select{flex:1}.cdel{border:0;background:transparent;color:var(--muted);font-size:1.1rem;padding:6px 8px;cursor:pointer}.cenj{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.cenj button{border:1.5px solid var(--x);background:transparent;color:var(--ink);border-radius:999px;padding:7px 2px;font:inherit;font-size:.74rem;font-weight:700;cursor:pointer}.cenj button.on{background:var(--x);color:#fff}.cmeta{margin:0;font-size:.85rem;color:var(--muted)}.cbar{display:grid;grid-template-columns:minmax(0,7.5em) 1fr auto;gap:8px;align-items:center;font-size:.85rem}.cbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.cbt{height:12px;border-radius:6px;background:var(--surface-2);overflow:hidden}.cbt i{display:block;height:100%;border-radius:6px}.cbv{font-variant-numeric:tabular-nums;font-weight:700}.cplan{border-radius:14px;padding:14px;background:color-mix(in srgb,var(--accent) 10%,transparent);display:grid;gap:10px}.cplan.good{background:color-mix(in srgb,var(--good) 12%,transparent)}.cplan h3{margin:0}.cplan p{margin:0}.linkbtn{border:0;background:none;padding:0;color:var(--c,var(--accent));font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
 </style>
 
 <div class="wrap">
@@ -935,7 +936,7 @@ const EXAMPLE=[3.7,4.3,3,2.7,3.3,2,4.7,2.3,3,4,2.7,2.3,4,3.7];
 const store={get(k,d){try{const v=localStorage.getItem("brujula:"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("brujula:"+k,JSON.stringify(v))}catch(e){}}};
 const P0=()=>({v:[],s:[],s3:"",up:"",down:"",flow:"",causes:[],who:"",letter:"",upL:[],downL:[],whoL:[],fut:[],proud:[],exp:[{t:"",d:false},{t:"",d:false},{t:"",d:false}],f:{verb:"ayudar",que:"",quien:"",s:"",v:""},done:{},pa:null,paHist:[],versions:[],fDate:null,lastReview:null,reviews:0});
 let S={mood:store.get("mood",{}),grp:Object.assign({m:[],wk:{}},store.get("grp",{})),name:store.get("name",""),quizR:store.get("quiz",{}),qz:null,seen:store.get("seen",{}),tour:null,tourDone:store.get("tourDone",false),view:"hoy",answers:store.get("answers",{}),active:store.get("active",null),history:store.get("history",[]),tests:store.get("tests",[]),buddy:store.get("buddy",""),P:Object.assign(P0(),store.get("purpose",{})),pOpen:null,route:store.get("route",null),keep:store.get("keep",[]),extra:store.get("extra",{}),grat:store.get("grat",[]),more:false,rescued:false,breath:false,misIdx:0,misClosed:false,tips:store.get("tips",[]),bud:store.get("bud",{sent:false,skip:false,log:{}}),sharePrompt:store.get("sharePrompt",null),
-  step:0,exMode:"conceptos",exArea:null,exMyth:false,exQ:"",sim:{m:30,r:5,age:18,wait:10,fee:0},lat:{d:1.5,y:40}};
+  step:0,exMode:"conceptos",exArea:null,exMyth:false,exQ:"",sim:{m:30,r:5,age:18,wait:10,fee:0},lat:{d:1.5,y:40},capr:store.get("capr",[]),caprH:store.get("caprH",8)};
 const save=()=>{store.set("answers",S.answers);store.set("active",S.active);store.set("history",S.history);store.set("tests",S.tests);store.set("buddy",S.buddy);store.set("purpose",S.P);store.set("route",S.route);store.set("keep",S.keep);store.set("extra",S.extra);store.set("grat",S.grat);store.set("tips",S.tips);store.set("bud",S.bud);store.set("sharePrompt",S.sharePrompt);store.set("grp",S.grp);store.set("mood",S.mood)};
 const VALUES=["Aprender","Ayudar","Honestidad","Libertad","Familia","Amistad","Creatividad","Justicia","Aventura","Salud","Esfuerzo","Lealtad","Respeto","Naturaleza","Independencia","Diversión","Seguridad","Espiritualidad","Belleza","Liderazgo","Humor","Tranquilidad","Reconocimiento","Superación"];
 const STRENGTHS=["Creatividad","Curiosidad","Juicio","Amor por aprender","Perspectiva","Valentía","Perseverancia","Honestidad","Entusiasmo","Capacidad de amar","Amabilidad","Inteligencia social","Trabajo en equipo","Sentido de la justicia","Liderazgo","Capacidad de perdonar","Humildad","Prudencia","Autocontrol","Sensibilidad por la belleza","Gratitud","Esperanza","Humor","Espiritualidad"];
@@ -1054,7 +1055,7 @@ const isIOS=/iPhone|iPad|iPod/i.test(UA);
 const isStandalone=(()=>{try{return !!(navigator.standalone||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches))}catch(e){return false}})();
 let canStore=true;try{localStorage.setItem("brujula:t","1");localStorage.removeItem("brujula:t")}catch(e){canStore=false}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-const KEYS=["name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
+const KEYS=["capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
 function backupCode(){const o={};KEYS.forEach(k=>o[k]=store.get(k,null));o.v=1;return "BRUJULA-"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
 function restoreCode(code){try{const raw=code.trim().replace(/^BRUJULA-/,"");const o=JSON.parse(decodeURIComponent(escape(atob(raw))));if(o.v!==1)throw 0;KEYS.forEach(k=>{if(o[k]!==null&&o[k]!==undefined)store.set(k,o[k])});return true}catch(e){return false}}
 function envBanner(){
@@ -1281,7 +1282,7 @@ function reportCard(){const R=S.rep||{};const where=["Hoy","Ruta","Propósito","
    <p class="muted" style="font-size:.8rem">Solo se envía lo que escribas, la pantalla y el tipo de móvil. Nunca tus respuestas del test ni tus retos.</p></div></details>`}
 function repText(){const R=S.rep||{},t=(document.getElementById("reptxt")||{}).value||R.t||"";return `Error en Brújula\nDónde: ${R.w||"(sin indicar)"}\nQué pasa: ${t.trim()||"(sin texto)"}\nMóvil: ${isIOS?"iPhone":/Android/i.test(UA)?"Android":"Otro"}${isStandalone?" · desde el icono":" · desde el navegador"}\nFecha: ${today()}`}
 function vMas(){
-  const L=[["dinero","💶","Dinero","Simulador de ahorro y la calculadora del factor latte.","#1F8A5B","#E3F4EB"],["grupo","👥","Grupo","Compañero de retos, reto de grupo y compartir logros.","#7C4DCC","#EFE8FB"],["dudas","❓","Dudas frecuentes","¿Quién ve mis respuestas? ¿Y si fallo un día?","#2F6FD6","#E8F0FD"],["ayuda","❤️","Ayuda","Teléfonos y a quién acudir si lo pasas mal.","#C8423A","#FBE1DE"]];
+  const L=[["dinero","💶","Dinero","Simulador de ahorro, factor latte y la calculadora de tus caprichos.","#1F8A5B","#E3F4EB"],["grupo","👥","Grupo","Compañero de retos, reto de grupo y compartir logros.","#7C4DCC","#EFE8FB"],["dudas","❓","Dudas frecuentes","¿Quién ve mis respuestas? ¿Y si fallo un día?","#2F6FD6","#E8F0FD"],["ayuda","❤️","Ayuda","Teléfonos y a quién acudir si lo pasas mal.","#C8423A","#FBE1DE"]];
   return `<section class="stack"><div><p class="eyebrow">Más</p><h1>Más herramientas</h1><p class="muted" style="margin-top:8px;max-width:62ch"><b>Opcional, cuando quieras.</b> Extras para aprender más y resolver dudas. Lo único diario es marcar tu reto en Hoy.</p></div>
    <div class="mastiles">${L.map(([k,i,t,d,c,bg])=>`<button class="mastile" style="--mc:${c};--mb:${bg}" data-go="${k}"><span class="mi">${i}</span><b>${t}</b><span>${d}</span></button>`).join("")}</div>
    <button class="mastile wide" style="--mc:#1F7F8A;--mb:#E0F3F5" data-act="shareapp"><span class="mi">📤</span><b>Comparte Brújula</b><span>Envía el enlace a un amigo, a tu familia o a tu grupo. Cada uno tiene su propia app y sus datos solo en su móvil.</span></button>
@@ -1363,7 +1364,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014065655";
+const APP_V="20261014070358";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1371,6 +1372,8 @@ const DIAG={};let noticeOpenAt=0;
 function diagHit(k,fast){DIAG[k]=fast?(DIAG[k]||0)+1:0;return DIAG[k]>=2}
 const DIAGTXT={test:"Estás respondiendo muy rápido. Lee cada frase entera y piensa en ti de verdad: si no, tu mapa no te servirá de nada.",quiz:"Has contestado dos preguntas en un suspiro. Lee las tres respuestas antes de elegir: se parecen a propósito."};
 const diagBox=k=>`<div class="diag" role="alert">👀 <b>No leas en diagonal.</b> ${DIAGTXT[k]}</div>`;
+document.addEventListener("change",e=>{const t=e.target;if(t.dataset&&t.dataset.cap==="f"){const c=S.capr[+t.dataset.i];if(c){c.f=t.value;capSave();render()}}
+  if(t.dataset&&t.dataset.cap==="p"){const c=S.capr[+t.dataset.i];if(c)t.value=eur2(c.p)}});
 document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("notice")&&e.target.open)noticeOpenAt=Date.now()},true);
 function vTest(){
   const i=S.step,a=AREAS[i];if(S.pageStep!==i){S.pageStep=i;S.pageAt=Date.now();S.lastAns=0}const done=[0,1,2].every(j=>S.answers[i*3+j]!==undefined),OPTQ=i===3||i===6;
@@ -1694,6 +1697,40 @@ function vExplorar(){
   </section>`;
 }
 function fv(m,r,years){const i=r/100/12,n=years*12;return i===0?m*n:m*((Math.pow(1+i,n)-1)/i)*(1+i)}
+const CAPF=[["d","al día",365],["l","entre semana",260],["s","a la semana",52],["m","al mes",12]];
+const CAPE=[["Costumbre","var(--accent)","Lo hago por inercia"],["Me gusta","#4A7FC1","Está bien"],["Me encanta","var(--good)","Me alegra de verdad"]];
+const CAPP=[["☕","Bebida en la cafetería",1.8,"l","Cafetería"],["🥐","Bollería o snack",1.2,"l","Snack"],["🥤","Refresco o energética",1.5,"s","Refresco"],["🍔","Comida rápida",8,"s","Comida rápida"],["🎮","Monedas o skins de juegos",10,"m","Skins"],["📺","Suscripción",9,"m","Suscripción"],["🛴","Patinete o taxi por pereza",3,"s","Patinete"],["👕","Ropa o cosas por impulso",25,"m","Compras"]];
+const capY=c=>(c.p||0)*(CAPF.find(f=>f[0]===c.f)||CAPF[0])[2];
+const capNum=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)&&n>=0?Math.min(n,9999):0};
+const eur2=n=>n.toFixed(2).replace(".",",");
+function capSave(){store.set("capr",S.capr);store.set("caprH",S.caprH)}
+function capMeta(c){const y=capY(c);return `${fmt(y)} al año · ${(y/S.caprH).toFixed(0)} h de trabajo`}
+function capRes(){
+  const L=S.capr;if(!L.length)return `<p class="muted">Añade al menos un capricho para ver los números.</p>`;
+  const tot=L.reduce((a,c)=>a+capY(c),0),by=[0,0,0];L.forEach(c=>by[c.e]+=capY(c));const cut=by[0],hrs=tot/S.caprH;
+  const sorted=L.map((c,i)=>({c,y:capY(c)})).sort((a,b)=>b.y-a.y),mx=Math.max(1,sorted[0].y);
+  return `<div class="kpis"><div class="kpi"><p class="eyebrow">Al mes</p><p class="big">${fmt(tot/12)}</p></div><div class="kpi"><p class="eyebrow">Al año</p><p class="big">${fmt(tot)}</p></div><div class="kpi hot"><p class="eyebrow">Horas de trabajo al año</p><p class="big">${hrs.toFixed(0)} h</p></div></div>
+   <div class="sl"><label for="caph">Si ganaras <output>${eur2(S.caprH)} € la hora</output></label><input id="caph" type="range" min="5" max="15" step="0.5" value="${S.caprH}" data-caph="1"></div>
+   <div class="stack" style="gap:8px"><p class="eyebrow">En qué se va, de más a menos</p>${sorted.map(({c,y})=>`<div class="cbar"><span class="cbl">${esc(c.n||"Sin nombre")}</span><span class="cbt"><i style="width:${(y/mx*100).toFixed(1)}%;background:${CAPE[c.e][1]}"></i></span><span class="cbv">${fmt(y)}</span></div>`).join("")}
+    <div class="legend">${CAPE.map((e,i)=>`<span><i style="background:${e[1]}"></i>${e[0]}: ${fmt(by[i])}</span>`).join("")}</div></div>
+   ${cut>0?`<div class="cplan"><p class="eyebrow">Tu plan</p><h3>Quédate con lo que te encanta. Recorta lo que haces por costumbre.</h3>
+    <div class="kpis"><div class="kpi"><p class="eyebrow">Recuperas al año</p><p class="big">${fmt(cut)}</p></div><div class="kpi"><p class="eyebrow">En 10 años, guardado</p><p class="big">${fmt(cut*10)}</p></div><div class="kpi hot"><p class="eyebrow">En 10 años, invertido al 5 %</p><p class="big">${fmt(fv(cut/12,5,10))}</p></div></div>
+    <p class="muted">Son ${(cut/S.caprH).toFixed(0)} horas de trabajo al año en cosas que ni siquiera disfrutas. No hace falta cortarlo todo de golpe: empieza por el que más pesa${(()=>{const b=sorted.find(x=>x.c.e===0);return b?` (<b>${esc(b.c.n||"sin nombre")}</b>)`:""})()}.</p></div>`
+   :`<div class="cplan good"><p class="eyebrow">Tu plan</p><h3>Todo lo que gastas lo disfrutas de verdad.</h3><p class="muted">Esa es justo la idea: gastar en lo que te importa. Si aun así quieres ahorrar, prueba a bajar un poco la frecuencia de lo que solo te gusta.</p></div>`}`;
+}
+function caprCard(){
+  const L=S.capr;
+  return `<div class="card stack" id="caprichos" style="border:2px solid var(--c);scroll-margin-top:80px"><p class="eyebrow">Calculadora de mis caprichos</p><h2>¿Tus caprichos los eliges tú o te eligen a ti?</h2>
+   <p class="muted">No hay caprichos buenos o malos. Apunta los tuyos, di cuánto los disfrutas de verdad y mira lo que cuestan en dinero y en horas de trabajo. Solo tú lo ves: se guarda en tu móvil.</p>
+   <div><p class="eyebrow" style="margin-bottom:8px">Añade rápido</p><div class="cchips">${CAPP.map((p,i)=>`<button class="chip" data-act="cap-add" data-v="${i}" title="${esc(p[1])}">${p[0]} ${esc(p[4])}</button>`).join("")}<button class="chip" data-act="cap-add" data-v="-1">✏️ Otro</button></div></div>
+   ${L.map((c,i)=>`<div class="crow" style="--e:${CAPE[c.e][1]}">
+     <div class="crow1"><input class="cin" id="cn${i}" data-cap="n" data-i="${i}" value="${esc(c.n)}" placeholder="¿Qué es?" maxlength="40" aria-label="Capricho"><button class="cdel" data-act="cap-del" data-v="${i}" aria-label="Quitar">✕</button></div>
+     <div class="crow2"><label class="cprice"><input class="cin" id="cp${i}" data-cap="p" data-i="${i}" value="${eur2(c.p)}" inputmode="decimal" aria-label="Precio"> €</label><select class="cin" data-cap="f" data-i="${i}" aria-label="Cada cuánto">${CAPF.map(f=>`<option value="${f[0]}"${f[0]===c.f?" selected":""}>${f[1]}</option>`).join("")}</select></div>
+     <div class="cenj" role="group" aria-label="¿Cuánto lo disfrutas?">${CAPE.map((e,j)=>`<button class="${c.e===j?"on":""}" style="--x:${e[1]}" data-act="cap-e" data-v="${i}:${j}" aria-pressed="${c.e===j}">${e[0]}</button>`).join("")}</div>
+     <p class="cmeta" id="cm${i}">${capMeta(c)}</p></div>`).join("")}
+   <div id="capres" class="stack">${capRes()}</div>
+   <p class="muted" style="font-size:.9rem">Para entenderlo mejor: <button class="linkbtn" data-open="DIN-21">Necesidad o deseo</button> · <button class="linkbtn" data-open="DIN-20">¿Cuántas horas de tu vida cuesta?</button> · <button class="linkbtn" data-open="DIN-03">Cajas sorpresa de videojuegos</button></p></div>`;
+}
 function vDinero(){
   const s=S.sim,end=65,rate=s.r-s.fee,yA=end-s.age,yB=Math.max(0,yA-s.wait);
   const A=fv(s.m,rate,yA),B=fv(s.m,rate,yB),putA=s.m*12*yA,putB=s.m*12*yB;
@@ -1709,6 +1746,7 @@ function vDinero(){
     <div class="sl"><label for="ly">Durante <output>${L.y} años</output></label><input id="ly" type="range" min="5" max="50" step="5" value="${L.y}" data-lat="y"></div></div>
     <div class="kpis"><div class="kpi"><p class="eyebrow">Al año</p><p class="big">${fmt(yr)}</p></div><div class="kpi"><p class="eyebrow">En ${L.y} años, guardado</p><p class="big">${fmt(plain)}</p></div><div class="kpi hot"><p class="eyebrow">En ${L.y} años, invertido al 5 %</p><p class="big">${fmt(inv)}</p></div></div>
     <p class="muted">Esta es la idea de <i>El factor latte</i>: no se trata de quitarte todos los caprichos, sino de elegir los que de verdad disfrutas y dejar de pagar los que haces por costumbre. La diferencia entre la segunda y la tercera cifra es el interés compuesto trabajando para ti.</p></div>`})()}
+   ${caprCard()}
    <div id="interes" style="scroll-margin-top:80px"><p class="eyebrow">Para tu futuro</p><h2>El poder de empezar pronto</h2><p class="muted" style="margin-top:8px;max-width:62ch">Esto es para más adelante, cuando tengas tus propios ingresos, pero conviene saberlo ya. Mueve los controles y mira qué pasa si guardas un poco cada mes y lo inviertes a largo plazo. La rentabilidad es un ejemplo: invertir no garantiza ganancias y hay años con pérdidas.</p></div>
    <div class="card sliders">
     <div class="sl"><label for="sm">Guardo cada mes <output>${fmt(s.m)}</output></label><input id="sm" type="range" min="10" max="300" step="10" value="${s.m}" data-sim="m"></div>
@@ -1945,6 +1983,9 @@ document.addEventListener("click",e=>{
   if(d.myth){S.exMyth=!S.exMyth;S.exArea=null;render();return}
   const act=d.act;
   if(act==="start"){const un=document.getElementById("uname");if(un&&typeof un.value==="string"&&un.value.trim()){S.name=un.value.trim().slice(0,30);store.set("name",S.name)}S.testing=true;const first=[...Array(NA).keys()].find(i=>[0,1,2].some(j=>S.answers[i*3+j]===undefined));S.step=first===undefined?0:first;render();window.scrollTo({top:0})}
+  else if(act==="cap-add"){const i=+d.v,pr=CAPP[i];S.capr.push(pr?{n:pr[1],p:pr[2],f:pr[3],e:1}:{n:"",p:1,f:"s",e:1});capSave();render();if(!pr){const n=document.getElementById("cn"+(S.capr.length-1));n&&n.focus()}}
+  else if(act==="cap-del"){S.capr.splice(+d.v,1);capSave();render()}
+  else if(act==="cap-e"){const [i,j]=d.v.split(":").map(Number);if(S.capr[i]){S.capr[i].e=j;capSave();render()}}
   else if(act==="retest"){S.answers={};save();S.testing=true;S.step=0;render();window.scrollTo({top:0})}
   else if(act==="next"){if(S.step<NA-1){S.step++;render();window.scrollTo({top:0})}else{const first=!S.route;S.tests.push({date:today(),scores:scores()});S.route=first?buildRoute(scores()):mergeRoute(scores());save();toast(first?"+25 · Mapa y ruta listos":"+25 · Mapa nuevo. Tu ruta sigue y se ha actualizado");S.view="mapa";S.testing=false;render();window.scrollTo({top:0})}}
   else if(act==="prev"){S.step--;render()}
@@ -1997,7 +2038,7 @@ document.addEventListener("click",e=>{
     try{navigator.clipboard.writeText(txt).then(ok,()=>{selectText(cid);toast("Selecciona el texto y cópialo")})}catch(err){selectText(cid);toast("Selecciona el texto y cópialo")}}
   else if(act==="reset"){S.confirmReset=true;render()}
   else if(act==="reset-no"){S.confirmReset=false;render()}
-  else if(act==="reset-yes"){S.answers={};S.active=null;S.history=[];S.tests=[];S.buddy="";S.P=P0();S.route=null;S.keep=[];S.extra={};S.grat=[];S.tips=[];S.confirmReset=false;save();go("hoy")}
+  else if(act==="reset-yes"){S.answers={};S.active=null;S.history=[];S.tests=[];S.buddy="";S.P=P0();S.route=null;S.keep=[];S.extra={};S.grat=[];S.tips=[];S.capr=[];store.set("capr",[]);S.confirmReset=false;save();go("hoy")}
 });
 function pReadExp(){S.P.exp.forEach((x,i)=>{const el=document.getElementById("p-exp"+i);if(el)x.t=el.value.trim()})}
 function pReadFields(){const g=id=>{const el=document.getElementById(id);return el?el.value:null};const P=S.P;
@@ -2009,6 +2050,8 @@ document.addEventListener("input",e=>{
   if(t.id==="faqq"){S.faqQ=t.value;faqFilter();return}
   if(t.id==="exq"){S.exQ=t.value;const pos=t.selectionStart;render();const n=document.getElementById("exq");n.focus();n.setSelectionRange(pos,pos)}
   if(t.id&&t.id.startsWith("pf-")){pReadFields();const id=t.id,pos=t.selectionStart;render();const n=document.getElementById(id);if(n){n.focus();if(pos!=null&&n.setSelectionRange)try{n.setSelectionRange(pos,pos)}catch(err){}}}
+  if(t.dataset.cap&&t.tagName==="INPUT"){const c=S.capr[+t.dataset.i];if(!c)return;if(t.dataset.cap==="n")c.n=t.value.slice(0,40);else c.p=capNum(t.value);capSave();const m=document.getElementById("cm"+t.dataset.i);if(m)m.textContent=capMeta(c);const r=document.getElementById("capres");if(r)r.innerHTML=capRes();return}
+  if(t.dataset.caph){S.caprH=parseFloat(t.value);capSave();const r=document.getElementById("capres");if(r){r.innerHTML=capRes();const n=document.getElementById("caph");n&&n.focus()}S.capr.forEach((c,i)=>{const m=document.getElementById("cm"+i);if(m)m.textContent=capMeta(c)});return}
   if(t.dataset.lat){S.lat[t.dataset.lat]=parseFloat(t.value);const id=t.id;render();const n=document.getElementById(id);n&&n.focus()}
   if(t.dataset.sim){S.sim[t.dataset.sim]=parseFloat(t.value);const id=t.id;render();const n=document.getElementById(id);n&&n.focus()}
 });
