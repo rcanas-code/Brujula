@@ -486,6 +486,7 @@ section:has(> .exback) .filterbar{top:58px}
 .valline{margin:0;font-size:.9rem;color:#7C4DCC;font-weight:600}
 .regr{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}.regr .rck{width:22px;text-align:center;font-weight:800}.regr.ok .rck{color:var(--good)}.regr.lock{opacity:.7}.regr.now b{color:var(--accent)}
 .lqbox.lib{border-style:dashed}
+.hcap{border-left:4px solid var(--opt);padding-left:10px;display:flex;flex-direction:column;gap:4px}
 .lqbox.ok{border-color:var(--good);background:var(--good-bg)}
 .lqo{text-align:left;justify-content:flex-start;white-space:normal}
 .lqno{margin:0;color:var(--warn);font-weight:700;font-size:.9rem}
@@ -1174,9 +1175,9 @@ function learnCard(){
        <div class="stack" style="gap:6px">${["…lo seguiré haciendo, me ha funcionado","…haré la versión mínima los días difíciles","…pondré mi alarma y no fallaré dos días seguidos","…se lo contaré a alguien para que me ayude","…probaré otro reto, este no era para mí"].map(x=>`<button class="btn ghost" style="text-align:left" data-myend="La semana que viene, yo${x}" aria-pressed="${a.myEnd==="La semana que viene, yo"+x}">${a.myEnd==="La semana que viene, yo"+x?"✓ ":""}La semana que viene, yo${x}</button>`).join("")}</div>`;
       tag=a.myEnd?"":"El final";
     }else{const k=done-1;body=`${k>=0?`<p class="eyebrow">Capítulo ${k+1} de 6</p><p>${esc(s.ch[k][0])}</p>${cons(k)}`:""}<p class="muted">${done<6?`Mañana, el capítulo ${done+1}.`:"El día 7 descubrirás el final."}</p>`}
-    return `<details class="card fold" style="--fc:var(--opt)" id="learn" ${open}><summary><div class="row" style="justify-content:space-between"><span><span class="fi">📖</span>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 1 minuto</span></span>${tag?`<span class="chip" style="background:var(--brand);color:#fff">${tag}</span>`:""}</div><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">La historia de ${esc(s.who.split(",")[0])}, que hace tu mismo reto. Cada día, un capítulo: tú decides qué hace y ves si funciona. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px">${body}</div></details>`}
+    return `<details class="card fold" style="--fc:var(--opt)" id="learn" ${open}><summary><div class="row" style="justify-content:space-between"><span><span class="fi">🔓</span>Tu premio de hoy <span class="muted" style="font-weight:600">· 1 minuto</span></span>${tag?`<span class="chip" style="background:var(--brand);color:#fff">${tag}</span>`:""}</div><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Has desbloqueado un capítulo de la historia de ${esc(s.who.split(",")[0])}, que hace tu mismo reto: tú decides qué hace y ves si funciona. Toca para abrir. Los capítulos se guardan en la Biblioteca.</span></summary><div class="stack" style="margin-top:12px">${body}</div></details>`}
   const ai=S.active?CI[S.active.id].a:routeNext()?routeNext().c.a:0,ar=AREAS[ai],dn=Math.floor(Date.parse(today())/864e5),txt=CUR[ai][dn%CUR[ai].length];
-  return `<details class="card fold" style="--fc:var(--opt)" id="learn" ${open}><summary><span class="fi">💡</span>Para aprender hoy <span class="muted" style="font-weight:600">· opcional · 30 segundos</span><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Cada día, una curiosidad nueva sobre ${esc(ar.n.toLowerCase())}. No es obligatorio; sirve para aprender algo útil en 30 segundos. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px"><div class="guide"><p class="eyebrow">¿Sabías que…?</p><p>${esc(txt)}</p></div><p class="muted" style="font-size:.85rem">Mañana, otra.</p></div></details>`}
+  return `<details class="card fold" style="--fc:var(--opt)" id="learn" ${open}><summary><span class="fi">🔓</span>Tu premio de hoy <span class="muted" style="font-weight:600">· 30 segundos</span><span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Por cumplir hoy, una curiosidad sobre ${esc(ar.n.toLowerCase())}. Toca para abrir.</span></summary><div class="stack" style="margin-top:12px"><div class="guide"><p class="eyebrow">¿Sabías que…?</p><p>${esc(txt)}</p></div><p class="muted" style="font-size:.85rem">Mañana, otra.</p></div></details>`}
 const NA=AREAS.filter(a=>!a.x).length,TA=AREAS.slice(0,NA), NQ=QS.length;
 const EXAMPLE=[3.7,4.3,3,2.7,3.3,2,4.7,2.3,3,4,2.7,2.3,4,3.7];
 /* ---------- estado ---------- */
@@ -1650,7 +1651,7 @@ function vIntro(){
 
    <section class="north" style="margin-top:28px;align-items:flex-start"><p class="eyebrow">Tu primer paso</p><p class="sent">Nadie nace sabiendo vivir. Se aprende. Y tú puedes empezar hoy, en 6 minutos.</p>${CTA.replace('class="btn"','class="btn" ').replace('<p class="muted"','<p style="opacity:.75"')}</section>`;
 }
-const APP_V="20261014224156";
+const APP_V="20261014224639";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1791,7 +1792,7 @@ function vHoy(){
     const week=n<7&&!(n===1&&!S.active.plan)?`<div class="week">${dots}</div><div class="wkleg"><span><i class="si"></i>Sí</span><span><i class="poco"></i>Un poco</span><span><i class="no"></i>Hoy no</span><span><i></i>Sin marcar</span></div><p class="muted" style="font-size:.82rem;margin-top:-4px">${g} de 7 días. Con 4 lo superas. ¿Se te olvidó un día? Toca su círculo.</p>`:"";
     const extra=`<details class="more2"><summary>Ver el plan, el ejemplo y para qué sirve</summary><div class="stack" style="margin-top:10px;gap:10px">${tl}<p class="muted" style="font-size:.9rem">${esc(c.q)}</p><p class="why"><b>Por qué importa:</b> ${AREA_WHY[c.a]}.${S.P.done[7]&&S.P.f.que?` Y eso te acerca a tu propósito: ${esc(S.P.f.verb)} ${esc(S.P.f.que)}.`:""}</p>${S.active.plan?`<p style="font-size:.92rem"><b>Tu plan:</b> ${esc(S.active.plan)}${S.active.time?` · Tu hora: ${esc(S.active.time)}`:""}</p>${calBox()}`:""}${E&&!(n===1&&!S.active.plan)?`<div class="guide"><p class="eyebrow">Un ejemplo</p><p>${esc(E[0])}</p></div>`:""}${S.more?moreBox(c):`<button class="btn ghost" data-act="more" style="width:max-content;padding:8px 16px">Quiero saber más</button>`}</div></details>`;
     main=`<div class="today area hoycard ${pend?"tocar":"ok"}" style="--h:${a.h}"><div class="row" style="justify-content:space-between">${tag}<span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
-      <h2>${esc(c.t)}</h2>${valLine(a.k)}${lead}${action}${pend?"":`<div class="doneline"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`}${week}${extra}</div>`;
+      <h2>${esc(c.t)}</h2>${valLine(a.k)}${lead}${action}${pend?"":`<div class="doneline"><span class="bigck">✓</span><div>${(()=>{const L=stoState();return L&&L.next>=0?`<button class="linkbtn" data-act="learn-open" style="display:block;margin-bottom:4px">🔓 Has desbloqueado un capítulo nuevo de la historia →</button>`:""})()}<b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`}${week}${extra}</div>`;
   }
   const banner=rescueBanner();
   const lastT=S.tests.length?S.tests[S.tests.length-1].date:null,retest=lastT&&diff(lastT,today())>=28;
@@ -1808,11 +1809,11 @@ function vHoy(){
    ${choiceCard()}
    ${main}
    ${status}
+   ${S.active&&!pend?learnCard():""}
    ${!S.active||!pend?mwStepCard():""}
    ${notices?`<div class="stack" style="gap:8px">${notices}</div>`:""}
    ${S.active?`<div class="optsep">Opcional · si te apetece</div>
    ${moodCard()}
-   ${learnCard()}
    <div class="tiles"><button class="tile" data-act="calm"><b>🫁 Un minuto de calma</b><span>Respira despacio con el círculo.</span></button></div>
    ${keepCard()}
    ${purposeCard()}
@@ -3218,6 +3219,15 @@ function regRetos(k){const i=AK[k],it=routeItems().filter(x=>x.c.a===i);if(!it.l
   return `<div class="card stack" id="regretos" style="gap:8px"><h3 class="pxname" style="font-size:1.05rem">Retos de esta región</h3>${S.swap&&S.active?`<p class="muted" style="margin:0;font-size:.85rem">Elige el reto al que quieres cambiar. El que dejas queda como saltado, con tus días guardados.</p><button class="btn ghost sm" data-act="swap-no" style="width:max-content">Mejor sigo con el mío</button>`:S.active?`<p class="muted" style="margin:0;font-size:.85rem">Ya tienes una misión en marcha. Cuando la acabes, podrás empezar cualquiera de estos o seguir con la que te proponga Hoy.</p>`:`<p class="muted" style="margin:0;font-size:.85rem">Retos de 7 días. Hoy te propondrá uno, pero puedes empezar el que prefieras.</p>`}${body}</div>`}
 function libNote(id){const k=aK(id),seen=MWPOS[k]&&mwSeen().has(k);return `<div class="lqbox lib"><p style="margin:0"><b>📖 Biblioteca: aquí solo se lee.</b> ${seen?"Para que esta lectura cuente para tu trofeo, ábrela desde su región en el Mundo: allí tiene su pregunta rápida.":"Su región aún tiene niebla: cuando la descubras, podrás hacer que cuente."}</p>${seen?`<button class="btn ghost sm" data-reg="${k}" style="width:max-content">Ir a ${esc(GREG[k])}</button>`:""}</div>`}
 function vQuiz(){if(!S.qz){S.view="region";return vRegion()}return `<section class="stack">${qzView()}</section>`}
+
+function histShelf(){
+  const L=[];S.history.forEach(h=>{if(ST[h.id]&&h.sto&&Object.keys(h.sto).length)L.push({id:h.id,ch:h.sto,end:h.myEnd,fin:Object.keys(h.sto).length>=6,date:h.end})});
+  if(S.active&&ST[S.active.id]&&S.active.sto&&Object.keys(S.active.sto).length)L.push({id:S.active.id,ch:S.active.sto,now:true,fin:false});
+  if(!L.length)return `<div class="card"><p style="margin:0"><b>Tu estantería de historias está vacía.</b> Cada día que marques tu reto se desbloquea un capítulo de una historia, y aquí se guardan para releerlas cuando quieras.</p></div>`;
+  return L.reverse().map(x=>{const s=ST[x.id],c=CI[x.id],ks=Object.keys(x.ch).map(Number).sort((a,b)=>a-b),g=ks.filter(k=>x.ch[k]===0).length;
+    return `<details class="card fold"><summary><span class="fi">📖</span>${esc(s.who.split(",")[0])} · ${esc(c?c.t:"")}<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${x.now?"En curso · ":""}${ks.length} de 6 capítulos${x.fin?` · final ${g>=4?"bueno":"a medias"}`:""}</span></summary><div class="stack" style="margin-top:10px;gap:10px">
+     ${ks.map(k=>`<div class="hcap"><p class="eyebrow" style="margin:0">Capítulo ${k+1}</p><p style="margin:0">${esc(s.ch[k][0])}</p><p style="margin:0"><b>${esc(s.ch[k][1])}</b> Elegiste: ${esc(s.ch[k][2][x.ch[k]])}.</p><p class="muted" style="margin:0;font-size:.88rem">${esc(s.ch[k][3][x.ch[k]])}</p></div>`).join("")}
+     ${x.fin?`<div class="${g>=4?"example":"alert"}" style="${g>=4?"background:var(--good-bg)":""}"><b>${g>=4?"Final bueno.":"Final a medias."}</b> ${esc(g>=4?s.end.ok:s.end.ko)}</div>${x.end?`<p class="muted" style="margin:0;font-size:.88rem">Tu final: ${esc(x.end)}</p>`:""}`:""}</div></details>`}).join("")}
 /* pregunta rápida al final de cada lectura */
 function lqWait(id){const c=CI[id];if(!c)return 15;const E=exOf(id)||[];const w=(c.q+" "+c.h+" "+E.join(" ")).split(/\s+/).length;return Math.max(15,Math.min(45,Math.round(w/3.5)))}
 function lqReady(id){const L=S.lqRead;return !!(L&&L.id===id&&L.scrolled&&Date.now()-L.t0>=lqWait(id)*1000)}
@@ -3283,9 +3293,10 @@ function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   const exSub=S.exMode!=="conceptos"||S.exArea!==null||S.exMyth||!!S.exQ||!!S.qz,exBack=exSub?`<button class="backbar exback" data-act="ex-home">← Volver a la Biblioteca</button>`:"";
   const head=`<div class="stack"><div><p class="eyebrow">Biblioteca</p><h1>La biblioteca del mundo</h1><p class="muted" style="margin-top:8px;max-width:62ch">Todas las lecturas, vídeos y libros de las 19 regiones, para leer cuando quieras. <b>Aquí solo hay contenido: ni retos ni preguntas.</b> Para que una lectura cuente para tu trofeo, ábrela desde su región en el Mundo. «Ponle nombre» te ayuda cuando te pasa algo y no sabes cómo se llama.</p></div>
-   <div class="row"><div class="seg exseg"><button data-mode="conceptos" aria-pressed="${S.exMode==="conceptos"}">📚 Lecturas</button><button data-mode="nombre" aria-pressed="${S.exMode==="nombre"}">🏷️ Ponle nombre</button></div></div>
+   <div class="row"><div class="seg exseg"><button data-mode="conceptos" aria-pressed="${S.exMode==="conceptos"}">📚 Lecturas</button><button data-mode="nombre" aria-pressed="${S.exMode==="nombre"}">🏷️ Ponle nombre</button><button data-mode="hist" aria-pressed="${S.exMode==="hist"}">📖 Historias</button></div></div>
    ${S.exMode==="quiz"?"":`<input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca lo que quieras: agobio, dormir, dinero, móvil…"}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"||(S.exQ&&S.exQ!=="sesgo")?"":`<div class="chips">${[["sesgo","🧩 Ver solo los sesgos"]].map(([q,l])=>`<button class="chip${S.exQ===q?" chipon":""}" data-exq="${q}" aria-pressed="${S.exQ===q}">${S.exQ===q?"🧩 Viendo solo sesgos ✕":l}</button>`).join("")}</div>`}`}</div>`;
   if(S.exMode==="quiz")S.exMode="conceptos";
+  if(S.exMode==="hist")return `<section class="stack">${exBack}${head}${histShelf()}</section>`;
   if(S.exMode==="nombre"){
     const list=FEEL.map(f=>[f,q?qScore(q,[f[0]+" "+f[1],CI[f[2]]?CI[f[2]].t+" "+CI[f[2]].q:""]):1]).filter(x=>x[1]>0).sort((x,y)=>y[1]-x[1]).map(x=>x[0]);
     return `<section class="stack">${exBack}${head}<p class="muted">Busca la frase que más se parezca a lo que te pasa. Ponerle nombre ya es empezar a resolverlo.</p>${q?toolsBox(q):""}
@@ -3696,6 +3707,7 @@ document.addEventListener("click",e=>{
   else if(act==="tr-again"){trStart(S.tr.k)}
   else if(act==="carta-ok"){S.g.carta=S.g.carta||today();store.set("game",S.g);S.cartaN=0;if(S.view==="carta")go("hoy",true);else{render();window.scrollTo({top:0})}}
   else if(act==="carta-again"){S.cartaN=+(d.n||0);go("carta")}
+  else if(act==="learn-open"){S.learnOpen=true;render();const e=document.getElementById("learn");if(e){e.open=true;e.scrollIntoView({behavior:"smooth",block:"start"})}}
   else if(act==="regretos"){const e=document.getElementById("regretos");if(e)e.scrollIntoView({behavior:"smooth",block:"start"})}
   else if(act==="reglect"){S.regOpen=true;render();const el=document.getElementById("reglect");if(el)el.scrollIntoView({behavior:"smooth",block:"start"})}
   else if(act==="pj-save"){S.me.pj=S.pjDraft||pjCfg();S.pjDraft=null;store.set("me",S.me);toast("¡Personaje elegido!");go("yo",true)}
