@@ -258,6 +258,17 @@ details.card summary::-webkit-details-marker{display:none}
 .yoevo{margin-top:12px}
 #yostats .yotiles{margin:0}
 .pjcust{border:3px solid var(--accent)}
+.libtop{display:flex;gap:10px;align-items:flex-start}
+.libfer{flex:none;display:flex;align-items:flex-end;justify-content:center;width:104px;height:150px;padding-bottom:8px;background:repeating-linear-gradient(180deg,transparent 0 44px,#3B2416 44px 50px),repeating-linear-gradient(90deg,#8C3B2E 0 9px,#2F5E8C 9px 16px,#C9A227 16px 21px,#3E7D4F 21px 31px,#6B4FA0 31px 38px),#4A2E1E;border:3px solid #0F1A24;box-shadow:inset 0 0 30px rgba(0,0,0,.6),4px 4px 0 rgba(0,0,0,.2);position:sticky;top:8px}
+.libfer svg{filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}
+.libbox{flex:1;min-width:0;margin-top:14px}
+.libbox .dlgo{font-size:.86rem;padding:7px 9px}
+.shelfwood{display:flex;align-items:flex-end;gap:5px;padding:12px 10px 0;min-height:170px;background:linear-gradient(#3B2416,#4A2E1E);border:3px solid #2B1A10;border-bottom:12px solid #8A5A34;box-shadow:inset 0 10px 18px rgba(0,0,0,.45),0 4px 0 #5C3A22}
+.spine{flex:1 1 0;min-width:0;height:var(--sh);display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 3px 0;border:2px solid #1E1A16;border-bottom:0;background:linear-gradient(90deg,hsl(var(--h) 55% 32%),hsl(var(--h) 60% 46%) 30%,hsl(var(--h) 55% 38%));color:#fff;font:inherit;cursor:pointer;text-align:center;box-shadow:inset -3px 0 0 rgba(0,0,0,.18),inset 3px 0 0 rgba(255,255,255,.12);transition:transform .15s}
+.spine:hover,.spine:focus-visible{transform:translateY(-8px)}
+.spband{display:block;align-self:stretch;height:6px;margin:8px 0 2px;background:#E8C15A;box-shadow:0 2px 0 rgba(0,0,0,.25)}.spband.b{margin:auto 0 10px}
+.spic{font-size:1.25rem;line-height:1}.spine b{writing-mode:vertical-rl;transform:rotate(180deg);font-size:.76rem;line-height:1.1;max-height:calc(var(--sh) - 74px);text-shadow:0 1px 0 rgba(0,0,0,.4);white-space:normal}.spn{font-size:.68rem;opacity:.85}
+.libst{border-bottom:0!important;padding-bottom:0!important}
 .libsay{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:#0F1A24;color:#F4F1E8;border:3px solid #F4F1E8;box-shadow:0 0 0 3px #0F1A24}.libsay p{margin:0;font-size:.92rem;line-height:1.45}.libmini{flex:none}
 .libsearch .search{width:100%}
 .libshelf{display:flex;flex-direction:column;gap:6px}.libst{margin:0;font-family:var(--pxf);font-weight:700;font-size:.9rem;padding-bottom:4px;border-bottom:6px solid #6B4226}
@@ -739,8 +750,8 @@ const AREAS=[
  ["PEN","Autoestima y cómo te hablas",265],["HAB","Hábitos",25],["REL","Relaciones",350],["ATE","Atención y pantallas",190],
  ["EST","Estrés",5],["VAL","Propósito y valores",45],["DIN","Dinero",160],["EDU","Estudio",70],["CRI","Criterio y convivencia",305],["AUT","Autoconocimiento",285],["ANI","Animales",120,1],["CIU","Ciudadanía",240,1],["ADI","Adicciones",170,1],["STO","Estoicismo",30,1],["CIV","Civismo y día a día",228,1]
 ].map(([k,n,h,x])=>({k,n,h,x:!!x}));
-const LIBSPR={"p": {"k": "#1E1A16", "s": "#E3B48E", "h": "#C9C9C9", "e": "#BFE6F2", "g": "#2B2B2B", "n": "#C98E6A", "m": "#EDEDED", "w": "#F5F5F5", "v": "#6B4226", "b": "#B8336A", "y": "#FFE27A", "p": "#3B4A5C", "o": "#2B1D1A"}, "r": ["......kkkk......", ".....kssssk.....", "....khsssshk....", "...khhsssshhk...", "...kgeeggeegk...", "...khssnnsshk...", "...kmmmmmmmmk...", "...kkwwwwwwkk...", "..kvvwwwwwwvvk..", "..kvvvwwwwvvvk..", "..kvvvvwwvvvvk..", "..kvvvbybbvvvk..", "..ksvvbybbvvsk..", "...kkppkkppkk...", "...koookkoook...", "....kkk..kkk...."]};
-function libSVG(px,cls){const D=LIBSPR,N=D.r.length;let o="";D.r.forEach((row,y)=>{for(let x=0;x<row.length;x++){const ch=row[x];if(ch!==".")o+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${D.p[ch]}"/>`}});return `<svg class="${cls||""}" viewBox="0 0 ${N} ${N}" width="${N*px}" height="${N*px}" shape-rendering="crispEdges" aria-hidden="true">${o}</svg>`}
+const LIBSPR={"p": {"k": "#1E1A16", "s": "#EDBF98", "S": "#D69E78", "n": "#D08A6A", "h": "#CFCFCF", "g": "#2B2B2B", "e": "#BFE6F2", "m": "#F2F2F2", "w": "#FFFFFF", "c": "#7A2E3A", "C": "#5E2230", "t": "#F4F1E8", "r": "#C9A227", "b": "#2F5E8C", "y": "#F4E7C5", "p": "#3B4A5C", "o": "#2B1D1A"}, "r": ["......kssssssk......", ".....kssssssssk.....", "....khsssssssshk....", "...khhsssssssshhk...", "...khgggggsggggghk..", "...khgeeegsgeeeghk..", "...khgggggsggggghk..", "....kssssnnssssSk...", "...kmmmmmmmmmmmmk...", "..kmmmwwwwwwwwmmmk..", "...kkwwwwwwwwwwkk...", "..kcccwwwwwwwwccck..", ".kcccctwwwwwwtcccck.", ".kccccttwwwwttcccck.", ".kcCcctttrrtttccCck.", ".ksbbbbbbbbbbbbbbsk.", ".kcbyyyyyyyyyyyybck.", ".kcbbbbbbbbbbbbbbck.", "..kcccccccccccccck..", "...kppppkkkkppppk...", "..koooook..koooook..", "...kkkkk....kkkkk..."]};
+function libSVG(px,cls){const D=LIBSPR,N=D.r.length,Wd=D.r[0].length;let o="";D.r.forEach((row,y)=>{for(let x=0;x<row.length;x++){const ch=row[x];if(ch!==".")o+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${D.p[ch]}"/>`}});return `<svg class="${cls||""}" viewBox="0 0 ${Wd} ${N}" width="${Wd*px}" height="${N*px}" shape-rendering="crispEdges" aria-hidden="true">${o}</svg>`}
 const AICON={SUE:"😴",MOV:"🏃",ALI:"🥗",EMO:"💛",PEN:"🪞",HAB:"🔁",REL:"🤝",ATE:"📱",EST:"🌬️",VAL:"🧭",DIN:"💶",EDU:"📚",CRI:"🔎",AUT:"🧠",ANI:"🐾",CIU:"🗳️",ADI:"🧲",STO:"🏛️",CIV:"🚇"};
 const lvTag=c=>c.e==="X"?"⚠️ Mito":c.n==="B"?"🌱 Básico":"🚀 Intermedio";
 const AK=Object.fromEntries(AREAS.map((a,i)=>[a.k,i]));
@@ -1839,7 +1850,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015183056";
+const APP_V="20261015190456";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -3146,7 +3157,7 @@ function bgmSet(kind){if(S.g.snd===false||document.hidden)kind=null;if(kind===BG
   BGM.cur=kind;if(!kind)return;const ac=gAudio();if(!ac){BGM.cur=null;return}const M=bgmSpec(kind);BGM.g=ac.createGain();BGM.g.gain.value=.045;BGM.g.connect(ac.destination);BGM.i=0;let next=ac.currentTime+.08;
   const tick=()=>{if(!BGM.g)return;while(next<ac.currentTime+.25){const k=BGM.i%M.lead.length;if(M.lead[k]){bgmNote(ac,M.lead[k],next,M.t*(M.st?.45:.9),M.lw,.5);if(M.echo)bgmNote(ac,M.lead[k],next+M.t*1.5,M.t*.7,M.lw,.16)}if(M.bass[k])bgmNote(ac,M.bass[k],next,M.t*.85,M.bw,.32);if(M.kick&&k%4===0)bgmKick(ac,next);next+=M.t;BGM.i++}};
   tick();BGM.iv=setInterval(tick,60)}
-function bgmWant(){if(S.view==="final"&&S.fz&&!S.fz.done)return "boss";if(S.view==="region"&&S.reg&&CREN[S.reg]&&mwSeen().has(S.reg)&&(!(S.g.lore||{})[S.reg]||(S.dlg&&S.dlg.k===S.reg)))return "talk:"+S.reg;if(S.view==="explorar"&&document.querySelector(".advstage.lib"))return "talk:LIB";return null}
+function bgmWant(){if(S.view==="final"&&S.fz&&!S.fz.done)return "boss";if(S.view==="region"&&S.reg&&CREN[S.reg]&&mwSeen().has(S.reg)&&(!(S.g.lore||{})[S.reg]||(S.dlg&&S.dlg.k===S.reg)))return "talk:"+S.reg;if(S.view==="explorar"&&document.querySelector(".libtop"))return "talk:LIB";return null}
 document.addEventListener("visibilitychange",()=>{try{bgmSet(document.hidden?null:bgmWant())}catch(e){}});
 const gCelQ=[];
 function celebrate(ev){gCelQ.push(ev);if(gCelQ.length===1)celShow()}
@@ -3713,13 +3724,12 @@ const LIBTXT={home:"¡Hola, hola, viajero! Pasa, que no muerdo. Soy Don Fermín 
  todo:"El catálogo completo. Ordenado por temas, de lo básico a lo avanzado. Tómate tu tiempo.",
  buscar:"Dime qué buscas y te traigo lo que más se parezca."};
 const LIBSH=[["Cuerpo","SUE MOV ALI"],["Mente","EDU ATE HAB EST"],["Por dentro","EMO PEN AUT"],["Tú y los demás","REL VAL STO CIV"],["El mundo","DIN CRI CIU ANI ADI"]];
-function libSay(t){return `<div class="libsay"><span class="libmini">${libSVG(2.6)}</span><p><b>Don Fermín:</b> ${esc(t)}</p></div>`}
+function libSay(t){return `<div class="libsay"><span class="libmini">${libSVG(2.2)}</span><p><b>Don Fermín:</b> ${esc(t)}</p></div>`}
 function libHome(){const opts=[["temas","📚 Quiero leer sobre un tema"],["nombre","🏷️ Me pasa algo y no sé cómo se llama"],["hist","📖 Cuéntame una historia"],["sesgo","🧩 Enséñame los trucos de la mente"],["mitos","⚠️ ¿Qué mitos hay que desmontar?"],["buscar","🔎 Busco algo concreto"]];
-  const shelf=k=>{const i=AK[k];if(i==null)return "";const a=AREAS[i],cs=C.filter(c=>c.a===i),n=cs.length,rd=cs.filter(c=>(S.g.ok||{})[c.id]||(S.g.dom||{})[c.id]).length;return `<button class="libbook" style="--h:${a.h}" data-area="${i}"><span class="lbi">${AICON[k]}</span><b>${esc(a.n)}</b><span class="lbn">${n} lecturas${rd?` · ${rd} leídas`:""}</span><span class="lbbar"><i style="width:${n?Math.round(rd/n*100):0}%"></i></span></button>`};
-  return `<div class="adv"><div class="advstage lib"><span class="advnpc bob">${libSVG(6)}</span></div><div class="advbox"><span class="advwho">${LIBN}</span><p class="advtxt" data-tw>${esc(LIBTXT.home)}</p><div class="dlgopts" role="group" aria-label="¿Qué deseas?">${opts.map(([k,l])=>`<button class="dlgo" data-lib="${k}">▸ ${l}</button>`).join("")}</div></div></div>
+  const shelf=(k,j)=>{const i=AK[k];if(i==null)return "";const a=AREAS[i],cs=C.filter(c=>c.a===i),n=cs.length,rd=cs.filter(c=>(S.g.ok||{})[c.id]||(S.g.dom||{})[c.id]).length;return `<button class="spine" style="--h:${a.h};--sh:${[148,136,156,142,150][j%5]}px" data-area="${i}" aria-label="${esc(a.n)}: ${n} lecturas"><span class="spband"></span><span class="spic">${AICON[k]}</span><b>${esc(a.n)}</b><span class="spn">${n}${rd?` · ✓${rd}`:""}</span><span class="spband b"></span></button>`};
+  return `<div class="libtop"><div class="libfer"><span class="bob">${libSVG(4.4)}</span></div><div class="advbox libbox"><span class="advwho">Don Fermín</span><p class="advtxt" data-tw>${esc(LIBTXT.home)}</p><div class="dlgopts" role="group" aria-label="¿Qué deseas?">${opts.map(([k,l])=>`<button class="dlgo" data-lib="${k}">▸ ${l}</button>`).join("")}</div></div></div>
    <div class="libsearch" id="libsearch"><input id="exq" class="search" type="search" placeholder="Escribe lo que buscas: agobio, dormir, dinero, móvil…" value="${esc(S.exQ)}" aria-label="Buscar"></div>
-   <div class="stack" id="libshelves" style="gap:14px">${LIBSH.map(([t,ks])=>`<div class="libshelf"><p class="libst">${t}</p><div class="libbooks">${ks.split(" ").map(shelf).join("")}</div></div>`).join("")}</div>
-   <button class="btn ghost" data-lib="todo" style="width:max-content">📚 Ver todo el catálogo</button>`}
+   <div class="stack" id="libshelves" style="gap:14px">${LIBSH.map(([t,ks])=>`<div class="libshelf"><p class="libst">${t}</p><div class="shelfwood">${ks.split(" ").map(shelf).join("")}</div></div>`).join("")}</div>`}
 function vExplorar(){
   const q=S.exQ.trim().toLowerCase();
   if(S.exMode==="conceptos"&&S.exArea===null&&!S.exMyth&&!S.exQ&&!S.exAll&&!S.qz)return `<section class="stack"><div><p class="eyebrow">Biblioteca</p><h1>La biblioteca del mundo</h1></div>${libHome()}</section>`;
