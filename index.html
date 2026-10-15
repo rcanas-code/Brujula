@@ -243,6 +243,10 @@ details.card summary::-webkit-details-marker{display:none}
 .helpbtn.helphl{animation:helphl .7s ease-in-out 6;outline:4px solid var(--accent);outline-offset:3px}@keyframes helphl{50%{transform:scale(1.15)}}
 .nphase{margin:6px 0 0;font-family:var(--pxf);font-weight:700;font-size:.85rem;color:var(--muted)}
 .midtest{border-left-color:#9B7BFF}
+.pexp{display:flex;gap:12px;align-items:flex-start;padding:12px;border:2px solid var(--line);background:var(--surface)}.pexp .pexn{flex:none;width:30px;height:30px;display:grid;place-items:center;font-weight:800;background:var(--surface-2)}.pexp>div{flex:1;min-width:0}
+.pexp.done{border-color:var(--good);background:var(--good-bg)}.pexp.now{border-color:#B8336A}.pexp.wait{border-style:dashed}
+.pexpause{padding:12px;border:2px dashed var(--warn);background:var(--warn-bg);font-size:.92rem}
+.expcard{border:3px solid #B8336A}
 .curcard{border:3px solid #6B4FA0;background:linear-gradient(rgba(107,79,160,.10),var(--surface) 70%)}
 .hopt{display:flex;flex-direction:column;gap:10px;margin-top:18px;padding:14px;border:2px dashed #4A7FC1;background:rgba(74,127,193,.07)}
 .hopth{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.86rem;color:var(--muted)}.hopth .optpill{background:#4A7FC1;color:#fff}
@@ -1359,7 +1363,7 @@ const pSent=f=>f.que&&f.quien&&f.s&&f.v?`Quiero ${f.verb} <em>${esc(f.que)}</em>
 function pOk(k){const P=S.P;if(!P)return false;
   if(k===1)return P.v.length>=3;if(k===2)return P.s.length>=1;if(k===3)return P.upL.length>=1&&P.downL.length>=1;if(k===4)return P.whoL.length>=1;
   if(k===5)return P.fut.length>=1&&P.proud.length>=1;
-  if(k===6){const e=P.exp;if(!e.every(x=>x.t&&x.d&&x.dd&&x.r))return false;const ds=e.map(x=>x.dd).sort();return new Set(ds).size===3&&dDiff(ds[0],ds[2])>=7}
+  if(k===6){const e=P.exp;if(!e.every(x=>x.t&&x.d&&x.dd&&x.r&&(!x.day||(x.q&&x.q.length>=20))))return false;const ds=e.map(x=>x.dd).sort();return new Set(ds).size===3&&dDiff(ds[0],ds[2])>=7}
   return !!(P.f&&P.f.que&&P.f.quien)}
 const pWords=t=>String(t||"").trim().split(/\s+/).filter(w=>w.length>1).length;
 function pFix(){const P=S.P;if(!P||!P.done)return;let ch=false;[1,2,3,4,5,6].forEach(k=>{if(P.done[k]&&!pOk(k)){delete P.done[k];ch=true}});if(ch)save()}
@@ -1817,7 +1821,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015180728";
+const APP_V="20261015181152";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -2006,6 +2010,7 @@ function vHoy(){
    ${main}
    ${status}
    ${curCard()}
+   ${expCard()}
    ${(()=>{const oth=hoyOthers();const inner=(notices?notices:"")+oth;return inner?`<section class="hopt"><div class="hopth"><span class="optpill">✨ Opcional</span><span>Solo si te apetece. Lo de arriba es lo importante.</span></div>${inner}</section>`:""})()}
 
 
@@ -2034,8 +2039,28 @@ function northCard(small){
   return `<div class="north"><p class="eyebrow">Tu brújula · paso ${Math.min(n+1,7)} de 7</p><p class="sent">¿Hacia dónde quieres ir? Construye tu frase de propósito en 7 pasos cortos.</p><div class="lvl" style="background:rgb(255 255 255 / .2)"><span style="width:${n/7*100}%"></span></div><div><button class="btn" data-go="proposito">${n?"Seguir mi recorrido":"Empezar"}</button></div></div>`;
 }
 const chipSel=(list,sel,attr)=>`<div class="chips">${list.map(x=>`<button class="chip" data-${attr}="${esc(x)}" aria-pressed="${sel.includes(x)}">${esc(x)}</button>`).join("")}</div>`;
+function pExpBody(){const P=S.P,t=today(),h=curNow(false),hc=h&&CURI[h.id],used=P.exp.map(x=>x.src).filter(Boolean),RL={si:"🤩 Me encendió",algo:"🙂 Más o menos",no:"🙁 No es lo mío"};
+  const slot=(x,i)=>{
+    if(x.d)return `<div class="pexp done"><span class="pexn">✓</span><div><b>${esc(x.t)}</b><span class="muted" style="font-size:.85rem;display:block">${x.dd?fmtD(x.dd):""}${x.r?" · "+RL[x.r]:""}</span>${x.q?`<p class="muted" style="margin:4px 0 0;font-size:.88rem">«${esc(x.q)}»</p>`:""}</div></div>`;
+    if(x.day&&x.day>t)return `<div class="pexp wait"><span class="pexn">📅</span><div><b>${esc(x.t)}</b><span class="muted" style="font-size:.85rem;display:block">Programada para el ${fmtD(x.day)}. Aún no puedes contarla: ese día te lo recordaré en Hoy.</span><button class="linkbtn" data-pexundo="${i}">Cambiarla</button></div></div>`;
+    if(x.day)return `<div class="pexp now"><span class="pexn">🧪</span><div class="stack" style="gap:8px"><b>¡Toca! ${esc(x.t)}</b><span class="muted" style="font-size:.85rem">Era para el ${fmtD(x.day)}. Cuando la hayas hecho de verdad, cuéntalo aquí.</span>
+      <label class="eyebrow" for="p-expq${i}" style="margin:0">¿Qué hiciste?</label><textarea id="p-expq${i}" class="field" rows="2" placeholder="Fui al taller de la biblioteca y aprendí a…">${esc(x.qd||"")}</textarea>
+      <span class="eyebrow" style="margin:0">¿Cómo te sentiste?</span><div class="row" style="gap:6px">${Object.entries(RL).map(([k,l])=>`<button class="chip" data-pexr="${i}:${k}" aria-pressed="${x.r===k}">${l}</button>`).join("")}</div>
+      <div class="row" style="gap:8px"><button class="btn" data-pexdone="${i}" style="width:max-content">✅ Ya la he hecho (+10 XP)</button><button class="linkbtn" data-pexundo="${i}">Cambiarla</button></div></div></div>`;
+    const prevDays=P.exp.map(y=>y.day).filter(Boolean).sort(),def=prevDays.length?addDays(prevDays[prevDays.length-1],4):addDays(t,1);
+    return `<div class="pexp plan"><span class="pexn">${i+1}</span><div class="stack" style="gap:8px"><b>Prueba ${i+1}</b>
+      ${x.t?`<span class="pill f" style="align-self:flex-start">${esc(x.t)}</span>`:`${hc&&!used.includes("cur:"+h.id)?`<button class="btn ghost sm" data-pexpick="${i}" style="text-align:left;width:auto">🔭 La propuesta de esta semana: ${esc(hc[3])}</button>`:""}
+      <select id="p-exps${i}" class="field"><option value="">…o elige una de la lista</option>${EXPS.map(o=>`<option>${esc(o)}</option>`).join("")}</select>
+      <input id="p-expo${i}" class="field" maxlength="90" placeholder="…o escribe la tuya">`}
+      <label class="eyebrow" for="p-expd${i}" style="margin:0">¿Qué día la harás?</label><input id="p-expd${i}" type="date" class="field" style="max-width:190px" min="${t}" value="${def}">
+      <div class="row" style="gap:8px"><button class="btn sm" data-pexplan="${i}">📅 Programar</button>${x.t?`<button class="linkbtn" data-pexundo="${i}">Elegir otra</button>`:""}</div></div></div>`};
+  const nd=P.exp.filter(x=>x.d).length,ok=pOk(6);
+  return `<p class="muted">Lo que te gusta se descubre <b>haciendo</b>, no pensando. Programa 3 pruebas reales, cada una en un día distinto. Puede ser la propuesta de la semana o algo que elijas tú. Solo podrás contar cómo fue a partir del día que la programes.</p>
+   <div class="stack" style="gap:10px">${P.exp.map(slot).join("")}</div>
+   ${ok?`<button class="btn" data-psave="6" style="width:max-content">Guardar y seguir a mi frase (+15 XP)</button>`:`<div class="pexpause">⏸ <b>Tu propósito queda en pausa</b> mientras haces tus pruebas (${nd} de 3). Entre la primera y la tercera tiene que pasar al menos una semana: así es una prueba de verdad, no un clic. Hoy te avisará cuando toque cada una.</div>`}`}
 function pBody(k){
   const P=S.P;
+  if(k===7&&!P.done[6])return `<div class="pexpause">🔒 Tu frase se escribe con lo que vivas en tus 3 pruebas. Se abre cuando termines el paso 6.</div>`;
   if(k===1)return `<p class="muted">Tus valores son lo que de verdad te importa, aunque nadie te mire. Elige entre 3 y 5 (llevas ${P.v.length}).</p>${chipSel(VALUES,P.v,"pv")}<button class="btn" data-psave="1" ${P.v.length>=3?"":"disabled"} style="width:max-content">Guardar (+15 XP)</button>`;
   if(k===2)return `<p class="muted">Elige las 3 fortalezas que más te definen. Si quieres afinar, haz el test gratuito VIA en <a href="https://www.viacharacter.org" target="_blank" rel="noopener">viacharacter.org</a>.</p>${chipSel(STRENGTHS,P.s,"ps")}
    <details><summary class="muted" style="cursor:pointer;font-weight:700">Opcional: pregunta a 3 personas «¿en qué crees que soy bueno?»</summary><textarea id="p-s3" class="field" style="margin-top:8px" placeholder="Mi madre: escuchar. Mi amigo Álex: hacer reír...">${esc(P.s3)}</textarea></details>
@@ -2052,10 +2077,7 @@ function pBody(k){
    <p class="eyebrow">Lo que más orgullo me da es… (hasta 3)</p>${chipSel(PROUD,P.proud,"po")}
    <details><summary class="muted" style="cursor:pointer;font-weight:700">Opcional: escríbete una carta desde ahí</summary><textarea id="p-letter" class="field" style="margin-top:8px;min-height:140px" placeholder="Hola, soy yo con 26 años...">${esc(P.letter)}</textarea></details>
    <button class="btn" data-psave="5" style="width:max-content">Guardar (+15 XP)</button>`;
-  if(k===6)return `<p class="muted">Ahora toca comprobarlo en la vida real con 3 pruebas pequeñas. Elige cada una de la lista. <b>Por qué:</b> lo que te gusta se descubre probando, no pensando.</p>
-   ${P.exp.map((x,i)=>`<div class="mini"><span style="flex:1"><label for="p-exp${i}" class="eyebrow">Experimento ${i+1}</label><select id="p-exp${i}" class="field" style="margin-top:6px"><option value="">Elige una prueba…</option>${(x.t&&!EXPS.includes(x.t)?[x.t]:[]).concat(EXPS).map(o=>`<option ${o===x.t?"selected":""}>${esc(o)}</option>`).join("")}</select></span><button class="check area" style="--h:25" data-pexp="${i}" aria-pressed="${x.d}" aria-label="Marcar experimento ${i+1} como hecho"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></button></div>
-   ${x.d?`<div class="row" style="gap:6px;margin-top:-4px"><span class="muted" style="font-size:.85rem">¿Te ha encendido?</span>${[["si","Sí"],["algo","Más o menos"],["no","No"]].map(([k,l])=>`<button class="chip" data-pexr="${i}:${k}" aria-pressed="${x.r===k}">${l}</button>`).join("")}</div>`:""}`).join("")}
-   <p class="muted" style="font-size:.85rem">Marca cada experimento el día que lo hagas (+10 XP) y di si te ha encendido. Un «no» también es información valiosa: te dice por dónde no ir.</p><p class="muted" style="font-size:.85rem"><b>Una prueba por día</b>, y entre la primera y la tercera tienen que pasar al menos 7 días: así es una prueba de verdad, no un clic.</p><button class="btn" data-psave="6" style="width:max-content">Guardar (+15 XP)</button>`;
+  if(k===6)return pExpBody();
   const f=P.f,vals=P.v.length?P.v:VALUES,strs=P.s.length?P.s:STRENGTHS;
   const sel=(id,list,cur)=>`<select id="${id}" class="field">${list.map(x=>`<option ${x===cur?"selected":""}>${esc(x)}</option>`).join("")}</select>`;
   const prev=pSent({verb:f.verb,que:f.que||"…",quien:f.quien||"…",s:f.s||strs[0],v:f.v||vals[0]});
@@ -2319,8 +2341,10 @@ const weekKey=()=>{const d=new Date();return addDays(today(),-((d.getDay()+6)%7)
 function curSave(){store.set("cur",S.cur)}
 function curPick(){const used=new Set(S.cur.hist.map(h=>h.id));let pool=DSC.filter(c=>!used.has(c[0]));if(!pool.length)pool=DSC.filter(c=>!S.cur.hist.slice(-5).some(h=>h.id===c[0]));const c=pool[Math.floor(Math.random()*pool.length)];return c[0]}
 function curNow(create){const w=weekKey();let h=S.cur.hist.filter(x=>x.w===w&&x.st!=="cambiada").pop();if(!h&&create){h={id:curPick(),w,st:"propuesta",date:today()};S.cur.hist.push(h);curSave()}return h}
-function curCard(){const h=curNow(true);if(!h||h.st==="hecha")return "";const c=CURI[h.id];if(!c)return "";
-  return `<div class="card stack curcard"><span class="daytag" style="background:#6B4FA0;align-self:flex-start">🔭 PROPUESTA DE LA SEMANA</span><h3>${c[1]} ${esc(c[3])}</h3><p class="muted">${esc(c[4])}</p><div class="retowhat" style="border-color:#6B4FA0"><b>¿Para qué sirve?</b> Para descubrir qué te gusta hay que probar cosas, no solo pensarlas. Cada semana te propongo una experiencia nueva fuera de la pantalla. No cuenta para los trofeos: es para conocerte. Si la haces, ganas +40 XP.</div><div class="row"><button class="btn" data-go="curiosidad">${h.st==="aceptada"?"Ya la he hecho / ver":"Ver propuesta"}</button></div></div>`}
+function expCard(){const P=S.P;if(!P||!P.exp||P.done[6])return "";const t=today(),x=P.exp.find(y=>y.day&&!y.d&&y.day<=t);if(!x)return "";
+  return `<div class="card stack expcard"><span class="daytag" style="background:#B8336A;align-self:flex-start">🧪 PRUEBA DE PROPÓSITO · ${x.day===t?"HOY":"PENDIENTE"}</span><h3>${esc(x.t)}</h3><p class="muted" style="margin:0">Es una de tus 3 pruebas en la vida real. Cuando la hayas hecho, cuenta cómo fue: así tu frase de propósito saldrá de lo que vives, no de lo que imaginas.</p><button class="btn" data-act="yo-p" data-v="6" style="width:max-content">Contar cómo fue</button></div>`}
+function curCard(){const h=curNow(true);if(!h||h.st==="hecha")return "";const c=CURI[h.id];if(!c)return "";const ex=(S.P&&S.P.exp)||[],lk=ex.some(y=>y.src==="cur:"+h.id),can=S.P&&!S.P.done[6]&&ex.some(y=>!y.day&&!y.d);
+  return `<div class="card stack curcard"><span class="daytag" style="background:#6B4FA0;align-self:flex-start">🔭 PROPUESTA DE LA SEMANA</span><h3>${c[1]} ${esc(c[3])}</h3><p class="muted">${esc(c[4])}</p><div class="retowhat" style="border-color:#6B4FA0"><b>¿Para qué sirve?</b> Para descubrir qué te gusta hay que probar cosas, no solo pensarlas. Cada semana te propongo una experiencia nueva fuera de la pantalla. No cuenta para los trofeos: es para conocerte. Si la haces, ganas +40 XP.${lk?" <b>Además, es una de tus 3 pruebas de Propósito.</b>":can?" <b>Puede ser una de tus 3 pruebas de Propósito.</b>":""}</div>${can&&!lk?`<button class="btn ghost" data-act="yo-p" data-v="6" style="width:max-content">🧪 Usarla como prueba de Propósito</button>`:""}<div class="row"><button class="btn" data-go="curiosidad">${h.st==="aceptada"?"Ya la he hecho / ver":"Ver propuesta"}</button></div></div>`}
 function vCuriosidad(){
   const h=curNow(true),c=h&&CURI[h.id],H=S.cur.hist.map((x,i)=>Object.assign({_i:i},x)).reverse();
   const stl={propuesta:["Propuesta","var(--muted)"],aceptada:["Apuntada","#4A7FC1"],hecha:["Hecha","var(--good)"],cambiada:["Cambiada","var(--muted)"]};
@@ -4051,7 +4075,21 @@ document.addEventListener("click",e=>{
   if(d.open){openConcept(d.open);return}
   if(d.tipok){const fast=Date.now()-noticeOpenAt<2000&&!!t.closest(".notice");if(diagHit("tip",fast))toast("No leas en diagonal: estos avisos son cortos y te ahorran dudas. Si te has saltado alguno, está en Dudas frecuentes.");S.tips.push(d.tipok);save();render();return}
   if(d.tipgo){S.tips.push(d.tipgo);save();go(d.tipgo);return}
-  if(d.pexr){const [i,k]=d.pexr.split(":");const x=S.P.exp[+i];x.r=x.r===k?undefined:k;save();if(x.r)toast(k==="no"?"Bien visto: también es información":"+2 · Anotado");render();return}
+  if(d.pexpick!==undefined){const x=S.P.exp[+d.pexpick],h=curNow(false),hc=h&&CURI[h.id];if(hc){x.t=hc[3];x.src="cur:"+h.id;save()}render();return}
+  if(d.pexundo!==undefined){const x=S.P.exp[+d.pexundo];if(!x.d){delete x.day;x.t="";delete x.src;delete x.qd;delete x.r;save()}render();return}
+  if(d.pexplan!==undefined){const i=+d.pexplan,x=S.P.exp[i],g=id=>{const e=document.getElementById(id);return e?e.value.trim():""};const tt=x.t||g("p-expo"+i)||g("p-exps"+i),day=g("p-expd"+i);
+    if(!tt){toast("Elige o escribe qué prueba vas a hacer");return}if(!day||day<today()){toast("Elige un día de hoy en adelante");return}
+    const others=S.P.exp.filter(y=>y!==x&&y.day).map(y=>y.day);if(others.includes(day)){toast("Una prueba por día: elige otro día");return}
+    const all=others.concat([day]).sort();if(all.length===3&&dDiff(all[0],all[2])<7){toast("Entre la primera y la tercera tiene que pasar al menos una semana");return}
+    x.t=tt.slice(0,90);x.day=day;save();toast(day===today()?"¡Programada para hoy!":"Programada para el "+fmtD(day));render();return}
+  if(d.pexdone!==undefined){const i=+d.pexdone,x=S.P.exp[i],t=today(),ta=document.getElementById("p-expq"+i),q=ta?ta.value.trim():"";x.qd=q;
+    if(!x.day||x.day>t){toast("Aún no ha llegado el día de esta prueba");render();return}
+    if(q.length<20){toast("Cuenta en una o dos frases qué hiciste");save();return}if(!x.r){toast("Elige cómo te sentiste");save();return}
+    if(S.P.exp.some(y=>y!==x&&y.d&&y.dd===t)){toast("Una prueba por día: cuenta esta otro día");save();return}
+    x.d=true;x.dd=t;x.q=q.slice(0,400);delete x.qd;
+    if(x.src&&x.src.startsWith("cur:")){const id=x.src.slice(4),hh=S.cur.hist.filter(y=>y.id===id&&y.st!=="hecha"&&y.st!=="cambiada").pop();if(hh){hh.st="hecha";hh.done=t;hh.learned=x.q.slice(0,300);curSave()}}
+    save();toast(S.P.exp.every(y=>y.d)?"¡Tus 3 pruebas están hechas!":"+10 · Prueba hecha");render();return}
+  if(d.pexr){pReadExp();const [i,k]=d.pexr.split(":");const x=S.P.exp[+i];x.r=x.r===k?undefined:k;save();if(x.r)toast(k==="no"?"Bien visto: también es información":"+2 · Anotado");render();return}
   if(d.exq!==undefined){S.exQ=S.exQ===d.exq?"":d.exq;if(S.exQ){S.exArea=null;S.exMyth=false}render();return}
   if(d.gratidea){const el=document.getElementById("grat");if(el)el.value=d.gratidea;return}
   if(d.myend){S.active.myEnd=d.myend;save();toast("Guardado. Ese es tu final.");render();return}
@@ -4256,7 +4294,7 @@ document.addEventListener("click",e=>{
   else if(act==="reset-yes"){S.g={tr:{},fin:{},ref:{}};store.set("game",S.g);S.answers={};S.active=null;S.history=[];S.tests=[];S.buddy="";S.P=P0();S.route=null;S.keep=[];S.extra={};S.grat=[];S.tips=[];S.capr=[];store.set("capr",[]);S.cur={hist:[]};store.set("cur",S.cur);S.confirmReset=false;save();go("hoy")}
 });
 function pExpMsg(){const e=S.P.exp;if(!e.every(x=>x.t))return "Elige las 3 pruebas";if(!e.every(x=>x.d))return "Marca cada prueba el día que la hagas";if(!e.every(x=>x.r))return "Di si cada prueba te ha encendido";return "Entre la primera y la tercera prueba tienen que pasar al menos 7 días"}
-function pReadExp(){S.P.exp.forEach((x,i)=>{const el=document.getElementById("p-exp"+i);if(el)x.t=el.value.trim()})}
+function pReadExp(){S.P.exp.forEach((x,i)=>{const el=document.getElementById("p-expq"+i);if(el)x.qd=el.value})}
 function pReadFields(){const g=id=>{const el=document.getElementById(id);return el?el.value:null};const P=S.P;
   [["p-s3","s3"],["p-up","up"],["p-down","down"],["p-flow","flow"],["p-who","who"],["p-letter","letter"]].forEach(([id,k])=>{const v=g(id);if(v!==null)P[k]=v});
   pReadExp();[["pf-verb","verb"],["pf-que","que"],["pf-quien","quien"],["pf-s","s"],["pf-v","v"]].forEach(([id,k])=>{const v=g(id);if(v!==null)P.f[k]=v})}
