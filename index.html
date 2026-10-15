@@ -1783,7 +1783,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015134200";
+const APP_V="20261015135605";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -2947,7 +2947,7 @@ function qBlocked(k){const q=(S.quizR||{})[k],d=GDIF[k];return !!(d&&q&&!q.pass&
 function fBlocked(k){const F=(S.g.fin||{})[k];return !!(F&&F.next&&today()<F.next)}
 function gEnt(k,T){return ((S.g.ent||{})[k]||[]).filter(d=>T.b&&d>=T.b).length}
 function gPlan(k){const T=S.g.tr[k]||(S.g.tr[k]={}),lo=!!(S.g.lore||{})[k],cn=(CREN[k]||["el guardián"])[0].split(",")[0],ent=gEnt(k,T);
-  const F=(S.g.fin||{})[k],fOk=!!(F&&F.pass&&T.p&&F.pass>=T.p),Rf=(S.g.ref||{})[k],rfOk=!!(Rf&&Rf.t);
+  const F=(S.g.fin||{})[k],fOk=!!(F&&F.pass&&T.p&&F.pass>=T.p),Rf=(S.g.ref||{})[k],rfOk=!!(Rf&&Rf.t&&(!S.cls||Rf.s));
   const duel=[fOk,`Vence a ${cn} en el duelo (9 de 10)`,["final",k,"Desafiar al guardián"]],train=[ent>=3,`Entrena en 3 días distintos con 8 de 10 o más (${Math.min(ent,3)}/3)`,["train",k,"Entrenar"]];
   if(k==="VAL"){pFix();const D=(S.P&&S.P.done)||{},e=(S.P&&S.P.exp)||[],letter=pWords(S.P&&S.P.letter)>=40;
     return [{m:"bronce",v:"Aprende",it:[[lo,`Habla con ${cn}`,["reg",k,"Ir a hablar"]],[!!(D[1]&&D[2]&&pOk(1)&&pOk(2)),"Propósito, pasos 1 y 2: tus valores y tus fortalezas",["prop",k,"Ir a Propósito"]],[!!(D[3]&&D[4]&&pOk(3)&&pOk(4)),"Propósito, pasos 3 y 4: lo que te enciende y a quién aportar",["prop",k,"Ir a Propósito"]]]},
@@ -2956,8 +2956,8 @@ function gPlan(k){const T=S.g.tr[k]||(S.g.tr[k]={}),lo=!!(S.g.lore||{})[k],cn=(C
   const cs=C.filter(c=>AREAS[c.a].k===k),need=Math.min(3,cs.length),nOk=cs.filter(c=>(S.g.ok||{})[c.id]).length,q=(S.quizR||{})[k],qp=!!(q&&(q.pass||q.best>=8));
   const H=S.history.filter(h=>h.passed&&aK(h.id)===k&&h.start&&h.end&&T.b&&h.start>=T.b&&dDiff(h.start,h.end)>=6),here=!!(S.active&&aK(S.active.id)===k&&T.b&&S.active.start>=T.b);
   return [{m:"bronce",v:"Aprende",it:[[lo,`Habla con ${cn}`,["reg",k,"Ir a hablar"]],[nOk>=need,`Supera ${need} lecturas (${Math.min(nOk,need)}/${need})`,["area",k,"Ver las lecturas"]],[qp,"Aprueba el quiz con 8 de 10",["quiz",k,"Hacer el quiz"]]]},
-    {m:"plata",v:"Hazlo",it:[[!!(H.length||here),"Empieza un reto de 7 días de esta región",["retos",k,"Elegir un reto"]],[!!H.length,here&&!H.length?`Cúmplelo al menos 5 de 7 días; la plata llega al terminar el día 7 (vas por el día ${Math.min(dayN(),7)})`:"Cúmplelo al menos 5 de 7 días; la plata llega al terminar el día 7",null],[!!(H.length&&pvOk(k)),S.cls?"Envía la foto de la prueba y que tu profe la valide":"Confirma tu reto con tu palabra de honor",["foto",k,S.cls?"Enviar la prueba":"Confirmar mi reto"]]]},
-    {m:"oro",v:"Demuéstralo",it:[train,duel,[rfOk,"Escribe tu reflexión: qué hiciste, qué pasó y qué cambiarías",["ref",k,"Escribir mi reflexión"]]]}]}
+    {m:"plata",v:"Hazlo",it:[[!!(H.length||here),"Empieza un reto de 7 días de esta región",["retos",k,"Elegir un reto"]],[!!H.length,here&&!H.length?`Cúmplelo al menos 5 de 7 días; la plata llega al terminar el día 7 (vas por el día ${Math.min(dayN(),7)})`:"Cúmplelo al menos 5 de 7 días; la plata llega al terminar el día 7",null],[!!(H.length&&pvOk(k)),S.cls?(prPend(k)?"Foto enviada a tu profe (⏳ pendiente de validar antes del duelo)":"Envía la foto de la prueba a tu profe"):"Confirma tu reto con tu palabra de honor",["foto",k,S.cls?"Enviar la prueba":"Confirmar mi reto"]]]},
+    {m:"oro",v:"Demuéstralo",it:[train,duel,[rfOk,S.cls?"Escribe tu reflexión (qué hiciste, qué pasó y qué cambiarías) y envíasela a tu profe":"Escribe tu reflexión: qué hiciste, qué pasó y qué cambiarías",["ref",k,"Escribir mi reflexión"]]]}]}
 function gArea(k){
   const d=GDIF[k];if(!d)return null;const T=S.g.tr[k]||(S.g.tr[k]={}),t=today(),thr=8,cs=C.filter(c=>AREAS[c.a].k===k),learned=cs.filter(c=>cDone(c.id)).length;
   let P=gPlan(k),ch=false;const all=i=>P[i].it.every(x=>x[0]);
@@ -2968,13 +2968,14 @@ function gArea(k){
   if(T.p&&!T.o&&all(2)){T.o=t;ch=true}
   if(ch)store.set("game",S.g);
   const metal=T.o?"oro":T.p?"plata":T.b?"bronce":"ninguno",ent=gEnt(k,T),F=(S.g.fin||{})[k];
-  const avail=a=>{if(!a)return false;const [x]=a;if(x==="quiz")return !qBlocked(k)&&(QZ[k]||[]).length>=10;if(x==="retos")return !!T.b&&!S.active;if(x==="foto")return !!T.b&&P[1].it[1][0];if(x==="train")return !!T.b&&(QZ[k]||[]).length>=10;if(x==="final")return !!T.p&&ent>=3&&!fBlocked(k)&&!!QZF[k];if(x==="ref")return !!T.p;return true};
+  const avail=a=>{if(!a)return false;const [x]=a;if(x==="quiz")return !qBlocked(k)&&(QZ[k]||[]).length>=10;if(x==="retos")return !!T.b&&!S.active;if(x==="foto")return !!T.b&&P[1].it[1][0];if(x==="train")return !!T.b&&(QZ[k]||[]).length>=10;if(x==="final")return !!T.p&&ent>=3&&!fBlocked(k)&&!!QZF[k]&&!prPend(k);if(x==="ref")return !!T.p;return true};
   let next="¡Oro conseguido! Puedes volver cuando quieras: nunca se pierde.",act=null;
   const ci=P.findIndex(c=>!c.it.every(x=>x[0]));
   if(ci>=0){const lockTxt=ci===1&&!T.b?"Se abre con el bronce.":ci===2&&!T.p?"El duelo se abre con la plata. Mientras, ya puedes entrenar.":"";
     const it=P[ci].it.find(x=>!x[0]&&avail(x[2]))||P[ci].it.find(x=>!x[0]);next=`${P[ci].m==="bronce"?"Bronce":P[ci].m==="plata"?"Plata":"Oro"}: ${it[1].charAt(0).toLowerCase()+it[1].slice(1)}.`;
     if(avail(it[2]))act=it[2];
     else if(it[2]&&it[2][0]==="quiz"&&qBlocked(k))next+=" Hoy ya lo has intentado: vuelve mañana.";
+    else if(it[2]&&it[2][0]==="final"&&T.p&&prPend(k))next+=" Antes, tu profe tiene que validar la foto de tu plata. Mientras, puedes ir entrenando.";
     else if(it[2]&&it[2][0]==="final"&&fBlocked(k))next+=` Podrás volver a retarle el ${fmtD(F.next)}.`;
     else if(it[2]&&it[2][0]==="final"&&ent<3)next+=` Antes, entrena en 3 días distintos (llevas ${Math.min(ent,3)}).`;
     else if(it[2]&&it[2][0]==="retos"&&S.active)next+=aK(S.active.id)===k?" Ya lo tienes en marcha: márcalo cada día en Hoy.":" Termina antes el reto que tienes en marcha.";
@@ -2986,7 +2987,7 @@ function gBtn(k,a,cls){if(!a)return "";const [x,,l]=a,c=cls||"btn";if(x==="area"
 function gWhen(k,A,i,j){const T=A.T,P=A.plan,it=P[i].it[j],t=today(),x=it[2]&&it[2][0],F=(S.g.fin||{})[k];
   if(it[0])return ["done","✓ Hecho"];
   const endR=S.active?addDays(S.active.start,6):null,actHere=S.active&&aK(S.active.id)===k;
-  if(k==="VAL"){if(i>0&&!T.b)return ["later","🔒 Más adelante: con el bronce"];if(x==="final"){if(!T.p)return ["later","🔒 Más adelante: con la plata"];if(A.ent<3)return ["later",`🔒 Cuando entrenes 3 días (llevas ${A.ent})`];if(fBlocked(k))return ["tom",`🌙 El ${fmtD(F.next)}`]}
+  if(k==="VAL"){if(i>0&&!T.b)return ["later","🔒 Más adelante: con el bronce"];if(x==="final"){if(!T.p)return ["later","🔒 Más adelante: con la plata"];if(prPend(k))return ["later","⏳ Cuando tu profe valide la foto de tu plata"];if(A.ent<3)return ["later",`🔒 Cuando entrenes 3 días (llevas ${A.ent})`];if(fBlocked(k))return ["tom",`🌙 El ${fmtD(F.next)}`]}
     if(x==="train"){if(((S.g.ent||{})[k]||[]).includes(t))return ["tom","🌙 Mañana: hoy ya has entrenado"]}return ["now","🟢 Puedes hacerlo hoy"]}
   if(x==="reg")return ["now","🟢 Puedes hacerlo hoy"];
   if(x==="area"){const left=mwCs(k).filter(c=>!(S.g.ok||{})[c.id]);return left.length&&lqCap(left[0].id)?["tom","🌙 Mañana: hoy ya has superado 2"]:["now",`🟢 Hoy puedes superar ${Math.min(2-mwCs(k).filter(c=>(S.g.ok||{})[c.id]===t).length,3)} más`]}
@@ -2996,7 +2997,7 @@ function gWhen(k,A,i,j){const T=A.T,P=A.plan,it=P[i].it[j],t=today(),x=it[2]&&it
   if(i===1&&j===1){if(actHere&&S.active.start>=T.b)return ["now",`▶ Día ${Math.min(dayN(),7)} de 7 · termina el ${fmtD(endR)}`];return ["later","🔒 Al empezar el reto: 7 días"]}
   if(x==="foto"){return P[1].it[1][0]?["now","🟢 Puedes hacerlo hoy"]:["later","🔒 Al terminar el reto (día 7)"]}
   if(x==="train"){if(!T.b)return ["later","🔒 Más adelante: con el bronce"];if(((S.g.ent||{})[k]||[]).includes(t))return ["tom","🌙 Mañana: hoy ya has entrenado"];return ["now","🟢 Puedes entrenar hoy"]}
-  if(x==="final"){if(!T.p)return ["later","🔒 Más adelante: con la plata"];if(A.ent<3)return ["later",`🔒 Cuando entrenes 3 días (llevas ${A.ent})`];if(fBlocked(k))return ["tom",`🌙 El ${fmtD(F.next)}`];return ["now","🟢 Puedes retarle hoy"]}
+  if(x==="final"){if(!T.p)return ["later","🔒 Más adelante: con la plata"];if(prPend(k))return ["later","⏳ Cuando tu profe valide la foto de tu plata"];if(A.ent<3)return ["later",`🔒 Cuando entrenes 3 días (llevas ${A.ent})`];if(fBlocked(k))return ["tom",`🌙 El ${fmtD(F.next)}`];return ["now","🟢 Puedes retarle hoy"]}
   if(x==="ref")return T.p?["now","🟢 Puedes hacerlo hoy"]:["later","🔒 Más adelante: con la plata"];
   return ["now","🟢 Puedes hacerlo hoy"]}
 function gChaps(k,A,compact){const P=A.plan,ci=P.findIndex(c=>!c.it.every(x=>x[0]));
@@ -3334,7 +3335,12 @@ const b64u={enc:s=>btoa(unescape(encodeURIComponent(s))).replace(/\+/g,"-").repl
 const bufB64=b=>btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
 const b64Buf=s=>{s=String(s).replace(/-/g,"+").replace(/_/g,"/");s+="===".slice(0,(4-s.length%4)%4);return Uint8Array.from(atob(s),c=>c.charCodeAt(0))};
 const ECP={name:"ECDSA",namedCurve:"P-256"},ECS={name:"ECDSA",hash:"SHA-256"};
-function pvOk(k){return !!((S.g.pv||{})[k]||(S.g.honor||{})[k])}
+function pvV(k){return !!((S.g.pv||{})[k]||(S.g.honor||{})[k])}
+function prPend(k){return !!((S.g.pvs||{})[k]&&!pvV(k))}
+function pvOk(k){return pvV(k)||!!(S.g.pvs||{})[k]}
+function refMail(k){const Rf=(S.g.ref||{})[k]||{},a=AREAS[AK[k]],nm=S.name||"(sin nombre)",sub=`[Brújula] Reflexión ${a.n} · ${nm}`,body=`Hola,\n\nEsta es mi reflexión sobre el reto de ${a.n} (${GREG[k]}):\n\n${Rf.t||""}\n\n${nm}`;return `mailto:${encodeURIComponent(S.cls.e)}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`}
+function refSend(k){const Rf=(S.g.ref||{})[k];if(!S.cls||!Rf||!Rf.t)return "";if(Rf.s)return `<p class="okline" style="margin:0">✓ Enviada a tu profe el ${fmtD(Rf.s)}.</p>`;
+  return `<div class="card stack" style="gap:8px;border:2px dashed var(--brand)"><p style="margin:0"><b>Último paso:</b> envíasela a ${esc(S.cls.n?`tu profe de ${S.cls.n}`:"tu profe")}. Solo la lee: no tienes que esperar a nadie para tu oro.</p><a class="btn ghost" href="${refMail(k)}" style="width:max-content;text-decoration:none">✉️ Enviar mi reflexión</a><button class="btn" data-act="ref-sent" data-rk="${k}" style="width:max-content">✅ Ya la he enviado</button></div>`}
 function prCode(k){const A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let r="";const v=crypto.getRandomValues(new Uint8Array(4));v.forEach(x=>r+=A[x%A.length]);return `BRJ-${k}-${r}`}
 function prReq(k){S.g.req=S.g.req||{};if(!S.g.req[k]){S.g.req[k]={c:prCode(k),d:today()};store.set("game",S.g)}return S.g.req[k]}
 function prMail(k){const R=prReq(k),cl=S.cls,a=AREAS[AK[k]],nm=S.name||"(sin nombre)";
@@ -3345,16 +3351,16 @@ function prMail(k){const R=prReq(k),cl=S.cls,a=AREAS[AK[k]],nm=S.name||"(sin nom
 function vPrueba(){
   const k=S.fotoK;if(!k||!PHOTO[k])return vMundo();const a=AREAS[AK[k]];
   const head=`<p class="eyebrow">Prueba de la plata · ${esc(a.n)}</p><h1>${esc(GREG[k])}</h1><p class="mwlore">Has superado el reto. Para que la plata brille, falta demostrarlo en el mundo real.</p>`;
-  const alb=`<label class="btn ghost" style="width:max-content;cursor:pointer">📷 Guardar una foto en mi álbum privado<input id="albfile" type="file" accept="image/*" capture="environment" hidden></label><p class="muted" style="font-size:.8rem;margin:0">El álbum se queda solo en este móvil. Nadie más lo ve.</p>`;
-  if(pvOk(k))return `<section class="stack">${head}<div class="card"><p style="margin:0"><b>¡Prueba superada!</b> La plata ya es tuya.</p></div><button class="btn" data-reg="${k}" style="width:max-content">Volver a la región</button></section>`;
+  const alb=`<label class="btn ghost" style="width:max-content;max-width:100%;white-space:normal;cursor:pointer">📷 Guardar en mi álbum privado<input id="albfile" type="file" accept="image/*" capture="environment" hidden></label><p class="muted" style="font-size:.8rem;margin:0">El álbum se queda solo en este móvil. Nadie más lo ve.</p>`;
+  if(pvV(k))return `<section class="stack">${head}<div class="card"><p style="margin:0"><b>¡Prueba superada!</b> La plata ya es tuya.</p></div><button class="btn" data-reg="${k}" style="width:max-content">Volver a la región</button></section>`;
   if(!S.cls)return `<section class="stack">${head}
    <div class="card stack" style="gap:10px"><h3>Por tu palabra de honor</h3><p style="margin:0">No estás en ninguna clase de Brújula, así que esta plata va por tu palabra. Un aventurero de verdad no se engaña a sí mismo: el trofeo solo vale si lo has hecho.</p>
    <p style="margin:0">Si quieres, guarda una foto de ${esc(PHOTO[k])} como recuerdo.</p>${alb}
    <label class="row" style="gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" id="honorchk" style="width:22px;height:22px;margin-top:2px"><span>Doy mi palabra de que he hecho el reto de verdad.</span></label>
    <button class="btn" data-act="honor-ok" style="width:max-content">Confirmar mi plata</button></div>
    <p class="muted" style="font-size:.85rem;margin:0">¿Tu profe usa Brújula? Pídele el enlace de su clase y únete desde Yo: así podrá validar tus pruebas.</p></section>`;
-  const R=prReq(k),M=prMail(k);
-  return `<section class="stack">${head}
+  const R=prReq(k),M=prMail(k),pend=prPend(k);
+  return `<section class="stack">${head}${pend?`<div class="card stack" style="gap:6px;border:2px solid var(--warn);background:var(--warn-bg)"><p style="margin:0"><b>🥈 Plata conseguida · ⏳ pendiente de tu profe.</b> Ya puedes entrenar para el oro. El duelo con el guardián se abrirá cuando tu profe valide la foto.</p><p class="muted" style="margin:0;font-size:.85rem">Si tu profe te pide otra foto, repite los pasos de abajo con el mismo código.</p></div>`:""}
    <div class="card stack" style="gap:12px">
     <div class="pstep2"><span class="pxchip">1</span><p style="margin:0">Haz una foto de <b>${esc(PHOTO[k])}</b>. Escribe este código en un papel y que salga en la foto:</p></div>
     <div class="prcode">${R.c}</div>
@@ -3362,7 +3368,8 @@ function vPrueba(){
     <div class="pstep2"><span class="pxchip">3</span><p style="margin:0">Envíasela a ${esc(S.cls.n?`tu profe de ${S.cls.n}`:"tu profe")} (${esc(S.cls.e)}). El correo ya va escrito: <b>solo tienes que adjuntar la foto</b>.</p></div>
     <a class="btn" href="${M.href}" style="width:max-content;text-decoration:none">✉️ Preparar el correo</a>
     <button class="linkbtn" data-act="pr-copy" style="text-align:left">¿No se abre el correo? Copiar el texto para pegarlo a mano</button>
-    <div class="pstep2"><span class="pxchip">4</span><p style="margin:0">Cuando tu profe lo valide, te responderá con un enlace. <b>Ábrelo en este móvil</b> y la plata llegará sola.</p></div>
+    ${pend?"":`<button class="btn" data-act="pr-sent" style="width:max-content">✅ Ya lo he enviado</button><p class="muted" style="font-size:.82rem;margin:-4px 0 0">Al pulsarlo consigues la plata al momento. Tu profe la revisará después.</p>`}
+    <div class="pstep2"><span class="pxchip">4</span><p style="margin:0">Cuando tu profe lo valide, te responderá con un enlace. <b>Ábrelo en este móvil</b>: sin esa validación no podrás retar al guardián por el oro.</p></div>
    </div>
    <details class="card fold"><summary><span class="fi">🔗</span>¿Tienes el enlace pero no se abre en la app?</summary><div class="stack" style="margin-top:10px"><textarea id="okpaste" class="field" rows="3" placeholder="Pega aquí el enlace que te ha enviado tu profe"></textarea><button class="btn ghost" data-act="ok-paste" style="width:max-content">Comprobar</button></div></details>
    <div class="stack" style="gap:6px">${alb}</div>
@@ -3402,7 +3409,7 @@ async function pfKeys(){const kp=await crypto.subtle.generateKey(ECP,true,["sign
 function pfLink(P,c){return APPURL+"?clase="+b64u.enc(JSON.stringify({i:c.i,n:c.n,e:P.e,x:P.pub.x,y:P.pub.y}))}
 function vProfe(){
   const P=pfGet();
-  const intro=`<p class="eyebrow">Herramienta del profe</p><h1>Validar pruebas</h1><p class="muted" style="max-width:62ch">Para profes. Tu alumnado te envía por correo la foto de su reto con un código. Tú abres el enlace del correo, compruebas la foto y la validas. La app del alumno solo acepta tu firma, así que no se puede falsificar.</p>`;
+  const intro=`<p class="eyebrow">Herramienta del profe</p><h1>Validar pruebas</h1><p class="muted" style="max-width:62ch">Para profes. Tu alumnado te envía por correo la foto de su reto con un código. Tú abres el enlace del correo, compruebas la foto y la validas. La app del alumno solo acepta tu firma, así que no se puede falsificar.</p><p class="muted" style="max-width:62ch">El alumno recibe la plata al enviarte la foto, como <b>pendiente</b>, para no perder el impulso. Mientras no la valides, no puede retar al guardián por el oro. Si la rechazas, sigue bloqueado hasta que te mande una foto válida. Las reflexiones del oro también te llegan por correo (asunto «[Brújula] Reflexión»): solo son para leer, no hay que validarlas.</p>`;
   if(!P||!P.priv)return `<section class="stack">${intro}<div class="card stack" style="gap:10px"><h3>1. Crea tu clave de profe</h3><p style="margin:0">Se crea y se guarda solo en este navegador. Usa siempre el mismo (por ejemplo, el Chrome de tu ordenador).</p><label class="eyebrow" for="pfmail">Tu correo de profe</label><input id="pfmail" class="field" type="email" value="rcanas@lluisacura.cat"><button class="btn" data-act="pf-new" style="width:max-content">Crear mi clave</button></div>
    <details class="card fold"><summary><span class="fi">🔑</span>Ya tengo una clave (otro ordenador)</summary><div class="stack" style="margin-top:10px"><textarea id="pfimp" class="field" rows="3" placeholder="Pega aquí la copia de tu clave"></textarea><button class="btn ghost" data-act="pf-imp" style="width:max-content">Importar</button></div></details></section>`;
   return `<section class="stack">${intro}
@@ -3556,7 +3563,7 @@ function gCard(){
 function vColeccion(){
   const G=gState(),A=Object.fromEntries(G.areas.map(a=>[a.k,a]));let sel=A[S.colSel]||G.areas.find(a=>a.act)||G.areas[0];
   const chk=sel.checks?`<ul class="gchk">${sel.checks.map(([ok,l])=>`<li class="${ok?"ok":""}">${ok?"✓":"○"} ${l}</li>`).join("")}</ul>`:"";
-  const refBox=S.refOpen===sel.k?`<div class="stack" style="gap:6px"><label class="adl" for="g-ref">Tu reflexión sobre el reto: qué hiciste, qué pasó y qué cambiarías (al menos tres frases)</label><textarea id="g-ref" class="field" rows="4">${esc(((S.g.ref||{})[sel.k]||{}).t||"")}</textarea><button class="btn" data-act="ref-save" style="width:max-content">Guardar reflexión</button></div>`:"";
+  const refBox=S.refOpen===sel.k?`<div class="stack" style="gap:6px"><label class="adl" for="g-ref">Tu reflexión sobre el reto: qué hiciste, qué pasó y qué cambiarías (al menos tres frases)</label><textarea id="g-ref" class="field" rows="4">${esc(((S.g.ref||{})[sel.k]||{}).t||"")}</textarea><button class="btn" data-act="ref-save" style="width:max-content">Guardar reflexión</button>${refSend(sel.k)}</div>`:"";
   const dates=["b","p","o"].filter(x=>sel.T[x]).map(x=>({b:"Bronce",p:"Plata",o:"Oro"})[x]+" el "+fmtD(sel.T[x])).join(" · ");
   return `<section class="stack"><div><p class="eyebrow">Sobre mí</p><h1 style="margin:0">Mi colección</h1><p class="muted" style="margin:4px 0 0">Un trofeo por región. El bronce llega enseguida; la plata y el oro piden práctica y tiempo. Nunca se pierden.</p></div>
    <div class="glegend">${[["bronce","Bronce","Comprendo"],["plata","Plata","Lo aplico"],["oro","Oro","Lo domino"]].map(([m,n,s])=>`<div>${trSVG("copa",m,3)}<b class="pxsm">${n}</b><span class="muted" style="font-size:.74rem">${s}</span></div>`).join("")}</div>
@@ -4059,7 +4066,9 @@ document.addEventListener("click",e=>{
   else if(act==="sto-edit"){S.stoic.show=false;store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="sto-redo"){S.stoic={ans:{},show:false,res:S.stoic.res};store.set("stoic",S.stoic);render();window.scrollTo({top:0})}
   else if(act==="yo-p"){const k=+d.v;S.pOpen=k;go("proposito");setTimeout(()=>{const el=document.querySelector(`[data-popen="${k}"]`);if(el)el.scrollIntoView({behavior:"smooth",block:"start"})},80)}
-  else if(act==="ref-save"){const ta=document.getElementById("g-ref"),v=ta?ta.value.trim():"",n=v.split(/[.!?]+/).filter(x=>x.trim().length>3).length;if(n<3||v.length<80){toast("Escribe al menos tres frases: qué hiciste, qué pasó y qué cambiarías");return}S.g.ref[S.refOpen]={t:v.slice(0,1500),date:today()};store.set("game",S.g);S.refOpen=null;toast("Reflexión guardada");render()}
+  else if(act==="ref-save"){const ta=document.getElementById("g-ref"),v=ta?ta.value.trim():"",n=v.split(/[.!?]+/).filter(x=>x.trim().length>3).length;if(n<3||v.length<80){toast("Escribe al menos tres frases: qué hiciste, qué pasó y qué cambiarías");return}S.g.ref[S.refOpen]={t:v.slice(0,1500),date:today()};store.set("game",S.g);if(!S.cls)S.refOpen=null;toast(S.cls?"Reflexión guardada. Ahora envíasela a tu profe":"Reflexión guardada");render()}
+  else if(act==="ref-sent"){const k=t.dataset.rk,Rf=(S.g.ref||{})[k];if(Rf&&Rf.t){Rf.s=today();store.set("game",S.g);S.refOpen=null;toast("¡Reflexión enviada!");render()}}
+  else if(act==="pr-sent"){const k=S.fotoK,A0=gArea(k);if(!(A0&&A0.act&&A0.act[0]==="foto")&&!prPend(k)){toast("Primero supera un reto de 7 días de esta región");go("mundo");return}S.g.pvs=S.g.pvs||{};S.g.pvs[k]=today();store.set("game",S.g);toast("¡Plata conseguida! Tu profe la validará antes del duelo");S.reg=k;go("region")}
   else if(act==="fz-done"){S.fz=null;go("coleccion",true)}
   else if(act==="g-snd"){S.g.snd=S.g.snd===false;store.set("game",S.g);if(S.g.snd!==false)gTune("bronce");render()}
   else if(act==="honor-ok"){const A0=gArea(S.fotoK);if(!(A0&&A0.act&&A0.act[0]==="foto")){toast("Primero supera un reto de 7 días de esta región");go("mundo");return}const ck=document.getElementById("honorchk");if(!ck||!ck.checked){toast("Marca tu palabra de honor para confirmar");return}S.g.honor=S.g.honor||{};S.g.honor[S.fotoK]=today();store.set("game",S.g);S.reg=S.fotoK;go("region")}
