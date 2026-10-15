@@ -566,6 +566,7 @@ body.focus #nav,body.focus header.top,body.focus footer,body.focus .foot,body.fo
 .chl li>div{flex:1}.when{display:block;font-style:normal;font-size:.78rem;font-weight:800;margin-top:2px}.when.now{color:#2E6E3A}.when.tom{color:#B8860B}.when.later{color:var(--muted)}.rstat{margin:0;padding:8px 10px;font-size:.88rem;font-weight:700;border-left:5px solid #5FA86C;background:color-mix(in srgb,#5FA86C 10%,var(--surface))}.rstat.later{border-color:var(--line);background:var(--surface)}.rstat.tom{border-color:#E8B33A;background:color-mix(in srgb,#E8B33A 10%,var(--surface))}
 .cdown b{flex:none!important;min-width:0!important;white-space:nowrap}.cdown span{flex:1;min-width:0}.cdown{gap:12px}
 .dlgo.waiting,.advbox .btn.waiting{opacity:.4;cursor:wait}
+.hchips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 8px;scroll-snap-type:x mandatory;margin:0 -2px}.hchip{flex:none;scroll-snap-align:start;display:flex;gap:8px;align-items:center;text-align:left;background:var(--surface);color:var(--ink);border:2px solid var(--line);padding:6px 10px 6px 6px;cursor:pointer;font:inherit;max-width:190px}.hchip.on{border-color:#FF6B3D;box-shadow:3px 3px 0 #FF6B3D}.hcc{flex:none;background:#1E2B38;padding:3px;display:flex}.hct{display:flex;flex-direction:column;gap:3px;min-width:0}.hct b{font-size:.78rem;line-height:1.15}.hct small{font-size:.7rem;color:var(--muted)}.hcb{display:block;width:110px;height:6px;background:var(--line)}.hcb i{display:block;height:100%;background:#5FA86C}
 .chaps{display:grid;gap:10px}.chap{border:3px solid var(--line);padding:10px 12px;background:var(--surface)}.chap.cur{border-color:#FF6B3D;box-shadow:4px 4px 0 #FF6B3D}.chap.done{border-color:#5FA86C;background:color-mix(in srgb,#5FA86C 8%,var(--surface))}.chap.lock{opacity:.6}
 .chh{display:flex;align-items:center;gap:10px}.chi{flex:none;display:flex}.chn{font-family:var(--pxf);font-weight:700;font-size:.9rem}
 .chl{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}.chl li{display:flex;gap:8px;align-items:flex-start;font-size:.92rem;line-height:1.35}.chl li span{flex:none;width:1.2em;font-weight:800}.chl li.ok{color:var(--good)}.chl li.ok span{color:var(--good)}
@@ -1739,7 +1740,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015102737";
+const APP_V="20261015103645";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1836,7 +1837,14 @@ function logrosCard(){return (()=>{const B=badges(),got=B.filter(b=>b[3]).length
 function hoySteps(k){const t=today();
   if(!GDIF[k]){const nd=mwDone(k),lo=!!(S.g.lore||{})[k];return [["💬","Hablar",lo?"✓":"",lo],["📖","Lecturas",`${Math.min(nd,3)}/3`,nd>=3],["🛤️","Camino nuevo","",nd>=3]]}
   const A=gArea(k);return A.plan.map(c=>{const n=c.it.filter(x=>x[0]).length;return [trSVG("copa",n===3?c.m:"ninguno",1),c.m==="bronce"?"Bronce":c.m==="plata"?"Plata":"Oro",`${c.v} · ${n}/3`,n===3]})}
-function hoyPath(){const R=mwSeen(),k=mwFocus(R);if(!k||!MWPOS[k])return "";const a=AREAS[AK[k]],G=gState(),st=hoySteps(k),cur=st.findIndex(x=>!x[3]),lo=!!(S.g.lore||{})[k],cn=(CREN[k]||[""])[0].split(",")[0];
+function hoyCur(R){R=R||mwSeen();return S.g.at&&MWPOS[S.g.at]&&R.has(S.g.at)?S.g.at:mwFocus(R)}
+function hoyProg(k){if(!GDIF[k]){const st=hoySteps(k);return [st.filter(x=>x[3]).length,st.length]}const A=gArea(k);return [A.plan.reduce((n,c)=>n+c.it.filter(x=>x[0]).length,0),9]}
+function hoyOpen(R){const act=S.active?aK(S.active.id):null,cur=hoyCur(R);
+  const L=[...R].filter(k=>MWPOS[k]&&(k===cur||k===act||(S.g.lore||{})[k]||hoyProg(k)[0]>0));
+  return L.sort((a,b)=>(b===act)-(a===act)||hoyProg(b)[0]/hoyProg(b)[1]-hoyProg(a)[0]/hoyProg(a)[1])}
+function hoyChips(){const R=mwSeen(),cur=hoyCur(R),L=hoyOpen(R),act=S.active?aK(S.active.id):null;if(L.length<2)return "";
+  return `<div class="hchips" role="tablist" aria-label="Tus regiones en marcha">${L.map(k=>{const [d,n]=hoyProg(k),A=GDIF[k]?gArea(k):null;return `<button class="hchip${k===cur?" on":""}" role="tab" aria-selected="${k===cur}" data-hreg="${k}"><span class="hcc">${creSVG(k,1.6)}</span><span class="hct"><b>${esc(GREG[k])}</b><span class="hcb"><i style="width:${Math.round(d/n*100)}%"></i></span><small>${d}/${n}${A&&A.metal!=="ninguno"?" · "+A.metal:""}${k===act?" · 🔥 reto":""}</small></span></button>`}).join("")}</div>`}
+function hoyPath(){const R=mwSeen(),k=hoyCur(R);if(!k||!MWPOS[k])return "";const a=AREAS[AK[k]],G=gState(),st=hoySteps(k),cur=st.findIndex(x=>!x[3]),lo=!!(S.g.lore||{})[k],cn=(CREN[k]||[""])[0].split(",")[0];
   const A=GDIF[k]?gArea(k):null,metal=A?A.metal:null;
   const track=`<div class="htrack" style="--n:${st.length}">${st.map(([ic,l,v,d],i)=>`<div class="hstep ${d?"done":i===cur?"cur":"todo"}">${i===cur?`<span class="hme">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),1)}</span>`:""}<span class="hdot">${d?"✓":ic}</span><b>${l}</b>${v?`<span>${esc(v)}</span>`:""}</div>`).join("")}</div>`;
   let now,btn="";
@@ -1845,11 +1853,11 @@ function hoyPath(){const R=mwSeen(),k=mwFocus(R);if(!k||!MWPOS[k])return "";cons
   else{now=A.next||"";btn=gBtn(k,A.act)}
   const left=st.filter(x=>!x[3]).length,goal=A?(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para el oro de esta región.`:"¡Región completada con oro!"):(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para abrir un camino nuevo.`:"");
   const nb=G.areas.filter(x=>x.metal!=="ninguno").length,np=G.areas.filter(x=>x.metal==="plata"||x.metal==="oro").length,no=G.areas.filter(x=>x.metal==="oro").length;
-  return `<div class="card hpath"><div class="hph"><span class="hpcre">${creSVG(k,3)}</span><div class="stack" style="gap:2px;min-width:0;flex:1"><span class="pxchip">📍 ESTÁS EN</span><b class="pxname" style="font-size:1.1rem">${esc(GREG[k])}</b><span class="muted" style="font-size:.82rem">${esc(a.n)}${A?` · ${GMET[metal]}`:" · para conocerte"}</span></div><span class="hptro">${A?trSVG(GICO[k],metal,2):MWCRY}</span></div>
+  return `<div class="card hpath"><div class="hph"><span class="hpcre">${creSVG(k,3)}</span><div class="stack" style="gap:2px;min-width:0;flex:1"><span class="pxchip">📍 ESTÁS AQUÍ</span><b class="pxname" style="font-size:1.1rem">${esc(GREG[k])}</b><span class="muted" style="font-size:.82rem">${esc(a.n)}${A?` · ${GMET[metal]}`:" · para conocerte"}</span></div><span class="hptro">${A?trSVG(GICO[k],metal,2):MWCRY}</span></div>
    ${track}${A?(()=>{const P=A.plan,ci=P.findIndex(c=>!c.it.every(x=>x[0]));return ci<0?"":`<ul class="chl">${P[ci].it.map(([ok,t],j)=>{const w=gWhen(k,A,ci,j);return `<li class="${ok?"ok":""}"><span>${ok?"✓":"☐"}</span><div>${esc(t)}${ok?"":`<em class="when ${w[0]}">${esc(w[1])}</em>`}</div></li>`}).join("")}</ul>`})():""}
    <div class="hnow"><span class="pxchip" style="background:#1E2B38;color:#FFE27A">AHORA TOCA</span><p style="margin:6px 0 0">${esc(now)}</p>${btn?`<div style="margin-top:10px">${btn}</div>`:""}</div>
    <div class="hfoot"><span>🏁 ${goal}</span><span>🗺️ ${R.size} de ${Object.keys(MWPOS).length} regiones · ${trSVG("copa","bronce",1)} ${nb} ${trSVG("copa","plata",1)} ${np} ${trSVG("copa","oro",1)} ${no}</span><button class="linkbtn" data-go="mundo">Ver el mapa →</button></div></div>`}
-function hoyReto(){const R=mwSeen(),k=mwFocus(R);if(!k||!GDIF[k]||k==="VAL")return "";const A=gArea(k);if(!A.T.b||A.T.p)return "";const done=new Set(S.history.map(h=>h.id));
+function hoyReto(){const R=mwSeen(),k=hoyCur(R);if(!k||!GDIF[k]||k==="VAL")return "";const A=gArea(k);if(!A.T.b||A.T.p)return "";const done=new Set(S.history.map(h=>h.id));
   const c=mwCs(k).find(c=>c.h&&!done.has(c.id))||mwCs(k).find(c=>c.h);if(!c)return "";const a=AREAS[c.a];
   return `<div class="today area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag">Reto de 7 días · para la plata</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[k])}</span></div>
    <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><p class="challenge">Tu reto: ${esc(c.h)}</p>${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
@@ -1908,6 +1916,7 @@ function vHoy(){
    <div><p class="hello"><button class="hiav" data-go="mas" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span></div></div>
    ${banner}
+   ${hoyChips()}
    ${hoyPath()}
    ${main}
    ${status}
@@ -3957,6 +3966,7 @@ document.addEventListener("click",e=>{
   if(d.adv!==undefined){S.advN=+d.adv;render();window.scrollTo({top:0});return}
   if(d.cfg){const [k,v]=d.cfg.split(":");S.cfgOpen=true;if(k==="snd"){S.g.snd=v==="1";store.set("game",S.g);if(S.g.snd)try{gTune("bronce")}catch(e){}}else{CFG[k]=v;store.set("cfg",CFG);applyCfg()}render();return}
   if(d.font){S.cfgOpen=true;document.documentElement.dataset.font=d.font;store.set("font",d.font);render();return}
+  if(d.hreg){const R0=mwSeen();if(R0.has(d.hreg)){S.g.at=d.hreg;store.set("game",S.g)}render();return}
   if(d.mw){if(!mwSeen().has(d.mw)&&!mwNear(d.mw,mwSeen()))return;const R0=mwSeen(),from=S.g.at&&MWPOS[S.g.at]&&R0.has(S.g.at)?S.g.at:mwFocus(R0);S.mwSel=d.mw;if(R0.has(d.mw)&&d.mw!==from){S.g.at=d.mw;store.set("game",S.g)}render();if(S.g.at===d.mw&&d.mw!==from)mwWalk(from,d.mw);const p=document.querySelector(".mwsel");if(p)p.scrollIntoView({behavior:"smooth",block:"nearest"});return}
   if(d.reg){if(dl.open)dl.close();if(MWPOS[d.reg]&&mwSeen().has(d.reg)&&S.g.at!==d.reg){S.g.at=d.reg;store.set("game",S.g)}S.reg=d.reg;S.regOpen=false;go("region");return}
   if(d.carta!=null){S.cartaN=+d.carta;render();window.scrollTo({top:0});return}
