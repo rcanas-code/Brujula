@@ -546,6 +546,11 @@ h1,h2,.pxname,.advlogo,.celeb h2{font-family:var(--hf)}
 html[data-font="dulce"] :is(h1,h2,.pxname,.advlogo,.celeb h2){font-weight:400;letter-spacing:.01em;line-height:1.3}
 html[data-font="dulce"] :is(.btn,.chip,.nav button,.eyebrow,details.fold>summary,h3,.mastile b,.pxchip){font-weight:700}
 html[data-font="redonda"] :is(h1,h2,h3,.pxname){font-weight:600}
+html.noanim *,html.noanim *::after{animation:none!important;transition:none!important}
+html[data-size="grande"]{font-size:112.5%}html[data-size="grande"] body{font-size:18px}
+.cfgrow{display:flex;flex-direction:column;gap:6px}.cfgrow>div:first-child{display:flex;flex-direction:column;gap:1px}.cfgrow .muted{font-size:.8rem}
+.cfgseg{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}.cfgseg button{padding:8px 4px;min-width:0;white-space:normal;line-height:1.2;font-size:.72rem!important}
+.cfgbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cfgbtns .btn{width:100%;min-height:50px;padding:8px 6px;justify-content:center;text-align:center;white-space:normal;line-height:1.2}
 .fontpick{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fontopt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;background:var(--surface);color:var(--ink);border:2px solid var(--line);cursor:pointer;text-align:left}.fontopt.on{border-color:var(--accent);box-shadow:3px 3px 0 var(--accent)}.fontopt .fs{font-size:1.4rem;line-height:1.1;white-space:nowrap}.fontopt .fn{font-size:.85rem}
 h2{font-weight:700;letter-spacing:0}h3{font-weight:700}
 .eyebrow{letter-spacing:.05em;font-weight:500}
@@ -1231,6 +1236,20 @@ const EXAMPLE=[3.7,4.3,3,2.7,3.3,2,4.7,2.3,3,4,2.7,2.3,4,3.7];
 const store={get(k,d){try{const v=localStorage.getItem("brujula:"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("brujula:"+k,JSON.stringify(v))}catch(e){}}};
 const FONTS=[["retro","Retro 8 bits","Silkscreen","Para los de los recreativos"],["clasica","Clásica","Bricolage Grotesque","Limpia y seria"],["redonda","Redondeada","Fredoka","Amable y juvenil"],["dulce","Dulce","Pacifico","Bonita y con mucho estilo"]];
 try{const f=store.get("font","retro");document.documentElement.dataset.font=FONTS.some(x=>x[0]===f)?f:"retro"}catch(e){}
+const CFG=Object.assign({theme:"auto",size:"normal",tw:"normal",anim:"1"},store.get("cfg",{}));
+function applyCfg(){const h=document.documentElement;if(CFG.theme==="auto")delete h.dataset.theme;else h.dataset.theme=CFG.theme;h.dataset.size=CFG.size;h.classList.toggle("noanim",CFG.anim==="0")}
+try{applyCfg()}catch(e){}
+function cfgSeg(k,opts,cur){return `<div class="seg cfgseg" role="group">${opts.map(([v,l])=>`<button data-cfg="${k}:${v}" aria-pressed="${cur===v}">${l}</button>`).join("")}</div>`}
+function cfgCard(){const snd=S.g.snd===false?"0":"1",row=(ic,t,d,ctl)=>`<div class="cfgrow"><div><b>${ic} ${t}</b>${d?`<span class="muted">${d}</span>`:""}</div>${ctl}</div>`;
+  return `<details class="card fold" id="cfgjuego" ${S.cfgOpen?"open":""}><summary><span class="fi">🎮</span>Configuración del juego<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Letra, tamaño, colores, sonido, diálogos y animaciones</span></summary><div class="stack" style="gap:14px;margin-top:12px">
+   <div class="stack" style="gap:8px"><b>🔤 Estilo de letra</b>${fontPick()}</div>
+   ${row("🔎","Tamaño de letra","Más grande si te cuesta leer en el móvil.",cfgSeg("size",[["normal","Normal"],["grande","Grande"]],CFG.size))}
+   ${row("🌗","Colores","«Auto» sigue el modo de tu móvil.",cfgSeg("theme",[["auto","Auto"],["light","Claro"],["dark","Oscuro"]],CFG.theme))}
+   ${row("🔊","Sonido de premios","El sonido de consola al ganar un trofeo.",cfgSeg("snd",[["1","Sí"],["0","No"]],snd))}
+   ${row("💬","Texto de los diálogos","Normal: letra a letra. Las frases de la Cartógrafa y las criaturas.",cfgSeg("tw",[["normal","Normal"],["rapido","Rápido"],["inst","Al instante"]],CFG.tw))}
+   ${row("✨","Animaciones","El personaje caminando, las criaturas moviéndose y los destellos.",cfgSeg("anim",[["1","Sí"],["0","No"]],CFG.anim))}
+   <div class="stack" style="gap:8px"><b>🧭 Ayudas del juego</b><div class="cfgbtns"><button class="btn ghost" data-go="personaje">🎮 Cambiar personaje</button><button class="btn ghost" data-tour="start">🗺️ Guía de la app</button><button class="btn ghost" data-act="carta-again" data-n="0">📜 Carta de navegación</button><button class="btn ghost" data-act="carta-again" data-n="3">👧 Ejemplo de Nora</button></div></div>
+  </div></details>`}
 function fontPick(){const cur=document.documentElement.dataset.font||"retro";return `<div class="fontpick" role="group" aria-label="Estilo de letra">${FONTS.map(([v,n,f,d])=>`<button class="fontopt${cur===v?" on":""}" data-font="${v}" aria-pressed="${cur===v}"><span class="fs" style="font-family:'${f}'">Aa 123</span><span class="fn" style="font-family:'${f}'">${n}</span><span class="muted" style="font-size:.75rem">${d}</span></button>`).join("")}</div>`}
 const P0=()=>({v:[],s:[],s3:"",up:"",down:"",flow:"",causes:[],who:"",letter:"",upL:[],downL:[],whoL:[],fut:[],proud:[],exp:[{t:"",d:false},{t:"",d:false},{t:"",d:false}],f:{verb:"ayudar",que:"",quien:"",s:"",v:""},done:{},pa:null,paHist:[],versions:[],fDate:null,lastReview:null,reviews:0});
 let S={mood:store.get("mood",{}),grp:Object.assign({m:[],wk:{}},store.get("grp",{})),name:store.get("name",""),quizR:store.get("quiz",{}),qz:null,seen:store.get("seen",{}),tour:null,tourDone:store.get("tourDone",false),view:"hoy",answers:store.get("answers",{}),active:store.get("active",null),history:store.get("history",[]),tests:store.get("tests",[]),buddy:store.get("buddy",""),P:Object.assign(P0(),store.get("purpose",{})),pOpen:null,route:store.get("route",null),keep:store.get("keep",[]),extra:store.get("extra",{}),grat:store.get("grat",[]),more:false,rescued:false,breath:false,misIdx:0,misClosed:false,tips:store.get("tips",[]),bud:store.get("bud",{sent:false,skip:false,log:{}}),sharePrompt:store.get("sharePrompt",null),
@@ -1360,7 +1379,7 @@ const isIOS=/iPhone|iPad|iPod/i.test(UA);
 const isStandalone=(()=>{try{return !!(navigator.standalone||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches))}catch(e){return false}})();
 let canStore=true;try{localStorage.setItem("brujula:t","1");localStorage.removeItem("brujula:t")}catch(e){canStore=false}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
-const KEYS=["font","game","cls","bsim","crono","me","stoic","cur","adicT","dogT2","catT2","learn","rev","capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
+const KEYS=["cfg","font","game","cls","bsim","crono","me","stoic","cur","adicT","dogT2","catT2","learn","rev","capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt"];
 function backupCode(){const o={};KEYS.forEach(k=>o[k]=store.get(k,null));o.v=1;return "BRUJULA-"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
 function restoreCode(code){try{const raw=code.trim().replace(/^BRUJULA-/,"");const o=JSON.parse(decodeURIComponent(escape(atob(raw))));if(o.v!==1)throw 0;KEYS.forEach(k=>{if(o[k]!==null&&o[k]!==undefined)store.set(k,o[k])});return true}catch(e){return false}}
 function envBanner(){
@@ -1627,9 +1646,9 @@ function vMas(){
    ${yoDash()}
    <button class="mastile wide" style="--mc:#14506B;--mb:#E3F0F6" data-go="mapa"><span class="mi">🗺️</span><b>Mi hoja de personaje</b><span>Lo que vio el Espejo en tu test: tus fortalezas y dónde tienes más margen. Repítelo cada mes y compara.</span></button>
    ${vYo(true)}
-   <details class="card fold" id="letra"><summary><span class="fi">🔤</span>Estilo de letra<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${esc((FONTS.find(x=>x[0]===document.documentElement.dataset.font)||FONTS[0])[1])} · cámbialo cuando quieras</span></summary><div style="margin-top:12px">${fontPick()}</div></details>
-   <details class="card fold" id="ajustes" style="--fc:#14506B" ${S.ajOpen||S.repOpen?"open":""}><summary><span class="fi">⚙️</span>Ajustes<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Tu clase, álbum, nombre, copia de seguridad, compartir y ayuda técnica</span></summary><div class="stack" style="gap:10px;margin-top:12px">
-    <div class="yobtns"><button class="btn ghost" data-act="shareapp">📤 Compartir Brújula</button><button class="btn ghost" data-tour="start">🧭 Guía de la app</button></div>
+   ${cfgCard()}
+   <details class="card fold" id="ajustes" style="--fc:#14506B" ${S.ajOpen||S.repOpen?"open":""}><summary><span class="fi">⚙️</span>Ajustes<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Tu clase, álbum, nombre, copia de seguridad, compartir e informar de un error</span></summary><div class="stack" style="gap:10px;margin-top:12px">
+    <button class="btn ghost" data-act="shareapp" style="width:max-content">📤 Compartir Brújula</button>
     ${clsCard()}${albCard()}
     <details class="card fold" style="--fc:#14506B"><summary><span class="fi">🙂</span>Tu nombre${S.name?` <span class="muted" style="font-weight:600">· ${esc(S.name)}</span>`:""}</summary><div class="stack" style="margin-top:10px"><label for="uname2" class="eyebrow">Tu nombre</label><div class="row"><input id="uname2" class="field" style="max-width:240px" maxlength="30" placeholder="Tu nombre o apodo" value="${esc(S.name)}"><button class="btn ghost" data-act="savename">Guardar</button></div><span class="muted" style="font-size:.8rem">Solo se guarda en tu móvil. Déjalo vacío si prefieres que no te llamemos por tu nombre.</span></div></details>
    <details class="card fold" style="--fc:#2A9D8F"><summary><span class="fi">💾</span>Copia de seguridad</summary><div class="stack" style="margin-top:10px"><p class="muted">Tu progreso solo está en este móvil. Si vas a cambiar de móvil o de navegador, copia este código y guárdalo en tus notas. Luego pégalo abajo en el nuevo para recuperarlo todo.</p>
@@ -1692,7 +1711,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015082913";
+const APP_V="20261015083332";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -3063,7 +3082,7 @@ function mwRoute(a,b){const gp=mwGraph(a,b,mwSeen())||mwGraph(a,b,new Set(Object
   let pts=[mwStand(a)];for(let i=1;i<gp.length;i++)(MWRP[gp[i-1]+"|"+gp[i]]||[]).forEach(t=>pts.push(ctr(t)));pts.push(mwStand(b));
   pts=pts.filter((p,i)=>i===0||p[0]!==pts[i-1][0]||p[1]!==pts[i-1][1]);
   return pts.filter((p,i)=>{if(i===0||i===pts.length-1)return true;const a=pts[i-1],n=pts[i+1];return !((a[0]===p[0]&&p[0]===n[0])||(a[1]===p[1]&&p[1]===n[1]))})}
-function mwWalk(a,b){const el=document.querySelector(".mwpl"),inner=el&&el.querySelector(".mwpi");if(!el||!inner||!el.animate||!MWPOS[a]||!MWPOS[b])return;
+function mwWalk(a,b){if(CFG.anim==="0")return;const el=document.querySelector(".mwpl"),inner=el&&el.querySelector(".mwpi");if(!el||!inner||!el.animate||!MWPOS[a]||!MWPOS[b])return;
   try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches)return}catch(e){}
   const pts=mwRoute(a,b),E=pts[pts.length-1];if(pts.length<2)return;
   const seg=pts.slice(1).map((p,i)=>Math.abs(p[0]-pts[i][0])+Math.abs(p[1]-pts[i][1])),tot=seg.reduce((x,y)=>x+y,0)||1;
@@ -3174,7 +3193,7 @@ function yoDash(){
     ${nx?`<p class="muted" style="margin:0;font-size:.85rem">Equipo nuevo: ${esc(pjGear(G.st).toLowerCase())}</p>${nx.req.map(r=>{const [a,b]=r[1].split(" / ").map(Number);return `<div class="yoreq"><span>${esc(r[0])}</span>${seg(a,b)}<span class="muted">${r[1]}</span></div>`}).join("")}<p class="muted" style="margin:0;font-size:.8rem">El nivel mide tu constancia; los trofeos, lo que dominas. Hacen falta los dos.</p>`:`<p class="muted" style="margin:0">Tu personaje ya luce todo su equipo.</p>`}
     <div class="pjevo">${PJSTG.map((x,i)=>`<div><div class="pjmini${i+1===G.st?" cur":""}">${pjSVG(Object.assign({},P,{etapa:i+1,bloqueado:i+1>G.st}),1.4)}</div><span class="pxsm">${x[0]}</span></div>`).join("")}</div></div>
    ${valCard()}
-   <div class="yobtns"><button class="btn ghost" data-go="personaje">🎮 Cambiar personaje</button><button class="btn ghost" data-act="g-snd" aria-pressed="${S.g.snd!==false}">${S.g.snd===false?"🔇 Sonido: no":"🔊 Sonido: sí"}</button></div>
+   
    
   </div>`}
 
@@ -3717,10 +3736,10 @@ function openConcept(id){
 }
 let advTW=null;
 function advInit(){clearInterval(advTW);const el=document.querySelector(".advtxt[data-tw]");if(!el)return;const full=el.textContent;el.setAttribute("aria-label",full);
-  let red=false;try{red=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}if(red||S.advDone===full)return;
+  let red=false;try{red=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}if(red||CFG.tw==="inst"||S.advDone===full)return;const stp=CFG.tw==="rapido"?9:3;
   el.style.minHeight=el.offsetHeight+"px";let i=0;el.textContent="";el.classList.add("typing");
   const fin=()=>{clearInterval(advTW);el.textContent=full;el.classList.remove("typing");S.advDone=full};
-  advTW=setInterval(()=>{i+=3;el.textContent=full.slice(0,i);if(i>=full.length)fin()},16);
+  advTW=setInterval(()=>{i+=stp;el.textContent=full.slice(0,i);if(i>=full.length)fin()},16);
   const box=el.closest(".advbox");if(box)box.addEventListener("click",e=>{if(e.target.closest("button,input,a,select,textarea"))return;fin()},{once:true})}
 function render(){
   renderNav();try{gCheck()}catch(e){}
@@ -3805,7 +3824,8 @@ document.addEventListener("click",e=>{
   if(d.dlg){const [k,n]=d.dlg.split(":");if(!S.dlg||S.dlg.k!==k)S.dlg={k,n:"hi",a:[]};S.dlg.n=n;if(n!=="hi"&&!S.dlg.a.includes(n))S.dlg.a.push(n);if(n==="imp2"&&!S.dlg.a.includes("imp1"))S.dlg.a.push("imp1");render();return}
   if(d.lore){const [k,n]=d.lore.split(":");S.loreK=k;S.loreN=+n;render();return}
   if(d.adv!==undefined){S.advN=+d.adv;render();window.scrollTo({top:0});return}
-  if(d.font){document.documentElement.dataset.font=d.font;store.set("font",d.font);render();return}
+  if(d.cfg){const [k,v]=d.cfg.split(":");S.cfgOpen=true;if(k==="snd"){S.g.snd=v==="1";store.set("game",S.g);if(S.g.snd)try{gTune("bronce")}catch(e){}}else{CFG[k]=v;store.set("cfg",CFG);applyCfg()}render();return}
+  if(d.font){S.cfgOpen=true;document.documentElement.dataset.font=d.font;store.set("font",d.font);render();return}
   if(d.mw){if(!mwSeen().has(d.mw)&&!mwNear(d.mw,mwSeen()))return;const R0=mwSeen(),from=S.g.at&&MWPOS[S.g.at]&&R0.has(S.g.at)?S.g.at:mwFocus(R0);S.mwSel=d.mw;if(R0.has(d.mw)&&d.mw!==from){S.g.at=d.mw;store.set("game",S.g)}render();if(S.g.at===d.mw&&d.mw!==from)mwWalk(from,d.mw);const p=document.querySelector(".mwsel");if(p)p.scrollIntoView({behavior:"smooth",block:"nearest"});return}
   if(d.reg){if(dl.open)dl.close();if(MWPOS[d.reg]&&mwSeen().has(d.reg)&&S.g.at!==d.reg){S.g.at=d.reg;store.set("game",S.g)}S.reg=d.reg;S.regOpen=false;go("region");return}
   if(d.carta!=null){S.cartaN=+d.carta;render();window.scrollTo({top:0});return}
