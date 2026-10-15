@@ -1255,7 +1255,7 @@ function cfgCard(){const snd=S.g.snd===false?"0":"1",row=(ic,t,d,ctl)=>`<div cla
    ${row("🔎","Tamaño de letra","Más grande si te cuesta leer en el móvil.",cfgSeg("size",[["normal","Normal"],["grande","Grande"]],CFG.size))}
    ${row("🌗","Colores","«Auto» sigue el modo de tu móvil.",cfgSeg("theme",[["auto","Auto"],["light","Claro"],["dark","Oscuro"]],CFG.theme))}
    ${row("🔊","Sonido de premios","El sonido de consola al ganar un trofeo.",cfgSeg("snd",[["1","Sí"],["0","No"]],snd))}
-   ${row("💬","Texto de los diálogos","Normal: letra a letra. Las frases de la Cartógrafa y las criaturas.",cfgSeg("tw",[["normal","Normal"],["rapido","Rápido"],["inst","Al instante"]],CFG.tw))}
+   ${row("💬","Texto de los diálogos","Velocidad a la que aparecen las frases de la Cartógrafa y las criaturas. Toca el cuadro para verla entera.",cfgSeg("tw",[["lento","Lento"],["normal","Normal"],["rapido","Rápido"],["inst","Al instante"]],CFG.tw))}
    ${row("✨","Animaciones","El personaje caminando, las criaturas moviéndose y los destellos.",cfgSeg("anim",[["1","Sí"],["0","No"]],CFG.anim))}
    <div class="stack" style="gap:8px"><b>🧭 Ayudas del juego</b><div class="cfgbtns"><button class="btn ghost" data-go="personaje">🎮 Cambiar personaje</button><button class="btn ghost" data-tour="start">🗺️ Guía de la app</button><button class="btn ghost" data-act="carta-again" data-n="0">📜 Carta de navegación</button><button class="btn ghost" data-act="carta-again" data-n="3">👧 Ejemplo de Nora</button></div></div>
   </div></details>`}
@@ -1721,7 +1721,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015090333";
+const APP_V="20261015091426";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -3758,10 +3758,10 @@ function openConcept(id){
 }
 let advTW=null;
 function advInit(){clearInterval(advTW);const el=document.querySelector(".advtxt[data-tw]");if(!el)return;const full=el.textContent;el.setAttribute("aria-label",full);
-  let red=false;try{red=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}if(red||CFG.tw==="inst"||S.advDone===full)return;const stp=CFG.tw==="rapido"?9:3;
+  let red=false;try{red=matchMedia("(prefers-reduced-motion: reduce)").matches}catch(e){}if(red||CFG.tw==="inst"||S.advDone===full)return;const stp=CFG.tw==="rapido"?4:1,ms=CFG.tw==="lento"?42:CFG.tw==="rapido"?16:24;
   el.style.minHeight=el.offsetHeight+"px";let i=0;el.textContent="";el.classList.add("typing");
   const fin=()=>{clearInterval(advTW);el.textContent=full;el.classList.remove("typing");S.advDone=full};
-  advTW=setInterval(()=>{i+=stp;el.textContent=full.slice(0,i);if(i>=full.length)fin()},16);
+  advTW=setInterval(()=>{i+=stp;el.textContent=full.slice(0,i);if(i>=full.length)fin()},ms);
   const box=el.closest(".advbox");if(box)box.addEventListener("click",e=>{if(e.target.closest("button,input,a,select,textarea"))return;fin()},{once:true})}
 function render(){
   renderNav();try{gCheck()}catch(e){}
