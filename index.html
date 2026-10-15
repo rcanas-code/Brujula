@@ -250,6 +250,13 @@ details.card summary::-webkit-details-marker{display:none}
 .advstage.lib{background:repeating-linear-gradient(90deg,#8C3B2E 0 14px,#2F5E8C 14px 26px,#C9A227 26px 34px,#3E7D4F 34px 50px,#6B4FA0 50px 60px,#8C3B2E 60px 72px),#4A2E1E;background-size:72px 46px;background-repeat:repeat;box-shadow:inset 0 0 0 3px #33475A,inset 0 46px 0 0 rgba(0,0,0,0),inset 0 0 60px rgba(0,0,0,.55);justify-content:center;min-height:170px}
 .advstage.lib::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,transparent 0 40px,#3B2416 40px 46px);pointer-events:none}
 .advstage.lib .advnpc{position:relative;z-index:1;filter:drop-shadow(0 4px 0 rgba(0,0,0,.4))}
+.yobtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}.yob{background:rgba(255,255,255,.12);color:#fff;border:2px solid rgba(255,255,255,.55);font:inherit;font-weight:700;font-size:.82rem;padding:6px 10px;cursor:pointer}.yob:hover{background:rgba(255,255,255,.22)}
+.yostrip{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}.yostrip span{background:var(--surface);border:2px solid var(--line);padding:8px 4px;text-align:center;font-size:.78rem;color:var(--muted)}.yostrip b{color:var(--ink);font-size:1rem}
+.yoqs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.yoq{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:12px;min-height:96px;background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;border:2px solid var(--line);border-top:8px solid var(--qc);box-shadow:3px 3px 0 var(--px-sh,rgba(0,0,0,.15))}
+.yoq:hover{transform:translateY(-2px)}.yoqi{font-size:1.5rem}.yoq b{font-size:.98rem}.yoq span:last-child{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:3px;flex-wrap:wrap}
+.yoevo{margin-top:12px}
+#yostats .yotiles{margin:0}
 .pjcust{border:3px solid var(--accent)}
 .libsay{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:#0F1A24;color:#F4F1E8;border:3px solid #F4F1E8;box-shadow:0 0 0 3px #0F1A24}.libsay p{margin:0;font-size:.92rem;line-height:1.45}.libmini{flex:none}
 .libsearch .search{width:100%}
@@ -1748,9 +1755,8 @@ function repText(){const R=S.rep||{},t=(document.getElementById("reptxt")||{}).v
 function vMas(){
   return `<section class="stack"><div><p class="eyebrow">Yo</p><h1>Sobre mí</h1></div>
    ${yoDash()}
-   <button class="mastile wide" style="--mc:#14506B;--mb:#E3F0F6" data-go="mapa"><span class="mi">🗺️</span><b>Mi hoja de personaje</b><span>Lo que vio el Espejo en tu test: tus fortalezas y dónde tienes más margen. Repítelo cada mes y compara.</span></button>
+   <details class="card fold" id="yoprop" style="--fc:#B8860B" ${S.yoEdit||S.yoPropOpen?"open":""}><summary><span class="fi">🧭</span>Mi propósito y mis datos<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${(()=>{const ps=pSent(S.P.f);return ps?"Tu frase, tus valores, tus fortalezas y tus tests":`Resumen · Propósito: paso ${Math.min(pCount()+1,7)} de 7`})()}</span></summary><div class="stack" style="gap:12px;margin-top:12px">${vYo(true)}${valCard()}</div></details>
    ${moodCard()}${keepCard()}
-   ${vYo(true)}
    ${cfgCard()}
    <details class="card fold" id="ajustes" style="--fc:#14506B" ${S.ajOpen||S.repOpen?"open":""}><summary><span class="fi">⚙️</span>Ajustes<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Tu clase, álbum, nombre, copia de seguridad, compartir e informar de un error</span></summary><div class="stack" style="gap:10px;margin-top:12px">
     <button class="btn ghost" data-act="shareapp" style="width:max-content">📤 Compartir Brújula</button>
@@ -1833,7 +1839,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015182317";
+const APP_V="20261015183056";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -3400,33 +3406,26 @@ function yoDash(){
   const P=Object.assign({},pjCfg(),{etapa:G.st}),nx=G.nextEvo;
   const tile=(ic,v,l,go)=>`<button class="ytile"${go?` ${go}`:""}><span class="yic">${ic}</span><b>${v}</b><span>${l}</span></button>`;
   const seg=(v,m)=>{const n=10,f=Math.round(Math.min(1,v/m)*n);return `<span class="pxseg" aria-hidden="true">${Array.from({length:n},(_,i)=>`<i class="${i<f?"on":""}"></i>`).join("")}</span>`};
+  const stats=`<div class="yotiles">${tile("🔥",streak(),"días de racha")}${tile(trSVG("copa",no?"oro":np?"plata":nb?"bronce":"ninguno",2),`${nb+np+no}<small>/15</small>`,"trofeos","data-go=\"coleccion\"")}${tile("🗺️",`${R.size}<small>/19</small>`,"regiones descubiertas","data-go=\"mundo\"")}${tile("📖",`${ld}<small>/${lect.length}</small>`,"lecturas dominadas","data-go=\"explorar\"")}${tile("⚔️",ret,"retos superados")}${tile("✓",`${qp}<small>/15</small>`,"quizzes aprobados")}${tile("🎯",fp,"duelos ganados")}${tile("🏋️",trDays(),"días de entreno")}${tile("🔭",desc,"propuestas de Descubre","data-go=\"curiosidad\"")}${tile("🧭",`${pCount()}<small>/7</small>`,"pasos de Propósito","data-go=\"proposito\"")}</div>`;
+  const qt=(ic,t,sub,attr,c)=>`<button class="yoq" style="--qc:${c}" ${attr}><span class="yoqi">${ic}</span><b>${t}</b><span>${sub}</span></button>`;
   return `<div class="yodash">
    <div class="yostage"><button class="yoav big" data-go="personaje" aria-label="Cambiar de personaje">${pjSVG(P,4)}</button>
     <div class="stack" style="gap:6px;flex:1;min-width:0"><span class="pxname" style="font-size:1.35rem;color:#fff">${esc(S.name||"Aventurero")}</span>
      <span class="pxchip" style="align-self:flex-start">NIVEL ${G.l} · ${PJSTG[G.st-1][0].toUpperCase()}</span>
      <div class="xpbar dark" role="progressbar" aria-valuemin="0" aria-valuemax="${G.need}" aria-valuenow="${G.into}" aria-label="Experiencia"><i style="width:${Math.round(G.into/G.need*100)}%"></i></div>
-     <span style="font-size:.8rem;color:#C7D3DC">${G.into} / ${G.need} XP para el nivel ${G.l+1} · ${G.xp} XP en total</span></div></div>
-   <div class="yotiles">
-    ${tile("🔥",streak(),"días de racha")}
-    ${tile(trSVG("copa",no?"oro":np?"plata":nb?"bronce":"ninguno",2),`${nb+np+no}<small>/15</small>`,"trofeos","data-go=\"coleccion\"")}
-    ${tile("🗺️",`${R.size}<small>/19</small>`,"regiones descubiertas","data-go=\"mundo\"")}
-    ${tile("📖",`${ld}<small>/${lect.length}</small>`,"lecturas dominadas","data-go=\"explorar\"")}
-    ${tile("⚔️",ret,"retos superados","data-go=\"ruta\"")}
-    ${tile("✓",`${qp}<small>/15</small>`,"quizzes aprobados")}
-    ${tile("🎯",fp,"tests finales")}
-    ${tile("🏋️",trDays(),"días de entreno")}
-    ${tile("🔭",desc,"propuestas de Descubre","data-go=\"curiosidad\"")}
-    ${tile("🧭",`${pCount()}<small>/7</small>`,"pasos de Propósito","data-go=\"proposito\"")}
+     <span style="font-size:.8rem;color:#C7D3DC">${G.into} / ${G.need} XP para el nivel ${G.l+1}</span>
+     <div class="yobtns"><button class="yob" data-go="personaje">🎮 Mi personaje</button><button class="yob" data-act="yo-av">✏️ Editar perfil</button></div></div></div>
+   <div class="yostrip"><span>🔥 <b>${streak()}</b> racha</span><span>🏆 <b>${nb+np+no}</b>/15</span><span>🗺️ <b>${R.size}</b>/19</span><span>📖 <b>${ld}</b> leídas</span></div>
+   <div class="yoqs">
+    ${qt("🏆","Mi colección",`${trSVG("copa","bronce",1)} ${nb} · ${trSVG("copa","plata",1)} ${np} · ${trSVG("copa","oro",1)} ${no}`,'data-go="coleccion"',"#C9A227")}
+    ${qt("🗺️","Mi hoja de personaje","Lo que vio el Espejo",'data-go="mapa"',"#14506B")}
+    ${qt("🎮","Configuración","Letra, sonido, texto…",'data-act="yo-open" data-v="cfgjuego"',"#6B4FA0")}
+    ${qt("⚙️","Ajustes","Clase, copia, compartir",'data-act="yo-open" data-v="ajustes"',"#5B6B7A")}
    </div>
-   <div class="card stack" style="gap:8px"><div class="row" style="justify-content:space-between"><h3 class="pxname" style="font-size:1.05rem">Trofeos</h3><button class="linkbtn" data-go="coleccion">Mi colección →</button></div>
-    <div class="yomedals"><span>${trSVG("copa","bronce",2)} ${nb}</span><span>${trSVG("copa","plata",2)} ${np}</span><span>${trSVG("copa","oro",2)} ${no}</span></div>
-    <div class="yoshelf">${G.areas.map(A=>`<button class="yotr" data-reg="${A.k}" aria-label="${esc(GREG[A.k])}: ${A.metal}">${trSVG(GICO[A.k],A.metal,2)}</button>`).join("")}</div></div>
-   <div class="card stack" style="gap:8px"><h3 class="pxname" style="font-size:1.05rem">${nx?`Próxima evolución: ${nx.name}`:"Has llegado a Leyenda"}</h3>
-    ${nx?`<p class="muted" style="margin:0;font-size:.85rem">Equipo nuevo: ${esc(pjGear(G.st).toLowerCase())}</p>${nx.req.map(r=>{const [a,b]=r[1].split(" / ").map(Number);return `<div class="yoreq"><span>${esc(r[0])}</span>${seg(a,b)}<span class="muted">${r[1]}</span></div>`}).join("")}<p class="muted" style="margin:0;font-size:.8rem">El nivel mide tu constancia; los trofeos, lo que dominas. Hacen falta los dos.</p>`:`<p class="muted" style="margin:0">Tu personaje ya luce todo su equipo.</p>`}
+   <div class="card stack yoevo" style="gap:8px"><h3 class="pxname" style="font-size:1.05rem;margin:0">${nx?`Próxima evolución: ${nx.name}`:"Has llegado a Leyenda"}</h3>
+    ${nx?`<p class="muted" style="margin:0;font-size:.85rem">Equipo nuevo: ${esc(pjGear(G.st).toLowerCase())}</p>${nx.req.map(r=>{const [a,b]=r[1].split(" / ").map(Number);return `<div class="yoreq"><span>${esc(r[0])}</span>${seg(a,b)}<span class="muted">${r[1]}</span></div>`}).join("")}`:`<p class="muted" style="margin:0">Tu personaje ya luce todo su equipo.</p>`}
     <div class="pjevo">${PJSTG.map((x,i)=>`<div><div class="pjmini${i+1===G.st?" cur":""}">${pjSVG(Object.assign({},P,{etapa:i+1,bloqueado:i+1>G.st}),1.4)}</div><span class="pxsm">${x[0]}</span></div>`).join("")}</div></div>
-   ${valCard()}
-   
-   
+   <details class="card fold" id="yostats" style="--fc:#C9A227"><summary><span class="fi">📊</span>Todas mis estadísticas</summary><div style="margin-top:10px">${stats}</div></details>
   </div>`}
 
 /* ---------- Explorar: puente con el Mundo ---------- */
@@ -4254,7 +4253,8 @@ document.addEventListener("click",e=>{
   else if(act==="reglect"){S.regOpen=true;render();const el=document.getElementById("reglect");if(el)el.scrollIntoView({behavior:"smooth",block:"start"})}
   else if(act==="pj-save"){S.me.pj=S.pjDraft||pjCfg();S.pjDraft=null;store.set("me",S.me);toast("¡Personaje elegido!");go("mas",true)}
   else if(act==="pj-cancel"){S.pjDraft=null;go("mas",true)}
-  else if(act==="yo-av"){S.yoEdit=!S.yoEdit;render()}
+  else if(act==="yo-av"){S.yoEdit=!S.yoEdit;render();if(S.yoEdit)setTimeout(()=>{const e=document.getElementById("yoprop");if(e)e.scrollIntoView({behavior:"smooth",block:"start"})},40)}
+  else if(act==="yo-open"){const id=d.v;if(id==="ajustes")S.ajOpen=true;if(id==="cfgjuego")S.cfgOpen=true;render();setTimeout(()=>{const e=document.getElementById(id);if(e){e.open=true;e.scrollIntoView({behavior:"smooth",block:"start"})}},40)}
   else if(act==="yo-save"){yoKeep();S.yoEdit=false;if(S.name)store.set("name",S.name);store.set("me",S.me);toast("Guardado");render()}
   else if(act==="cur-del"){S.curDel=+d.v;render()}
   else if(act==="cur-del-no"){S.curDel=null;render()}
