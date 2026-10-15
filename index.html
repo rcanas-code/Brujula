@@ -551,6 +551,15 @@ html[data-size="grande"]{font-size:112.5%}html[data-size="grande"] body{font-siz
 .cfgrow{display:flex;flex-direction:column;gap:6px}.cfgrow>div:first-child{display:flex;flex-direction:column;gap:1px}.cfgrow .muted{font-size:.8rem}
 .cfgseg{display:grid!important;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}.cfgseg button{padding:8px 4px;min-width:0;white-space:normal;line-height:1.2;font-size:.72rem!important}
 .cfgbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}.cfgbtns .btn{width:100%;min-height:50px;padding:8px 6px;justify-content:center;text-align:center;white-space:normal;line-height:1.2}
+.hpath{display:flex;flex-direction:column;gap:14px}.hph{display:flex;gap:12px;align-items:center}.hpcre{flex:none;background:#1E2B38;padding:6px;border-bottom:4px solid #5FA86C;display:flex}.hptro{flex:none}
+.htrack{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));position:relative;padding-top:34px}
+.htrack::before{content:"";position:absolute;left:10%;right:10%;top:51px;height:4px;background:var(--line)}
+.hstep{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;min-width:0}.hstep b{font-size:.7rem;line-height:1.15}.hstep span:not(.hdot):not(.hme){font-size:.68rem;color:var(--muted)}
+.hdot{width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1rem;background:var(--surface);border:3px solid var(--line);position:relative;z-index:1}
+.hstep.done .hdot{background:#5FA86C;border-color:#2E6E3A;color:#fff;font-weight:800}.hstep.cur .hdot{border-color:#FF6B3D;background:#FFF1EA;box-shadow:0 0 0 4px rgba(255,107,61,.25)}.hstep.todo{opacity:.55}
+.hme{position:absolute;top:-34px;left:50%;transform:translateX(-50%);display:flex;animation:crebob 1s steps(2) infinite}.hme svg{display:block}
+.hnow{background:color-mix(in srgb,#FF6B3D 8%,var(--surface));border-left:5px solid #FF6B3D;padding:10px 12px}
+.hfoot{display:flex;flex-direction:column;gap:4px;font-size:.84rem}.hfoot svg{vertical-align:-3px}
 .fontpick{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fontopt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;background:var(--surface);color:var(--ink);border:2px solid var(--line);cursor:pointer;text-align:left}.fontopt.on{border-color:var(--accent);box-shadow:3px 3px 0 var(--accent)}.fontopt .fs{font-size:1.4rem;line-height:1.1;white-space:nowrap}.fontopt .fn{font-size:.85rem}
 h2{font-weight:700;letter-spacing:0}h3{font-weight:700}
 .eyebrow{letter-spacing:.05em;font-weight:500}
@@ -1645,6 +1654,7 @@ function vMas(){
   return `<section class="stack"><div><p class="eyebrow">Yo</p><h1>Sobre mí</h1></div>
    ${yoDash()}
    <button class="mastile wide" style="--mc:#14506B;--mb:#E3F0F6" data-go="mapa"><span class="mi">🗺️</span><b>Mi hoja de personaje</b><span>Lo que vio el Espejo en tu test: tus fortalezas y dónde tienes más margen. Repítelo cada mes y compara.</span></button>
+   ${moodCard()}${keepCard()}
    ${vYo(true)}
    ${cfgCard()}
    <details class="card fold" id="ajustes" style="--fc:#14506B" ${S.ajOpen||S.repOpen?"open":""}><summary><span class="fi">⚙️</span>Ajustes<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Tu clase, álbum, nombre, copia de seguridad, compartir e informar de un error</span></summary><div class="stack" style="gap:10px;margin-top:12px">
@@ -1711,7 +1721,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015083332";
+const APP_V="20261015090333";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1805,6 +1815,31 @@ function logrosCard(){return (()=>{const B=badges(),got=B.filter(b=>b[3]).length
       <p class="muted" style="font-size:.88rem">Cada logro se consigue haciendo algo concreto en la app. Se desbloquean solos: no tienes que reclamarlos. Son solo para ti y no cuentan para superar tu reto.</p>
       ${nx?`<div class="guide"><p class="eyebrow">Tu siguiente logro</p><p><b>${nx[1]}</b>: ${nx[2]}</p>${nx[4]?bar(nx[4]):""}<button class="btn ghost" data-go="${nx[5]}" style="width:max-content;padding:6px 14px;margin-top:6px">Ir a ${GN[nx[5]]}</button></div>`:`<div class="guide"><p><b>¡Los tienes todos!</b> Enhorabuena.</p></div>`}
       <div class="badges">${B.map(([ic,n,d,on,pr])=>`<div class="bdg ${on?"":"off"}">${svg(ic,on?"var(--accent)":"var(--muted)")}<span>${n}</span>${on?`<span style="color:var(--good);font-size:.75rem">✓ Conseguido</span>`:`<span class="muted" style="font-weight:600;font-size:.75rem">${d}</span>${bar(pr)}`}</div>`).join("")}</div></div></details>`})()}
+function hoySteps(k){const t=today();
+  if(!GDIF[k]){const nd=mwDone(k),lo=!!(S.g.lore||{})[k];return [["💬","Hablar",lo?"✓":"",lo],["📖","Lecturas",`${Math.min(nd,3)}/3`,nd>=3],["🛤️","Camino nuevo","",nd>=3]]}
+  const A=gArea(k),T=A.T,need=Math.min(3,A.total),left=trDaysLeft(k);
+  if(k==="VAL"){const D=(S.P&&S.P.done)||{},n14=[1,2,3,4].filter(i=>D[i]).length;
+    return [["🧭","Pasos 1-4",T.b?"Bronce":`${n14}/4`,!!T.b],["✉️","Carta y pruebas",T.p?"Plata":"",!!T.p],["⏳","Espera",T.p?(left>0?`${left} días`:"Abierta"):"",!!T.p&&!left],["⚔️","Duelo",T.o?"Oro":"",!!T.o]]}
+  const here=S.active&&aK(S.active.id)===k&&T.b&&S.active.start>=T.b;
+  return [["📖","Lecturas",`${Math.min(A.learned,need)}/${need}`,A.learned>=need||!!T.b],["❓","Quiz",T.b?"Bronce":`${GTHR[GDIF[k]]}/10`,!!T.b],["🔥","Reto 7 días",T.p?"Plata":here?`Día ${Math.min(dayN(),7)}/7`:"",!!T.p],["⏳","Espera",T.p?(left>0?`${left} días`:"Abierta"):"",!!T.p&&!left],["⚔️","Duelo",T.o?"Oro":"",!!T.o]]}
+function hoyPath(){const R=mwSeen(),k=mwFocus(R);if(!k||!MWPOS[k])return "";const a=AREAS[AK[k]],G=gState(),st=hoySteps(k),cur=st.findIndex(x=>!x[3]),lo=!!(S.g.lore||{})[k],cn=(CREN[k]||[""])[0].split(",")[0];
+  const A=GDIF[k]?gArea(k):null,metal=A?A.metal:null;
+  const track=`<div class="htrack" style="--n:${st.length}">${st.map(([ic,l,v,d],i)=>`<div class="hstep ${d?"done":i===cur?"cur":"todo"}">${i===cur?`<span class="hme">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),1)}</span>`:""}<span class="hdot">${d?"✓":ic}</span><b>${l}</b>${v?`<span>${esc(v)}</span>`:""}</div>`).join("")}</div>`;
+  let now,btn="";
+  if(!lo){now=`Antes de nada, habla con ${cn}: te espera a la entrada de la región.`;btn=`<button class="btn" data-reg="${k}">💬 Ir a hablar con ${esc(cn)}</button>`}
+  else if(!A){now=st[1][3]?"¡Hecho! Ya has abierto un camino nuevo desde aquí.":"Domina 3 lecturas de esta región: así se abre un camino nuevo en el mapa.";btn=`<button class="btn" data-reg="${k}">📖 Ver sus lecturas</button>`}
+  else{now=A.next||"";const ac=A.act;if(ac&&!(ac[0]==="retos"&&S.active))btn=ac[0]==="area"?`<button class="btn" data-gact="area|${k}">📖 ${esc(ac[2])}</button>`:ac[0]==="prop"?`<button class="btn" data-go="proposito">🧭 ${esc(ac[2])}</button>`:`<button class="btn" data-gact="${ac[0]}|${k}">${esc(ac[2])}</button>`;else if(S.active&&aK(S.active.id)===k)now+=" Márcalo abajo cada día."}
+  const left=st.filter(x=>!x[3]).length,goal=A?(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para el oro de esta región.`:"¡Región completada con oro!"):(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para abrir un camino nuevo.`:"");
+  const nb=G.areas.filter(x=>x.metal!=="ninguno").length,np=G.areas.filter(x=>x.metal==="plata"||x.metal==="oro").length,no=G.areas.filter(x=>x.metal==="oro").length;
+  return `<div class="card hpath"><div class="hph"><span class="hpcre">${creSVG(k,3)}</span><div class="stack" style="gap:2px;min-width:0;flex:1"><span class="pxchip">📍 ESTÁS EN</span><b class="pxname" style="font-size:1.1rem">${esc(GREG[k])}</b><span class="muted" style="font-size:.82rem">${esc(a.n)}${A?` · ${GMET[metal]}`:" · para conocerte"}</span></div><span class="hptro">${A?trSVG(GICO[k],metal,2):MWCRY}</span></div>
+   ${track}
+   <div class="hnow"><span class="pxchip" style="background:#1E2B38;color:#FFE27A">AHORA TOCA</span><p style="margin:6px 0 0">${esc(now)}</p>${A&&A.checks?`<ul class="gchk" style="margin-top:6px">${A.checks.map(([ok,l])=>`<li class="${ok?"ok":""}">${ok?"✓":"○"} ${l}</li>`).join("")}</ul>`:""}${btn?`<div style="margin-top:10px">${btn}</div>`:""}</div>
+   <div class="hfoot"><span>🏁 ${goal}</span><span>🗺️ ${R.size} de ${Object.keys(MWPOS).length} regiones · ${trSVG("copa","bronce",1)} ${nb} ${trSVG("copa","plata",1)} ${np} ${trSVG("copa","oro",1)} ${no}</span><button class="linkbtn" data-go="mundo">Ver el mapa →</button></div></div>`}
+function hoyReto(){const R=mwSeen(),k=mwFocus(R);if(!k||!GDIF[k]||k==="VAL")return "";const A=gArea(k);if(!A.T.b||A.T.p)return "";const done=new Set(S.history.map(h=>h.id));
+  const c=mwCs(k).find(c=>c.h&&!done.has(c.id))||mwCs(k).find(c=>c.h);if(!c)return "";const a=AREAS[c.a];
+  return `<div class="today area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag">Reto de 7 días · para la plata</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[k])}</span></div>
+   <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><p class="challenge">Tu reto: ${esc(c.h)}</p>${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
+   <div class="row"><button class="btn" data-start="${c.id}">Empezar este reto</button><button class="btn ghost" data-gact="retos|${k}">Elegir otro de la región</button></div></div>`}
 function vHoy(){
   if(S.testing)return vTest();
   if(!complete()&&!S.tests.length)return vIntro();
@@ -1813,14 +1848,7 @@ function vHoy(){
   const hi=hour<14?"Buenos días":hour<21?"Buenas tardes":"Buenas noches";
   const lv=L.to?`<div class="lvl"><span style="width:${(p-L.from)/(L.to-L.from)*100}%"></span></div><span class="muted" style="font-size:.78rem">${L.to-p} para la siguiente etapa</span>`:`<span class="muted" style="font-size:.78rem">Etapa máxima</span>`;
   let main="";
-  if(!S.active){
-    const items=routeItems(),nx=routeNext(),pos=nx?items.findIndex(x=>x.c.id===nx.c.id)+1:items.length;
-    if(nx){const c=nx.c,a=AREAS[c.a];
-      main=`<div class="today area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag">Reto de 7 días</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
-       <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><p class="challenge">Tu reto: ${esc(c.h)}</p>
-       ${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
-       <div class="row"><button class="btn" data-start="${c.id}">Empezar este reto</button><button class="btn ghost" data-reg="${a.k}">Ver la región</button></div></div>`;
-    }else main=`<div class="card stack"><p class="eyebrow">Todo hecho por ahora</p><h2>Has hecho todos los retos de tus regiones. Enhorabuena.</h2><p class="muted">Consigue bronces para descubrir regiones nuevas en el Mundo, o repite el test para ver cuánto has cambiado.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`;
+  if(!S.active){main=hoyReto()
   }else{
     const c=CI[S.active.id],a=AREAS[c.a],n=dayN(),t=today(),v=S.active.log[t],E=exOf(c.id),g=goodDays(S.active);
     const dots=[...Array(7).keys()].map(k=>{const dk=addDays(S.active.start,k),val=S.active.log[dk],future=dk>t;return `<button data-dot="${dk}" ${future?"disabled":""} aria-label="Día ${k+1}: ${val||"sin registrar"}"><i class="${val||""} ${dk===t?"hoy":""}"></i>${DOW[parse(dk).getDay()]}</button>`}).join("");
@@ -1858,7 +1886,7 @@ function vHoy(){
   const lastT=S.tests.length?S.tests[S.tests.length-1].date:null,retest=lastT&&diff(lastT,today())>=28;
   const shareTxt=shareText(),reqs=S.active?todayItems().filter(x=>x.st==="todo"):[],pend=reqs.length>0,time=S.active&&S.active.time;
   const nD=S.active?dayN():0,mark=S.active&&nD>=2&&nD<7,nReq=mark?1:reqs.length;
-  const title=!S.active?"Tu próxima misión te espera.":pend?(nReq===1?"Hoy: 1 paso":`Hoy: ${nReq} pasos`):"¡Hecho por hoy!";
+  const title=!S.active?"Tu aventura de hoy":pend?(nReq===1?"Hoy: 1 paso":`Hoy: ${nReq} pasos`):"¡Hecho por hoy!";
   const status="";
   const notices=[routeNews(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y mira si aparecen regiones nuevas.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",reviewCard(),...groupCards(),tipCard()].filter(Boolean).slice(0,1).map(slim).join("");
   const B=badges(),got=B.filter(b=>b[3]).length;
@@ -1866,18 +1894,12 @@ function vHoy(){
    <div><p class="hello"><button class="hiav" data-go="mas" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span></div></div>
    ${banner}
-   ${choiceCard()}
+   ${hoyPath()}
    ${main}
    ${status}
    ${S.active&&!pend?learnCard():""}
-   ${!S.active||!pend?mwStepCard():""}
    ${notices?`<div class="stack" style="gap:8px">${notices}</div>`:""}
-   ${S.active?`<div class="optsep">Opcional · si te apetece</div>
-   ${moodCard()}
-   <div class="tiles"><button class="tile" data-act="calm"><b>🫁 Un minuto de calma</b><span>Respira despacio con el círculo.</span></button></div>
-   ${keepCard()}
-   ${purposeCard()}
-   ${shareTxt&&new Date().getDay()===5?`<details class="card fold" style="--fc:#7C4DCC"><summary><span class="fi">📣</span>Compartir mi avance con el grupo</summary><div class="stack" style="margin-top:10px"><p class="share" id="sharetxt">${esc(shareTxt)}</p><button class="btn ghost" data-act="copy" style="width:max-content">Copiar para pegarlo en el grupo</button></div></details>`:""}`:""}
+
 
    
    
@@ -1939,7 +1961,7 @@ function pBody(k){
 }
 function vProposito(){
   const steps=[[1,"Lo que me importa","Elige tus valores","3 min"],[2,"En qué soy bueno","Elige tus fortalezas","3 min"],[3,"Lo que me enciende","Qué te da y qué te quita energía","3 min"],[4,"A quién quiero aportar","Lo que te gustaría mejorar","5 min"],[5,"Mi yo dentro de 10 años","Imagina tu vida a los 26","3 min"],[6,"Experimentos","Tres pruebas en la vida real","2-3 semanas"],[7,"Mi frase","Tu brújula en una frase","5 min"]];
-  return `<section class="stack"><div><p class="eyebrow">Propósito</p><h1>Para qué haces lo que haces</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">A tu edad nadie tiene que tener claro su propósito. Se descubre probando y cambia con los años. Aquí no buscas «tu misión en la vida»: buscas una dirección para ahora.</p></div>
+  return `<section class="stack">${purposeCard()}<div><p class="eyebrow">Propósito</p><h1>Para qué haces lo que haces</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">A tu edad nadie tiene que tener claro su propósito. Se descubre probando y cambia con los años. Aquí no buscas «tu misión en la vida»: buscas una dirección para ahora.</p></div>
    ${propBanner()}
    ${S.P.done[7]?"":`<div class="card stack" style="gap:10px">
     <p><b>Para qué sirve.</b> Simon Sinek lo llama <em>encontrar tu porqué</em>: para conocer qué te importa, en qué eres bueno y a quién te gustaría aportar algo. Con eso eliges con más criterio: qué estudiar, en qué trabajar, con quién estar, en qué gastar tu tiempo.</p>
@@ -2979,7 +3001,7 @@ ADI:"Un pantano con anzuelos escondidos. Mejor entrar sabiendo dónde están.",
 STO:"Un templo en silencio donde se aprende a no perder la calma.",
 CIV:"Una villa donde todos se conocen y se cuidan."};
 const MWNB=(()=>{const K=Object.keys(MWPOS),N={};K.forEach(k=>N[k]=new Set());K.forEach(k=>{const [r,c]=MWPOS[k];K.filter(x=>x!==k).map(x=>[x,Math.hypot(MWPOS[x][0]-r,MWPOS[x][1]-c)]).sort((a,b)=>a[1]-b[1]).slice(0,2).forEach(([x])=>{N[k].add(x);N[x].add(k)})});return N})();
-const MWPLACE={DIN:[["dinero","El banco del puerto","Simulador de ahorro y calculadora de caprichos"]],SUE:[["crono","La fuente del espejo","Test: ¿eres búho o alondra?",1]],
+const MWPLACE={EST:[["act:calm","El estanque del respiro","Un minuto de calma: respira despacio con el círculo"]],DIN:[["dinero","El banco del puerto","Simulador de ahorro y calculadora de caprichos"]],SUE:[["crono","La fuente del espejo","Test: ¿eres búho o alondra?",1]],
  MOV:[["cuerpo","El taller del cuerpo","Toca un órgano: para qué sirve y qué lo estropea"],["simcuerpo","El simulador","Qué le pasa a tu cuerpo con tus hábitos"]],ALI:[["cuerpo","El taller del cuerpo","Toca un órgano: para qué sirve y qué lo estropea"],["simcuerpo","El simulador","Qué le pasa a tu cuerpo con lo que comes"]],
  ANI:[["perro","La fuente del espejo","Test: ¿estás preparado para un perro o un gato?",1]],STO:[["estoico","La fuente del espejo","Test: ¿cuánto de estoico tienes?",1]],ADI:[["adic","La fuente del espejo","Test: ¿cómo es tu relación con…?",1]],
  VAL:[["proposito","El mirador","Tu propósito en 7 pasos"]],AUT:[["mas","La cueva de los ecos","Tu perfil: fortalezas, valores y cronotipo"]],REL:[["grupo","La plaza del puente","Compañero de retos y reto de grupo"]],EDU:[["repaso","La biblioteca","El repaso de la semana"]]};
@@ -3063,7 +3085,7 @@ function vMundo(){
   return `<section class="stack mundo"><div class="row" style="justify-content:space-between;align-items:baseline"><h1>Mundo</h1><span class="muted" style="font-size:.85rem">${R.size} de ${K.length} regiones descubiertas</span></div>
    <p class="mwlore">La niebla cubre gran parte del mundo. Los caminos salen de la Cima de la Brújula. Cada trofeo que ganas despeja un camino hacia la región vecina que más lo necesita… ¿Qué habrá más allá?</p>
    <div class="mwwrap" style="aspect-ratio:${MWW}/${MWH}"><div class="mw" style="width:${MWW}px;height:${MWH}px">${mwSVG(R)}${nodes}${pl}</div></div>
-   <div class="mwleg">${leg.map(([n,c])=>`<span><i style="background:${c}"></i>${n}</span>`).join("")}</div>
+   
    <div class="card stack mwsel" style="gap:6px"><span class="rarea" style="--h:${inf.open?AREAS[AK[sel]].h:260};align-self:flex-start">${esc(inf.real)}</span><span class="pxname" style="font-size:1.25rem">${esc(inf.name)}</span><p style="margin:0">${esc(inf.text)}</p>${inf.open?`<button class="btn" data-reg="${sel}" style="width:max-content">Entrar en la región</button>`:""}</div>
 
    <details class="card fold"><summary><span class="fi">❔</span>Cómo funciona el Mundo</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem"><p>Cada región es un tema de tu vida con un nombre de aventura. Debajo del nombre verás siempre el tema real.</p><p><b>La niebla</b> se levanta poco a poco: se abre por los caminos. Empiezas en la Cima de la Brújula y, cada vez, se descubre la región vecina que más lo necesita según tu test. Cada bronce (o 3 lecturas dominadas en una región para conocerte) abre un camino nuevo. Solo puedes ir a las regiones unidas por un camino. Si te pica la curiosidad, puedes leer en la Biblioteca lecturas de zonas con niebla, pero solo cuentan (XP y trofeo) las de regiones descubiertas.</p><p><b>Cada región tiene un camino:</b> lecturas con una pregunta rápida, el quiz (bronce), un reto real de 7 días (plata) y el test final con otro reto y tu reflexión (oro). Entre medalla y medalla hay que esperar unos días: así se aprende de verdad.</p><p>Las regiones moradas (Emociones, Autoestima, Autoconocimiento y Adicciones) son para conocerte: no dan XP ni trofeos.</p><div class="row"><button class="btn ghost sm" data-act="carta-again" data-n="3">Ver el ejemplo de Nora</button><button class="btn ghost sm" data-act="carta-again" data-n="0">Repasar la carta de navegación</button></div></div></details></section>`}
@@ -3119,7 +3141,7 @@ function vRegion(){
   if(CREN[k]&&!(S.g.lore||{})[k]&&mwSeen().has(k))return `<section class="stack region"><p class="eyebrow">${esc(AREAS[AK[k]].n)}</p><h1 class="pxname" style="font-size:1.3rem;margin:0">${esc(GREG[k])}</h1><p class="muted" style="margin:0;font-size:.88rem">Alguien te sale al paso antes de entrar…</p>${regLore(k)}</section>`;
   const a=AREAS[AK[k]],sens=!GDIF[k],cs=mwCs(k),nd=cs.filter(c=>cDone(c.id)).length;
   const lect=`<details class="card fold" ${S.regOpen?"open":""} id="reglect"><summary><span class="fi">📖</span>Lecturas de esta región <span class="muted" style="font-weight:600">· ${nd} de ${cs.length} dominadas</span></summary><p class="muted" style="font-size:.85rem;margin:8px 0">Lee una lectura y, al final, supera su comprobación: queda «leída». Dos días después, repásala sin mirar: queda «dominada» y cuenta para el bronce. Si fallas, mañana tendrás otra oportunidad.</p><div class="stack" style="gap:6px">${cs.map(regLect).join("")}</div></details>`;
-  const places=(MWPLACE[k]||[]).map(([v,n,d,t])=>`<button class="regp" data-go="${v}"><span class="pxname" style="font-size:.95rem">${esc(n)}</span><span class="muted" style="font-size:.8rem">${esc(d)}${t?". Es para conocerte: no da XP ni trofeos.":""}</span></button>`).join("");
+  const places=(MWPLACE[k]||[]).map(([v,n,d,t])=>`<button class="regp" ${v.startsWith("act:")?`data-act="${v.slice(4)}"`:`data-go="${v}"`}><span class="pxname" style="font-size:.95rem">${esc(n)}</span><span class="muted" style="font-size:.8rem">${esc(d)}${t?". Es para conocerte: no da XP ni trofeos.":""}</span></button>`).join("");
   let head,path="";
   if(sens){head=`<div class="regico">${MWCRY}</div><div class="stack" style="gap:2px"><span class="rarea" style="--h:${a.h};align-self:flex-start">${esc(a.n)}</span><h1 class="pxname" style="font-size:1.5rem;margin:0">${esc(GREG[k])}</h1><span class="muted" style="font-size:.85rem">${nd} de ${cs.length} lecturas dominadas</span></div>`;
     path=`<div class="card" style="border-left:6px solid #9B7BFF"><p style="margin:0">Esta región es para conocerte, no para competir: <b>no da XP ni trofeos</b>. Lee lo que te interese, a tu ritmo. Al dominar 3 lecturas se descubre la siguiente región de tu camino.</p></div>`}
