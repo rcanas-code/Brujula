@@ -243,6 +243,11 @@ details.card summary::-webkit-details-marker{display:none}
 .helpbtn.helphl{animation:helphl .7s ease-in-out 6;outline:4px solid var(--accent);outline-offset:3px}@keyframes helphl{50%{transform:scale(1.15)}}
 .nphase{margin:6px 0 0;font-family:var(--pxf);font-weight:700;font-size:.85rem;color:var(--muted)}
 .midtest{border-left-color:#9B7BFF}
+.curcard{border:3px solid #6B4FA0;background:linear-gradient(rgba(107,79,160,.10),var(--surface) 70%)}
+.hopt{display:flex;flex-direction:column;gap:10px;margin-top:18px;padding:14px;border:2px dashed #4A7FC1;background:rgba(74,127,193,.07)}
+.hopth{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:.86rem;color:var(--muted)}.hopth .optpill{background:#4A7FC1;color:#fff}
+.hopt .hoth{margin-top:0;border:0;background:none;padding:0}
+.faqsearch{display:flex;flex-direction:column;gap:6px;padding:12px;border:2px solid var(--line);background:var(--surface)}
 .stother{border:2px dashed var(--good);background:var(--good-bg);padding:10px 12px;font-size:.92rem;line-height:1.45}
 .stsum{display:inline-flex;gap:8px;align-items:center}.stsum svg{flex:none}.stlink{display:flex;gap:10px;align-items:flex-start;margin:0;padding:8px 10px;background:var(--surface-2);border-left:4px solid var(--opt,#9B7BFF);font-size:.9rem}.stlink svg{flex:none}
 .hwhy{margin:0;font-size:.86rem;color:var(--muted)}
@@ -1328,7 +1333,7 @@ function cfgCard(){const snd=S.g.snd===false?"0":"1",row=(ic,t,d,ctl)=>`<div cla
    <div class="stack" style="gap:8px"><b>🔤 Estilo de letra</b>${fontPick()}</div>
    ${row("🔎","Tamaño de letra","Más grande si te cuesta leer en el móvil.",cfgSeg("size",[["normal","Normal"],["grande","Grande"]],CFG.size))}
    ${row("🌗","Colores","«Auto» sigue el modo de tu móvil.",cfgSeg("theme",[["auto","Auto"],["light","Claro"],["dark","Oscuro"]],CFG.theme))}
-   ${row("🔊","Sonido de premios","El sonido de consola al ganar un trofeo.",cfgSeg("snd",[["1","Sí"],["0","No"]],snd))}
+   ${row("🔊","Sonido y música","Música de consola al hablar con los guardianes y en los duelos, y el sonido al ganar trofeos.",cfgSeg("snd",[["1","Sí"],["0","No"]],snd))}
    ${row("💬","Texto de los diálogos","Velocidad a la que aparecen las frases de la Cartógrafa y las criaturas. Toca el cuadro para verla entera.",cfgSeg("tw",[["lento","Lento"],["normal","Normal"],["rapido","Rápido"],["inst","Al instante"]],CFG.tw))}
    ${row("✨","Animaciones","El personaje caminando, las criaturas moviéndose y los destellos.",cfgSeg("anim",[["1","Sí"],["0","No"]],CFG.anim))}
    <div class="stack" style="gap:8px"><b>🧭 Ayudas del juego</b><div class="cfgbtns"><button class="btn ghost" data-go="personaje">🎮 Cambiar personaje</button><button class="btn ghost" data-tour="start">🗺️ Guía de la app</button><button class="btn ghost" data-act="carta-again" data-n="0">📜 Carta de navegación</button><button class="btn ghost" data-act="carta-again" data-n="3">👧 Ejemplo de Nora</button></div></div>
@@ -1625,7 +1630,7 @@ function vRepaso(){
 /* ---------- grupo guiado ---------- */
 function progressLine(){const a=S.active;if(!a)return "";const c=CI[a.id];return `llevo ${goodDays(a)} de 7 días con mi reto «${c.t}»`}
 function groupCards(){
-  const t=today(),B=S.bud,out=[];const gf=grpFriCard();if(gf)out.push(gf);const rc=rvCard();if(rc)out.push(rc);const cc=curCard();if(cc)out.push(cc);
+  const t=today(),B=S.bud,out=[];const gf=grpFriCard();if(gf)out.push(gf);const rc=rvCard();if(rc)out.push(rc);
   if(S.sharePrompt&&CI[S.sharePrompt]){const c=CI[S.sharePrompt],msg=`¡He superado mi reto «${c.t}» en Brújula! Retos superados: ${S.history.filter(h=>h.passed).length}.`;
     out.push(`<div class="card stack" style="border:2px solid var(--good)"><p class="eyebrow">Reto superado</p><h3>¿Lo compartes con tu grupo o tu compañero?</h3><p class="muted">Contarlo refuerza lo que has conseguido. Es opcional.</p><p class="share" id="cp-share">${esc(msg)}</p><div class="row"><button class="btn" data-act="copy" data-copyid="cp-share">Copiar mensaje</button><button class="btn ghost" data-act="share-done">Ahora no</button></div></div>`)}
   if(S.active&&S.active.plan&&(dayN()>=3||S.history.length)&&!S.buddy&&!B.skip)out.push(`<div class="card stack" style="border:2px dashed var(--brand)"><p class="eyebrow">Opcional · 1 minuto</p><h3>¿Quieres a alguien que te pregunte cómo vas?</h3><p class="muted">Saber que un amigo te va a preguntar cada viernes ayuda mucho a no abandonar. No hace falta que use Brújula. Tú solo le mandas un mensaje y la app te recordará cada viernes qué decirle.</p>
@@ -1812,7 +1817,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015173849";
+const APP_V="20261015174901";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -2000,8 +2005,9 @@ function vHoy(){
    ${hoyPath()}
    ${main}
    ${status}
-   ${hoyOthers()}
-   ${notices?`<div class="stack" style="gap:8px">${notices}</div>`:""}
+   ${curCard()}
+   ${(()=>{const oth=hoyOthers();const inner=(notices?notices:"")+oth;return inner?`<section class="hopt"><div class="hopth"><span class="optpill">✨ Opcional</span><span>Solo si te apetece. Lo de arriba es lo importante.</span></div>${inner}</section>`:""})()}
+
 
 
    
@@ -2314,7 +2320,7 @@ function curSave(){store.set("cur",S.cur)}
 function curPick(){const used=new Set(S.cur.hist.map(h=>h.id));let pool=DSC.filter(c=>!used.has(c[0]));if(!pool.length)pool=DSC.filter(c=>!S.cur.hist.slice(-5).some(h=>h.id===c[0]));const c=pool[Math.floor(Math.random()*pool.length)];return c[0]}
 function curNow(create){const w=weekKey();let h=S.cur.hist.filter(x=>x.w===w&&x.st!=="cambiada").pop();if(!h&&create){h={id:curPick(),w,st:"propuesta",date:today()};S.cur.hist.push(h);curSave()}return h}
 function curCard(){const h=curNow(true);if(!h||h.st==="hecha")return "";const c=CURI[h.id];if(!c)return "";
-  return `<div class="card stack curcard"><p class="eyebrow">🔭 Tu propuesta de esta semana</p><h3>${c[1]} ${esc(c[3])}</h3><p class="muted">${esc(c[4])}</p><div class="row"><button class="btn" data-go="curiosidad">${h.st==="aceptada"?"Ya la he hecho / ver":"Ver propuesta"}</button></div></div>`}
+  return `<div class="card stack curcard"><span class="daytag" style="background:#6B4FA0;align-self:flex-start">🔭 PROPUESTA DE LA SEMANA</span><h3>${c[1]} ${esc(c[3])}</h3><p class="muted">${esc(c[4])}</p><div class="retowhat" style="border-color:#6B4FA0"><b>¿Para qué sirve?</b> Para descubrir qué te gusta hay que probar cosas, no solo pensarlas. Cada semana te propongo una experiencia nueva fuera de la pantalla. No cuenta para los trofeos: es para conocerte. Si la haces, ganas +40 XP.</div><div class="row"><button class="btn" data-go="curiosidad">${h.st==="aceptada"?"Ya la he hecho / ver":"Ver propuesta"}</button></div></div>`}
 function vCuriosidad(){
   const h=curNow(true),c=h&&CURI[h.id],H=S.cur.hist.map((x,i)=>Object.assign({_i:i},x)).reverse();
   const stl={propuesta:["Propuesta","var(--muted)"],aceptada:["Apuntada","#4A7FC1"],hecha:["Hecha","var(--good)"],cambiada:["Cambiada","var(--muted)"]};
@@ -3062,6 +3068,19 @@ function gTune(kind){
   T.forEach(([m,st,du,ty,vol])=>{const o=ac.createOscillator(),g=ac.createGain(),v=vol||.07,a=t0+st;o.type=ty||"square";o.frequency.setValueAtTime(f(m),a);
     g.gain.setValueAtTime(0,a);g.gain.linearRampToValueAtTime(v,a+.008);g.gain.setValueAtTime(v,a+du*.6);g.gain.exponentialRampToValueAtTime(.0001,a+du);
     o.connect(g);g.connect(ac.destination);o.start(a);o.stop(a+du+.03)})}
+const BGMS={
+ talk:{t:.22,lead:[72,0,76,0,79,0,76,0,74,0,77,0,81,0,79,0,76,0,79,0,84,0,83,0,81,0,79,0,76,0,0,0],bass:[48,0,0,0,55,0,0,0,50,0,0,0,57,0,0,0,52,0,0,0,55,0,0,0,53,0,0,0,55,0,0,0],lw:"triangle",bw:"square",kick:0},
+ boss:{t:.13,lead:[69,0,72,69,76,0,74,72,71,0,74,71,77,0,76,74,69,0,72,69,79,0,77,76,75,76,77,0,76,0,0,0],bass:[45,57,45,57,45,57,45,57,43,55,43,55,43,55,43,55,41,53,41,53,41,53,41,53,40,52,40,52,40,52,40,52],lw:"square",bw:"triangle",kick:1}};
+const BGM={cur:null,iv:null,i:0,g:null};
+function bgmNote(ac,m,t,du,w,v){const o=ac.createOscillator(),g=ac.createGain();o.type=w;o.frequency.setValueAtTime(440*Math.pow(2,(m-69)/12),t);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.006);g.gain.setValueAtTime(v,t+du*.55);g.gain.exponentialRampToValueAtTime(.0001,t+du);o.connect(g);g.connect(BGM.g);o.start(t);o.stop(t+du+.02)}
+function bgmKick(ac,t){const o=ac.createOscillator(),g=ac.createGain();o.type="sine";o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(40,t+.12);g.gain.setValueAtTime(.5,t);g.gain.exponentialRampToValueAtTime(.0001,t+.14);o.connect(g);g.connect(BGM.g);o.start(t);o.stop(t+.16)}
+function bgmSet(kind){if(S.g.snd===false||document.hidden)kind=null;if(kind===BGM.cur)return;clearInterval(BGM.iv);BGM.iv=null;
+  if(BGM.g){const og=BGM.g;try{og.gain.setTargetAtTime(0,og.context.currentTime,.08);setTimeout(()=>{try{og.disconnect()}catch(e){}},400)}catch(e){}BGM.g=null}
+  BGM.cur=kind;if(!kind)return;const ac=gAudio();if(!ac){BGM.cur=null;return}const M=BGMS[kind];BGM.g=ac.createGain();BGM.g.gain.value=.045;BGM.g.connect(ac.destination);BGM.i=0;let next=ac.currentTime+.08;
+  const tick=()=>{if(!BGM.g)return;while(next<ac.currentTime+.25){const k=BGM.i%M.lead.length;if(M.lead[k])bgmNote(ac,M.lead[k],next,M.t*.9,M.lw,.5);if(M.bass[k])bgmNote(ac,M.bass[k],next,M.t*.85,M.bw,.32);if(M.kick&&k%4===0)bgmKick(ac,next);next+=M.t;BGM.i++}};
+  tick();BGM.iv=setInterval(tick,60)}
+function bgmWant(){if(S.view==="final"&&S.fz&&!S.fz.done)return "boss";if(S.view==="region"&&S.reg&&CREN[S.reg]&&mwSeen().has(S.reg)&&(!(S.g.lore||{})[S.reg]||(S.dlg&&S.dlg.k===S.reg)))return "talk";return null}
+document.addEventListener("visibilitychange",()=>{try{bgmSet(document.hidden?null:bgmWant())}catch(e){}});
 const gCelQ=[];
 function celebrate(ev){gCelQ.push(ev);if(gCelQ.length===1)celShow()}
 function celShow(){
@@ -3595,7 +3614,7 @@ function gCard(){
    ${nx?`<div class="stack" style="gap:4px"><b>Para ser ${nx.name} (${nx.gear.toLowerCase()})</b>${nx.req.map(r=>`<div class="greq"><span>${r[0]}</span><span class="muted">${r[1]}</span></div>`).join("")}<p class="muted" style="margin:0;font-size:.8rem">El nivel mide tu constancia; los trofeos, lo que dominas. Para evolucionar hacen falta los dos.</p></div>`:`<p style="margin:0"><b>Has llegado a Leyenda.</b></p>`}
    ${won.length?`<div class="gmini">${won.map(a=>`<span title="${GREG[a.k]}">${trSVG(GICO[a.k],a.metal,2)}</span>`).join("")}</div>`:""}
    <button class="btn" data-go="coleccion" style="width:max-content">🏆 Mi colección (${G.nb} de 15)</button>
-   <button class="btn ghost" data-act="g-snd" aria-pressed="${S.g.snd!==false}" style="width:max-content;padding:6px 14px">${S.g.snd===false?"🔇 Sonido de premios: no":"🔊 Sonido de premios: sí"}</button>
+   <button class="btn ghost" data-act="g-snd" aria-pressed="${S.g.snd!==false}" style="width:max-content;padding:6px 14px">${S.g.snd===false?"🔇 Sonido y música: no":"🔊 Sonido y música: sí"}</button>
    <details class="gxp"><summary>¿Cómo gano XP?</summary><ul><li>Marcar tu reto: Sí +10 · Un poco +6 · Hoy no +2</li><li>Tu plan del reto: +5 · Valorar la semana: +20</li><li>Cada paso de Propósito: +15</li><li>Lectura superada (su comprobación): +10</li><li>Cada día de entreno con 7 de 10 o más: +5</li><li>Aprobar el quiz de una región (la primera vez): +20</li><li>Completar un reto de 7 días: +30 (cuentan hasta 3 por semana)</li><li>Hacer una propuesta de Descubre: +40</li><li>Hacer el repaso semanal: +20</li><li>Hábitos que mantienes: +3 al día</li><li>Aprobar un test final: +50</li><li>Repetir un quiz ya aprobado: 0</li></ul><p class="muted" style="margin:0;font-size:.8rem">Emociones, autoestima, adicciones y tus tests de autoconocimiento no dan puntos: son para conocerte.</p></details></div>`}
 function vColeccion(){
   const G=gState(),A=Object.fromEntries(G.areas.map(a=>[a.k,a]));let sel=A[S.colSel]||G.areas.find(a=>a.act)||G.areas[0];
@@ -3857,8 +3876,8 @@ const FAQ=[
 ];
 function vDudas(){const q=(S.faqQ||"").toLowerCase();
   return `<section class="stack"><div><p class="eyebrow">Dudas frecuentes</p><h1>Lo que todo el mundo pregunta</h1><p class="lead muted" style="margin-top:10px;max-width:60ch">Respuestas cortas a las dudas más típicas. Toca una pregunta para ver la respuesta.</p></div>
+   <div class="faqsearch"><label for="faqq" class="eyebrow" style="margin:0">🔎 ¿Buscas algo concreto?</label><input id="faqq" class="field" type="search" placeholder="Escribe la duda que tengas, si quieres (trofeo, niebla, XP…)" value="${esc(S.faqQ||"")}" aria-label="Escribe tu duda"></div>
    <details class="card fold"><summary><span class="fi">✨</span>¿Cómo gano XP?</summary><ul style="margin:10px 0 0;padding-left:18px;font-size:.92rem"><li>Marcar tu reto: Sí +10 · Un poco +6 · Hoy no +2</li><li>Tu plan del reto: +5 · Valorar la semana: +20</li><li>Superar una lectura: +10</li><li>Aprobar el quiz de una región: +20</li><li>Superar un reto de 7 días: +30 (hasta 3 por semana)</li><li>Entrenar en una región: +5 por día</li><li>Descubre: +40 · Repaso semanal: +20 · Paso de Propósito: +15</li><li>Aprobar un test final: +50</li></ul><p class="muted" style="font-size:.8rem;margin:8px 0 0">Tus tests y «¿Cómo te sientes hoy?» no dan XP: son para conocerte.</p></details>
-   <input id="faqq" class="field" type="search" placeholder="Busca: trofeo, niebla, XP, racha, privacidad…" value="${esc(S.faqQ||"")}" aria-label="Buscar en las dudas">
    ${FAQ.map(([g,L])=>`<div class="stack faqg" style="gap:8px"><p class="eyebrow">${g}</p>${L.map(([p,r])=>`<details class="card faq"><summary>${esc(p)}</summary><p style="margin-top:10px">${esc(r)}</p></details>`).join("")}</div>`).join("")}
    <button class="card mwruta" data-act="carta-again" data-n="3"><span class="pxchip">EJEMPLO</span><span style="flex:1;text-align:left"><b>La aventura de Nora</b><br><span class="muted" style="font-size:.85rem">Cómo gana sus trofeos y evoluciona alguien de verdad, semana a semana</span></span><span aria-hidden="true">→</span></button>
    <p class="muted" id="faqnone" style="display:none">No hemos encontrado nada. Prueba con otra palabra o pregúntale a tu tutor.</p>
@@ -3982,6 +4001,7 @@ function render(){
   const v={hoy:vHoy,ruta:vMundo,quiz:vQuiz,recall:vRecall,mas:vMas,escena:vEscena,proposito:vProposito,mapa:vMapa,explorar:vExplorar,mundo:vMundo,region:vRegion,entreno:vEntreno,carta:vCarta,prueba:vPrueba,clase:vClase,profe:vProfe,validar:vValidar,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,personaje:vPersonaje,coleccion:vColeccion,final:vFinal,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
   document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${S.back&&S.back.v!==S.view&&!S.testing?`<button class="backbar" data-act="goback">← Volver a ${VNAME[S.back.v]||"atrás"}</button>`:""}${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
   try{advInit()}catch(e){}
+  try{bgmSet(bgmWant())}catch(e){}
   try{document.body.classList.toggle("introfocus",!!S._intro);document.body.classList.toggle("focus",S.view==="escena");if(S.view==="escena")scArm()}catch(e){}
   if(S.view==="dudas"&&S.faqQ)faqFilter();
   try{mwScale()}catch(e){}
