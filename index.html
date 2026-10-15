@@ -237,6 +237,14 @@ details.card summary::-webkit-details-marker{display:none}
 .hoycard.tocar{border:3px solid var(--accent)}
 .hoycard.ok{border:3px solid var(--good);background:linear-gradient(var(--good-bg),var(--surface) 55%)}
 .hoycard{gap:12px}
+.retocard,.today.area.retocard,.hoycard.retocard.tocar,.hoycard.retocard.ok{border:3px solid var(--warn);background:var(--warn-bg)}
+.retocard .checkin button,.retocard .week button{background:var(--surface)}
+.retowhat{background:var(--surface);border:2px dashed var(--warn);padding:10px 12px;font-size:.92rem;line-height:1.45}
+.hwhy{margin:0;font-size:.86rem;color:var(--muted)}
+.hoth{display:flex;flex-direction:column;gap:8px;margin-top:6px;padding:12px;background:var(--surface-2);border:2px dashed var(--line)}
+.hothh{margin:0;font-weight:800;color:var(--muted)}.hothh span{font-weight:600}.hoths{margin:0;font-size:.82rem;color:var(--muted)}
+.hothr{display:flex;gap:10px;align-items:center;text-align:left;background:transparent;border:2px solid var(--line);color:var(--muted);padding:6px 10px 6px 6px;font:inherit;cursor:pointer}
+.hothr .hcc{filter:grayscale(.85);opacity:.7}.hothr .hct{flex:1;min-width:0}.hothr .hcb i{background:var(--muted)!important}.hgo{font-size:.82rem;font-weight:700}
 .checkin button[data-log="si"]{border-color:var(--good);color:var(--good)}
 .checkin button[data-log="poco"]{border-color:var(--warn);color:var(--warn)}
 .checkin button[data-log="no"]{border-color:var(--line);color:var(--muted)}
@@ -1741,7 +1749,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015104644";
+const APP_V="20261015121805";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1845,7 +1853,13 @@ function hoyOpen(R){const act=S.active?aK(S.active.id):null,cur=hoyCur(R);
   return L.sort((a,b)=>(b===act)-(a===act)||hoyProg(b)[0]/hoyProg(b)[1]-hoyProg(a)[0]/hoyProg(a)[1])}
 function hoyChips(){const R=mwSeen(),cur=hoyCur(R),L=hoyOpen(R),act=S.active?aK(S.active.id):null;if(L.length<2)return "";
   return `<div class="hchips" role="tablist" aria-label="Tus regiones en marcha">${L.map(k=>{const [d,n]=hoyProg(k),A=GDIF[k]?gArea(k):null;return `<button class="hchip${k===cur?" on":""}" role="tab" aria-selected="${k===cur}" data-hreg="${k}"><span class="hcc">${creSVG(k,1.6)}</span><span class="hct"><b>${esc(GREG[k])}</b><span class="hcb"><i style="width:${Math.round(d/n*100)}%"></i></span><small>${d}/${n}${A&&A.metal!=="ninguno"?" · "+A.metal:""}${k===act?" · 🔥 reto":""}</small></span></button>`}).join("")}</div>`}
-function hoyPath(){const R=mwSeen(),k=hoyCur(R);if(!k||!MWPOS[k])return "";const a=AREAS[AK[k]],G=gState(),st=hoySteps(k),cur=st.findIndex(x=>!x[3]),lo=!!(S.g.lore||{})[k],cn=(CREN[k]||[""])[0].split(",")[0];
+function hoyPriWhy(k){if(S.active&&aK(S.active.id)===k)return "Es tu prioridad porque aquí tienes tu reto en marcha.";if(hoyProg(k)[0]>0)return "Es tu prioridad porque es la región que tienes más avanzada: acábala antes de centrarte en otra.";return "Es tu prioridad porque, de las regiones que tienes abiertas, es la que salió más baja en tu test: aquí es donde más puedes ganar."}
+function hoyPri(R){R=R||mwSeen();if(S.active){const k=aK(S.active.id);if(k&&MWPOS[k])return k}
+  const O=mwOrder(),st=O.filter(k=>GDIF[k]&&R.has(k)&&hoyProg(k)[0]>0&&gArea(k).metal!=="oro").sort((a,b)=>hoyProg(b)[0]-hoyProg(a)[0]||O.indexOf(a)-O.indexOf(b));return st[0]||mwFocus(R)}
+function hoyOthers(){const R=mwSeen(),pk=hoyPri(R);
+  const L=[...R].filter(k=>MWPOS[k]&&k!==pk&&k!=="VAL").sort((a,b)=>hoyProg(b)[0]/hoyProg(b)[1]-hoyProg(a)[0]/hoyProg(a)[1]);if(!L.length)return "";
+  return `<div class="hoth"><p class="hothh">Otras regiones abiertas · <span>no son prioridad ahora</span></p><p class="hoths">Puedes avanzar en ellas si te apetece, pero lo que más te ayuda es tu prioridad de arriba.</p>${L.map(k=>{const [d,n]=hoyProg(k),A=GDIF[k]?gArea(k):null;return `<button class="hothr" data-reg="${k}"><span class="hcc">${creSVG(k,1.4)}</span><span class="hct"><b>${esc(GREG[k])}</b><span class="hcb"><i style="width:${Math.round(d/n*100)}%"></i></span><small>${d}/${n}${A&&A.metal!=="ninguno"?" · "+A.metal:d?"":" · sin empezar"}</small></span><span class="hgo">Ir →</span></button>`}).join("")}</div>`}
+function hoyPath(){const R=mwSeen(),k=hoyPri(R);if(!k||!MWPOS[k])return "";const a=AREAS[AK[k]],G=gState(),st=hoySteps(k),cur=st.findIndex(x=>!x[3]),lo=!!(S.g.lore||{})[k],cn=(CREN[k]||[""])[0].split(",")[0];
   const A=GDIF[k]?gArea(k):null,metal=A?A.metal:null;
   const track=`<div class="htrack" style="--n:${st.length}">${st.map(([ic,l,v,d],i)=>`<div class="hstep ${d?"done":i===cur?"cur":"todo"}">${i===cur?`<span class="hme">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),1)}</span>`:""}<span class="hdot">${d?"✓":ic}</span><b>${l}</b>${v?`<span>${esc(v)}</span>`:""}</div>`).join("")}</div>`;
   let now,btn="";
@@ -1854,14 +1868,14 @@ function hoyPath(){const R=mwSeen(),k=hoyCur(R);if(!k||!MWPOS[k])return "";const
   else{now=A.next||"";btn=gBtn(k,A.act)}
   const left=st.filter(x=>!x[3]).length,goal=A?(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para el oro de esta región.`:"¡Región completada con oro!"):(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para abrir un camino nuevo.`:"");
   const nb=G.areas.filter(x=>x.metal!=="ninguno").length,np=G.areas.filter(x=>x.metal==="plata"||x.metal==="oro").length,no=G.areas.filter(x=>x.metal==="oro").length;
-  return `<div class="card hpath"><div class="hph"><span class="hpcre">${creSVG(k,3)}</span><div class="stack" style="gap:2px;min-width:0;flex:1"><span class="pxchip">📍 ESTÁS AQUÍ</span><b class="pxname" style="font-size:1.1rem">${esc(GREG[k])}</b><span class="muted" style="font-size:.82rem">${esc(a.n)}${A?` · ${GMET[metal]}`:" · para conocerte"}</span></div><span class="hptro">${A?trSVG(GICO[k],metal,2):MWCRY}</span></div>
+  return `<div class="card hpath"><div class="hph"><span class="hpcre">${creSVG(k,3)}</span><div class="stack" style="gap:2px;min-width:0;flex:1"><span class="pxchip">🎯 TU PRIORIDAD</span><b class="pxname" style="font-size:1.1rem">${esc(GREG[k])}</b><span class="muted" style="font-size:.82rem">${esc(a.n)}${A?` · ${GMET[metal]}`:" · para conocerte"}</span></div><span class="hptro">${A?trSVG(GICO[k],metal,2):MWCRY}</span></div><p class="hwhy">${hoyPriWhy(k)}</p>
    ${track}${A?(()=>{const P=A.plan,ci=P.findIndex(c=>!c.it.every(x=>x[0]));return ci<0?"":`<ul class="chl">${P[ci].it.map(([ok,t],j)=>{const w=gWhen(k,A,ci,j);return `<li class="${ok?"ok":""}"><span>${ok?"✓":"☐"}</span><div>${esc(t)}${ok?"":`<em class="when ${w[0]}">${esc(w[1])}</em>`}</div></li>`}).join("")}</ul>`})():""}
    <div class="hnow"><span class="pxchip" style="background:#1E2B38;color:#FFE27A">AHORA TOCA</span><p style="margin:6px 0 0">${esc(now)}</p>${btn?`<div style="margin-top:10px">${btn}</div>`:""}</div>
    <div class="hfoot"><span>🏁 ${goal}</span><span>🗺️ ${R.size} de ${Object.keys(MWPOS).length} regiones · ${trSVG("copa","bronce",1)} ${nb} ${trSVG("copa","plata",1)} ${np} ${trSVG("copa","oro",1)} ${no}</span><button class="linkbtn" data-go="mundo">Ver el mapa →</button></div></div>`}
-function hoyReto(){const R=mwSeen(),k=hoyCur(R);if(!k||!GDIF[k]||k==="VAL")return "";const A=gArea(k);if(!A.T.b||A.T.p)return "";const done=new Set(S.history.map(h=>h.id));
+function hoyReto(){const R=mwSeen(),k=hoyPri(R);if(!k||!GDIF[k]||k==="VAL")return "";const A=gArea(k);if(!A.T.b||A.T.p)return "";const done=new Set(S.history.map(h=>h.id));
   const c=mwCs(k).find(c=>c.h&&!done.has(c.id))||mwCs(k).find(c=>c.h);if(!c)return "";const a=AREAS[c.a];
-  return `<div class="today area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag">Reto de 7 días · para la plata</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[k])}</span></div>
-   <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><p class="challenge">Tu reto: ${esc(c.h)}</p>${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
+  return `<div class="today area retocard" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag" style="background:var(--warn)">🔥 TU RETO · elige y empieza</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[k])}</span></div>
+   <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><div class="retowhat"><b>🔥 ¿Qué es tu reto?</b> Durante 7 días haces una acción pequeña de este tema y la marcas aquí cada día. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[k]||"esta región")}.</div><p class="challenge">Tu reto: ${esc(c.h)}</p>${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
    <div class="row"><button class="btn" data-start="${c.id}">Empezar este reto</button><button class="btn ghost" data-gact="retos|${k}">Elegir otro de la región</button></div></div>`}
 function vHoy(){
   if(S.testing)return vTest();
@@ -1898,12 +1912,12 @@ function vHoy(){
       ${S.active.rating?(ok?`<div class="row"><button class="btn" data-finish="next">Siguiente misión (+20 XP)</button><button class="btn ghost" data-finish="repeat">Repetir una semana más</button></div>`
         :`<div class="row"><button class="btn" data-finish="repeat">Repetir la semana (+20 XP)</button><button class="btn ghost" data-finish="skip">Pasar igualmente al siguiente</button></div>`):""}`}
     const ph=n===1?0:n<7?1:2,tl=`<div class="steps3">${[["Día 1","Prepárate: tu plan y tu hora"],["Días 2 a 6","Hazlo y márcalo cada día"],["Día 7","Valóralo: con 4 días lo superas"]].map(([d,x],k)=>`<div class="${k===ph?"on":k<ph?"done":""}"><b>${d}</b><span>${x}</span></div>`).join("")}</div>`;
-    const tag=pend?`<span class="daytag" style="background:var(--accent)">MISIÓN · ${n>=7?"Día 7 · valora tu semana":n===1&&!S.active.plan?"Día 1 · prepárate":`Día ${n} de 7`}</span>`:`<span class="daytag" style="background:var(--good)">✓ HECHO · Día ${Math.min(n,7)} de 7</span>`;
+    const tag=pend?`<span class="daytag" style="background:var(--warn)">🔥 TU RETO · ${n>=7?"Día 7 · valora tu semana":n===1&&!S.active.plan?"Día 1 · prepárate":`Día ${n} de 7`}</span>`:`<span class="daytag" style="background:var(--good)">🔥 RETO ✓ HECHO HOY · Día ${Math.min(n,7)} de 7</span>`;
     const lead=n>=7?"":n===1&&!S.active.plan?`<p>Hoy solo preparas tu plan. 1 minuto.</p>`:n===1?`<p>Hoy: <b>${esc(lc(act1))}</b>, si te da tiempo. Si no, empiezas mañana.</p>`:`<p>Hoy: <b>${esc(lc(act1))}</b>.</p>${v?"":`<p style="font-weight:800;margin-top:-6px">¿Lo has hecho?</p>`}`;
     const week=n<7&&!(n===1&&!S.active.plan)?`<div class="week">${dots}</div><div class="wkleg"><span><i class="si"></i>Sí</span><span><i class="poco"></i>Un poco</span><span><i class="no"></i>Hoy no</span><span><i></i>Sin marcar</span></div><p class="muted" style="font-size:.82rem;margin-top:-4px">${g} de 7 días. Con 5 lo superas. ¿Se te olvidó un día? Toca su círculo.</p>`:"";
     const extra=`<details class="more2"><summary>Ver el plan, el ejemplo y para qué sirve</summary><div class="stack" style="margin-top:10px;gap:10px">${tl}<p class="muted" style="font-size:.9rem">${esc(c.q)}</p><p class="why"><b>Por qué importa:</b> ${AREA_WHY[c.a]}.${S.P.done[7]&&S.P.f.que?` Y eso te acerca a tu propósito: ${esc(S.P.f.verb)} ${esc(S.P.f.que)}.`:""}</p>${S.active.plan?`<p style="font-size:.92rem"><b>Tu plan:</b> ${esc(S.active.plan)}${S.active.time?` · Tu hora: ${esc(S.active.time)}`:""}</p>${calBox()}`:""}${E&&!(n===1&&!S.active.plan)?`<div class="guide"><p class="eyebrow">Un ejemplo</p><p>${esc(E[0])}</p></div>`:""}${S.more?moreBox(c):`<button class="btn ghost" data-act="more" style="width:max-content;padding:8px 16px">Quiero saber más</button>`}</div></details>`;
-    main=`<div class="today area hoycard ${pend?"tocar":"ok"}" style="--h:${a.h}"><div class="row" style="justify-content:space-between">${tag}<span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
-      <h2>${esc(c.t)}</h2>${valLine(a.k)}${lead}${action}${pend?"":`<div class="doneline"><span class="bigck">✓</span><div>${(()=>{const L=stoState();return L&&L.next>=0?`<button class="linkbtn" data-act="learn-open" style="display:block;margin-bottom:4px">🔓 Has desbloqueado un capítulo nuevo de la historia →</button>`:""})()}<b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`}${week}${extra}</div>`;
+    main=`<div class="today area hoycard retocard ${pend?"tocar":"ok"}" style="--h:${a.h}"><div class="row" style="justify-content:space-between">${tag}<span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
+      <h2>${esc(c.t)}</h2>${valLine(a.k)}<div class="retowhat"><b>🔥 ¿Qué es tu reto?</b> Durante 7 días haces una acción pequeña de este tema y la marcas aquí cada día. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[a.k]||"esta región")}.</div>${lead}${action}${pend?"":`<div class="doneline"><span class="bigck">✓</span><div>${(()=>{const L=stoState();return L&&L.next>=0?`<button class="linkbtn" data-act="learn-open" style="display:block;margin-bottom:4px">🔓 Has desbloqueado un capítulo nuevo de la historia →</button>`:""})()}<b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`}${week}${extra}</div>`;
   }
   const banner=rescueBanner();
   const lastT=S.tests.length?S.tests[S.tests.length-1].date:null,retest=lastT&&diff(lastT,today())>=28;
@@ -1917,11 +1931,11 @@ function vHoy(){
    <div><p class="hello"><button class="hiav" data-go="mas" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span></div></div>
    ${banner}
-   ${hoyChips()}
    ${hoyPath()}
    ${main}
    ${status}
    ${S.active&&!pend?learnCard():""}
+   ${hoyOthers()}
    ${notices?`<div class="stack" style="gap:8px">${notices}</div>`:""}
 
 
