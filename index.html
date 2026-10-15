@@ -508,6 +508,7 @@ html[data-font="retro"] .pxname{font-size:1.05rem;letter-spacing:0;line-height:1
 .advhl{animation:advhl 1.6s ease-out}@keyframes advhl{0%{box-shadow:0 0 0 0 var(--accent)}30%{box-shadow:0 0 0 8px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
 @media (prefers-reduced-motion:reduce){.advdown,.advhl{animation:none}}
 #advnext{scroll-margin-top:12px}
+body.introfocus #nav,body.introfocus footer,body.introfocus .foot,body.introfocus .totop{display:none!important}
 .advscroll{align-self:center;font-size:2.6rem}
 .advname{display:flex;flex-direction:column;gap:10px;margin-top:12px}.advname .field{max-width:260px;background:#F4F1E8;color:#1E2B38}
 @media (prefers-reduced-motion:reduce){.advstage.magic::before,.spark,.bob,.advnpc.appear,.glowc,.pxcomp .needle,.advfog,.advshard{animation:none!important}.spark{opacity:.8}}
@@ -1779,17 +1780,17 @@ function vIntro(){
   else if(ch){if(cur!=null)txt=advN(ch[cur][1]);
     btns=back;extra=`<div class="dlgopts" role="group" aria-label="Elige qué responder">${ch.map(([q],i)=>`<button class="dlgo${asked.includes(i)?" asked":""}" data-advq="${k}:${i}">${asked.includes(i)?"✓":"▸"} ${esc(q)}</button>`).join("")}${asked.length?`<button class="dlgo go" data-adv="${k+1}">▶ Continuar</button>`:""}</div>`}
   const box=`<div class="adv">${introStage(t)}<div class="advbox"><span class="advwho">${esc(who)}</span><p class="advtxt" data-tw>${esc(txt)}</p>${extra}<div class="advbar"><span class="advcnt">${k}/${last}</span><div class="row" style="gap:8px;margin-left:auto">${btns}</div></div></div></div>`;
-  if(k<last)return `<section class="stack intro">${box}</section>`;
+  const ended=n>0||!!store.get("advEnd",false);
+  if(k<last||!ended){S._intro=true;return `<section class="stack intro">${box}</section>`}
   const CTA=`<button class="btn" data-act="start" style="font-size:1.1rem;padding:14px 28px">🪞 ${n?"Seguir con el Espejo":"Mirarme en el Espejo · 6 minutos"}</button><p class="muted" style="font-size:.88rem;margin:0">Gratis. Sin registro. Solo tú ves tus respuestas. <button data-go="dudas" style="background:none;border:0;padding:0;color:var(--brand);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">¿Dudas?</button></p>`;
   return `<section class="stack intro">${box}
-   <button class="advdown" data-act="advdown">▼ Tu aventura sigue aquí abajo ▼</button>
    <div id="advnext" class="stack" style="gap:16px">${iconCard()}
    <div class="card stack" style="gap:10px"><p class="eyebrow" style="margin:0">¿Con qué letra quieres jugar?</p>${fontPick()}${CTA}${n?`<p class="muted" style="margin:0">Llevas ${n} de ${NQ} respuestas.</p>`:""}</div></div>
    <button class="advskip" data-adv="1">◀ Volver a escuchar a la Cartógrafa</button>
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015145259";
+const APP_V="20261015145715";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -3947,11 +3948,11 @@ function scAct(v,el){const X=S.sc;if(!X)return;const id=X.id,st=scSteps(id),s=st
   if(a==="pred"||a==="mt"||a==="case"||a==="clchk"||a==="conn"){const f=document.querySelector(".scfb");if(f)f.scrollIntoView({behavior:"smooth",block:"nearest"})}}
 let scTimer=null;function scArm(){clearTimeout(scTimer);const b=document.querySelector("#scnext[disabled]");if(!b)return;const w=parseFloat(b.style.getPropertyValue("--w"))||3;scTimer=setTimeout(()=>{if(!b.isConnected)return;b.disabled=false;b.classList.add("pop")},w*1000)}
 function render(){
-  renderNav();try{gCheck()}catch(e){}
+  S._intro=false;renderNav();try{gCheck()}catch(e){}
   const v={hoy:vHoy,ruta:vMundo,quiz:vQuiz,recall:vRecall,mas:vMas,escena:vEscena,proposito:vProposito,mapa:vMapa,explorar:vExplorar,mundo:vMundo,region:vRegion,entreno:vEntreno,carta:vCarta,prueba:vPrueba,clase:vClase,profe:vProfe,validar:vValidar,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,personaje:vPersonaje,coleccion:vColeccion,final:vFinal,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas}[S.view]();
   document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${S.back&&S.back.v!==S.view&&!S.testing?`<button class="backbar" data-act="goback">← Volver a ${VNAME[S.back.v]||"atrás"}</button>`:""}${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
   try{advInit()}catch(e){}
-  try{document.body.classList.toggle("focus",S.view==="escena");if(S.view==="escena")scArm()}catch(e){}
+  try{document.body.classList.toggle("introfocus",!!S._intro);document.body.classList.toggle("focus",S.view==="escena");if(S.view==="escena")scArm()}catch(e){}
   if(S.view==="dudas"&&S.faqQ)faqFilter();
   try{mwScale()}catch(e){}
   try{albFill()}catch(e){}
@@ -4061,7 +4062,7 @@ document.addEventListener("click",e=>{
   if(d.area){if(t.classList.contains("titem")){S.exQ="";S.exArea=null;S.exMode="conceptos"}if(d.area==="all"){S.exArea=null;S.exMyth=false;S.exQ=""}else{S.exArea=S.exArea===+d.area?null:+d.area;S.exMyth=false}render();return}
   if(d.myth){S.exMyth=!S.exMyth;S.exArea=null;render();return}
   const act=d.act;
-  if(act==="advdown"){const el=document.getElementById("advnext");if(el){el.scrollIntoView({behavior:"smooth",block:"start"});const c=el.firstElementChild;if(c){c.classList.remove("advhl");void c.offsetWidth;c.classList.add("advhl")}}return}
+  if(act==="advdown"){if(!store.get("advEnd",false)){store.set("advEnd",true);render()}const el=document.getElementById("advnext");if(el){el.scrollIntoView({behavior:"smooth",block:"start"});const c=el.firstElementChild;if(c){c.classList.remove("advhl");void c.offsetWidth;c.classList.add("advhl")}}return}
   if(act==="advname"||act==="advanon"){const v=act==="advanon"?"":((document.getElementById("advname")||{}).value||"").trim().slice(0,30);if(act==="advname"&&!v){toast("Escribe un nombre o elige «Prefiero no decirlo»");return}S.name=v;store.set("name",v);S.advN=(S.advN||0)+1;store.set("advN",S.advN);S.advA=null;render();window.scrollTo({top:0});return}
   if(act==="start"){const un=document.getElementById("uname");if(un&&typeof un.value==="string"&&un.value.trim()){S.name=un.value.trim().slice(0,30);store.set("name",S.name)}S.testing=true;const first=[...Array(NA).keys()].find(i=>[0,1,2].some(j=>S.answers[i*3+j]===undefined));S.step=first===undefined?0:first;render();window.scrollTo({top:0})}
   else if(act==="cap-add"){const i=+d.v,pr=CAPP[i];S.capr.push(pr?{n:pr[1],p:pr[2],f:pr[3],e:1}:{n:"",p:1,f:"s",e:1});capSave();render();if(!pr){const n=document.getElementById("cn"+(S.capr.length-1));n&&n.focus()}}
