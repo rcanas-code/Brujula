@@ -242,7 +242,7 @@ details.card summary::-webkit-details-marker{display:none}
 .retowhat{background:var(--surface);border:2px dashed var(--warn);padding:10px 12px;font-size:.92rem;line-height:1.45}
 .hwhy{margin:0;font-size:.86rem;color:var(--muted)}
 .hoth{display:flex;flex-direction:column;gap:8px;margin-top:6px;padding:12px;background:var(--surface-2);border:2px dashed var(--line)}
-.hothh{margin:0;font-weight:800;color:var(--muted)}.hothh span{font-weight:600}.hoths{margin:0;font-size:.82rem;color:var(--muted)}
+.hothh{margin:0;font-weight:800;color:var(--muted);cursor:pointer}.hoth[open]>summary{margin-bottom:4px}.hothh span{font-weight:600}.hoths{margin:0;font-size:.82rem;color:var(--muted)}
 .hothr{display:flex;gap:10px;align-items:center;text-align:left;background:transparent;border:2px solid var(--line);color:var(--muted);padding:6px 10px 6px 6px;font:inherit;cursor:pointer}
 .hothr .hcc{filter:grayscale(.85);opacity:.7}.hothr .hct{flex:1;min-width:0}.hothr .hcb i{background:var(--muted)!important}.hgo{font-size:.82rem;font-weight:700}
 .checkin button[data-log="si"]{border-color:var(--good);color:var(--good)}
@@ -1749,7 +1749,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015121805";
+const APP_V="20261015132642";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -1858,13 +1858,15 @@ function hoyPri(R){R=R||mwSeen();if(S.active){const k=aK(S.active.id);if(k&&MWPO
   const O=mwOrder(),st=O.filter(k=>GDIF[k]&&R.has(k)&&hoyProg(k)[0]>0&&gArea(k).metal!=="oro").sort((a,b)=>hoyProg(b)[0]-hoyProg(a)[0]||O.indexOf(a)-O.indexOf(b));return st[0]||mwFocus(R)}
 function hoyOthers(){const R=mwSeen(),pk=hoyPri(R);
   const L=[...R].filter(k=>MWPOS[k]&&k!==pk&&k!=="VAL").sort((a,b)=>hoyProg(b)[0]/hoyProg(b)[1]-hoyProg(a)[0]/hoyProg(a)[1]);if(!L.length)return "";
-  return `<div class="hoth"><p class="hothh">Otras regiones abiertas · <span>no son prioridad ahora</span></p><p class="hoths">Puedes avanzar en ellas si te apetece, pero lo que más te ayuda es tu prioridad de arriba.</p>${L.map(k=>{const [d,n]=hoyProg(k),A=GDIF[k]?gArea(k):null;return `<button class="hothr" data-reg="${k}"><span class="hcc">${creSVG(k,1.4)}</span><span class="hct"><b>${esc(GREG[k])}</b><span class="hcb"><i style="width:${Math.round(d/n*100)}%"></i></span><small>${d}/${n}${A&&A.metal!=="ninguno"?" · "+A.metal:d?"":" · sin empezar"}</small></span><span class="hgo">Ir →</span></button>`}).join("")}</div>`}
+  return `<details class="hoth"><summary class="hothh">Otras regiones abiertas (${L.length}) · <span>no son prioridad ahora</span></summary><p class="hoths">Puedes avanzar en ellas si te apetece, pero lo que más te ayuda es acabar tu prioridad de arriba.</p>${L.map(k=>{const [d,n]=hoyProg(k),A=GDIF[k]?gArea(k):null;return `<button class="hothr" data-reg="${k}"><span class="hcc">${creSVG(k,1.4)}</span><span class="hct"><b>${esc(GREG[k])}</b><span class="hcb"><i style="width:${Math.round(d/n*100)}%"></i></span><small>${d}/${n}${A&&A.metal!=="ninguno"?" · "+A.metal:d?"":" · sin empezar"}</small></span><span class="hgo">Ir →</span></button>`}).join("")}</details>`}
 function hoyPath(){const R=mwSeen(),k=hoyPri(R);if(!k||!MWPOS[k])return "";const a=AREAS[AK[k]],G=gState(),st=hoySteps(k),cur=st.findIndex(x=>!x[3]),lo=!!(S.g.lore||{})[k],cn=(CREN[k]||[""])[0].split(",")[0];
   const A=GDIF[k]?gArea(k):null,metal=A?A.metal:null;
   const track=`<div class="htrack" style="--n:${st.length}">${st.map(([ic,l,v,d],i)=>`<div class="hstep ${d?"done":i===cur?"cur":"todo"}">${i===cur?`<span class="hme">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),1)}</span>`:""}<span class="hdot">${d?"✓":ic}</span><b>${l}</b>${v?`<span>${esc(v)}</span>`:""}</div>`).join("")}</div>`;
   let now,btn="";
   if(!lo){now=`Antes de nada, habla con ${cn}: te espera a la entrada de la región.`;btn=`<button class="btn" data-reg="${k}">💬 Ir a hablar con ${esc(cn)}</button>`}
   else if(!A){now=st[1][3]?"¡Hecho! Ya has abierto un camino nuevo desde aquí.":"Supera 3 lecturas de esta región: así se abre un camino nuevo en el mapa.";btn=`<button class="btn" data-reg="${k}">📖 Ver sus lecturas</button>`}
+  else if(S.active&&aK(S.active.id)===k&&!A.T.p&&S.active.start<A.T.b){now=`Tu reto actual empezó antes de conseguir el bronce, así que no cuenta para la plata. Acábalo (termina el ${fmtD(addDays(S.active.start,6))}) y después empieza otro de esta región.`;btn=""}
+  else if(S.active&&aK(S.active.id)===k&&!A.T.p){now="Tu reto está en marcha: márcalo cada día en la tarjeta naranja de aquí abajo."+(A.act&&A.act[0]==="train"?" Mientras dura, si te apetece, puedes ir entrenando para el oro (una vez al día).":"");btn=A.act&&A.act[0]==="train"?gBtn(k,A.act,"btn ghost"):""}
   else{now=A.next||"";btn=gBtn(k,A.act)}
   const left=st.filter(x=>!x[3]).length,goal=A?(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para el oro de esta región.`:"¡Región completada con oro!"):(left?`Te ${left>1?"quedan":"queda"} ${left} ${left>1?"pasos":"paso"} para abrir un camino nuevo.`:"");
   const nb=G.areas.filter(x=>x.metal!=="ninguno").length,np=G.areas.filter(x=>x.metal==="plata"||x.metal==="oro").length,no=G.areas.filter(x=>x.metal==="oro").length;
@@ -2956,7 +2958,7 @@ function gWhen(k,A,i,j){const T=A.T,P=A.plan,it=P[i].it[j],t=today(),x=it[2]&&it
   if(x==="area"){const left=mwCs(k).filter(c=>!(S.g.ok||{})[c.id]);return left.length&&lqCap(left[0].id)?["tom","🌙 Mañana: hoy ya has superado 2"]:["now",`🟢 Hoy puedes superar ${Math.min(2-mwCs(k).filter(c=>(S.g.ok||{})[c.id]===t).length,3)} más`]}
   if(x==="quiz")return qBlocked(k)?["tom","🌙 Mañana: hoy ya lo has intentado"]:["now","🟢 Puedes hacerlo hoy"];
   if(i===1&&!T.b)return ["later","🔒 Más adelante: con el bronce"];
-  if(x==="retos"){if(S.active&&!actHere)return ["later",`🔒 Cuando acabes tu reto actual (el ${fmtD(endR)})`];return ["now","🟢 Puedes empezarlo hoy"]}
+  if(x==="retos"){if(actHere&&S.active.start<T.b)return ["later",`🔒 Cuando acabes tu reto actual (el ${fmtD(endR)}): empezó antes del bronce y no cuenta`];if(S.active&&!actHere)return ["later",`🔒 Cuando acabes tu reto actual (el ${fmtD(endR)})`];return ["now","🟢 Puedes empezarlo hoy"]}
   if(i===1&&j===1){if(actHere&&S.active.start>=T.b)return ["now",`▶ Día ${Math.min(dayN(),7)} de 7 · termina el ${fmtD(endR)}`];return ["later","🔒 Al empezar el reto: 7 días"]}
   if(x==="foto"){return P[1].it[1][0]?["now","🟢 Puedes hacerlo hoy"]:["later","🔒 Al terminar el reto (día 7)"]}
   if(x==="train"){if(!T.b)return ["later","🔒 Más adelante: con el bronce"];if(((S.g.ent||{})[k]||[]).includes(t))return ["tom","🌙 Mañana: hoy ya has entrenado"];return ["now","🟢 Puedes entrenar hoy"]}
