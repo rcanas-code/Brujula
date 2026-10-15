@@ -503,6 +503,11 @@ html[data-font="retro"] .pxname{font-size:1.05rem;letter-spacing:0;line-height:1
 .advfog.f2{animation-duration:13s;animation-direction:alternate-reverse;opacity:.7}@keyframes fgd{from{transform:translateX(-12%)}to{transform:translateX(12%)}}
 .advguard{display:flex;gap:18px;align-items:flex-end;align-self:center}
 .advshard{align-self:center;filter:drop-shadow(0 0 10px #9B7BFF);animation:glw2 1.8s ease-in-out infinite}.advshard svg{width:56px;height:72px}@keyframes glw2{50%{filter:drop-shadow(0 0 22px #C9B6FF);transform:translateY(-4px)}}
+.advdown{align-self:center;background:var(--accent);color:#fff;border:3px solid var(--px-ink,#1E2B38);font-family:var(--pxf);font-weight:700;font-size:.9rem;padding:10px 16px;cursor:pointer;animation:advnud 1.2s ease-in-out infinite}
+@keyframes advnud{50%{transform:translateY(6px)}}
+.advhl{animation:advhl 1.6s ease-out}@keyframes advhl{0%{box-shadow:0 0 0 0 var(--accent)}30%{box-shadow:0 0 0 8px var(--accent)}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.advdown,.advhl{animation:none}}
+#advnext{scroll-margin-top:12px}
 .advscroll{align-self:center;font-size:2.6rem}
 .advname{display:flex;flex-direction:column;gap:10px;margin-top:12px}.advname .field{max-width:260px;background:#F4F1E8;color:#1E2B38}
 @media (prefers-reduced-motion:reduce){.advstage.magic::before,.spark,.bob,.advnpc.appear,.glowc,.pxcomp .needle,.advfog,.advshard{animation:none!important}.spark{opacity:.8}}
@@ -1769,7 +1774,7 @@ function vIntro(){
   const n=answered(),last=INTRO.length-1;let k=S.advN;if(k==null){const sv=store.get("advN",null);k=n?last:(sv==null?0:+sv)}k=Math.max(0,Math.min(last,k));S.advN=k;
   if(k===0)return `<section class="stack intro"><div class="advstage advtitle magic">${SPARK(8)}<span class="advlogo-ic">${(()=>{const e=document.querySelector(".logo svg");return e?e.outerHTML:""})()}</span><span class="advlogo">BRÚJULA</span><span class="advsub">Una aventura sobre ti</span><button class="btn advstart" data-adv="1">▶ PULSA PARA EMPEZAR</button></div></section>`;
   const [t,who,txt0,ch]=INTRO[k],back=k>1?`<button class="btn ghost sm" data-adv="${k-1}">◀</button>`:"",asked=(S.advQ||{})[k]||[],cur=S.advA&&S.advA.k===k?S.advA.i:null;
-  let txt=advN(txt0),btns=`${back}${k<last?`<button class="btn sm" data-adv="${k+1}">Continuar ▶</button>`:""}`,extra="";
+  let txt=advN(txt0),btns=`${back}${k<last?`<button class="btn sm" data-adv="${k+1}">Continuar ▶</button>`:`<button class="btn sm" data-act="advdown">Continuar ▼</button>`}`,extra="";
   if(t==="name"){btns=back;extra=`<div class="advname"><input id="advname" class="field" maxlength="30" placeholder="Tu nombre o apodo" value="${esc(S.name)}" autocomplete="off"><div class="row" style="gap:8px"><button class="btn sm" data-act="advname">Así me llamo ▶</button><button class="dlgo" data-act="advanon">Prefiero no decirlo</button></div><span class="advq">Solo se guarda en tu móvil.</span></div>`}
   else if(ch){if(cur!=null)txt=advN(ch[cur][1]);
     btns=back;extra=`<div class="dlgopts" role="group" aria-label="Elige qué responder">${ch.map(([q],i)=>`<button class="dlgo${asked.includes(i)?" asked":""}" data-advq="${k}:${i}">${asked.includes(i)?"✓":"▸"} ${esc(q)}</button>`).join("")}${asked.length?`<button class="dlgo go" data-adv="${k+1}">▶ Continuar</button>`:""}</div>`}
@@ -1777,13 +1782,14 @@ function vIntro(){
   if(k<last)return `<section class="stack intro">${box}</section>`;
   const CTA=`<button class="btn" data-act="start" style="font-size:1.1rem;padding:14px 28px">🪞 ${n?"Seguir con el Espejo":"Mirarme en el Espejo · 6 minutos"}</button><p class="muted" style="font-size:.88rem;margin:0">Gratis. Sin registro. Solo tú ves tus respuestas. <button data-go="dudas" style="background:none;border:0;padding:0;color:var(--brand);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">¿Dudas?</button></p>`;
   return `<section class="stack intro">${box}
-   ${iconCard()}
-   <div class="card stack" style="gap:10px"><p class="eyebrow" style="margin:0">¿Con qué letra quieres jugar?</p>${fontPick()}${CTA}${n?`<p class="muted" style="margin:0">Llevas ${n} de ${NQ} respuestas.</p>`:""}</div>
+   <button class="advdown" data-act="advdown">▼ Tu aventura sigue aquí abajo ▼</button>
+   <div id="advnext" class="stack" style="gap:16px">${iconCard()}
+   <div class="card stack" style="gap:10px"><p class="eyebrow" style="margin:0">¿Con qué letra quieres jugar?</p>${fontPick()}${CTA}${n?`<p class="muted" style="margin:0">Llevas ${n} de ${NQ} respuestas.</p>`:""}</div></div>
    <button class="advskip" data-adv="1">◀ Volver a escuchar a la Cartógrafa</button>
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015145056";
+const APP_V="20261015145259";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -4055,6 +4061,7 @@ document.addEventListener("click",e=>{
   if(d.area){if(t.classList.contains("titem")){S.exQ="";S.exArea=null;S.exMode="conceptos"}if(d.area==="all"){S.exArea=null;S.exMyth=false;S.exQ=""}else{S.exArea=S.exArea===+d.area?null:+d.area;S.exMyth=false}render();return}
   if(d.myth){S.exMyth=!S.exMyth;S.exArea=null;render();return}
   const act=d.act;
+  if(act==="advdown"){const el=document.getElementById("advnext");if(el){el.scrollIntoView({behavior:"smooth",block:"start"});const c=el.firstElementChild;if(c){c.classList.remove("advhl");void c.offsetWidth;c.classList.add("advhl")}}return}
   if(act==="advname"||act==="advanon"){const v=act==="advanon"?"":((document.getElementById("advname")||{}).value||"").trim().slice(0,30);if(act==="advname"&&!v){toast("Escribe un nombre o elige «Prefiero no decirlo»");return}S.name=v;store.set("name",v);S.advN=(S.advN||0)+1;store.set("advN",S.advN);S.advA=null;render();window.scrollTo({top:0});return}
   if(act==="start"){const un=document.getElementById("uname");if(un&&typeof un.value==="string"&&un.value.trim()){S.name=un.value.trim().slice(0,30);store.set("name",S.name)}S.testing=true;const first=[...Array(NA).keys()].find(i=>[0,1,2].some(j=>S.answers[i*3+j]===undefined));S.step=first===undefined?0:first;render();window.scrollTo({top:0})}
   else if(act==="cap-add"){const i=+d.v,pr=CAPP[i];S.capr.push(pr?{n:pr[1],p:pr[2],f:pr[3],e:1}:{n:"",p:1,f:"s",e:1});capSave();render();if(!pr){const n=document.getElementById("cn"+(S.capr.length-1));n&&n.focus()}}
