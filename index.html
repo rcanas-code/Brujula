@@ -1268,10 +1268,23 @@ const CUR=[
 ];
 
 function stOf(k){const id=Object.keys(ST).find(i=>aK(i)===k);return id?ST[id]:null}
-const stWords=t=>new Set(String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").split(/[^a-zñ]+/).filter(w=>w.length>4));
-function stLearn(k,txt,j){const cs=mwCs(k).filter(c=>(S.g.ok||{})[c.id]||cDone(c.id));if(!cs.length)return null;const W=stWords(txt);
-  const sc=cs.map((c,i)=>{const C=stWords(c.t+" "+c.q);let n=0;W.forEach(w=>{if(C.has(w))n++});return [n,i]}).sort((a,b)=>b[0]-a[0]||a[1]-b[1]);
-  return cs[sc[0][0]>0?sc[0][1]:j%cs.length]}
+const stWordsX=t=>new Set(String(t).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").split(/[^a-zñ]+/).filter(w=>w.length>4));
+const STMAP={
+SUE:[["SUE-01"],["SUE-03","SUE-02"],["SUE-01"],["SUE-02","SUE-01"],["SUE-01"],["SUE-02","SUE-01"]],
+MOV:[["MOV-01"],["MOV-04","MOV-01"],["MOV-05"],["MOV-01"],["MOV-01","MOV-05"],["MOV-05","MOV-02"]],
+ALI:[["ALI-01","ALI-06"],["ALI-01","ALI-06"],["ALI-06","ALI-04"],["ALI-02","ALI-03"],["ALI-04","ALI-02"],["ALI-01"]],
+EMO:[["EMO-01"],["EMO-01","EMO-02"],["EMO-02"],["EMO-06"],["EMO-02","EMO-01"],["EMO-06","EMO-03"]],
+PEN:[["PEN-02"],["PEN-02","PEN-05"],["PEN-08","PEN-01"],["PEN-01"],["PEN-10","PEN-06"],["PEN-01","PEN-09"]],
+HAB:[["HAB-01"],["HAB-01","HAB-05"],["HAB-02","HAB-05"],["HAB-01"],["HAB-01","HAB-04"],["HAB-01","HAB-03"]],
+REL:[["REL-01"],["REL-11"],["REL-01"],["REL-11","REL-05"],["REL-01"],["REL-11","REL-01"]],
+ATE:[["ATE-01"],["ATE-01","ATE-03"],["ATE-07","ATE-03"],["ATE-01"],["ATE-03","ATE-02"],["ATE-05","ATE-03"]],
+EST:[["EST-01"],["EST-01"],["EST-02"],["EST-06"],["EST-05","EST-08"],["EST-06","EST-05"]],
+VAL:[["VAL-01"],["VAL-07","VAL-01"],["VAL-05"],["VAL-01","VAL-09"],["VAL-12","VAL-01"],["VAL-01","VAL-11"]],
+DIN:[["DIN-17"],["DIN-21","DIN-25"],["DIN-19"],["DIN-01"],["DIN-01","DIN-17"],["DIN-19"]],
+EDU:[["EDU-03","EDU-01"],["EDU-01"],["EDU-01","EDU-02"],["EDU-04"],["EDU-06","EDU-09"],["EDU-03","EDU-01"]],
+CRI:[["CRI-01"],["CRI-11"],["CRI-01","CRI-11"],["CRI-01","CRI-14"],["CRI-07","CRI-01"],["CRI-10","CRI-01"]],
+AUT:[["AUT-01"],["AUT-01"],["AUT-05","AUT-01"],["AUT-02","AUT-01"],["AUT-01","AUT-02"],["AUT-03","AUT-01"]]};
+function stLearn(k,j){const L=((STMAP[k]||[])[j]||[]).filter(id=>CI[id]);if(!L.length)return null;const got=L.find(id=>(S.g.ok||{})[id]||cDone(id));return got?{c:CI[got],seen:true}:{c:CI[L[0]],seen:false}}
 function stoState(){const a=S.active;if(!a)return null;const k0=aK(a.id),s=stOf(k0);if(!s)return null;const ch=a.sto||{},n=dayN(),avail=Math.min(n,6);
   let next=-1;for(let k=0;k<avail;k++)if(ch[k]===undefined){next=k;break}
   return {s,ch,n,avail,next,done:Object.keys(ch).length,k:k0}}
@@ -1280,7 +1293,7 @@ function learnCard(){
   const L=stoState(),open=S.learnOpen?"open":"";
   if(L){const {s,ch,n,next,done,k}=L,a=S.active;let body="",tag="";const nm=s.who.split(",")[0],gn=(CREN[k]||["El guardián"])[0].split(",")[0];
     const how=`<div class="guide"><p class="eyebrow">¿Cómo funciona?</p><p style="font-size:.92rem"><b>${esc(s.who)}</b> pasó hace tiempo por ${esc(GREG[k])} con un problema parecido al tuyo. ${esc(gn)} te la cuenta por capítulos mientras haces tu reto. No es real, pero le pasan cosas que te pueden pasar a ti: cansancio, excusas, amigos que tiran de ti.</p><ol style="margin:6px 0 0;padding-left:20px;display:grid;gap:4px;font-size:.92rem"><li><b>Cada día, un capítulo</b> (6 en total). ${esc(nm)} tiene que tomar una decisión.</li><li><b>Tú eliges</b> qué hace. Al momento ves si fue buena idea y por qué.</li><li><b>El día 7, el final.</b> Depende de lo que hayas elegido, y lo comparamos con cómo te ha ido a ti de verdad esta semana.</li><li><b>Después, tu final:</b> eliges qué harás tú la semana que viene.</li></ol><p class="muted" style="font-size:.85rem;margin-top:6px"><b>¿Para qué?</b> Para practicar decisiones difíciles en otra persona, sin jugártela, antes de que te pasen a ti.</p></div>`;
-    const cons=j=>{const c=stLearn(k,s.ch[j][0]+" "+s.ch[j][3][0],j);return `<div class="example" style="${ch[j]===0?"background:var(--good-bg)":""}"><b>${ch[j]===0?"Buena decisión.":"Mmm…"}</b> ${esc(s.ch[j][3][ch[j]])}</div>${c?`<p class="stlink">${creSVG(k,1.3)}<span><b>${esc(gn)}:</b> «Esto ya lo sabes: lo viste en <b>${esc(c.t)}</b>. ${esc(scGist(c))}»</span></p>`:""}`};
+    const cons=j=>{const x=stLearn(k,j),c=x&&x.c;return `<div class="example" style="${ch[j]===0?"background:var(--good-bg)":""}"><b>${ch[j]===0?"Buena decisión.":"Mmm…"}</b> ${esc(s.ch[j][3][ch[j]])}</div>${c?`<p class="stlink">${creSVG(k,1.3)}<span><b>${esc(gn)}:</b> ${x.seen?`«Esto ya lo sabes: lo viste en <b>${esc(c.t)}</b>. ${esc(scGist(c))}»`:`«Esto lo cuento en una de mis lecturas: <b>${esc(c.t)}</b>. Búscala en mi tierra.»`}</span></p>`:""}`};
     if(S.stoLast!=null&&ch[S.stoLast]!==undefined){const k=S.stoLast;
       body=`<p class="eyebrow">Capítulo ${k+1} de 6</p>${cons(k)}${next>=0?`<button class="btn" data-act="sto-go" style="width:max-content">Seguir con el capítulo ${next+1}</button>`:done<6?`<p class="muted">Mañana, el capítulo ${done+1}.</p>`:n>=7?`<button class="btn" data-act="sto-go" style="width:max-content">Ver el final</button>`:`<p class="muted">El día 7 descubrirás el final.</p>`}`;
     }else if(next>=0){const c=s.ch[next],sw=(next+a.id.charCodeAt(0))%2,ord=sw?[1,0]:[0,1];tag="Nuevo capítulo";
@@ -1795,7 +1808,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015163718";
+const APP_V="20261015164637";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
