@@ -476,7 +476,7 @@ section:has(> .exback) .filterbar{top:58px}
 .advskip{align-self:center;background:none;border:0;padding:4px;color:var(--muted);font:inherit;font-size:.86rem;text-decoration:underline;cursor:pointer}
 .advtitle{flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:40px 12px 30px;text-align:center;min-height:340px}
 .advlogo-ic svg{width:88px;height:88px;display:block}.advlogo{font-family:var(--pxf);font-weight:700;font-size:2.7rem;letter-spacing:.08em;color:#FFB84D;text-shadow:4px 4px 0 #0F1A24}.advsub{font-family:var(--pxf);font-size:1.05rem;color:#C7D3DC}
-.advstart{margin-top:18px;animation:advbl 1.1s steps(1) infinite}.advstart:hover,.advstart:focus{animation:none}
+.advstart{margin-top:18px;animation:advst 1.6s ease-in-out infinite}@keyframes advst{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,184,77,.6)}50%{transform:scale(1.06);box-shadow:0 0 0 10px rgba(255,184,77,0)}}.advstart:hover,.advstart:focus{animation:none}
 @keyframes advbl{50%{opacity:0}}
 .advmap{position:relative;width:164px;height:265px;flex:none;overflow:hidden;border:2px solid #0F1A24}.advmap .mw{transform:scale(.45)}
 .advtag{position:absolute;top:8px;right:8px;font-family:var(--pxf);font-size:.75rem;background:#FFB84D;color:#1E2B38;padding:1px 6px}
@@ -1772,15 +1772,14 @@ function introStage(t){const npc=`<span class="advnpc bob">${cartografa(2.6)}</s
   if(t==="hoy")return `<div class="advstage">${npc}<div class="advhoy"><span class="pxchip">MISIÓN DE HOY</span><b>Móvil fuera del cuarto a las 22:30</b><div class="advck"><span>Sí</span><span>Un poco</span><span>Hoy no</span></div><span class="advq">🔥 Racha: 5 días</span></div></div>`;
   return `<div class="advstage">${npc}<span class="advreg">${MWCRY}</span></div>`}
 function vIntro(){
-  const n=answered(),last=INTRO.length-1;let k=S.advN;if(k==null){const sv=store.get("advN",null);k=n?last:(sv==null?0:+sv)}k=Math.max(0,Math.min(last,k));S.advN=k;
-  if(k===0)return `<section class="stack intro"><div class="advstage advtitle magic">${SPARK(8)}<span class="advlogo-ic">${(()=>{const e=document.querySelector(".logo svg");return e?e.outerHTML:""})()}</span><span class="advlogo">BRÚJULA</span><span class="advsub">Una aventura sobre ti</span><button class="btn advstart" data-adv="1">▶ PULSA PARA EMPEZAR</button></div></section>`;
+  const n=answered(),last=INTRO.length-1;const ended=n>0||!!store.get("advEnd",false),sv=+(store.get("advN",0)||0);let k=S.advN;if(k==null)k=ended?last:0;k=Math.max(0,Math.min(last,k));S.advN=k;
+  if(k===0){S._intro=true;const go1=!ended&&sv>1&&sv<=last?sv:1;return `<section class="stack intro"><div class="advstage advtitle magic">${SPARK(8)}<span class="advlogo-ic">${(()=>{const e=document.querySelector(".logo svg");return e?e.outerHTML:""})()}</span><span class="advlogo">BRÚJULA</span><span class="advsub">Una aventura sobre ti</span><button class="btn advstart" data-adv="${go1}">▶ ${go1>1?"PULSA PARA CONTINUAR":"PULSA PARA EMPEZAR"}</button></div></section>`}
   const [t,who,txt0,ch]=INTRO[k],back=k>1?`<button class="btn ghost sm" data-adv="${k-1}">◀</button>`:"",asked=(S.advQ||{})[k]||[],cur=S.advA&&S.advA.k===k?S.advA.i:null;
   let txt=advN(txt0),btns=`${back}${k<last?`<button class="btn sm" data-adv="${k+1}">Continuar ▶</button>`:`<button class="btn sm" data-act="advdown">Continuar ▼</button>`}`,extra="";
   if(t==="name"){btns=back;extra=`<div class="advname"><input id="advname" class="field" maxlength="30" placeholder="Tu nombre o apodo" value="${esc(S.name)}" autocomplete="off"><div class="row" style="gap:8px"><button class="btn sm" data-act="advname">Así me llamo ▶</button><button class="dlgo" data-act="advanon">Prefiero no decirlo</button></div><span class="advq">Solo se guarda en tu móvil.</span></div>`}
   else if(ch){if(cur!=null)txt=advN(ch[cur][1]);
     btns=back;extra=`<div class="dlgopts" role="group" aria-label="Elige qué responder">${ch.map(([q],i)=>`<button class="dlgo${asked.includes(i)?" asked":""}" data-advq="${k}:${i}">${asked.includes(i)?"✓":"▸"} ${esc(q)}</button>`).join("")}${asked.length?`<button class="dlgo go" data-adv="${k+1}">▶ Continuar</button>`:""}</div>`}
   const box=`<div class="adv">${introStage(t)}<div class="advbox"><span class="advwho">${esc(who)}</span><p class="advtxt" data-tw>${esc(txt)}</p>${extra}<div class="advbar"><span class="advcnt">${k}/${last}</span><div class="row" style="gap:8px;margin-left:auto">${btns}</div></div></div></div>`;
-  const ended=n>0||!!store.get("advEnd",false);
   if(k<last||!ended){S._intro=true;return `<section class="stack intro">${box}</section>`}
   const CTA=`<button class="btn" data-act="start" style="font-size:1.1rem;padding:14px 28px">🪞 ${n?"Seguir con el Espejo":"Mirarme en el Espejo · 6 minutos"}</button><p class="muted" style="font-size:.88rem;margin:0">Gratis. Sin registro. Solo tú ves tus respuestas. <button data-go="dudas" style="background:none;border:0;padding:0;color:var(--brand);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">¿Dudas?</button></p>`;
   return `<section class="stack intro">${box}
@@ -1790,7 +1789,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015145715";
+const APP_V="20261015150342";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -4032,7 +4031,7 @@ document.addEventListener("click",e=>{
   if(d.sca){scAct(d.sca,t.closest("[data-sca]"));return}
   if(d.dlg){const [k,n]=d.dlg.split(":");if(!S.dlg||S.dlg.k!==k)S.dlg={k,n:"hi",a:[]};S.dlg.n=n;if(n!=="hi"&&!S.dlg.a.includes(n))S.dlg.a.push(n);if(n==="imp2"&&!S.dlg.a.includes("imp1"))S.dlg.a.push("imp1");render();return}
   if(d.lore){const [k,n]=d.lore.split(":");S.loreK=k;S.loreN=+n;render();return}
-  if(d.adv!==undefined){const nk=+d.adv;if(nk===1&&S.advN===0)gTune("magia");if(INTRO[nk]&&INTRO[nk][0]==="shard")gTune("magia");S.advN=nk;S.advA=null;store.set("advN",nk);render();window.scrollTo({top:0});return}
+  if(d.adv!==undefined){const nk=+d.adv;if(S.advN===0)gTune("magia");if(INTRO[nk]&&INTRO[nk][0]==="shard")gTune("magia");S.advN=nk;S.advA=null;store.set("advN",nk);render();window.scrollTo({top:0});return}
   if(d.advq){const [k,i]=d.advq.split(":").map(Number);S.advQ=S.advQ||{};S.advQ[k]=S.advQ[k]||[];if(!S.advQ[k].includes(i))S.advQ[k].push(i);S.advA={k,i};render();return}
   if(d.cfg){const [k,v]=d.cfg.split(":");S.cfgOpen=true;if(k==="snd"){S.g.snd=v==="1";store.set("game",S.g);if(S.g.snd)try{gTune("bronce")}catch(e){}}else{CFG[k]=v;store.set("cfg",CFG);applyCfg()}render();return}
   if(d.font){S.cfgOpen=true;document.documentElement.dataset.font=d.font;store.set("font",d.font);render();return}
