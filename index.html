@@ -30,7 +30,9 @@
   --as:60%; --al:62%; --ab:22%; color-scheme:dark}
 *{box-sizing:border-box}
 html,body{background:var(--bg)}
-body{color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding-inline:16px;padding-block:0 96px}
+html,body{height:100%;overflow:hidden}
+body{color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;padding:0}
+#scr{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding:0 max(16px,env(safe-area-inset-right,0px)) calc(96px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 h1,h2,h3{font-family:var(--display);line-height:1.1;text-wrap:balance;margin:0}
 h1{font-size:clamp(2rem,6vw,3.2rem);font-weight:800;letter-spacing:-.02em}
 h2{font-size:clamp(1.4rem,4vw,1.9rem);font-weight:700}
@@ -744,7 +746,7 @@ dialog{border:3px solid var(--px-ink)!important;box-shadow:6px 6px 0 var(--px-sh
 @media (prefers-reduced-motion:reduce){.celeb .cf,.celeb .rays{display:none}}
 </style>
 
-<div class="wrap">
+<div id="scr"><div class="wrap">
   <header class="top">
     <div class="logo">
       <svg viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="0" width="6" height="1" fill="var(--ink)"/><rect x="3" y="1" width="2" height="1" fill="var(--ink)"/><rect x="11" y="1" width="2" height="1" fill="var(--ink)"/><rect x="2" y="2" width="1" height="1" fill="var(--ink)"/><rect x="13" y="2" width="1" height="1" fill="var(--ink)"/><rect x="1" y="3" width="1" height="1" fill="var(--ink)"/><rect x="7" y="3" width="2" height="1" fill="var(--accent)"/><rect x="14" y="3" width="1" height="1" fill="var(--ink)"/><rect x="1" y="4" width="1" height="1" fill="var(--ink)"/><rect x="7" y="4" width="2" height="1" fill="var(--accent)"/><rect x="14" y="4" width="1" height="1" fill="var(--ink)"/><rect x="0" y="5" width="1" height="1" fill="var(--ink)"/><rect x="6" y="5" width="4" height="1" fill="var(--accent)"/><rect x="15" y="5" width="1" height="1" fill="var(--ink)"/><rect x="0" y="6" width="1" height="1" fill="var(--ink)"/><rect x="6" y="6" width="4" height="1" fill="var(--accent)"/><rect x="15" y="6" width="1" height="1" fill="var(--ink)"/><rect x="0" y="7" width="1" height="1" fill="var(--ink)"/><rect x="5" y="7" width="6" height="1" fill="var(--accent)"/><rect x="15" y="7" width="1" height="1" fill="var(--ink)"/><rect x="0" y="8" width="1" height="1" fill="var(--ink)"/><rect x="5" y="8" width="6" height="1" fill="var(--ink)"/><rect x="15" y="8" width="1" height="1" fill="var(--ink)"/><rect x="0" y="9" width="1" height="1" fill="var(--ink)"/><rect x="6" y="9" width="4" height="1" fill="var(--ink)"/><rect x="15" y="9" width="1" height="1" fill="var(--ink)"/><rect x="0" y="10" width="1" height="1" fill="var(--ink)"/><rect x="6" y="10" width="4" height="1" fill="var(--ink)"/><rect x="15" y="10" width="1" height="1" fill="var(--ink)"/><rect x="1" y="11" width="1" height="1" fill="var(--ink)"/><rect x="7" y="11" width="2" height="1" fill="var(--ink)"/><rect x="14" y="11" width="1" height="1" fill="var(--ink)"/><rect x="1" y="12" width="1" height="1" fill="var(--ink)"/><rect x="7" y="12" width="2" height="1" fill="var(--ink)"/><rect x="14" y="12" width="1" height="1" fill="var(--ink)"/><rect x="2" y="13" width="1" height="1" fill="var(--ink)"/><rect x="13" y="13" width="1" height="1" fill="var(--ink)"/><rect x="3" y="14" width="2" height="1" fill="var(--ink)"/><rect x="11" y="14" width="2" height="1" fill="var(--ink)"/><rect x="5" y="15" width="6" height="1" fill="var(--ink)"/></svg>
@@ -754,10 +756,14 @@ dialog{border:3px solid var(--px-ink)!important;box-shadow:6px 6px 0 var(--px-sh
   </header>
   <main id="app"></main><div id="tourbox"></div>
   <p class="foot">Brújula es una orientación para conocerte, no un diagnóstico. Tus respuestas se guardan solo en este dispositivo. Si lo estás pasando mal, mira la sección Ayuda.</p>
-</div>
+</div></div>
 <dialog id="dlg"></dialog>
 
 <script>
+/* El contenido se desplaza dentro de #scr: así el menú de abajo queda fijo también en iPhone y dentro de visores. */
+const SCR=document.getElementById("scr");
+window.scrollTo=function(a,b){try{if(a&&typeof a==="object")SCR.scrollTo(a);else SCR.scrollTo(+a||0,+b||0)}catch(e){SCR.scrollTop=(a&&a.top)||+b||0}};
+try{Object.defineProperty(window,"scrollY",{get:()=>SCR.scrollTop,configurable:true});Object.defineProperty(window,"pageYOffset",{get:()=>SCR.scrollTop,configurable:true})}catch(e){}
 
 const AREAS=[
  ["SUE","Sueño",215],["MOV","Movimiento",145],["ALI","Alimentación",95],["EMO","Emociones",330],
@@ -1864,10 +1870,10 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261016073638";
+const APP_V="20261016090109";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
-(()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
+(()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
 const DIAG={};let noticeOpenAt=0;
 function diagHit(k,fast){DIAG[k]=fast?(DIAG[k]||0)+1:0;return DIAG[k]>=2}
 const DIAGTXT={test:"Estás respondiendo muy rápido. Dedica unos segundos a cada frase y piensa en ti de verdad. Confía en mí: necesito tu sinceridad para trazar tu mapa. Si respondes sin pensar, te mandaré a tierras que no necesitas.",quiz:"Has contestado dos preguntas en un suspiro. Lee las tres respuestas antes de elegir: se parecen a propósito."};
