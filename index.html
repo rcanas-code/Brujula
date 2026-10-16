@@ -321,6 +321,7 @@ details.card summary::-webkit-details-marker{display:none}
 .fcex{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:.82rem}
 .steps3.fsteps{grid-template-columns:repeat(5,1fr);gap:4px}.fsteps>div{padding:4px 2px!important;text-align:center}.fsteps span{font-size:.62rem}
 .focoban{display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:3px solid #E8A33D;background:#FFF6E0;color:#3a2a00;text-align:left;cursor:pointer;width:100%}
+.trynow{display:flex;flex-direction:column;gap:10px;align-items:flex-start;border:3px solid #E8A33D;background:#FFF6E0;color:#3a2a00;padding:12px;text-align:left;margin:8px 0}
 .stother{border:2px dashed var(--good);background:var(--good-bg);padding:10px 12px;font-size:.92rem;line-height:1.45}
 .stsum{display:inline-flex;gap:8px;align-items:center}.stsum svg{flex:none}.stlink{display:flex;gap:10px;align-items:flex-start;margin:0;padding:8px 10px;background:var(--surface-2);border-left:4px solid var(--opt,#9B7BFF);font-size:.9rem}.stlink svg{flex:none}
 .hwhy{margin:0;font-size:.86rem;color:var(--muted)}
@@ -1921,7 +1922,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261016161204";
+const APP_V="20261016162952";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -4183,7 +4184,7 @@ function vEscena(){const X=S.sc;if(!X||!DEEP[X.id]||!SCN[X.id])return vMundo();c
     else{const ch=A.ch||{};body=`<div class="sccard"><span class="sctag">🏁 Comprobación final · necesitas acertar las 3</span>${D.q.map((q,j)=>`<div class="lqq"><p class="qh" style="font-weight:800;margin:0">${j+1}. ${esc(q[1])}</p><div class="scopts">${opts("q"+j,[0,1,2],o=>`<button class="scopt${ch[j]===o?" sel":""}" data-sca="chk:${j}:${o}">${esc(q[2+o])}</button>`)}</div></div>`).join("")}<button class="btn" data-sca="chkok" ${Object.keys(ch).length<D.q.length?"disabled":""}>Comprobar</button></div>`}}
   return `<section class="stack escena">${head}${body}</section>`}
 function scEnd(id){const k=aK(id),ok=(S.g.ok||{})[id],nx=mwCs(k).find(c=>DEEP[c.id]&&SCN[c.id]&&!(S.g.ok||{})[c.id]&&c.id!==id);
-  return `<section class="stack escena"><div class="sccard scend">${creSVG(k,4)}<h2>${ok?"¡Lectura superada!":"Escena terminada"}</h2>${lqRes(id)||`<p>${ok?`Cuenta para el bronce de ${esc(GREG[k])}.`:""}</p>`}<div class="row" style="justify-content:center">${nx&&!lqCap(nx.id)?`<button class="btn" data-scene="${nx.id}">▶ Siguiente: ${esc(nx.t)}</button>`:""}<button class="btn ghost" data-reg="${k}">Volver a la región</button></div></div></section>`}
+  return `<section class="stack escena"><div class="sccard scend">${creSVG(k,4)}<h2>${ok?"¡Lectura superada!":"Escena terminada"}</h2>${lqRes(id)||`<p>${ok?`Cuenta para el bronce de ${esc(GREG[k])}.`:""}</p>`}${tryNow(id,k)}<div class="row" style="justify-content:center">${nx&&!lqCap(nx.id)?`<button class="btn" data-scene="${nx.id}">▶ Siguiente: ${esc(nx.t)}</button>`:""}<button class="btn ghost" data-reg="${k}">Volver a la región</button></div></div></section>`}
 function scAct(v,el){const X=S.sc;if(!X)return;const id=X.id,st=scSteps(id),s=st[X.i],A=X.a,Q=SCN[id];const [a,b,c]=v.split(":");
   if(a==="exit"){scStop();S.g.scp=S.g.scp||{};S.g.scp[id]=Math.min(X.i,st.length-1);store.set("game",S.g);const k=aK(id);S.sc=null;S.reg=k;go("region");return}
   if(a==="back"){scStop();if(s&&s.t==="mt")delete A["mt"+s.j];X.i=Math.max(0,X.i-1);render();window.scrollTo({top:0});return}
@@ -4219,6 +4220,8 @@ function render(){
 }
 
 /* ---------- Faro: laboratorio y sala de foco ---------- */
+const TRYNOW={"ATE-02":["lab-open","🧪 Hacer la prueba (2 min)","Ahora compruébalo en tu propia cabeza. Te propongo una prueba de 2 minutos: tocar letras y números, primero por separado y luego alternando. Verás cuánto cuesta saltar de una cosa a otra."],"ATE-05":["foco-open","🎯 Empezar una sesión de foco","¿Lo pruebas ahora? Una sesión de foco guiada: eliges qué quieres tener hecho, lo divides en pasos, preparas el entorno y yo llevo el tiempo. Puedes empezar con 25 minutos."]};
+function tryNow(id,k){const T=TRYNOW[id];if(!T)return "";const g=esc(((CREN[k]||["El guardián"])[0]).split(",")[0]);return `<div class="trynow"><p style="margin:0"><b>${g}:</b> ${T[2]}</p><button class="btn" data-act="${T[0]}">${T[1]}</button></div>`}
 function ateTally(from){const E=rgEntries("ATE-08",from);if(!E.length)return "";const f=E.filter(x=>/^De fuera/.test(x.v[1])).length,d=E.length-f,at=E.filter(x=>x.v[2]==="Me había atascado").length;
   return `<div class="tally"><div><b>${f}</b><span>de fuera</span></div><div><b>${d}</b><span>de dentro</span></div></div><p class="muted" style="font-size:.85rem;margin:0">${E.length<4?"Sigue apuntando: con pocas todavía no se ve el patrón.":d>f?`La mayoría las buscas tú${at?` (${at} cuando te habías atascado)`:""}. Además de quitar avisos, haz más pequeño el siguiente paso cuando algo te cueste.`:"La mayoría vienen de fuera: cambia el entorno. Avisos fuera y móvil en otra habitación."}</p>`}
 const LABS=[..."ABCDEFGHIJKLMNOPQRST"].concat([...Array(20).keys()].map(i=>String(i+1)));
