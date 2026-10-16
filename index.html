@@ -342,6 +342,23 @@ details.card summary::-webkit-details-marker{display:none}
 .agbig{line-height:1;display:inline-block}
 .aewin{border:3px solid #E8A33D}
 @media (prefers-reduced-motion:reduce){.aeglow{animation:none}}
+.mwmist{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 20% 30%,rgba(120,100,180,.9),transparent 55%),radial-gradient(ellipse at 75% 70%,rgba(90,70,150,.9),transparent 55%),radial-gradient(ellipse at 50% 50%,rgba(60,50,110,.6),transparent 70%);animation:mwmist 18s ease-in-out infinite alternate;transition:opacity 1.5s}
+@keyframes mwmist{0%{transform:translateX(-3%)}100%{transform:translateX(3%)}}
+.mwae{position:absolute;left:14px;bottom:14px;pointer-events:none;animation:aeg 3s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.mwmist,.mwae{animation:none}}
+#guiafl{position:fixed;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:25;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none;max-width:min(340px,calc(100vw - 24px))}
+#guiafl>*{pointer-events:auto}
+.guiaf{display:flex;align-items:center;gap:6px;background:none;border:0;padding:0;cursor:pointer}
+.guiai{width:52px;height:52px;border-radius:50%;background:#E9F5FA;border:3px solid #2B6F8C;display:grid;place-items:center;font-size:1.7rem;box-shadow:3px 3px 0 rgba(0,0,0,.25)}
+.guiab{background:#fff;color:#12313d;border:2px solid #2B6F8C;border-radius:14px;padding:6px 10px;font-weight:800;font-size:.85rem;position:relative;box-shadow:2px 2px 0 rgba(0,0,0,.2)}
+.guiaf:not(.pss) .guiab{display:none}
+.guiab:after{content:"";position:absolute;right:-8px;top:50%;margin-top:-5px;border:5px solid transparent;border-left-color:#2B6F8C}
+.guiaf.pss .guiai{animation:guiaw 1.6s ease-in-out infinite}.guiaf.pss .guiab{animation:guiap 1.6s ease-in-out infinite}
+@keyframes guiaw{0%,60%,100%{transform:rotate(0)}10%,30%{transform:rotate(-14deg)}20%,40%{transform:rotate(14deg)}}
+@keyframes guiap{0%,100%{transform:scale(1)}15%{transform:scale(1.08)}}
+.guiapop{background:#E9F5FA;color:#12313d;border:3px solid #2B6F8C;border-radius:14px;padding:12px;box-shadow:4px 4px 0 rgba(0,0,0,.25);display:flex;flex-direction:column;gap:8px;animation:guiain .2s ease-out}
+@keyframes guiain{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.guiaf.pss .guiai,.guiaf.pss .guiab,.guiapop{animation:none}}
 .stother{border:2px dashed var(--good);background:var(--good-bg);padding:10px 12px;font-size:.92rem;line-height:1.45}
 .stsum{display:inline-flex;gap:8px;align-items:center}.stsum svg{flex:none}.stlink{display:flex;gap:10px;align-items:flex-start;margin:0;padding:8px 10px;background:var(--surface-2);border-left:4px solid var(--opt,#9B7BFF);font-size:.9rem}.stlink svg{flex:none}
 .hwhy{margin:0;font-size:.86rem;color:var(--muted)}
@@ -1955,7 +1972,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261016192505";
+const APP_V="20261016193827";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -2151,7 +2168,7 @@ function vHoy(){
    <div><p class="hello"><button class="hiav" data-go="mas" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span></div></div>
    ${banner}
-   ${guiaCard()}${aeCard()}${hoyPath()}
+   ${aeCard()}${hoyPath()}
    ${focoBanner()}${main}
    ${status}
    ${curCard()}
@@ -3239,6 +3256,8 @@ function gTune(kind){
     g.gain.setValueAtTime(0,a);g.gain.linearRampToValueAtTime(v,a+.008);g.gain.setValueAtTime(v,a+du*.6);g.gain.exponentialRampToValueAtTime(.0001,a+du);
     o.connect(g);g.connect(ac.destination);o.start(a);o.stop(a+du+.03)})}
 const BGMS={
+ shadow:{t:.42,lead:[63,0,0,62,0,0,0,0,66,0,0,65,0,0,0,0,63,0,62,0,61,0,0,0,60,0,0,0,66,0,0,0],bass:[36,0,0,0,0,0,0,0,36,0,0,0,0,0,0,0,42,0,0,0,0,0,0,0,35,0,0,0,0,0,0,0],lw:"triangle",bw:"sawtooth",echo:1,bd:7.8,ld:1.6,arp:[[36,39,42],[36,39,42],[35,38,41],[35,38,42]]},
+ shadowb:{t:.15,lead:[60,0,63,0,66,0,65,63,60,0,63,0,67,0,66,0,60,0,63,0,66,0,69,0,68,0,66,0,65,0,63,0],bass:[36,36,48,36,36,36,48,36,36,36,48,36,42,42,54,42,36,36,48,36,36,36,48,36,35,35,47,35,35,35,47,35],lw:"sawtooth",bw:"square",kick:1,echo:1},
  intro:{t:.34,lead:[81,0,76,0,84,0,83,0,79,0,0,0,76,0,0,0,81,0,76,0,86,0,84,0,83,0,79,0,0,0,0,0],bass:[45,0,0,0,0,0,0,0,41,0,0,0,0,0,0,0,43,0,0,0,0,0,0,0,40,0,0,0,0,0,0,0],lw:"triangle",bw:"sine",echo:1,bd:7.6,ld:1.7,arp:[[57,60,64],[53,57,60],[55,59,62],[52,56,59]]},
  talk:{t:.22,lead:[72,0,76,0,79,0,76,0,74,0,77,0,81,0,79,0,76,0,79,0,84,0,83,0,81,0,79,0,76,0,0,0],bass:[48,0,0,0,55,0,0,0,50,0,0,0,57,0,0,0,52,0,0,0,55,0,0,0,53,0,0,0,55,0,0,0],lw:"triangle",bw:"square",kick:0},
  boss:{t:.13,lead:[69,0,72,69,76,0,74,72,71,0,74,71,77,0,76,74,69,0,72,69,79,0,77,76,75,76,77,0,76,0,0,0],bass:[45,57,45,57,45,57,45,57,43,55,43,55,43,55,43,55,41,53,41,53,41,53,41,53,40,52,40,52,40,52,40,52],lw:"square",bw:"triangle",kick:1}};
@@ -3277,7 +3296,7 @@ function bgmSet(kind){if(S.g.snd===false||document.hidden)kind=null;if(kind===BG
   BGM.cur=kind;if(!kind)return;const ac=gAudio();if(!ac){BGM.cur=null;return}const M=bgmSpec(kind);BGM.g=ac.createGain();BGM.g.gain.value=.045;BGM.g.connect(ac.destination);BGM.i=0;let next=ac.currentTime+.08;
   const tick=()=>{if(!BGM.g)return;while(next<ac.currentTime+.25){const k=BGM.i%M.lead.length;if(M.arp){const ch=M.arp[Math.floor(k/8)%M.arp.length];bgmNote(ac,ch[k%ch.length]+12,next,M.t*1.3,"sine",.14)}if(M.lead[k]){bgmNote(ac,M.lead[k],next,M.t*(M.st?.45:(M.ld||.9)),M.lw,.5);if(M.echo)bgmNote(ac,M.lead[k],next+M.t*1.5,M.t*.7,M.lw,.16)}if(M.bass[k])bgmNote(ac,M.bass[k],next,M.t*(M.bd||.85),M.bw,.32);if(M.kick&&k%4===0)bgmKick(ac,next);next+=M.t;BGM.i++}};
   tick();BGM.iv=setInterval(tick,60)}
-function bgmWant(){if(S._intro&&(S.advN||0)>=1)return "intro";if(S.view==="final"&&S.fz&&!S.fz.done)return "boss";if(S.view==="aeduel"&&S.aed&&!S.aed.done)return "boss";if(S.view==="region"&&S.reg&&CREN[S.reg]&&mwSeen().has(S.reg)&&(!(S.g.lore||{})[S.reg]||(S.dlg&&S.dlg.k===S.reg)))return "talk:"+S.reg;if(S.view==="explorar"&&document.querySelector(".libtop"))return "talk:LIB";return null}
+function bgmWant(){if(S._intro&&(S.advN||0)>=1)return "intro";if(S.view==="final"&&S.fz&&!S.fz.done)return "boss";if(S.aeScene)return "shadow";if(S.view==="aeduel"&&S.aed&&!S.aed.done)return "shadowb";if(S.view==="region"&&S.reg&&CREN[S.reg]&&mwSeen().has(S.reg)&&(!(S.g.lore||{})[S.reg]||(S.dlg&&S.dlg.k===S.reg)))return "talk:"+S.reg;if(S.view==="explorar"&&document.querySelector(".libtop"))return "talk:LIB";return null}
 document.addEventListener("visibilitychange",()=>{try{bgmSet(document.hidden?null:bgmWant())}catch(e){}});
 const gCelQ=[];
 function celebrate(ev){gCelQ.push(ev);if(gCelQ.length===1)celShow()}
@@ -3443,8 +3462,8 @@ function vMundo(){
   const items=S.route?routeItems():[],dn=items.filter(it=>["ok","skip"].includes(itemStatus(it))).length;
   const leg=[["Oro","#F2B632"],["Plata","#A9B4BD"],["Bronce","#D9894A"],["Sin trofeo aún","#6B5A44"],["Para conocerte","#9B7BFF"],["Niebla","#433C6E"],["Tu siguiente paso","#FF6B3D"]];
   return `<section class="stack mundo"><div class="row" style="justify-content:space-between;align-items:baseline"><h1>Mundo</h1><span class="muted" style="font-size:.85rem">${R.size} de ${K.length} regiones descubiertas</span></div>
-   <p class="mwlore">La niebla cubre gran parte del mundo. Los caminos salen de la Cima de la Brújula. Cada trofeo que ganas despeja un camino hacia la región vecina que más lo necesita… ¿Qué habrá más allá?</p>
-   <div class="mwwrap" style="aspect-ratio:${MWW}/${MWH}"><div class="mw" style="width:${MWW}px;height:${MWH}px">${mwSVG(R)}${nodes}${pl}</div></div>
+   <p class="mwlore">${aeMapLore()}</p>
+   <div class="mwwrap" style="aspect-ratio:${MWW}/${MWH}"><div class="mw" style="width:${MWW}px;height:${MWH}px">${mwSVG(R)}${nodes}${pl}${aeMist()}</div></div>
    
    <div class="card stack mwsel" style="gap:6px"><span class="rarea" style="--h:${inf.open?AREAS[AK[sel]].h:260};align-self:flex-start">${esc(inf.real)}</span><span class="pxname" style="font-size:1.25rem">${esc(inf.name)}</span><p style="margin:0">${esc(inf.text)}</p>${inf.open?`<button class="btn" data-reg="${sel}" style="width:max-content">Entrar en la región</button>`:""}</div>
 
@@ -4032,7 +4051,7 @@ function vGrupo(){
    ["Ve a la pestaña Hoy cuando lleves algún día de reto.","Toca «Copiar para pegarlo en el grupo».","Pégalo en vuestro grupo."],
    "«Llevo 5 de 7 días con mi reto Practicar recordando en Brújula. Racha: 5 días.»",
    `<button class="btn ghost" data-go="hoy" style="width:max-content">Ir a Hoy</button>`);
-  return `<section class="stack"><div><p class="eyebrow">Grupo</p><h1>Hazlo con alguien</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Brújula es solo tuya: nadie ve tus respuestas ni tus retos. Pero cuando alguien sabe en qué estás, es mucho más fácil no abandonar. Aquí tienes tres formas de apoyarte en otros sin compartir tus datos.</p></div>
+  return `<section class="stack">${aeGuiaCard()}<div><p class="eyebrow">Grupo</p><h1>Hazlo con alguien</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">Brújula es solo tuya: nadie ve tus respuestas ni tus retos. Pero cuando alguien sabe en qué estás, es mucho más fácil no abandonar. Aquí tienes tres formas de apoyarte en otros sin compartir tus datos.</p></div>
    ${b1}${b2}${b3}
    <div class="card stack" style="border:2px solid var(--brand)"><p class="eyebrow">Normas del grupo</p><ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>Se comparten retos y logros, <b>nunca</b> los resultados del test.</li><li>Nadie compara puntos ni hace rankings: el viernes se celebra a todos los que han cumplido el reto, sin ordenar a nadie.</li><li>Los nombres del grupo solo se guardan en tu móvil.</li><li>Se celebra el avance de los demás, también el pequeño.</li><li>Lo que alguien cuenta de sí mismo se queda en el grupo.</li></ul></div>
   </section>`;
@@ -4267,6 +4286,7 @@ function render(){
   if(S.view==="dudas"&&S.faqQ)faqFilter();
   try{mwScale()}catch(e){}
   try{albFill()}catch(e){}
+  try{let gf=document.getElementById("guiafl");if(!gf){gf=document.createElement("div");gf.id="guiafl";document.body.appendChild(gf)}gf.innerHTML=guiaFloat();if(gf.querySelector(".pss"))setTimeout(guiaPss,900)}catch(e){}
   const tb=document.getElementById("tourbox");if(tb)tb.innerHTML=tourBar();
   try{const hb=document.querySelector(".helpbtn");if(hb)hb.classList.toggle("tourhl",S.tour!=null&&TOUR[S.tour][0]==="ayuda")}catch(e){}
   try{setTimeout(aeCheck,250)}catch(e){}
@@ -4329,7 +4349,11 @@ function aeMark(b){const A=aeG();if(b.id.startsWith("o:"))A.oros.push(b.id.slice
 function aeCheck(){if(!["hoy","region","mundo","yo"].includes(S.view)||S._intro||S.aeScene)return;if(document.querySelector(".celeb"))return;const dl=document.getElementById("dlg");if(dl.open)return;const b=aeBeat();if(!b)return;S.aeScene={b,i:0};aeDraw()}
 function aeDraw(){const X=S.aeScene,dl=document.getElementById("dlg");if(!X)return;const [w,t]=X.b.L[X.i],W=AEWHO[w],last=X.i>=X.b.L.length-1;
   dl.innerHTML=`<div class="dlg stack aescene"><div class="advstage lore duo aestage"><span class="advnpc">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),2.2)}</span><span class="advnpc${w==="ae"?" aeglow":""}">${W[1](2.2)}</span></div><div class="advbox"><span class="advwho">${esc(W[0])}</span><p class="advtxt">${esc(t)}</p><div class="dlgopts"><button class="dlgo go" data-act="${last?"ae-end":"ae-next"}">${last?"▶ Continuar el viaje":"▶"}</button></div></div><p class="muted" style="font-size:.78rem;text-align:center;margin:0">${esc(aeAct()[1])}</p></div>`;
-  if(!dl.open){try{dl.showModal()}catch(e){dl.setAttribute("open","")}}try{if(w==="ae")gTune("magia")}catch(e){}}
+  if(!dl.open){try{dl.showModal()}catch(e){dl.setAttribute("open","")}}try{bgmSet(bgmWant());if(w==="ae"&&(X.i===0||X.b.L[X.i-1][0]!=="ae"))aeSting()}catch(e){}}
+function aeSting(){if(S.g.snd===false)return;const ac=gAudio();if(!ac)return;const t=ac.currentTime+.05,out=ac.createGain(),lp=ac.createBiquadFilter();lp.type="lowpass";lp.frequency.setValueAtTime(900,t);lp.frequency.exponentialRampToValueAtTime(180,t+1.6);out.gain.setValueAtTime(0,t);out.gain.linearRampToValueAtTime(.16,t+.08);out.gain.setValueAtTime(.16,t+.9);out.gain.exponentialRampToValueAtTime(.0001,t+1.8);lp.connect(out);out.connect(ac.destination);
+  [[98,41],[103,43.5],[138.6,58]].forEach(([a,b],i)=>{const o=ac.createOscillator();o.type="sawtooth";o.frequency.setValueAtTime(a,t);o.frequency.exponentialRampToValueAtTime(b,t+1.5);o.connect(lp);o.start(t+i*.03);o.stop(t+1.85)});
+  const lfo=ac.createOscillator(),lg=ac.createGain();lfo.frequency.value=7;lg.gain.value=.06;lfo.connect(lg);lg.connect(out.gain);lfo.start(t);lfo.stop(t+1.85);
+  [[55,.9],[53,1.12],[50,1.34]].forEach(([m,st])=>{const o=ac.createOscillator(),g=ac.createGain();o.type="square";o.frequency.setValueAtTime(440*Math.pow(2,(m-69)/12),t+st);g.gain.setValueAtTime(0,t+st);g.gain.linearRampToValueAtTime(.05,t+st+.01);g.gain.exponentialRampToValueAtTime(.0001,t+st+.16);o.connect(g);g.connect(ac.destination);o.start(t+st);o.stop(t+st+.18)})}
 /* duelo final */
 function aeReady(){const A=aeG();return aeOros().length>=AEOROS.fin&&!A.win&&!(A.next&&today()<A.next)}
 function aeStart(){const O=aeOros().filter(k=>QZF[k]&&QZF[k].length);let pool=[];O.forEach(k=>QZF[k].forEach((q,i)=>pool.push([k,i])));pool=labShuf(pool).slice(0,12);S.aed={items:pool.map(([k,i])=>({k,i,o:labShuf([0,1,2])})),step:0,ans:[]};go("aeduel")}
@@ -4346,7 +4370,20 @@ function vAeduel(){const Z=S.aed;if(!Z)return vHoy();const n=Z.items.length,thr=
     <label class="rglab" for="aeel">¿Qué es lo más valioso que te llevas de este viaje?</label><textarea class="field" id="aeel" rows="3" maxlength="500" placeholder="Ej.: que mi cuerpo y mi cabeza funcionan mejor si duermo, y que puedo cambiar cosas empezando en pequeño" style="min-height:0"></textarea>
     <p class="rglab">¿A quién se lo vas a contar o enseñar?</p><div class="rgchips">${["Un amigo o amiga","Alguien de mi familia","Un compañero de clase","Alguien más pequeño que yo"].map(w=>`<button type="button" data-rgc="0|${w}">${w}</button>`).join("")}</div><input type="hidden" id="rg0">
     <button class="btn" data-act="ae-elixir" style="width:100%">Volver a casa con el elixir</button></div></section>`;
-  return `<section class="stack"><p class="eyebrow">Epílogo</p><div class="card stack aewin"><span style="font-size:3rem;text-align:center">🧭</span><h2 style="text-align:center">Guía de la Brújula</h2><p>La niebla se ha retirado de tu mundo. No porque hayas ganado trofeos, sino porque has cambiado tu forma de vivir algunas cosas.</p><p><b>Lo que te llevas:</b> ${esc(A.elixir||"")}</p><p><b>Se lo contarás a:</b> ${esc((A.to||"").toLowerCase())}.</p><div class="advbox"><span class="advwho">La Cartógrafa</span><p class="advtxt" style="margin:0">Ahora eres tú quien puede enseñar el camino. Y recuerda: la niebla vuelve si dejas de mirar la brújula. Vuelve cuando quieras.</p></div><button class="btn" data-go="hoy" style="width:max-content">Volver</button></div></section>`}
+  return `<section class="stack"><p class="eyebrow">Epílogo</p><div class="card stack aewin"><span style="font-size:3rem;text-align:center">🧭</span><h2 style="text-align:center">Guía de la Brújula</h2><p>La niebla se ha retirado de tu mundo. No porque hayas ganado trofeos, sino porque has cambiado tu forma de vivir algunas cosas.</p><p><b>Lo que te llevas:</b> ${esc(A.elixir||"")}</p><p><b>Se lo contarás a:</b> ${esc((A.to||"").toLowerCase())}.</p><div class="advbox"><span class="advwho">La Cartógrafa</span><p class="advtxt" style="margin:0">Ahora eres tú quien puede enseñar el camino. Y recuerda: la niebla vuelve si dejas de mirar la brújula. Vuelve cuando quieras.</p></div><div class="row"><button class="btn" data-act="ae-share">🎁 Compartir mi elixir</button><button class="btn ghost" data-go="grupo">Enseñar una idea</button><button class="btn ghost" data-go="hoy">Volver</button></div></div></section>`}
+
+function aeMist(){const A=aeG();if(A.win)return "";const n=aeOros().length,op=Math.max(.08,.42-.11*n);return `<div class="mwmist" style="opacity:${op}" aria-hidden="true"></div>${n>=1?`<div class="mwae" style="opacity:${Math.max(.35,.9-.15*n)}" aria-hidden="true">${aeSVG(1.4)}</div>`:""}`}
+function aeMapLore(){const A=aeG(),n=aeOros().length;if(A.win)return "La niebla se ha retirado de tu mundo. Ya no la necesitas para orientarte: ahora eres tú quien enseña el camino.";
+  if(n>=AEOROS.fin)return "La niebla es cada vez más fina. Entre sus jirones, una sombra con tu forma te espera en la Cima de la Brújula.";
+  if(n>=AEOROS.mid)return "Ahora lo sabes: la niebla nace de los automatismos. Con cada oro se aclara un poco más… y tu Alter Ego se debilita.";
+  if(n>=1)return "Algo se mueve en la niebla. Una sombra con tu misma forma te observa. Cada oro que consigas la hará más débil.";
+  return "La niebla cubre gran parte del mundo. Los caminos salen de la Cima de la Brújula. Cada trofeo que ganas despeja un camino hacia la región vecina que más lo necesita… ¿Qué habrá más allá?"}
+function aeShare(txt,done){const url=APPURL;const ok=()=>{const A=aeG();A.shared=(A.shared||0)+1;store.set("game",S.g);if(done)done();render()};if(navigator.share){navigator.share({title:"Brújula",text:txt,url}).then(ok).catch(()=>{})}else{try{navigator.clipboard.writeText(txt+" "+url).then(()=>{toast("Mensaje copiado. Pégalo en WhatsApp");ok()},()=>toast("No se ha podido copiar"))}catch(e){toast("No se ha podido copiar")}}}
+function aeGuiaCard(){const A=aeG();if(!A.win)return "";const L=C.filter(c=>(S.g.ok||{})[c.id]||(S.g.dom||{})[c.id]),pick=labShuf(L).slice(0,5);
+  return `<div class="card stack aewin"><div class="row" style="gap:12px;align-items:center"><span style="font-size:2.2rem">🧭</span><div><p class="eyebrow" style="margin:0">Guía de la Brújula</p><h2 style="margin:0;font-size:1.25rem">Enseña lo que has aprendido</h2></div></div>
+  <p style="margin:0">Explicar algo a otra persona es la mejor forma de no olvidarlo. Elige una idea y envíasela a alguien: un amigo, tu familia o alguien de clase.</p>
+  <div class="stack" style="gap:6px">${pick.map(c=>`<button class="fenv" data-act="ae-teach" data-v="${c.id}">${AICON[AREAS[c.a].k]||"📖"} <b>${esc(c.t)}</b></button>`).join("")||`<p class="muted">Supera alguna lectura para poder enseñarla.</p>`}</div>
+  <p class="muted" style="font-size:.82rem;margin:0">Ideas compartidas: <b>${A.shared||0}</b>. Toca otra vez Grupo para ver otras ideas.</p></div>`}
 function aeCard(){const [n,t,w]=aeAct();if(n<3)return "";const A=aeG();if(A.win)return "";return `<div class="card aecard"><div class="row" style="gap:12px;align-items:center;flex-wrap:nowrap"><span class="aeglow">${aeSVG(1.6)}</span><div class="stack" style="gap:4px;flex:1"><span class="pxchip" style="align-self:flex-start;background:#2a1450;color:#e8d8ff">⚔️ ${esc(t)}</span><p style="margin:0">${aeReady()?"Tu Alter Ego te espera en la Cima de la Brújula. Te preguntará de todas las tierras que has conquistado.":`Podrás volver a retarle el ${fmtD(A.next)}. Mientras, entrena en tus regiones.`}</p>${aeReady()?`<button class="btn" data-act="ae-start" style="width:max-content">⚔️ Desafiar a tu Alter Ego</button>`:""}</div></div></div>`}
 function aeYo(){const A=aeG(),O=aeOros(),[n,t,w]=aeAct();return `<div class="card stack aeyo"><p class="eyebrow" style="margin:0">📜 Tu viaje</p><h3 style="margin:0">${esc(t)}</h3><p class="muted" style="margin:0">${esc(w)}</p><div class="aesteps">${["La partida","La iniciación","La prueba final","El regreso"].map((x,i)=>`<span class="${i+1<n?"done":i+1===n?"on":""}">${i+1}. ${x}</span>`).join("")}</div>
   ${A.oros.length||O.length?`<details><summary><b>Las caras de tu Alter Ego</b> · ${O.length} de ${Object.keys(AECARA).length} vencidas</summary><div class="aecaras">${Object.entries(AECARA).map(([k,c])=>`<span class="${O.includes(k)?"ok":""}">${O.includes(k)?"✓ «"+esc(c)+"»":"🔒 ???"}<small>${esc(GREG[k]||"")}</small></span>`).join("")}</div></details>`:""}</div>`}
@@ -4362,8 +4399,16 @@ function guiaTips(){const R=mwSeen(),k=hoyPri(R),L=[];if(!k||!MWPOS[k])return L;
   if(A&&T.b&&!S.active&&!T.p)L.push([`Con el bronce de ${G} ya puedes elegir un reto de 7 días. Leer da la idea; el reto es lo que de verdad te cambia.`,`data-gact="retos|${k}"`,"Elegir un reto"]);
   if(A&&T.b&&!T.o&&(QZ[k]||[]).length>=10&&!((S.g.ent||{})[k]||[]).includes(today()))L.push([`Un entreno de 2 minutos en ${G} te acerca al oro: hacen falta 3 días distintos.`,`data-gact="train|${k}"`,"Entrenar"]);
   const rd=cs.find(c=>(S.g.ok||{})[c.id]&&resList(c).length>seenN(c));if(rd)L.push([`En «${rd.t}» tienes recursos sin abrir. Un vídeo corto ayuda a que no se te olvide lo que ya sabes.`,`data-open="${rd.id}"`,"Abrirla"]);
+  if(aeG().win&&!L.length)L.push(["Como Guía de la Brújula, hoy podrías enseñarle a alguien una idea que hayas aprendido. Explicarla es la mejor forma de no olvidarla.",`data-go="grupo"`,"Enseñar una idea"]);
   if(!L.length)L.push(["Hoy lo tienes todo al día. Si te apetece, date una vuelta por la Biblioteca: siempre hay algo que te puede sorprender.",`data-go="explorar"`,"Ir a la Biblioteca"]);
   return L}
+
+function guiaFloat(){if((S.g.guiaH||"")===today()||!S.route||S._intro||!["hoy","mundo","region","explorar","yo","grupo","coleccion","proposito"].includes(S.view)||S.aeScene)return "";const L=guiaTips();if(!L.length)return "";
+  const unread=(S.g.guiaR||"")!==today();
+  if(!S.guiaOpen)return `<button class="guiaf${unread?" pss":""}" data-act="guia-open" aria-label="Aguja, tu acompañante, tiene un consejo"><span class="guiab">${unread?"¡Pss, pss!":"🧭"}</span><span class="guiai" aria-hidden="true">🧭</span></button>`;
+  const i=(S.guiaI||0)%L.length,[t,at,lb]=L[i];
+  return `<div class="guiapop" role="dialog" aria-label="Consejo de Aguja"><div class="row" style="justify-content:space-between;align-items:center"><b>🧭 Aguja</b><button class="linkbtn" data-act="guia-close" aria-label="Cerrar">✕</button></div><p style="margin:0">${esc(t)}</p><div class="row" style="gap:10px;align-items:center;flex-wrap:wrap">${at?`<button class="btn sm" data-act="guia-close" ${at}>${esc(lb)}</button>`:""}${L.length>1?`<button class="linkbtn" data-act="guia-next">Otro consejo (${i+1}/${L.length})</button>`:""}<button class="linkbtn" data-act="guia-hide">Hoy no, gracias</button></div></div><button class="guiaf" data-act="guia-close" aria-label="Cerrar consejo"><span class="guiai" aria-hidden="true">🧭</span></button>`}
+function guiaPss(){if(S.g.snd===false||S._pssDone)return;S._pssDone=1;const ac=gAudio();if(!ac)return;const t0=ac.currentTime+.05;[0,.32].forEach(st=>{const n=Math.floor(ac.sampleRate*.18),b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,1.5);const src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();src.buffer=b;f.type="highpass";f.frequency.value=3500;g.gain.value=.06;src.connect(f);f.connect(g);g.connect(ac.destination);src.start(t0+st)})}
 function guiaCard(){if((S.g.guiaH||"")===today()||!S.route)return "";const L=guiaTips();if(!L.length)return "";const i=(S.guiaI||0)%L.length,[t,at,lb]=L[i];
   return `<div class="guia"><span class="guiaic" aria-hidden="true">🧭</span><div class="stack" style="gap:6px;flex:1;min-width:0"><p style="margin:0"><b>Aguja</b> <span class="muted" style="font-size:.78rem">· tu acompañante</span></p><p style="margin:0">${esc(t)}</p><div class="row" style="gap:10px;align-items:center;flex-wrap:wrap">${at?`<button class="btn sm" ${at}>${esc(lb)}</button>`:""}${L.length>1?`<button class="linkbtn" data-act="guia-next">Otro consejo (${i+1}/${L.length})</button>`:""}<button class="linkbtn" data-act="guia-hide">Hoy no, gracias</button></div></div></div>`}
 /* ---------- Faro: laboratorio y sala de foco ---------- */
@@ -4459,6 +4504,7 @@ try{setTimeout(focoTick,500)}catch(e){}
 document.addEventListener("click",e=>{
   const t=e.target.closest("button,[data-go]");if(!t||t.disabled)return;const d=t.dataset;
   const dl=document.getElementById("dlg");
+  if(t.closest(".guiapop")&&(d.reg||d.open||d.gact||d.go))S.guiaOpen=false;
   if(d.go){if(dl.open)dl.close();e.preventDefault();const [v,h]=d.go.split("#");go(v,!!t.closest("#nav"));if(h)setTimeout(()=>{const el=document.getElementById(h);if(el){let pd=el.parentElement&&el.parentElement.closest("details");while(pd){pd.open=true;if(pd.id==="ajustes")S.ajOpen=true;pd=pd.parentElement&&pd.parentElement.closest("details")}if(el.tagName==="DETAILS"){el.open=true;if(h==="reportar"){S.repOpen=true;S.ajOpen=true}}el.scrollIntoView({behavior:"smooth",block:"start"})}},60);return}
   if(d.ans){const [q,x]=d.ans.split(":").map(Number);const now=Date.now(),dt=now-(S.lastAns||S.pageAt||0),fast=S.answers[q]===undefined&&dt<1500;S.lastAns=now;if(diagHit("test",fast)){S.diag="test";toast("Más despacio: dedica tiempo a cada frase. Necesito tu sinceridad")}else if(!fast&&S.diag==="test")S.diag=null;S.answers[q]=x;save();render();return}
   if(d.lab!=null){labTap(t);return}
@@ -4658,10 +4704,14 @@ document.addEventListener("click",e=>{
 else if(act==="lab-open"){labOpen()}
 else if(act==="ae-next"){if(S.aeScene){S.aeScene.i++;aeDraw()}}
 else if(act==="ae-end"){const X=S.aeScene;if(X){aeMark(X.b);S.aeScene=null}const dl0=document.getElementById("dlg");if(dl0.open)dl0.close();render()}
-else if(act==="ae-start"){if(aeReady())aeStart()}
+else if(act==="ae-share"){const A=aeG();aeShare(`He terminado mi viaje en Brújula. Lo más valioso que me llevo: «${A.elixir||""}». Si quieres, te cuento cómo lo he hecho.`)}
+else if(act==="ae-teach"){const c=CI[d.v];if(c)aeShare(`Te cuento algo que he aprendido: «${c.t}». ${c.q} ¿Lo sabías?`,()=>toast("¡Bien! Enseñar es la mejor forma de recordar"))}
+else if(act==="ae-start"){if(aeReady()){aeStart();try{aeSting()}catch(e){}}}
 else if(act==="ae-elixir"){const v=(document.getElementById("aeel")||{}).value||"",to=(document.getElementById("rg0")||{}).value||"";if(v.trim().length<10){toast("Escribe qué te llevas del viaje");return}if(!to){toast("Elige a quién se lo contarás");return}const A=aeG();A.win=today();A.elixir=v.trim();A.to=to;store.set("game",S.g);try{gTune("oro")}catch(e){}toast("¡Eres Guía de la Brújula!");render()}
 else if(act==="guia-next"){S.guiaI=(S.guiaI||0)+1;render()}
-else if(act==="guia-hide"){S.g.guiaH=today();store.set("game",S.g);toast("Vale. Mañana vuelvo con otro consejo");render()}
+else if(act==="guia-open"){S.guiaOpen=true;S.g.guiaR=today();store.set("game",S.g);render()}
+else if(act==="guia-close"){S.guiaOpen=false;if(!(d.reg||d.open||d.gact||d.go))render()}
+else if(act==="guia-hide"){S.guiaOpen=false;S.g.guiaH=today();store.set("game",S.g);toast("Vale. Mañana vuelvo con otro consejo");render()}
 else if(act==="det-open"){detOpen()}
 else if(act==="det-pick"){if(DET.pick!=null)return;DET.pick=+d.v;if(DET.pick===DETP[DET.ord[DET.i]][4])DET.ok++;detDraw()}
 else if(act==="det-next"){DET.i++;DET.pick=null;if(DET.i>=DET.ord.length){S.g.det=Math.max((S.g&&S.g.det)||0,DET.ok);store.set("game",S.g)}detDraw()}
