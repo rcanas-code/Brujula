@@ -1864,7 +1864,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261015195433";
+const APP_V="20261016073638";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};window.addEventListener("scroll",upd,{passive:true})})();
@@ -3134,6 +3134,7 @@ function gTune(kind){
     g.gain.setValueAtTime(0,a);g.gain.linearRampToValueAtTime(v,a+.008);g.gain.setValueAtTime(v,a+du*.6);g.gain.exponentialRampToValueAtTime(.0001,a+du);
     o.connect(g);g.connect(ac.destination);o.start(a);o.stop(a+du+.03)})}
 const BGMS={
+ intro:{t:.34,lead:[81,0,76,0,84,0,83,0,79,0,0,0,76,0,0,0,81,0,76,0,86,0,84,0,83,0,79,0,0,0,0,0],bass:[45,0,0,0,0,0,0,0,41,0,0,0,0,0,0,0,43,0,0,0,0,0,0,0,40,0,0,0,0,0,0,0],lw:"triangle",bw:"sine",echo:1,bd:7.6,ld:1.7,arp:[[57,60,64],[53,57,60],[55,59,62],[52,56,59]]},
  talk:{t:.22,lead:[72,0,76,0,79,0,76,0,74,0,77,0,81,0,79,0,76,0,79,0,84,0,83,0,81,0,79,0,76,0,0,0],bass:[48,0,0,0,55,0,0,0,50,0,0,0,57,0,0,0,52,0,0,0,55,0,0,0,53,0,0,0,55,0,0,0],lw:"triangle",bw:"square",kick:0},
  boss:{t:.13,lead:[69,0,72,69,76,0,74,72,71,0,74,71,77,0,76,74,69,0,72,69,79,0,77,76,75,76,77,0,76,0,0,0],bass:[45,57,45,57,45,57,45,57,43,55,43,55,43,55,43,55,41,53,41,53,41,53,41,53,40,52,40,52,40,52,40,52],lw:"square",bw:"triangle",kick:1}};
 const SCL={maj:[0,2,4,5,7,9,11],min:[0,2,3,5,7,8,10],dor:[0,2,3,5,7,9,10],phr:[0,1,3,5,7,8,10],lyd:[0,2,4,6,7,9,11],mix:[0,2,4,5,7,9,10],pent:[0,2,4,7,9],minp:[0,3,5,7,10],harm:[0,2,3,5,7,8,11],whole:[0,2,4,6,8,10]};
@@ -3169,9 +3170,9 @@ function bgmKick(ac,t){const o=ac.createOscillator(),g=ac.createGain();o.type="s
 function bgmSet(kind){if(S.g.snd===false||document.hidden)kind=null;if(kind===BGM.cur)return;clearInterval(BGM.iv);BGM.iv=null;
   if(BGM.g){const og=BGM.g;try{og.gain.setTargetAtTime(0,og.context.currentTime,.08);setTimeout(()=>{try{og.disconnect()}catch(e){}},400)}catch(e){}BGM.g=null}
   BGM.cur=kind;if(!kind)return;const ac=gAudio();if(!ac){BGM.cur=null;return}const M=bgmSpec(kind);BGM.g=ac.createGain();BGM.g.gain.value=.045;BGM.g.connect(ac.destination);BGM.i=0;let next=ac.currentTime+.08;
-  const tick=()=>{if(!BGM.g)return;while(next<ac.currentTime+.25){const k=BGM.i%M.lead.length;if(M.lead[k]){bgmNote(ac,M.lead[k],next,M.t*(M.st?.45:.9),M.lw,.5);if(M.echo)bgmNote(ac,M.lead[k],next+M.t*1.5,M.t*.7,M.lw,.16)}if(M.bass[k])bgmNote(ac,M.bass[k],next,M.t*.85,M.bw,.32);if(M.kick&&k%4===0)bgmKick(ac,next);next+=M.t;BGM.i++}};
+  const tick=()=>{if(!BGM.g)return;while(next<ac.currentTime+.25){const k=BGM.i%M.lead.length;if(M.arp){const ch=M.arp[Math.floor(k/8)%M.arp.length];bgmNote(ac,ch[k%ch.length]+12,next,M.t*1.3,"sine",.14)}if(M.lead[k]){bgmNote(ac,M.lead[k],next,M.t*(M.st?.45:(M.ld||.9)),M.lw,.5);if(M.echo)bgmNote(ac,M.lead[k],next+M.t*1.5,M.t*.7,M.lw,.16)}if(M.bass[k])bgmNote(ac,M.bass[k],next,M.t*(M.bd||.85),M.bw,.32);if(M.kick&&k%4===0)bgmKick(ac,next);next+=M.t;BGM.i++}};
   tick();BGM.iv=setInterval(tick,60)}
-function bgmWant(){if(S.view==="final"&&S.fz&&!S.fz.done)return "boss";if(S.view==="region"&&S.reg&&CREN[S.reg]&&mwSeen().has(S.reg)&&(!(S.g.lore||{})[S.reg]||(S.dlg&&S.dlg.k===S.reg)))return "talk:"+S.reg;if(S.view==="explorar"&&document.querySelector(".libtop"))return "talk:LIB";return null}
+function bgmWant(){if(S._intro&&(S.advN||0)>=1)return "intro";if(S.view==="final"&&S.fz&&!S.fz.done)return "boss";if(S.view==="region"&&S.reg&&CREN[S.reg]&&mwSeen().has(S.reg)&&(!(S.g.lore||{})[S.reg]||(S.dlg&&S.dlg.k===S.reg)))return "talk:"+S.reg;if(S.view==="explorar"&&document.querySelector(".libtop"))return "talk:LIB";return null}
 document.addEventListener("visibilitychange",()=>{try{bgmSet(document.hidden?null:bgmWant())}catch(e){}});
 const gCelQ=[];
 function celebrate(ev){gCelQ.push(ev);if(gCelQ.length===1)celShow()}
