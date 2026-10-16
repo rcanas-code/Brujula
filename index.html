@@ -330,6 +330,8 @@ details.card summary::-webkit-details-marker{display:none}
 .detings{display:flex;flex-wrap:wrap;gap:4px}.detings span{border:1px solid var(--line);padding:3px 8px;font-size:.82rem;border-radius:999px}.detings span.lab{background:#F8D3D3;border-color:#D24B4B;color:#7a1414;font-weight:700}
 .pltal{display:flex;flex-direction:column;gap:6px}
 .keychip{display:inline-block;font-size:.7rem;font-weight:800;padding:1px 6px;background:#FFE27A;color:#3a2a00;border:1px solid #C98A14;border-radius:4px;vertical-align:middle}
+.guia{display:flex;gap:10px;align-items:flex-start;padding:12px;border:3px solid #2B6F8C;background:#E9F5FA;color:#12313d}.guiaic{font-size:1.8rem;line-height:1;animation:guiab 3s ease-in-out infinite}@keyframes guiab{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@media (prefers-reduced-motion:reduce){.guiaic{animation:none}}
 .stother{border:2px dashed var(--good);background:var(--good-bg);padding:10px 12px;font-size:.92rem;line-height:1.45}
 .stsum{display:inline-flex;gap:8px;align-items:center}.stsum svg{flex:none}.stlink{display:flex;gap:10px;align-items:flex-start;margin:0;padding:8px 10px;background:var(--surface-2);border-left:4px solid var(--opt,#9B7BFF);font-size:.9rem}.stlink svg{flex:none}
 .hwhy{margin:0;font-size:.86rem;color:var(--muted)}
@@ -1943,7 +1945,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261016190426";
+const APP_V="20261016191444";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -2139,7 +2141,7 @@ function vHoy(){
    <div><p class="hello"><button class="hiav" data-go="mas" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
     <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span></div></div>
    ${banner}
-   ${hoyPath()}
+   ${guiaCard()}${hoyPath()}
    ${focoBanner()}${main}
    ${status}
    ${curCard()}
@@ -3349,7 +3351,7 @@ function sh(a){a=a.slice();for(let j=a.length-1;j>0;j--){const r=Math.floor(Math
 function lqQs(id){const k=String(id).slice(0,3);return (QZ[k]||[]).map((q,i)=>[q,i]).filter(([q])=>q[0]===id)}
 function cDone(id){return !!((S.g.ok||{})[id])||!!((S.g.dom||{})[id])||(!lqQs(id).length&&!DEEP[id]&&!!(S.learn||{})[id])}
 function mwCs(k){return C.filter(c=>AREAS[c.a].k===k&&c.e!=="X")}
-const KEYL={MOV:["MOV-01","MOV-03","MOV-04"],SUE:["SUE-01","SUE-02","SUE-03"],EST:["EST-01","EST-02","EST-03"],ATE:["ATE-01","ATE-02","ATE-05"],EDU:["EDU-01","EDU-02","EDU-03"],HAB:["HAB-01","HAB-02","HAB-04"],REL:["REL-02","REL-03","REL-07"],STO:["STO-01","STO-03","STO-06"],CRI:["CRI-01","CRI-02","CRI-11"],ALI:["ALI-08","ALI-09","ALI-02"],CIU:["CIU-01","CIU-02","CIU-06"],CIV:["CIV-01","CIV-06","CIV-12"],ANI:["ANI-01","ANI-02","ANI-05"],DIN:["DIN-01","DIN-05","DIN-15"]};
+const KEYL={MOV:["MOV-01","MOV-04","MOV-05"],SUE:["SUE-01","SUE-02","SUE-03"],EST:["EST-02","EST-03","EST-06"],ATE:["ATE-01","ATE-02","ATE-04"],EDU:["EDU-01","EDU-02","EDU-06"],HAB:["HAB-01","HAB-03","HAB-04"],REL:["REL-02","REL-07","REL-08"],STO:["STO-01","STO-03","STO-06"],CRI:["CRI-01","CRI-07","CRI-11"],ALI:["ALI-02","ALI-08","ALI-03"],CIU:["CIU-01","CIU-02","CIU-06"],CIV:["CIV-01","CIV-11","CIV-12"],ANI:["ANI-01","ANI-02","ANI-06"],DIN:["DIN-01","DIN-02","DIN-15"]};
 function keyL(k){return (KEYL[k]||[]).filter(id=>CI[id])}
 function mwOrd(k){const K=keyL(k);return K.map(id=>CI[id]).concat(mwCs(k).filter(c=>!K.includes(c.id)))}
 const LECTOR={DIN:16};
@@ -4293,6 +4295,23 @@ function detDraw(){const dl=document.getElementById("dlg"),a=AREAS[AK.ALI],R=DET
     <div class="row"><button class="btn ghost" data-act="det-open">Jugar otra vez</button></div>`;
   dl.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area stack" style="--h:${a.h}">${b}</div>`;
   if(!dl.open){try{dl.showModal()}catch(e){dl.setAttribute("open","")}}}
+
+/* ---------- Aguja: el acompañante diario ---------- */
+function guiaTips(){const R=mwSeen(),k=hoyPri(R),L=[];if(!k||!MWPOS[k])return L;const G=GREG[k],A=GDIF[k]?gArea(k):null,T=A?A.T:{},cn=((CREN[k]||["El guardián"])[0]).split(",")[0];
+  const cs=GDIF[k]?mwOrd(k):mwCs(k),pend=cs.filter(c=>!(S.g.ok||{})[c.id]&&!(S.g.dom||{})[c.id]&&lqPool(c.id).length&&!lqfB(c.id)),capped=pend.length&&lqCap(pend[0].id),K=keyL(k),kp=pend.filter(c=>K.includes(c.id));
+  if(!(S.g.lore||{})[k])L.push([`${cn} te espera a la entrada de ${G}. Ve a hablar: te dirá qué misión te encarga.`,`data-reg="${k}"`,"Ir a la región"]);
+  else if(capped)L.push([`Hoy ya has superado 2 lecturas en ${G}. ¡Buen trabajo! Mañana podrás seguir: lo que se aprende en varios días se recuerda mejor.`,"",""]);
+  else if(A&&!T.b&&kp.length)L.push([`Hoy todavía puedes superar lecturas en ${G}. Te propongo «${kp[0].t}»: es una de las ⭐ clave para el bronce.`,`data-open="${kp[0].id}"`,"Leerla"]);
+  else if(A&&!T.b&&A.act&&A.act[0]==="quiz")L.push([`Ya tienes las lecturas clave de ${G}. Ahora toca el quiz de ${cn}: con 8 de 10, el bronce es tuyo.`,`data-gact="quiz|${k}"`,"Hacer el quiz"]);
+  else if(!A&&pend.length)L.push([`En ${G} aún puedes descubrir cosas de ti. Te propongo «${pend[0].t}».`,`data-open="${pend[0].id}"`,"Leerla"]);
+  else if(A&&T.b&&!lectAll(k)&&pend.length)L.push([`Para el oro de ${G} necesitas conocer ${lectW(k,"sus")} (llevas ${lectN(k)[0]}). Hoy puedes avanzar con «${pend[0].t}».`,`data-open="${pend[0].id}"`,"Leerla"]);
+  if(A&&T.b&&!S.active&&!T.p)L.push([`Con el bronce de ${G} ya puedes elegir un reto de 7 días. Leer da la idea; el reto es lo que de verdad te cambia.`,`data-gact="retos|${k}"`,"Elegir un reto"]);
+  if(A&&T.b&&!T.o&&(QZ[k]||[]).length>=10&&!((S.g.ent||{})[k]||[]).includes(today()))L.push([`Un entreno de 2 minutos en ${G} te acerca al oro: hacen falta 3 días distintos.`,`data-gact="train|${k}"`,"Entrenar"]);
+  const rd=cs.find(c=>(S.g.ok||{})[c.id]&&resList(c).length>seenN(c));if(rd)L.push([`En «${rd.t}» tienes recursos sin abrir. Un vídeo corto ayuda a que no se te olvide lo que ya sabes.`,`data-open="${rd.id}"`,"Abrirla"]);
+  if(!L.length)L.push(["Hoy lo tienes todo al día. Si te apetece, date una vuelta por la Biblioteca: siempre hay algo que te puede sorprender.",`data-go="explorar"`,"Ir a la Biblioteca"]);
+  return L}
+function guiaCard(){if((S.g.guiaH||"")===today()||!S.route)return "";const L=guiaTips();if(!L.length)return "";const i=(S.guiaI||0)%L.length,[t,at,lb]=L[i];
+  return `<div class="guia"><span class="guiaic" aria-hidden="true">🧭</span><div class="stack" style="gap:6px;flex:1;min-width:0"><p style="margin:0"><b>Aguja</b> <span class="muted" style="font-size:.78rem">· tu acompañante</span></p><p style="margin:0">${esc(t)}</p><div class="row" style="gap:10px;align-items:center;flex-wrap:wrap">${at?`<button class="btn sm" ${at}>${esc(lb)}</button>`:""}${L.length>1?`<button class="linkbtn" data-act="guia-next">Otro consejo (${i+1}/${L.length})</button>`:""}<button class="linkbtn" data-act="guia-hide">Hoy no, gracias</button></div></div></div>`}
 /* ---------- Faro: laboratorio y sala de foco ---------- */
 const TRYNOW={"ATE-02":["lab-open","🧪 Hacer la prueba (2 min)","Ahora compruébalo en tu propia cabeza. Te propongo una prueba de 2 minutos: tocar letras y números, primero por separado y luego alternando. Verás cuánto cuesta saltar de una cosa a otra."],"ATE-05":["foco-open","🎯 Empezar una sesión de foco","¿Lo pruebas ahora? Una sesión de foco guiada: eliges qué quieres tener hecho, lo divides en pasos, preparas el entorno y yo llevo el tiempo. Puedes empezar con 25 minutos."]};
 function tryNow(id,k){const T=TRYNOW[id];if(!T)return "";const g=esc(((CREN[k]||["El guardián"])[0]).split(",")[0]);return `<div class="trynow"><p style="margin:0"><b>${g}:</b> ${T[2]}</p><button class="btn" data-act="${T[0]}">${T[1]}</button></div>`}
@@ -4582,6 +4601,8 @@ document.addEventListener("click",e=>{
   const miss=R.f.findIndex((f,i)=>!f[3]&&!vals[i]);if(miss>=0){toast("Te falta: "+R.f[miss][1].replace(/\s*\(.*?\)\s*$/,""));const el=document.getElementById("rg"+miss);if(el){(el.type==="hidden"?el.previousElementSibling:el).scrollIntoView({block:"center"});if(el.type!=="hidden")el.focus()}return}
   const first=!rgEntries(id,day,day).length;S.diario.push({id,d:day,t:Date.now(),v:vals});if(first)S.active.log[day]="si";S.rgMore=false;if(day!==today())S.rgDay=null;save();toast(first?"+10 · Guardado en tu diario":"Guardado en tu diario");render()}
 else if(act==="lab-open"){labOpen()}
+else if(act==="guia-next"){S.guiaI=(S.guiaI||0)+1;render()}
+else if(act==="guia-hide"){S.g.guiaH=today();store.set("game",S.g);toast("Vale. Mañana vuelvo con otro consejo");render()}
 else if(act==="det-open"){detOpen()}
 else if(act==="det-pick"){if(DET.pick!=null)return;DET.pick=+d.v;if(DET.pick===DETP[DET.ord[DET.i]][4])DET.ok++;detDraw()}
 else if(act==="det-next"){DET.i++;DET.pick=null;if(DET.i>=DET.ord.length){S.g.det=Math.max((S.g&&S.g.det)||0,DET.ok);store.set("game",S.g)}detDraw()}
