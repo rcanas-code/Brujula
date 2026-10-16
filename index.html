@@ -850,6 +850,51 @@ dialog{border:3px solid var(--px-ink)!important;box-shadow:6px 6px 0 var(--px-sh
 @keyframes celSpin{to{transform:rotate(360deg)}}
 @keyframes celFall{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(112vh) rotate(600deg)}}
 @media (prefers-reduced-motion:reduce){.celeb .cf,.celeb .rays{display:none}}
+
+/* ---- ficha de concepto (look de juego) ---- */
+.dlg.cx{gap:12px;border-top:0;padding-top:0}
+.cxhero{position:relative;display:flex;align-items:flex-end;gap:14px;margin:0 -24px;padding:22px 18px 16px;min-height:150px;overflow:hidden;color:#F4F1E8;background:linear-gradient(hsl(var(--h) 38% 30%),#1E2B38 78%);border-bottom:8px solid hsl(var(--h) 50% 48%)}
+.cxsky{position:absolute;inset:0;pointer-events:none}
+.cxnpc{position:relative;z-index:1;flex:none;filter:drop-shadow(0 4px 0 rgba(0,0,0,.45))}
+.cxnpc svg{image-rendering:pixelated;display:block}
+.cxht{position:relative;z-index:1;display:flex;flex-direction:column;gap:6px;min-width:0}
+.cxreg{font-family:var(--pxf);font-size:.72rem;letter-spacing:.04em;color:hsl(var(--h) 80% 82%)}
+.cxhero h2{margin:0;font-family:var(--pxf);font-size:1.28rem;line-height:1.2;color:#FFF;text-shadow:2px 2px 0 #0F1A24}
+.cxbad{display:flex;flex-wrap:wrap;gap:6px}
+.cxb{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 7px;background:#0F1A24;color:#F4F1E8;border:2px solid #F4F1E8}
+.cxb.ev-F{border-color:#5CC98A;color:#9BE7B6}.cxb.ev-M{border-color:#F2B632;color:#FFE08A}.cxb.ev-D,.cxb.lv-X{border-color:#FF8A80;color:#FFC2BC}
+.advbox.cxidea{cursor:default;margin-top:18px}
+.cxidea .advtxt{font-weight:700;font-size:1.06rem}
+.cxquest{display:flex;gap:10px;align-items:center;padding:10px 12px;background:#FFF6E0;color:#3a2a00;border:3px solid #1E2B38;box-shadow:4px 4px 0 #1E2B38}
+.cxquest small{display:block;font-size:.82rem}.cxqi{font-size:1.5rem}
+.cxtabs{position:sticky;top:52px;z-index:4;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;padding:6px 0;background:var(--surface)}
+.cxtab{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px 7px;font:inherit;font-family:var(--pxf);font-size:.74rem;font-weight:700;cursor:pointer;background:var(--surface);color:var(--ink);border:3px solid var(--px-ink);box-shadow:3px 3px 0 var(--px-sh)}
+.cxtab .cxti{font-size:1.35rem;line-height:1}
+.cxtab i{font-style:normal;font-family:var(--body,inherit);font-size:.68rem;color:var(--muted)}
+.cxtab[aria-selected="true"]{background:#FF6B3D;color:#1E2B38;transform:translate(2px,2px);box-shadow:1px 1px 0 var(--px-sh)}
+.cxtab[aria-selected="true"] i{color:#1E2B38}
+.cxp{display:flex;flex-direction:column;gap:12px}
+.cxp[hidden]{display:none}
+.cxread{display:flex;flex-direction:column;gap:12px}
+.cxread p{margin:0;line-height:1.65;font-size:1.02rem}
+.cxcard{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--surface);border:3px solid var(--px-ink);box-shadow:4px 4px 0 var(--px-sh)}
+.cxcard h4{margin:0 0 4px}.cxcard p{margin:0;line-height:1.55}
+.cxcard.quest{flex-direction:column;gap:8px;background:hsl(var(--h) 70% 95%)}
+:root[data-theme="dark"] .cxcard.quest{background:hsl(var(--h) 25% 18%)}
+.cxbig{font-size:1.05rem;font-weight:700}.cxsm{font-size:.8rem;margin:0}
+.cxci{flex:none;width:40px;height:40px;display:grid;place-items:center;font-size:1.3rem;background:hsl(var(--h) 70% 92%);border:2px solid var(--px-ink)}
+:root[data-theme="dark"] .cxci{background:hsl(var(--h) 25% 22%)}
+.cxcard.plan{border-color:hsl(var(--h) 50% 40%)}
+.cxcard.err .cxci{background:#FFE4E1}
+.cxres{display:flex;gap:12px;align-items:flex-start;padding:12px;border:3px solid var(--px-ink);box-shadow:4px 4px 0 var(--px-sh);background:var(--surface)}
+.cxri{flex:none;width:44px;height:44px;display:grid;place-items:center;font-size:1.4rem;background:#0F1A24;border:2px solid var(--px-ink)}
+.cxrb{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cxrb small{font-size:.8rem;color:var(--muted)}.cxrb small b{color:var(--ink)}
+.cxrb a{font-weight:800;word-break:break-word}
+.cxrb .seenbtn{margin-top:4px;align-self:flex-start}
+.cxnext{align-self:flex-end;font:inherit;font-family:var(--pxf);font-size:.8rem;font-weight:700;padding:8px 12px;cursor:pointer;background:#1E2B38;color:#F4F1E8;border:3px solid #1E2B38;box-shadow:3px 3px 0 hsl(var(--h) 50% 48%)}
+.cxfoot{justify-content:flex-end;margin-top:4px}
+@media (max-width:380px){.cxhero{flex-direction:column;align-items:flex-start}}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -2007,7 +2052,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017013618";
+const APP_V="20261017014549";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -4260,26 +4305,55 @@ const FIG={"EDU-09":()=>`<div class="fig"><h4>📝 Plan exprés</h4><div class="
 const LINKS={"CIV-01":["CIV-08","CRI-06","STO-02"],"CIV-02":["CIV-09","CIV-14"],"CIV-03":["CIV-04","CIV-05"],"CIV-06":["CRI-04","CIV-11"],"CIV-07":["CIV-08","CIV-15"],"CIV-08":["CIV-15","CRI-14"],"CIV-10":["CIV-04","CIV-03"],"CIV-11":["REL-01","CIV-06"],"CIV-12":["REL-08","ATE-04"],"CIV-13":["REL-02","REL-03"],"CIV-15":["CIV-08","CRI-14","STO-02"],"REL-13": ["REL-08", "REL-02", "PEN-10"], "REL-14": ["REL-01", "MOV-01", "EMO-01", "STO-05"], "REL-15": ["REL-07", "REL-08", "@ayuda"], "REL-16": ["REL-02", "REL-06", "REL-05"], "PEN-11": ["ATE-04", "PEN-10", "ALI-03", "@ayuda"], "EDU-09": ["EST-02", "EST-03", "EDU-06", "EDU-08", "EDU-01"], "DIN-30": ["DIN-17", "@dinero#caprichos", "DIN-32"], "DIN-31": ["DIN-30", "DIN-32", "DIN-05", "@dinero#interes"], "DIN-32": ["DIN-16", "DIN-01", "DIN-31"], "VAL-12": ["@curiosidad", "@proposito", "VAL-07", "VAL-06", "VAL-08"], "REL-07": ["REL-15"], "REL-08": ["REL-13"], "ATE-04": ["PEN-11"], "EDU-08": ["EDU-09"], "EST-02": ["EDU-09"], "DIN-17": ["DIN-30"], "DIN-16": ["DIN-32"], "VAL-07": ["VAL-12", "@curiosidad"], "REL-06": ["REL-16"], "REL-11": ["REL-12", "REL-05"], "REL-12": ["REL-11", "REL-03"], "ADI-12": ["SUE-04", "ADI-11", "@cuerpo"], "ADI-11": ["ALI-06", "@cuerpo"], "SUE-05": ["@crono"], "STO-01": ["PEN-04", "PEN-07"], "ALI-06": ["ADI-11"]};
 const LGO={ayuda:["🆘","Pedir ayuda"],"dinero#caprichos":["🛍️","Calculadora de caprichos"],"dinero#interes":["📈","Simulador de interés compuesto"],curiosidad:["🔭","Descubre algo nuevo"],proposito:["🧭","Tu propósito"],cuerpo:["🫀","Tu cuerpo"],crono:["🌙","Test de cronotipo"]};
 function relLinks(id){const L=LINKS[id];if(!L||!L.length)return "";return `<div><h4>Te puede interesar</h4><div class="chips">${L.map(x=>x[0]==="@"?(LGO[x.slice(1)]?`<button class="chip" data-go="${x.slice(1)}">${LGO[x.slice(1)][0]} ${LGO[x.slice(1)][1]} →</button>`:""):CI[x]?`<button class="chip" data-open="${x}">${AICON[AREAS[CI[x].a].k]} ${esc(CI[x].t)} →</button>`:"").join("")}</div></div>`}
+function cxResIco(t){return /Vídeo|YouTube|TED/.test(t)?"▶️":/P[óo]dcast/.test(t)?"🎧":/Libro/.test(t)?"📖":/PDF/.test(t)?"📄":/app/.test(t)?"📱":/ayuda/i.test(t)?"💛":/Web/.test(t)?"🌐":"🔗"}
+function cxTile(ico,type,desc,link,seen){return `<div class="cxres"><span class="cxri" aria-hidden="true">${ico}</span><div class="cxrb"><small><b>${esc(type)}</b>${desc?" · "+desc:""}</small>${link}${seen||""}</div></div>`}
 function openConcept(id){
-  const c=CI[id];if(!c)return;markLearn(id);const a=AREAS[c.a],dlg=document.getElementById("dlg"),lib=S.view==="explorar";
+  const c=CI[id];if(!c)return;markLearn(id);const a=AREAS[c.a],k=a.k,dlg=document.getElementById("dlg"),lib=S.view==="explorar";
+  const same=dlg.open&&dlg.dataset.cid===id,keepTop=same?dlg.scrollTop:0;
   const isActive=S.active&&S.active.id===id;
-  dlg.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="chip"><span class="dot"></span>${a.n}</span><span class="row" style="gap:8px"><span class="lv ${c.e==="X"?"X":c.n}">${lvTag(c)}</span>${c.e==="X"?"":`<span class="ev ${c.e}">${EV[c.e]}</span>`}</span></div>
-   <div class="cch"><span class="cic big">${/^Es un sesgo/.test(c.q)?"🧩":AICON[a.k]}</span><h2>${esc(c.t)}</h2></div>${(()=>{const n=resList(c).length,v=seenN(c);return n?`<p class="cprog">${v===n?"✓ ":""}Recursos vistos: <b>${v} de ${n}</b></p>`:""})()}${!lib&&GDIF[a.k]&&!(S.g.ok||{})[id]&&lqPool(id).length?`<p class="cgoal">🎯 <b>Para superar esta lectura:</b> léela y responde las preguntas que hay al final de esta ficha.</p>`:""}
-   <section class="cblk"><h3 class="cbh">🧠 Entiéndelo</h3><p class="cq">${esc(c.q)}</p>${(EXT[id]||[]).map(p=>`<p>${esc(p)}</p>`).join("")}${deepHtml(id)}${FIG[c.id]?FIG[c.id]():""}</section>
-   ${(()=>{const E=exOf(c.id),pr=lib&&!isActive?"":isActive?`<p class="challenge">Tu reto de esta semana: ${esc(c.h)}</p>`:`<div class="practica"><p style="margin:0"><b>Cómo se practica:</b> ${esc(c.h)}</p><p class="muted" style="font-size:.8rem;margin:4px 0 0">No hace falta hacerlo ahora: Hoy te propone tus retos, y en cada región puedes elegir otro cuando acabes tu misión.</p></div>`;
-     const TL={"ATE-01":["movil-open","🔧 Configura tu móvil en el taller (10 min)"],"ALI-08":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-09":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-01":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-06":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ATE-02":["lab-open","🧪 Haz la prueba de letras y números (2 min)"],"ATE-05":["foco-open","🎯 Prueba una sesión de foco guiada"]}[id];const body=(TL?`<button class="btn" data-act="${TL[0]}" style="width:max-content">${TL[1]}</button>`:"")+pr+(E?`<div><h4>Un ejemplo</h4><p>${esc(E[0])}</p></div>${lib?"":`<div><h4>Un plan que puedes copiar</h4><p>${esc(E[1])}</p></div>`}`:"")+(ERR[id]?`<div><h4>Errores típicos</h4><ul class="cerr">${ERR[id].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div>`:"");
-     return body?`<section class="cblk"><h3 class="cbh">🛠️ Pruébalo</h3>${body}</section>`:""})()}
-   <section class="cblk"><h3 class="cbh">🔭 Ve más allá</h3>${(()=>{const L=resList(c),n=L.length,v=seenN(c);if(!n)return "";return libSay(v>=n?"¡Lo has visto todo! Pocos viajeros llegan tan al fondo de un tema.":`Lo de arriba es solo la puerta. Aquí abajo guardo ${n-v===1?"un recurso":(n-v)+" recursos"} que aún no has abierto${L.includes("v")||L.includes("y")?": empieza por el vídeo, se ve en un momento":""}. Ahí está lo bueno.`)})()}
-   <div><h4>Para aprender más</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${rType(c.r)[0]}</span> ${rType(c.r)[1]}</p><div class="links">${/^app:/.test(c.r[1]||"")?`<a href="#" data-go="${c.r[1].slice(4)}">${esc(rType(c.r)[2])} →</a>`:c.r[1]?`<a href="${c.r[1]}" target="_blank" rel="noopener">${esc(rType(c.r)[2])}</a>`:`<span>${esc(rType(c.r)[2])}</span>`}</div>${seenBtn(c,"r")}${famVid(c)?`<p class="muted" style="font-size:.85rem;margin:10px 0 6px"><span class="chip">YouTube</span> ${famVid(c)[2]?"La misma charla, en YouTube:":"Lo cuenta un referente del tema:"}</p><div class="links"><a href="${famVid(c)[1]}" target="_blank" rel="noopener">${esc(famVid(c)[0])}</a></div>${seenBtn(c,"y")}`:""}${resList(c).includes("v")?`<p class="muted" style="font-size:.85rem;margin:10px 0 6px"><span class="chip">Vídeo</span> Si prefieres verlo:</p><div class="links"><a href="${VID[c.id][1]}" target="_blank" rel="noopener">${esc(VID[c.id][0])}</a></div>${seenBtn(c,"v")}`:""}</div>
-   ${!resList(c).includes("p")?"":`<div><h4>Para profundizar</h4><p class="muted" style="font-size:.85rem;margin-bottom:6px"><span class="chip">${pType(c.p)[0]}</span> ${pType(c.p)[2]}</p>${PLINK[c.p]?`<div class="links"><a href="${PLINK[c.p]}" target="_blank" rel="noopener">${esc(pType(c.p)[1])} (YouTube)</a></div>`:`<p><b>${esc(pType(c.p)[1])}</b></p>`}${seenBtn(c,"p")}${BOOKLINK[pType(c.p)[1]]?`<p class="muted" style="font-size:.85rem;margin:8px 0 4px">Para empezar sin el libro, lee esto de su web:</p><div class="links"><a href="${BOOKLINK[pType(c.p)[1]][1]}" target="_blank" rel="noopener">${esc(BOOKLINK[pType(c.p)[1]][0])}</a></div>${seenBtn(c,"b")}`:""}</div>`}
-   ${relLinks(c.id)}</section>
-   ${lib?libNote(id):lqBox(id)}<div class="row" style="justify-content:flex-end">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${lib?"Biblioteca: solo para aprender.":routeItems().some(it=>it.c.id===c.id)?"Puedes empezar este reto desde su región cuando acabes tu misión.":"Para aprender."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
-  try{dlg.showModal()}catch(e){dlg.setAttribute("open","")}
-  try{if(!(history.state&&history.state.dlg))history.pushState({dlg:1},"")}catch(e){}
-  S.lqRead={id,t0:Date.now(),scrolled:false};clearInterval(S.lqTimer);
-  const lqTick=()=>{const L=S.lqRead;if(!L||L.id!==id||!dlg.open){clearInterval(S.lqTimer);return}if(dlg.scrollTop+dlg.clientHeight>=dlg.scrollHeight-80)L.scrolled=true;const bx=dlg.querySelector(".lqbox.wait");if(bx)bx.outerHTML=lqBox(id);if(!dlg.querySelector(".lqbox.wait"))clearInterval(S.lqTimer)};
-  dlg.onscroll=()=>{const L=S.lqRead;if(L&&L.id===id&&dlg.scrollTop+dlg.clientHeight>=dlg.scrollHeight-80)L.scrolled=true};
+  const cn=lib?"Don Fermín":((CREN[k]||[""])[0]||"").split(",")[0]||"El guardián",npc=lib?libSVG(2.6):(CRE[k]?creSVG(k,3.2):`<span class="cic big">${AICON[k]}</span>`);
+  const L=resList(c),nR=L.length,vR=seenN(c),goal=!lib&&GDIF[k]&&!(S.g.ok||{})[id]&&lqPool(id).length;
+  /* --- practicar --- */
+  const E=exOf(c.id),TL={"ATE-01":["movil-open","🔧 Configura tu móvil en el taller (10 min)"],"ALI-08":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-09":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-01":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-06":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ATE-02":["lab-open","🧪 Haz la prueba de letras y números (2 min)"],"ATE-05":["foco-open","🎯 Prueba una sesión de foco guiada"]}[id];
+  const quest=lib&&!isActive?"":`<div class="cxcard quest"><span class="pxchip">${isActive?"TU RETO ESTA SEMANA":"MISIÓN"}</span><p class="cxbig">${esc(c.h)}</p>${isActive?"":`<p class="muted cxsm">No hace falta hacerlo ahora: Hoy te propone tus retos, y en cada región puedes elegir otro cuando acabes tu misión.</p>`}</div>`;
+  const prac=(TL?`<button class="btn" data-act="${TL[0]}" style="width:max-content;max-width:100%;white-space:normal">${TL[1]}</button>`:"")+quest
+    +(E?`<div class="cxcard"><span class="cxci" aria-hidden="true">💬</span><div><h4>Un caso real</h4><p>${esc(E[0])}</p></div></div>${lib?"":`<div class="cxcard plan"><span class="cxci" aria-hidden="true">🔁</span><div><h4>Un plan que puedes copiar</h4><p>${esc(E[1]).replace(/^Si /,"<b>Si</b> ").replace(/, entonces /,", <b>entonces</b> ")}</p></div></div>`}`:"")
+    +(ERR[id]?`<div class="cxcard err"><span class="cxci" aria-hidden="true">⚠️</span><div><h4>Errores típicos</h4><ul class="cerr">${ERR[id].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>`:"");
+  /* --- más allá --- */
+  const rt=rType(c.r),pt=pType(c.p),fv=famVid(c);
+  let more=nR?libSay(vR>=nR?"¡Lo has visto todo! Pocos viajeros llegan tan al fondo de un tema.":`Lo de arriba es solo la puerta. Aquí abajo guardo ${nR-vR===1?"un recurso":(nR-vR)+" recursos"} que aún no has abierto${L.includes("v")||L.includes("y")?": empieza por el vídeo, se ve en un momento":""}. Ahí está lo bueno.`):"";
+  more+=cxTile(cxResIco(rt[0]),rt[0],rt[1],/^app:/.test(c.r[1]||"")?`<a href="#" data-go="${c.r[1].slice(4)}">${esc(rt[2])} →</a>`:c.r[1]?`<a href="${c.r[1]}" target="_blank" rel="noopener">${esc(rt[2])}</a>`:`<span>${esc(rt[2])}</span>`,seenBtn(c,"r"));
+  if(fv)more+=cxTile("▶️","YouTube",fv[2]?"La misma charla, en YouTube":"Lo cuenta un referente del tema",`<a href="${fv[1]}" target="_blank" rel="noopener">${esc(fv[0])}</a>`,seenBtn(c,"y"));
+  if(L.includes("v"))more+=cxTile("▶️","Vídeo","Si prefieres verlo",`<a href="${VID[c.id][1]}" target="_blank" rel="noopener">${esc(VID[c.id][0])}</a>`,seenBtn(c,"v"));
+  if(L.includes("p")){more+=cxTile(cxResIco(pt[0]),pt[0],pt[2],PLINK[c.p]?`<a href="${PLINK[c.p]}" target="_blank" rel="noopener">${esc(pt[1])} (YouTube)</a>`:`<b class="cxrt">${esc(pt[1])}</b>`,seenBtn(c,"p"));
+    if(BOOKLINK[pt[1]])more+=cxTile("🌐","Para empezar sin el libro","Lee esto de su web",`<a href="${BOOKLINK[pt[1]][1]}" target="_blank" rel="noopener">${esc(BOOKLINK[pt[1]][0])}</a>`,seenBtn(c,"b"))}
+  more+=relLinks(c.id);
+  const tabs=[["u","📖","Entender"],prac?["p","🛠️","Practicar"]:null,["m","🔭","Más allá",nR?`${vR}/${nR}`:""]].filter(Boolean);
+  let cur=(S.cxTab&&S.cxTab.id===id&&tabs.some(t=>t[0]===S.cxTab.t))?S.cxTab.t:"u";
+  dlg.dataset.cid=id;
+  dlg.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area cx" style="--h:${a.h}">
+   <header class="cxhero"><div class="cxsky" aria-hidden="true">${SPARK(7)}</div><span class="cxnpc">${npc}</span>
+    <div class="cxht"><span class="cxreg">${lib?"📚 Biblioteca":"📍 "+esc(GREG[k]||a.n)}</span><h2>${esc(c.t)}</h2>
+     <div class="cxbad"><span class="cxb lv-${c.e==="X"?"X":c.n}">${lvTag(c)}</span>${c.e==="X"?"":`<span class="cxb ev-${c.e}">${EV[c.e]}</span>`}</div></div></header>
+   <div class="advbox cxidea"><span class="advwho">${esc(cn)}</span><p class="advtxt">${/^Es un sesgo/.test(c.q)?"🧩 ":""}${esc(c.q)}</p></div>
+   ${goal?`<div class="cxquest"><span class="cxqi" aria-hidden="true">🎯</span><div><b>Misión de lectura</b><small>Lee «Entender» hasta el final y supera la comprobación.</small></div></div>`:""}
+   <nav class="cxtabs" role="tablist">${tabs.map(t=>`<button class="cxtab" role="tab" type="button" data-cxt="${t[0]}" aria-selected="${t[0]===cur}"><span class="cxti" aria-hidden="true">${t[1]}</span><span>${t[2]}</span>${t[3]?`<i>${t[3]}</i>`:""}</button>`).join("")}</nav>
+   <section class="cxp" data-cxp="u" ${cur==="u"?"":"hidden"}><div class="cxread">${(EXT[id]||[]).map(p=>`<p>${esc(p)}</p>`).join("")}${deepHtml(id)}${FIG[c.id]?FIG[c.id]():""}</div>
+    ${lib?libNote(id):lqBox(id)}${prac?`<button class="cxnext" type="button" data-cxgo="p">Siguiente: Practicar 🛠️ ▶</button>`:`<button class="cxnext" type="button" data-cxgo="m">Siguiente: Más allá 🔭 ▶</button>`}</section>
+   ${prac?`<section class="cxp" data-cxp="p" ${cur==="p"?"":"hidden"}>${prac}<button class="cxnext" type="button" data-cxgo="m">Siguiente: Más allá 🔭 ▶</button></section>`:""}
+   <section class="cxp" data-cxp="m" ${cur==="m"?"":"hidden"}>${more}</section>
+   <div class="row cxfoot">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${lib?"Biblioteca: solo para aprender.":routeItems().some(it=>it.c.id===c.id)?"Puedes empezar este reto desde su región cuando acabes tu misión.":"Para aprender."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
+  const setTab=(t,scroll)=>{cur=t;S.cxTab={id,t};dlg.querySelectorAll(".cxtab").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.cxt===t)));dlg.querySelectorAll(".cxp").forEach(p=>p.hidden=p.dataset.cxp!==t);
+    if(scroll){const nv=dlg.querySelector(".cxtabs");if(nv)dlg.scrollTop=Math.max(0,nv.offsetTop-58)}};
+  dlg.querySelectorAll("[data-cxt],[data-cxgo]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setTab(b.dataset.cxt||b.dataset.cxgo,true)}));
+  if(!same){try{dlg.showModal()}catch(e){dlg.setAttribute("open","")}
+    try{if(!(history.state&&history.state.dlg))history.pushState({dlg:1},"")}catch(e){}}
+  if(!(same&&S.lqRead&&S.lqRead.id===id))S.lqRead={id,t0:Date.now(),scrolled:false};clearInterval(S.lqTimer);
+  const atEnd=()=>{const p=dlg.querySelector('[data-cxp="u"]');return p&&!p.hidden&&dlg.scrollTop+dlg.clientHeight>=dlg.scrollHeight-80};
+  const lqTick=()=>{const L=S.lqRead;if(!L||L.id!==id||!dlg.open){clearInterval(S.lqTimer);return}if(atEnd())L.scrolled=true;const bx=dlg.querySelector(".lqbox.wait");if(bx)bx.outerHTML=lqBox(id);if(!dlg.querySelector(".lqbox.wait"))clearInterval(S.lqTimer)};
+  dlg.onscroll=()=>{const L=S.lqRead;if(L&&L.id===id&&atEnd())L.scrolled=true};
   S.lqTimer=setInterval(lqTick,1000);
+  if(same){dlg.scrollTop=keepTop;return}
   const top=()=>{dlg.scrollTop=0;const h=dlg.querySelector("h2");if(h){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}};top();requestAnimationFrame(top);setTimeout(top,60)
 }
 let advTW=null;
