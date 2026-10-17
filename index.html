@@ -901,6 +901,39 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 @keyframes tseek{0%{transform:rotate(0)}8%{transform:rotate(-55deg)}18%{transform:rotate(40deg)}28%{transform:rotate(-24deg)}38%{transform:rotate(12deg)}48%{transform:rotate(-5deg)}56%,78%{transform:rotate(0)}84%{transform:rotate(200deg)}92%{transform:rotate(340deg)}100%{transform:rotate(360deg)}}
 .advlogo-ic{filter:drop-shadow(0 0 10px rgba(255,226,122,.45))}
 @media (prefers-reduced-motion:reduce){.tcmp .tndl{animation:none}}
+
+/* fase 1: base de retos */
+.howto{border:3px solid var(--px-ink);box-shadow:3px 3px 0 var(--px-sh);background:var(--surface);padding:0}
+.howto summary{cursor:pointer;padding:10px 12px;font-family:var(--pxf);font-weight:700;font-size:.85rem;list-style:none}
+.howto summary::-webkit-details-marker{display:none}
+.howto summary::after{content:" ▾";float:right}.howto[open] summary::after{content:" ▴"}
+.howrows{display:grid;gap:10px;padding:0 12px 12px}
+.howr{display:flex;gap:10px;align-items:flex-start}.howr p{margin:2px 0 0;font-size:.9rem;line-height:1.45}.howr b{font-size:.85rem}
+.howi{flex:none;width:32px;height:32px;display:grid;place-items:center;font-size:1.05rem;background:hsl(var(--h,200) 70% 92%);border:2px solid var(--px-ink)}
+:root[data-theme="dark"] .howi{background:hsl(var(--h,200) 25% 22%)}
+.ayer{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:10px 12px;border:2px dashed var(--line);font-size:.9rem;font-weight:700}
+.dial{display:grid;gap:6px}.diall{font-weight:800;font-size:.9rem}
+.dialr{display:grid;grid-template-columns:repeat(11,1fr);gap:3px}
+.dialb{font:inherit;font-weight:800;font-size:.8rem;padding:8px 0;cursor:pointer;border:2px solid var(--px-ink);background:hsl(calc(0 + var(--i)*12) 70% 92%);color:#1E2B38}
+.dialb.on{background:hsl(calc(0 + var(--i)*12) 65% 50%);color:#fff;transform:translateY(-3px);box-shadow:0 3px 0 var(--px-sh)}
+.dialx{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
+.perg{display:grid;gap:6px;padding:12px;background:#FBF3DF;color:#3A2A10;border:3px solid #8C6A2E;box-shadow:4px 4px 0 #5A4218}
+.pergh{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:.92rem}
+.pergl{font-size:.75rem;font-weight:800;background:#3A2A10;color:#FBF3DF;padding:2px 6px}
+.pergt{font:inherit;font-size:1rem;line-height:1.5;padding:10px;border:2px solid #C9A86A;background:#FFFBF0;color:#2A1E08;resize:vertical;min-height:80px}
+.pergs{font-size:.75rem;color:#7A5C24}
+.pergi{border:2px solid var(--line);padding:8px 10px}.pergi summary{cursor:pointer}.pergx{white-space:pre-wrap;margin:8px 0}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.dcard{display:flex;flex-direction:column;gap:6px;align-items:center;text-align:center;padding:12px 10px;color:#F4F1E8;background:linear-gradient(hsl(var(--h) 40% 32%),#1E2B38);border:3px solid #F2B632;box-shadow:0 0 0 3px #1E2B38,4px 4px 0 3px rgba(0,0,0,.25)}
+.dcard.big{max-width:280px;padding:16px 14px}
+.dctop{font-family:var(--pxf);font-size:.62rem;color:#FFE27A;letter-spacing:.04em}
+.dcic svg{image-rendering:pixelated;display:block}
+.dct{font-family:var(--pxf);font-size:.85rem;line-height:1.2}.dcard.big .dct{font-size:1rem}
+.dcx{margin:0;font-size:.82rem;line-height:1.4}.dcard.big .dcx{font-size:.95rem}
+.dcd{font-size:.7rem;opacity:.75}
+.dnew{animation:dnpop .5s ease-out}@keyframes dnpop{0%{transform:scale(.9);opacity:0}100%{transform:none;opacity:1}}
+.mwn.dim{filter:grayscale(.7) brightness(.7)}
+.gbspr svg{image-rendering:pixelated;display:block}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -1590,7 +1623,7 @@ function cfgCard(){const snd=S.g.snd===false?"0":"1",row=(ic,t,d,ctl)=>`<div cla
   </div></details>`}
 function fontPick(){const cur=document.documentElement.dataset.font||"retro";return `<div class="fontpick" role="group" aria-label="Estilo de letra">${FONTS.map(([v,n,f,d])=>`<button class="fontopt${cur===v?" on":""}" data-font="${v}" aria-pressed="${cur===v}"><span class="fs" style="font-family:'${f}'">Aa 123</span><span class="fn" style="font-family:'${f}'">${n}</span><span class="muted" style="font-size:.75rem">${d}</span></button>`).join("")}</div>`}
 const P0=()=>({v:[],s:[],s3:"",up:"",down:"",flow:"",causes:[],who:"",letter:"",upL:[],downL:[],whoL:[],fut:[],proud:[],exp:[{t:"",d:false},{t:"",d:false},{t:"",d:false}],f:{verb:"ayudar",que:"",quien:"",s:"",v:""},done:{},pa:null,paHist:[],versions:[],fDate:null,lastReview:null,reviews:0});
-let S={foco:store.get("foco",null),diario:store.get("diario",[]),mood:store.get("mood",{}),grp:Object.assign({m:[],wk:{}},store.get("grp",{})),name:store.get("name",""),quizR:store.get("quiz",{}),qz:null,seen:store.get("seen",{}),tour:null,tourDone:store.get("tourDone",false),view:"hoy",answers:store.get("answers",{}),active:store.get("active",null),history:store.get("history",[]),tests:store.get("tests",[]),buddy:store.get("buddy",""),P:Object.assign(P0(),store.get("purpose",{})),pOpen:null,route:store.get("route",null),keep:store.get("keep",[]),extra:store.get("extra",{}),grat:store.get("grat",[]),more:false,rescued:false,breath:false,misIdx:0,misClosed:false,tips:store.get("tips",[]),bud:store.get("bud",{sent:false,skip:false,log:{}}),sharePrompt:store.get("sharePrompt",null),
+let S={foco:store.get("foco",null),diario:store.get("diario",[]),mood:store.get("mood",{}),grp:Object.assign({m:[],wk:{}},store.get("grp",{})),name:store.get("name",""),quizR:store.get("quiz",{}),qz:null,seen:store.get("seen",{}),perg:store.get("perg",[]),tour:null,tourDone:store.get("tourDone",false),view:"hoy",answers:store.get("answers",{}),active:store.get("active",null),history:store.get("history",[]),tests:store.get("tests",[]),buddy:store.get("buddy",""),P:Object.assign(P0(),store.get("purpose",{})),pOpen:null,route:store.get("route",null),keep:store.get("keep",[]),extra:store.get("extra",{}),grat:store.get("grat",[]),more:false,rescued:false,breath:false,misIdx:0,misClosed:false,tips:store.get("tips",[]),bud:store.get("bud",{sent:false,skip:false,log:{}}),sharePrompt:store.get("sharePrompt",null),
   step:0,exMode:"conceptos",exArea:null,exMyth:false,exQ:"",sim:{m:30,r:5,age:18,wait:10,fee:0},lat:{d:1.5,y:40},capr:store.get("capr",[]),learn:store.get("learn",{}),g:Object.assign({tr:{},fin:{},ref:{}},store.get("game",{})),rev:store.get("rev",{}),rv:null,bsim:store.get("bsim",{act:1,diet:1,sleep:1,smoke:2,alc:2,age:0,start:0}),crono:store.get("crono",{ans:{},w:{},f:{}}),me:store.get("me",{a:"🦊",c:"#FF6B3D",age:null}),stoic:store.get("stoic",{ans:{},show:false,res:null}),cur:store.get("cur",{hist:[]}),adic:store.get("adicT",{type:null,ans:{},show:false}),dog:store.get("dogT2",{ans:{},show:false}),caprH:store.get("caprH",8)};
 const save=()=>{store.set("answers",S.answers);store.set("active",S.active);store.set("history",S.history);store.set("tests",S.tests);store.set("buddy",S.buddy);store.set("purpose",S.P);store.set("route",S.route);store.set("keep",S.keep);store.set("extra",S.extra);store.set("grat",S.grat);store.set("tips",S.tips);store.set("bud",S.bud);store.set("sharePrompt",S.sharePrompt);store.set("grp",S.grp);store.set("mood",S.mood);store.set("diario",S.diario)};
 const VALUES=["Aprender","Ayudar","Honestidad","Libertad","Familia","Amistad","Creatividad","Justicia","Aventura","Salud","Esfuerzo","Lealtad","Respeto","Naturaleza","Independencia","Diversión","Seguridad","Espiritualidad","Belleza","Liderazgo","Humor","Tranquilidad","Reconocimiento","Superación"];
@@ -1678,7 +1711,7 @@ function badges(){const logs=allLogs(),areasDone=new Set(S.history.filter(h=>h.f
 function startReto(id){markLearn(id);S.active={id,start:today(),plan:"",log:{},rating:null};save();toast("Reto empezado. ¡A por el día 1!");go("hoy")}
 function dayN(){return S.active?Math.min(diff(S.active.start,today())+1,99):0}
 function goodDays(a){let g=0;for(let k=0;k<7;k++){const v=a.log[addDays(a.start,k)];if(v==="si"||v==="poco")g++}return g}
-function finishReto(next){const a=S.active,passed=goodDays(a)>=5;S.history.push({id:a.id,start:a.start,end:today(),plan:a.plan,log:a.log,rating:a.rating,finished:true,passed,skipped:next==="skip",sto:a.sto,myEnd:a.myEnd});
+function finishReto(next){const a=S.active,passed=goodDays(a)>=5;if(passed)try{discAdd(a)}catch(e){}S.history.push({id:a.id,start:a.start,end:today(),plan:a.plan,log:a.log,rating:a.rating,finished:true,passed,skipped:next==="skip",sto:a.sto,myEnd:a.myEnd});
  if(passed&&next!=="repeat"&&S.keep.length<2&&!S.keep.some(k=>k.id===a.id))S.keep.push({id:a.id,log:{}});
  if(passed)S.sharePrompt=a.id;
  if(next==="repeat"){S.active={id:a.id,start:today(),plan:a.plan,log:{},rating:null}}else S.active=null;save()}
@@ -1918,10 +1951,44 @@ function moreBox(c){const rel=C.filter(x=>x.a===c.a&&x.id!==c.id).slice(0,4);
    <p class="muted">Libro para profundizar: ${esc(c.p)}</p><p class="eyebrow">Más sobre ${AREAS[c.a].n}</p>
    <div class="chips">${rel.map(x=>`<button class="chip" data-open="${x.id}">${esc(x.t)}${x.n==="I"?" · nivel 2":""}</button>`).join("")}</div>
    <button class="btn ghost" data-act="more" style="width:max-content;padding:6px 14px">Cerrar</button></div>`}
+
+/* ====== FASE 1 · base común de retos ====== */
+/* RX[id]: explicación propia de cada reto (fase 2). Campos: hace, t (tiempo en app), mov (regla del móvil), min (versión mínima), gana, dato(a) */
+const RX={};
+function retoGap(){const a=S.active;if(!a)return 0;const ks=Object.keys(a.log).sort(),last=ks.length?ks[ks.length-1]:addDays(a.start,-1);return Math.max(0,diff(last,today())-1)}
+function howTo(c,n){const X=RX[c.id]||{},E=exOf(c.id),k=aK(c.id),tro=!!GDIF[k];
+  const rows=[["🎯","Qué haces",X.hace||c.h],["⏱️","Cuánto te lleva en la app",X.t||"Un toque al día, menos de 30 segundos. El reto lo haces fuera, en tu vida."],["📵","Mientras lo haces",X.mov||"Deja el móvil a un lado. Entra solo antes o después, para marcarlo."],["🪶","Si un día te cuesta",X.min||(E&&E[2]?E[2]:"Haz la versión mínima: solo 2 minutos.")+" Marca «Un poco»: también cuenta."],["🔁","Si se te olvida",REG[c.id]?"Al día siguiente puedes rellenar el de ayer.":"Al día siguiente puedes marcar el de ayer."],["🏆","Qué consigues",X.gana||`Con 5 de 7 días ${tro?`ganas la plata de ${GREG[k]} y `:""}una carta de descubrimiento para tu libro.`]];
+  return `<details class="howto" ${n<=2||S.howOpen?"open":""} ontoggle="S.howOpen=this.open"><summary>📜 Cómo funciona este reto</summary><div class="howrows">${rows.map(([i,t,x])=>`<div class="howr"><span class="howi" aria-hidden="true">${i}</span><div><b>${t}</b><p>${esc(x)}</p></div></div>`).join("")}</div></details>`}
+function ayerBox(c,n){if(n<2||!S.active)return "";const y=addDays(today(),-1);if(y<S.active.start||S.active.log[y])return "";
+  if(REG[c.id])return `<div class="ayer"><span>🔁 ¿Ayer se te olvidó apuntarlo?</span><button class="btn ghost sm" data-dot="${y}">Rellenar el de ayer</button></div>`;
+  return `<div class="ayer"><span>🔁 ¿Ayer se te olvidó marcarlo?</span><div class="row" style="gap:6px"><button class="btn ghost sm" data-logd="${y}:si">Sí lo hice</button><button class="btn ghost sm" data-logd="${y}:poco">Un poco</button><button class="btn ghost sm" data-logd="${y}:no">No</button></div></div>`}
+/* dial 0-10 */
+function dialBox(key,label,lo,hi){const v=(S.g.dial||{})[key];return `<div class="dial"><span class="diall">${esc(label)}</span><div class="dialr" role="group" aria-label="${esc(label)}">${[...Array(11).keys()].map(i=>`<button class="dialb${v===i?" on":""}" data-dial="${key}|${i}" style="--i:${i}" aria-pressed="${v===i}">${i}</button>`).join("")}</div><div class="dialx"><span>${esc(lo||"Nada")}</span><span>${esc(hi||"Muchísimo")}</span></div></div>`}
+/* pergamino */
+function pergSave(){store.set("perg",S.perg)}
+function pergGet(k){return (S.perg||[]).find(p=>p.k===k)}
+function pergBox(k,title,prompt,o){o=o||{};const p=pergGet(k);return `<div class="perg${o.lock?" lock":""}"><div class="pergh"><span>📜 <b>${esc(title)}</b></span>${o.lock?'<span class="pergl">🔒 Solo tú</span>':""}</div><textarea class="pergt" data-perg="${esc(k)}" data-pt="${esc(title)}" data-pl="${o.lock?1:0}" rows="${o.rows||4}" placeholder="${esc(prompt||"Escribe aquí…")}">${esc(p?p.x:"")}</textarea><span class="pergs">${p?"✓ Guardado en tus pergaminos":"Se guarda solo mientras escribes"}</span></div>`}
+let pergT=null;
+document.addEventListener("input",e=>{const t=e.target;if(!t.dataset||t.dataset.perg==null)return;clearTimeout(pergT);pergT=setTimeout(()=>{S.perg=S.perg||[];const k=t.dataset.perg,x=t.value.trim();let p=pergGet(k);
+  if(!x){S.perg=S.perg.filter(q=>q.k!==k)}else if(p){p.x=t.value;p.u=Date.now()}else S.perg.push({k,t:t.dataset.pt||"Pergamino",x:t.value,d:today(),u:Date.now(),l:t.dataset.pl==="1"});
+  pergSave();const s2=t.parentElement&&t.parentElement.querySelector(".pergs");if(s2)s2.textContent=x?"✓ Guardado en tus pergaminos":"Se guarda solo mientras escribes"},400)});
+function pergCard(){const L=(S.perg||[]).slice().sort((a,b)=>b.u-a.u);
+  return `<details class="card fold" id="pergs" style="--fc:#8C6A2E" ${S.pergOpen?"open":""} ontoggle="S.pergOpen=this.open"><summary><span class="fi">📜</span>Mis pergaminos<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${L.length?`${L.length} ${L.length===1?"pergamino guardado":"pergaminos guardados"}`:"Lo que escribas en los retos se guarda aquí"}</span></summary><div class="stack" style="gap:10px;margin-top:12px">
+   ${L.length?L.map(p=>`<details class="pergi"><summary>${p.l?"🔒 ":""}<b>${esc(p.t)}</b><span class="muted"> · ${fmtD(p.d)}</span></summary><p class="pergx">${esc(p.x)}</p><button class="linkbtn" data-pergdel="${esc(p.k)}" style="color:var(--bad,#C0392B)">Borrar este pergamino</button></details>`).join(""):`<p class="muted" style="margin:0">Todavía no tienes pergaminos. En los retos que piden escribir, lo que pongas se guarda aquí para que puedas releerlo cuando quieras.</p>`}
+   ${pergBox("libre","Notas libres","Lo que quieras guardar…",{rows:3})}
+   <p class="muted" style="font-size:.8rem;margin:0">Tus pergaminos se quedan solo en este móvil. Nadie más los lee.</p></div></details>`}
+/* cartas de descubrimiento */
+function discAdd(a){const c=CI[a.id];if(!c)return;S.g.disc=S.g.disc||[];if(S.g.disc.some(x=>x.id===a.id&&x.d===today()))return;const X=RX[a.id]||{},g=goodDays(a);
+  const dato=X.dato?X.dato(a):`Lo hiciste ${g} de 7 días. Has demostrado que «${c.t}» puede formar parte de tu vida.`;
+  S.g.disc.push({id:a.id,d:today(),g,x:dato});S.discNew=a.id;store.set("game",S.g)}
+function discCardHTML(x,big){const c=CI[x.id];if(!c)return "";const k=aK(x.id);return `<div class="dcard${big?" big":""}" style="--h:${AREAS[AK[k]]?AREAS[AK[k]].h:200}"><span class="dctop">🃏 Descubrimiento · ${esc(GREG[k]||"")}</span><span class="dcic">${CRE[k]?creSVG(k,big?3:2.2):AICON[k]||"✨"}</span><b class="dct">${esc(c.t)}</b><p class="dcx">${esc(x.x)}</p><span class="dcd">${fmtD(x.d)}</span></div>`}
+function discNewBox(){if(!S.discNew)return "";const x=(S.g.disc||[]).slice().reverse().find(y=>y.id===S.discNew);if(!x)return "";
+  return `<div class="card stack dnew" style="gap:10px;align-items:center;text-align:center"><p class="eyebrow" style="margin:0">¡Nueva carta para tu libro!</p>${discCardHTML(x,true)}<button class="btn" data-act="disc-ok">Guardar en mi Libro de descubrimientos</button></div>`}
+function discCard(){const L=(S.g.disc||[]).slice().reverse();return `<details class="card fold" id="discs" style="--fc:#7C4DCC" ${S.discOpen?"open":""} ontoggle="S.discOpen=this.open"><summary><span class="fi">🃏</span>Libro de descubrimientos<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${L.length?`${L.length} ${L.length===1?"carta":"cartas"}`:"Cada reto terminado te da una carta"}</span></summary><div style="margin-top:12px">${L.length?`<div class="dgrid">${L.map(x=>discCardHTML(x)).join("")}</div>`:`<p class="muted" style="margin:0">Cuando termines un reto, aquí aparecerá lo que has descubierto de ti: tu dato, con tus propios números.</p>`}</div></details>`}
 function rescueBanner(){
   const a=S.active;if(!a||S.rescued)return "";
   const keys=Object.keys(a.log).sort(),last=keys.length?keys[keys.length-1]:a.start,gap=diff(last,today()),n=dayN();
-  if(gap>=2&&!a.log[today()])return `<div class="card stack" style="border:2px solid var(--accent)"><h3>Hola de nuevo. Nos alegra verte.</h3><p class="muted">Llevas ${gap} días sin registrar tu reto. No pasa nada: lo importante es volver.</p><div class="row"><button class="btn" data-act="r-keep">Seguir donde lo dejé</button><button class="btn ghost" data-act="r-restart">Empezar la semana de nuevo</button></div></div>`;
+  if(gap>=3&&!a.log[today()]){const k0=aK(a.id),cn0=((CREN[k0]||["El guardián"])[0]).split(",")[0];return `<div class="card stack gback" style="border:2px solid var(--accent)"><div class="row" style="gap:12px;align-items:center">${CRE[k0]?`<span class="gbspr">${creSVG(k0,2.4)}</span>`:""}<div><p class="eyebrow" style="margin:0">${esc(cn0)}</p><p style="margin:0;font-weight:700">«La niebla empieza a volver a ${esc(GREG[k0]||"mi tierra")}, viajero. Solo te falta un paso para seguir.»</p></div></div><p class="muted" style="margin:0">Llevas ${gap-1} días sin registrar tu reto. No has perdido nada: tus trofeos y tu progreso siguen ahí.</p><div class="row"><button class="btn" data-act="r-keep">Seguir donde lo dejé</button><button class="btn ghost" data-act="r-restart">Empezar la semana de nuevo</button></div></div>`}
   const last3=[1,2,3].map(k=>a.log[addDays(today(),-k)]);
   if(n<7&&last3.every(v=>v==="no"))return `<div class="card stack" style="border:2px solid var(--warn)"><h3>Quizá este reto es demasiado grande ahora</h3><p class="muted">Llevas 3 días con «Hoy no». Es una señal útil, no un fracaso.</p><div class="row"><button class="btn" data-act="r-mini">Probar la versión de 2 minutos</button><button class="btn ghost" data-act="r-change">Cambiar de reto</button></div></div>`;
   return "";
@@ -1977,6 +2044,7 @@ function vMas(){
    ${yoDash()}
    <details class="card fold" id="yoprop" style="--fc:#B8860B" ${S.yoEdit||S.yoPropOpen?"open":""}><summary><span class="fi">🧭</span>Mi propósito y mis datos<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${(()=>{const ps=pSent(S.P.f);return ps?"Tu frase, tus valores, tus fortalezas y tus tests":`Resumen · Propósito: paso ${Math.min(pCount()+1,7)} de 7`})()}</span></summary><div class="stack" style="gap:12px;margin-top:12px">${vYo(true)}${valCard()}</div></details>
    ${keepCard()}
+   ${discCard()}${pergCard()}
    ${cfgCard()}
    <details class="card fold" id="ajustes" style="--fc:#14506B" ${S.ajOpen||S.repOpen?"open":""}><summary><span class="fi">⚙️</span>Ajustes<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">Tu clase, álbum, nombre, copia de seguridad, compartir e informar de un error</span></summary><div class="stack" style="gap:10px;margin-top:12px">
     <button class="btn ghost" data-act="shareapp" style="width:max-content">📤 Compartir Brújula</button>
@@ -2058,7 +2126,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017095633";
+const APP_V="20261017111505";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -2264,10 +2332,10 @@ function vHoy(){
     const xin=`${tl}<p class="muted" style="font-size:.9rem">${esc(c.q)}</p><p class="why"><b>Por qué importa:</b> ${AREA_WHY[c.a]}.${S.P.done[7]&&S.P.f.que?` Y eso te acerca a tu propósito: ${esc(S.P.f.verb)} ${esc(S.P.f.que)}.`:""}</p>${S.active.plan?`<p style="font-size:.92rem"><b>Tu plan:</b> ${esc(S.active.plan)}${S.active.time?` · Tu hora: ${esc(S.active.time)}`:""}</p>${calBox()}`:""}${E&&!(n===1&&!S.active.plan)?`<div class="guide"><p class="eyebrow">Un ejemplo</p><p>${esc(E[0])}</p></div>`:""}${S.more?moreBox(c):`<button class="btn ghost" data-act="more" style="width:max-content;padding:8px 16px">Quiero saber más</button>`}`;
     const what=`<div class="retowhat"><b>🔥 ¿Para qué sirve?</b> Leer te da la idea, pero lo que te cambia es probarla en tu vida. Por eso cada semana tienes un reto: una acción pequeña de este tema que haces y ${REG[c.id]?"<b>apuntas aquí</b> cada día, para que quede constancia":"marcas aquí cada día"}. Así se convierte en costumbre y ves si te funciona. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[a.k]||"esta región")}.</div>`,first=n===1&&!S.active.plan,doneln=`<div class="doneline"><span class="bigck">✓</span><div>${(()=>{const L=stoState();return L&&L.next>=0?`<button class="linkbtn" data-act="learn-open" style="display:block;margin-bottom:4px">📖 ${esc((CREN[L.k]||["El guardián"])[0].split(",")[0])} tiene el capítulo ${L.next+1} de la historia de ${esc(L.s.who.split(",")[0])} →</button>`:""})()}<b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`;
     main=`<div class="today area hoycard retocard ${pend?"tocar":"ok"}" style="--h:${a.h}"><div class="row" style="justify-content:space-between">${tag}<span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
-      <h2>${esc(c.t)}</h2>${pend?valLine(a.k):""}${first?what:""}${pend?lead+action:doneln}${c.id==="ATE-08"?ateTally(S.active.start):c.id==="ALI-07"?plTally(S.active.start):c.id==="ALI-03"?hgTally(S.active.start):""}
+      <h2>${esc(c.t)}</h2>${pend?valLine(a.k):""}${first?what:""}${n<7&&!first?howTo(c,n):""}${pend?lead+action:doneln}${n<7&&!first?ayerBox(c,n):""}${c.id==="ATE-08"?ateTally(S.active.start):c.id==="ALI-07"?plTally(S.active.start):c.id==="ALI-03"?hgTally(S.active.start):""}
       <details class="more2" ${S.retoOpen||S.rgDay||S.rgMore?"open":""} ontoggle="S.retoOpen=this.open"><summary>${pend?"Ver tu semana, el plan y para qué sirve":"Ver tu semana, lo de hoy y el plan"}</summary><div class="stack" style="margin-top:10px;gap:10px">${pend?"":action}${week}${first?"":what}${xin}</div></details></div>`;
   }
-  const banner=rescueBanner();
+  const banner=discNewBox()||rescueBanner();
   const lastT=S.tests.length?S.tests[S.tests.length-1].date:null,retest=lastT&&diff(lastT,today())>=28;
   const shareTxt=shareText(),reqs=S.active?todayItems().filter(x=>x.st==="todo"):[],pend=reqs.length>0,time=S.active&&S.active.time;
   const nD=S.active?dayN():0,mark=S.active&&nD>=2&&nD<7,nReq=mark?1:reqs.length;
@@ -3570,7 +3638,7 @@ function vMundo(){
   const nodes=K.map(k=>{const [r,c]=MWPOS[k],seen=R.has(k),A=seen&&GDIF[k]?gArea(k):null,on=k===sel;
     const icon=!seen?`<span class="mwq">?</span>`:GDIF[k]?trSVG(GICO[k],A.metal,2):MWCRY;
     if(!seen&&!mwNear(k,R))return `<span class="mwn fog far" style="left:${c*MWT-10}px;top:${r*MWT-16}px" aria-hidden="true"><span class="mwq">?</span></span>`;
-    return `<button type="button" class="mwn${seen?"":" fog"}${on?" on":""}${k===f?" guia":""}" data-mw="${k}" style="left:${c*MWT-10}px;top:${r*MWT-16}px" aria-label="${seen?esc(GREG[k]+" ("+AREAS[AK[k]].n+")"):"Región sin descubrir"}" aria-pressed="${on}">${icon}</button>${seen&&(on||k===f)?`<span class="mwl" style="left:${Math.max(0,Math.min(MWW-104,c*MWT-28))}px;top:${r*MWT+38}px">${esc(GREG[k])}</span>`:""}`}).join("");
+    return `<button type="button" class="mwn${seen?"":" fog"}${on?" on":""}${k===f?" guia":""}${S.active&&aK(S.active.id)===k&&retoGap()>=2?" dim":""}" data-mw="${k}" style="left:${c*MWT-10}px;top:${r*MWT-16}px" aria-label="${seen?esc(GREG[k]+" ("+AREAS[AK[k]].n+")"):"Región sin descubrir"}" aria-pressed="${on}">${icon}</button>${seen&&(on||k===f)?`<span class="mwl" style="left:${Math.max(0,Math.min(MWW-104,c*MWT-28))}px;top:${r*MWT+38}px">${esc(GREG[k])}</span>`:""}`}).join("");
   const at=S.g.at&&MWPOS[S.g.at]&&R.has(S.g.at)?S.g.at:f,[px,py]=mwStand(at);
   const pl=`<div class="mwpl" style="left:${px}px;top:${py}px"><div class="mwpi">${pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),1)}</div></div>`;
   const items=S.route?routeItems():[],dn=items.filter(it=>["ok","skip"].includes(itemStatus(it))).length;
@@ -4568,7 +4636,7 @@ function vMovil(){const M=S.g.mov=S.g.mov||{os:"",d:[]},os=M.os,dn=MOVS.filter(x
    ${dn===MOVS.length?`<div class="card stack aewin"><h3 style="margin:0">¡Móvil configurado!</h3><p style="margin:0">Vuelve dentro de una semana y apunta tu nueva media para comparar.</p><label class="rglab" for="movh1">Mi media una semana después</label><input id="movh1" class="field" inputmode="decimal" style="max-width:120px" value="${esc(M.h1||"")}" placeholder="Ej.: 4"><button class="btn sm" data-act="mov-h1" style="width:max-content">Guardar</button>${M.h0&&M.h1?`<p style="margin:0"><b>Antes: ${esc(M.h0)} h · Ahora: ${esc(M.h1)} h</b></p>`:""}</div>`:""}
    <p class="muted" style="font-size:.8rem">La neurocientífica Sahar Yousef contó en The Diary of a CEO que, en una prueba de su laboratorio, poner la pantalla en escala de grises redujo de media una hora de uso diario. Es un dato que ella comunica, no una garantía. Las rutas pueden cambiar según el modelo: si no lo encuentras, usa el buscador de Ajustes.</p></section>`}
 /* ---------- Aguja: el acompañante diario ---------- */
-function guiaTips(){const R=mwSeen(),k=hoyPri(R),L=[];if(!k||!MWPOS[k])return L;const G=GREG[k],A=GDIF[k]?gArea(k):null,T=A?A.T:{},cn=((CREN[k]||["El guardián"])[0]).split(",")[0];
+function guiaTips(){const R=mwSeen(),k=hoyPri(R),L=[];if(S.active&&retoGap()>=2&&!S.active.log[today()]){const k1=aK(S.active.id),c1=((CREN[k1]||["Tu guardián"])[0]).split(",")[0];L.push([`Pss… ${c1} te echa de menos. La niebla empieza a volver a ${GREG[k1]||"su tierra"}. Solo te falta un paso: marca tu reto de hoy.`,`data-go="hoy"`,"Volver a mi reto"])}if(!k||!MWPOS[k])return L;const G=GREG[k],A=GDIF[k]?gArea(k):null,T=A?A.T:{},cn=((CREN[k]||["El guardián"])[0]).split(",")[0];
   const cs=GDIF[k]?mwOrd(k):mwCs(k),pend=cs.filter(c=>!(S.g.ok||{})[c.id]&&!(S.g.dom||{})[c.id]&&lqPool(c.id).length&&!lqfB(c.id)),capped=pend.length&&lqCap(pend[0].id),K=keyL(k),kp=pend.filter(c=>K.includes(c.id));
   if(!(S.g.lore||{})[k])L.push([`${cn} te espera a la entrada de ${G}. Ve a hablar: te dirá qué misión te encarga.`,`data-reg="${k}"`,"Ir a la región"]);
   else if(capped)L.push([`Hoy ya has superado 3 lecturas en ${G}. ¡Buen trabajo! Mañana podrás seguir. Si te quedan ganas, en el Santuario del Tiempo puedes repasar y entrenar sin límite.`,`data-go="santuario"`,"Ir al Santuario"]);
@@ -4695,6 +4763,9 @@ document.addEventListener("click",e=>{
   if(d.rgc){const [i,v]=d.rgc.split("|");const inp=document.getElementById("rg"+i);if(inp)inp.value=v;t.parentNode.querySelectorAll("[data-rgc]").forEach(b=>b.setAttribute("aria-pressed",b===t?"true":"false"));return}
   if(d.swap){if(dl.open)dl.close();finishReto("skip");S.swap=false;S.more=false;startReto(d.swap);return}
   if(d.start){if(dl.open)dl.close();S.more=false;startReto(d.start);return}
+  if(d.logd){if(!S.active)return;const [dy,v]=d.logd.split(":");if(dy>=S.active.start&&dy<today()){S.active.log[dy]=v;save();toast(v==="si"?"+10 · Ayer apuntado":v==="poco"?"+6 · Ayer apuntado":"Apuntado. Gracias por ser sincero");render()}return}
+  if(d.dial){const [k,v]=d.dial.split("|");S.g.dial=S.g.dial||{};S.g.dial[k]=+v;store.set("game",S.g);t.closest(".dialr").querySelectorAll(".dialb").forEach(b=>{const on=b===t;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});return}
+  if(d.pergdel!=null){if(!confirm("¿Borrar este pergamino? No se puede recuperar."))return;S.perg=(S.perg||[]).filter(p=>p.k!==d.pergdel);pergSave();render();return}
   if(d.log){if(!S.active)return;const k=REG[S.active.id]&&S.rgDay&&S.rgDay<today()?S.rgDay:today();S.active.log[k]=S.active.log[k]===d.log?undefined:d.log;if(!S.active.log[k])delete S.active.log[k];save();if(S.active.log[k])toast(d.log==="si"?"+10 · ¡Bien!":d.log==="poco"?"+6 · Algo es algo":"+2 · Mañana más");render();return}
   if(d.dot){if(!S.active||d.dot>today()||d.dot<S.active.start||d.dot>addDays(S.active.start,6))return;
     if(REG[S.active.id]){if(d.dot===today()){S.rgDay=null;render();return}if(rgEntries(S.active.id,d.dot,d.dot).length){toast("Ese día ya está en tu diario");return}S.rgDay=d.dot;S.rgMore=false;render();setTimeout(()=>{const f=document.querySelector(".rgform");if(f)f.scrollIntoView({block:"center"})},50);return}const order=[undefined,"si","poco","no"],cur=S.active.log[d.dot],nx=order[(order.indexOf(cur)+1)%4];if(nx)S.active.log[d.dot]=nx;else delete S.active.log[d.dot];save();render();return}
@@ -4903,7 +4974,8 @@ else if(act==="ae-next"){if(S.aeScene){S.aeScene.i++;aeDraw()}}
 else if(act==="ae-end"){const X=S.aeScene;if(X){aeMark(X.b);S.aeScene=null}const dl0=document.getElementById("dlg");if(dl0.open)dl0.close();render()}
 else if(act==="ae-share"){const A=aeG();aeShare(`He terminado mi viaje en Brújula. Lo más valioso que me llevo: «${A.elixir||""}». Si quieres, te cuento cómo lo he hecho.`)}
 else if(act==="ae-teach"){const c=CI[d.v];if(c)aeShare(`Te cuento algo que he aprendido: «${c.t}». ${c.q} ¿Lo sabías?`,()=>toast("¡Bien! Enseñar es la mejor forma de recordar"))}
-else if(act==="ae-start"){if(aeReady()){aeStart();try{aeSting()}catch(e){}}}
+else if(act==="disc-ok"){S.discNew=null;S.discOpen=true;toast("Guardada en tu Libro de descubrimientos (en Yo)");render()}
+  else if(act==="ae-start"){if(aeReady()){aeStart();try{aeSting()}catch(e){}}}
 else if(act==="ae-elixir"){const v=(document.getElementById("aeel")||{}).value||"",to=(document.getElementById("rg0")||{}).value||"";if(v.trim().length<10){toast("Escribe qué te llevas del viaje");return}if(!to){toast("Elige a quién se lo contarás");return}const A=aeG();A.win=today();A.elixir=v.trim();A.to=to;store.set("game",S.g);try{gTune("oro")}catch(e){}toast("¡Eres Guía de la Brújula!");render()}
 else if(act==="guia-next"){S.guiaI=(S.guiaI||0)+1;render()}
 else if(act==="guia-tour"){S.g.guiaIntro=today();store.set("game",S.g);S.guiaOpen=false;S.tour=0;S.view=TOUR[0][0];render();window.scrollTo({top:0})}
