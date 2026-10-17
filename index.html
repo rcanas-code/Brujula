@@ -1056,6 +1056,25 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 .mwhudi svg{width:26px;height:auto;display:block}.mwhudi .mwq{font-size:1rem}
 .mwhudt{flex:1;min-width:0;display:flex;flex-direction:column}.mwhudt b{font-family:var(--pxf);font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.mwhudt span{font-size:.72rem;opacity:.8}
 .mwbox .mwctr{bottom:72px}
+
+/* Hoy: escena + diario */
+.hoy3{gap:12px}
+.hhead{display:flex;align-items:center;gap:10px}.hhtx{display:flex;flex-direction:column}.hhtx b{font-family:var(--pxf);font-size:1rem}.hhtx span{font-size:.8rem;color:var(--muted)}
+.hstage{min-height:150px;justify-content:space-around}
+.hsreg{position:absolute;left:8px;top:8px;z-index:2;font:inherit;font-family:var(--pxf);font-size:.68rem;padding:3px 7px;background:#0F1A24;color:#F4F1E8;border:2px solid #F4F1E8;cursor:pointer}
+.hstro{position:absolute;right:8px;top:6px;z-index:2;display:flex;gap:4px}.hstro svg{display:block}
+.hquest{border:3px solid var(--px-ink);box-shadow:4px 4px 0 var(--px-sh);background:var(--surface)}
+.hquest>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 12px}.hquest>summary::-webkit-details-marker{display:none}
+.hquest.pend{border-color:#E8A33D}.hquest.ok{opacity:.95}
+.hqi{font-size:1.4rem}.hqt{flex:1;min-width:0;display:flex;flex-direction:column}.hqt b{font-size:.95rem}.hqt small{color:var(--muted);font-size:.78rem}
+.hqa{transition:transform .2s}.hquest[open] .hqa{transform:rotate(180deg)}
+.hquest>.today,.hquest>div{margin:0 8px 8px;box-shadow:none}
+.hopt2{border:2px dashed var(--line);padding:10px 12px}.hopt2>summary{cursor:pointer;font-weight:800;font-size:.9rem;color:var(--muted)}
+
+.pstep.plock{opacity:.7}.pstep.plock button{cursor:default}
+.hpage{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;font:inherit;text-align:left;cursor:pointer;background:linear-gradient(135deg,#1b2440,#2d3f6b);color:#eef3ff;border:3px solid #FFE27A;box-shadow:4px 4px 0 var(--px-sh)}
+.hpage b{display:block}.hpage small{display:block;font-size:.78rem;opacity:.85}.hpi{font-size:1.5rem}.hpage>span:nth-child(2){flex:1}
+.hquest .retocard>.row:first-child,.hquest .retocard>h2{display:none}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -1937,7 +1956,7 @@ function todayItems(){const t=today(),it=[],a=S.active;
   if(sinceStart()>=1&&pCount()<7)it.push({t:"Un paso de tu propósito (esta semana)",w:"5 minutos en la pestaña Propósito, cuando quieras durante la semana.",st:S.P.lastStep&&diff(S.P.lastStep,t)<7?"done":"opt",o:1,go:"proposito"});
   if(S.P.done[7]&&S.P.pa&&!S.P.pa.done)it.push({t:"Tu paso de propósito: "+S.P.pa.t,w:"Tienes toda la semana.",st:"opt",o:1});
   return it}
-const TOUR=[["hoy", "Hoy: tu misión de cada día", "Aquí empieza cada día. Arriba ves en qué prueba de tu tierra estás (bronce, plata u oro) y lo que toca ahora. Debajo, tu reto de la semana: hazlo, apúntalo y listo."], ["mundo", "El Mundo: tu mapa", "Aquí están las 19 tierras. La niebla se aparta a medida que avanzas. Toca una región para entrar: allí te espera su guardián. Junto a tu personaje verás un templo: el Santuario del Tiempo, para entrenar y repasar sin prisa."], ["proposito", "Propósito: tu norte", "Siete pasos para descubrir qué te importa y hacia dónde quieres ir. Es la tierra de la Cima, la más importante del viaje."], ["explorar", "La Biblioteca de Don Fermín", "Todas las lecturas, vídeos y libros del mundo. Don Fermín te ayuda a buscar. Úsala cuando tengas curiosidad o quieras repasar algo."], ["mas", "Yo: tu héroe", "Tu personaje, tus trofeos, tu diario de retos y la historia de tu viaje. Y en Ajustes puedes personalizarlo todo: el tipo de letra, los colores, el sonido y la velocidad de los diálogos."], ["ayuda", "Ayuda: siempre a mano", "El botón Ayuda, arriba, es para cuando lo pases mal: teléfonos y personas a quien acudir. El botón «?» responde dudas sobre el juego."], ["hoy", "¡Listo para el viaje!", "Vuelve cada día, aunque sea un ratito. Yo estaré en la esquina de abajo: cuando me veas moverme y oigas «pss, pss», tócame. Tendré un consejo para ti."]];
+const TOUR=[["hoy", "Hoy: tu misión de cada día", "Aquí empieza cada día. Tu guardián te dice qué toca ahora, con un solo botón. Debajo, tu reto de la semana: hazlo, apúntalo y listo."], ["mundo", "El Mundo: tu mapa", "Aquí están las 19 tierras. La niebla se aparta a medida que avanzas. Toca una región para viajar hasta ella y entra desde la barra de abajo. El templo es el Santuario del Tiempo, para entrenar y repasar sin prisa. Y en la Cima, con cada bronce, irás descubriendo tu propósito."], ["explorar", "La Biblioteca de Don Fermín", "Todas las lecturas, vídeos y libros del mundo. Don Fermín te ayuda a buscar. Úsala cuando tengas curiosidad o quieras repasar algo."], ["mas", "Yo: tu héroe", "Tu personaje, tus trofeos, tu diario de retos y la historia de tu viaje. Y en Ajustes puedes personalizarlo todo: el tipo de letra, los colores, el sonido y la velocidad de los diálogos."], ["ayuda", "Ayuda: siempre a mano", "El botón Ayuda, arriba, es para cuando lo pases mal: teléfonos y personas a quien acudir. El botón «?» responde dudas sobre el juego."], ["hoy", "¡Listo para el viaje!", "Aquí empieza cada día. Tu guardián te dice qué toca ahora, con un solo botón. Debajo, tu reto de la semana: hazlo, apúntalo y listo."]];
 function tourBar(){if(S.tour==null)return "";const k=S.tour,[,t,d]=TOUR[k],last=k===TOUR.length-1;
   return `<div class="tour" role="dialog" aria-label="Guía de la app"><div class="row" style="justify-content:space-between"><span class="dots">${TOUR.map((_,i)=>`<i class="${i===k?"on":""}"></i>`).join("")}</span><span style="font-size:.8rem;opacity:.75">${k+1} de ${TOUR.length}</span></div>
    <div class="row" style="gap:10px;align-items:flex-start;flex-wrap:nowrap"><span style="flex:none">${agSVG(3)}</span><div><h3 style="margin:0 0 4px">${t}</h3><p style="margin:0">${d}</p></div></div><div class="row" style="justify-content:space-between">${last?`<span></span>`:`<button class="btn ghost" style="padding:6px 12px" data-tour="end">Salir</button>`}<div class="row" style="gap:8px">${k?`<button class="btn ghost" style="padding:6px 12px" data-tour="prev">Anterior</button>`:""}<button class="btn" style="padding:6px 16px" data-tour="${last?"end":"next"}">${last?"Terminar":"Siguiente"}</button></div></div></div>`}
@@ -2504,7 +2523,7 @@ function repText(){const R=S.rep||{},t=(document.getElementById("reptxt")||{}).v
 function vMas(){
   return `<section class="stack"><div><p class="eyebrow">Yo</p><h1>Sobre mí</h1></div>
    ${yoDash()}
-   <details class="card fold" id="yoprop" style="--fc:#B8860B" ${S.yoEdit||S.yoPropOpen?"open":""}><summary><span class="fi">🧭</span>Mi propósito y mis datos<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${(()=>{const ps=pSent(S.P.f);return ps?"Tu frase, tus valores, tus fortalezas y tus tests":`Resumen · Propósito: paso ${Math.min(pCount()+1,7)} de 7`})()}</span></summary><div class="stack" style="gap:12px;margin-top:12px">${vYo(true)}${valCard()}</div></details>
+   <details class="card fold" id="yoprop" style="--fc:#B8860B" ${S.yoEdit||S.yoPropOpen?"open":""}><summary><span class="fi">🧭</span>Mi propósito y mis datos<span class="muted" style="font-weight:600;font-size:.85rem;display:block;margin-top:4px">${(()=>{const ps=pSent(S.P.f);return ps?"Tu frase, tus valores, tus fortalezas y tus tests":`Resumen · Propósito: paso ${Math.min(pCount()+1,7)} de 7`})()}</span></summary><div class="stack" style="gap:12px;margin-top:12px">${vYo(true)}${valCard()}<button class="btn ghost" data-go="proposito" style="width:max-content">🧭 Abrir mi propósito</button></div></details>
    ${keepCard()}
    ${discCard()}${pergCard()}
    ${cfgCard()}
@@ -2521,7 +2540,7 @@ function vMas(){
   </section>`;
 }
 /* ---------- navegación ---------- */
-const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["mundo","Mundo","M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"],["proposito","Propósito","M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM15 9l-2 5-4 1 2-5z"],["explorar","Biblioteca","M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"],["mas","Yo","M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c1-4 4-6 8-6s7 2 8 6"]];
+const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["mundo","Mundo","M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"],["explorar","Biblioteca","M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"],["mas","Yo","M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c1-4 4-6 8-6s7 2 8 6"]];
 function renderNav(){const pend=S.active&&(()=>{try{return todayItems().some(x=>x.st==="todo")}catch(e){return false}})();document.getElementById("nav").innerHTML=NAV.map(([k,l,p])=>`<button data-go="${k}" class="${S.tour!=null&&TOUR[S.tour][0]===k?"tourhl":""}" aria-current="${S.view===k&&!S.testing}">${k==="hoy"&&pend&&S.view!=="hoy"?'<span class="dot" aria-label="Tienes algo pendiente hoy"></span>':""}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${p}"/></svg>${l}</button>`).join("")}
 const VNAME={hoy:"Hoy",ruta:"Mundo",quiz:"el quiz",recall:"el repaso",proposito:"Propósito",mapa:"Tu hoja de personaje",explorar:"Biblioteca",mas:"Yo",mundo:"Mundo",region:"la región",entreno:"la sala de entreno",carta:"la carta de navegación",prueba:"la prueba",clase:"la clase",profe:"la herramienta del profe",validar:"validar",dinero:"Dinero",repaso:"Repaso",perro:"Test perro o gato",adic:"Test de adicción",curiosidad:"Descubre",cuerpo:"Tu cuerpo",crono:"Cronotipo",yo:"Sobre mí",personaje:"Tu personaje",coleccion:"Mi colección",final:"el duelo",estoico:"Test estoico",simcuerpo:"Simulador del cuerpo",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
 function go(v,fromNav){if(fromNav||S.tour!=null)S.back=null;else if(v!==S.view&&!S.testing)S.back={v:S.view,y:window.scrollY};S.view=v;S.testing=false;render();window.scrollTo({top:0})}
@@ -2594,7 +2613,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017124459";
+const APP_V="20261017125608";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -2812,23 +2831,29 @@ function vHoy(){
   const status="";
   const notices=[routeNews(),retest?`<div class="card"><h3>Ha pasado un mes: repite el test</h3><p class="muted">Compara tu mapa y mira si aparecen regiones nuevas.</p><button class="btn" data-act="retest" style="width:max-content">Repetir el test</button></div>`:"",reviewCard(),...groupCards(),tipCard()].filter(Boolean).slice(0,1).map(slim).join("");
   const B=badges(),got=B.filter(b=>b[3]).length;
-  return `<section class="stack hoy2">
-   <div><p class="hello"><button class="hiav" data-go="mas" aria-label="Sobre mí">${avAvatar(40)}</button>${S.name?`¡${hi} <span class="hiname">${esc(S.name)}</span>! <span class="wave">👋</span>`:`¡${hi}! <span class="wave">👋</span>`}</p><h1>${title}</h1>
-    <div class="pills"><span>🔥 ${st} ${st===1?"día":"días"} de racha</span><span>⭐ Nivel ${gState().l} · ${gState().xp} XP</span></div></div>
+  const M=hoyMission(),pend2=S.active?todayItems().filter(x=>x.st==="todo").length>0:false;
+  const quest=S.active?`<details class="hquest${pend2?" pend":" ok"}" ${pend2||S.retoOpenH?"open":""} ontoggle="S.retoOpenH=this.open"><summary><span class="hqi">${pend2?"🔥":"✅"}</span><span class="hqt"><b>Tu reto: ${esc(CI[S.active.id].t)}</b><small>Día ${Math.min(dayN(),7)} de 7 · ${pend2?"te toca hoy":"hecho hoy"}</small></span><span class="hqa">▾</span></summary>${main}</details>`:(main?`<details class="hquest pend" open><summary><span class="hqi">🔥</span><span class="hqt"><b>Elige tu reto de la semana</b><small>Es lo que te dará la plata</small></span><span class="hqa">▾</span></summary>${main}</details>`:"");
+  const opt=[notices,curCard(),expCard(),hoyOthers()].filter(Boolean);
+  return `<section class="stack hoy3">
+   <div class="hhead"><button class="hiav" data-go="mas" aria-label="Sobre mí">${avAvatar(36)}</button><div class="hhtx"><b>${S.name?`¡${hi}, ${esc(S.name)}!`:`¡${hi}!`}</b><span>🔥 ${st} ${st===1?"día":"días"} · ⭐ Nivel ${gState().l}</span></div></div>
    ${banner}
-   ${aeCard()}${hoyPath()}
-   ${focoBanner()}${main}
-   ${status}
-   ${curCard()}
-   ${expCard()}
-   ${(()=>{const oth=hoyOthers();const inner=(notices?notices:"")+oth;return inner?`<section class="hopt"><div class="hopth"><span class="optpill">✨ Opcional</span><span>Solo si te apetece. Lo de arriba es lo importante.</span></div>${inner}</section>`:""})()}
-
-
-
-   
-   
+   ${focoBanner()}
+   ${aeCard()}
+   ${M?hoyScene(M):""}
+   ${quest}
+   ${pNext()?`<button class="hpage" data-go="proposito"><span class="hpi">🧭</span><span><b>Una página nueva de tu propósito</b><small>Tu último viaje te ha enseñado algo de ti. Escríbelo en la Cima · 3 min</small></span><span>→</span></button>`:""}
+   ${opt.length?`<details class="hopt2"><summary>✨ Más cosas para hoy, si te apetece (${opt.length})</summary><div class="stack" style="gap:10px;margin-top:10px">${opt.join("")}</div></details>`:""}
   </section>`;
 }
+function hoyMission(){const R=mwSeen(),k=hoyPri(R);if(!k||!MWPOS[k])return null;const A=GDIF[k]?gArea(k):null,st=hoySteps(k),lo=!!(S.g.lore||{})[k],cn=((CREN[k]||["El guardián"])[0]).split(",")[0];let now,btn="";
+  if(!lo){now=`¡Viajero! Te estaba esperando. Ven a hablar conmigo a la entrada de ${GREG[k]}: tengo una misión para ti.`;btn=`<button class="btn" data-reg="${k}">💬 Ir a hablar con ${esc(cn)}</button>`}
+  else if(!A){now=st[1]&&st[1][3]?"¡Lo has conseguido! Has abierto un camino nuevo. Vuelve cuando quieras a seguir descubriendo.":"En mi tierra se viene a descubrir. Supera 3 de mis lecturas y se abrirá un camino nuevo.";btn=`<button class="btn" data-reg="${k}">📖 Ver mis lecturas</button>`}
+  else if(S.active&&aK(S.active.id)===k&&!A.T.p&&S.active.start<A.T.b){now=`Tu reto empezó antes del bronce, así que no cuenta para la plata. Termínalo el ${fmtD(addDays(S.active.start,6))} y luego elige otro de mi tierra.`}
+  else if(S.active&&aK(S.active.id)===k&&!A.T.p){now=S.active.log[today()]?"Hoy ya has cumplido. Vuelve mañana: un día más y mi plata estará más cerca.":"Tu reto de la semana está en marcha. Márcalo hoy aquí debajo: así se gana mi plata.";btn=A.act&&A.act[0]==="train"?gBtn(k,A.act,"btn ghost"):""}
+  else{now=(A.next||"Ven a verme: tengo algo para ti.").replace(/^(Bronce|Plata|Oro): /,"").replace(/^./,m=>m.toUpperCase());btn=gBtn(k,A.act)}
+  return {k,A,st,cn,now,btn}}
+function hoyScene(M){const me=pjSVG(Object.assign({},pjCfg(),{etapa:pjStage()}),2.4),pips=M.A?M.A.plan.map(c=>`<span class="hsp">${trSVG(GICO[M.k],c.it.every(x=>x[0])?c.m:"ninguno",1.2)}</span>`).join(""):"";
+  return `<div class="adv hscene"><div class="advstage magic hstage"><button class="hsreg" data-reg="${M.k}">📍 ${esc(GREG[M.k])}</button>${pips?`<span class="hstro">${pips}</span>`:""}<span class="advnpc">${me}</span><span class="advnpc bob">${creSVG(M.k,3.2)}</span>${SPARK(5)}</div><div class="advbox"><span class="advwho">${esc(M.cn)}</span><p class="advtxt" data-tw>${esc(M.now)}</p>${M.btn?`<div class="advbar"><div class="row" style="gap:8px;margin-left:auto">${M.btn}</div></div>`:""}</div></div>`}
 function shareText(){
   const done=S.history.filter(h=>h.finished),st=streak();
   if(S.active){const c=CI[S.active.id],ok=Object.values(S.active.log).filter(v=>v!=="no").length;if(ok)return `Llevo ${ok} de 7 días con mi reto «${c.t}» en Brújula.${st>=3?` Racha: ${st} días.`:""}`}
@@ -2900,6 +2925,8 @@ function pBody(k){
    <div class="north" style="padding:16px"><p class="eyebrow">Así queda</p><p class="sent" style="font-size:1.2rem">${prev}</p></div>
    <button class="btn" data-psave="7" style="width:max-content">Guardar mi frase (+30 XP)</button>`;
 }
+function pUnl(){return Math.min(7,Object.keys(S.g.tr||{}).filter(k=>k!=="VAL"&&(S.g.tr[k]||{}).b).length)}
+function pNext(){const n=pUnl();for(let k=1;k<=n;k++)if(!S.P.done[k])return k;return 0}
 function vProposito(){
   const steps=[[1,"Lo que me importa","Elige tus valores","3 min"],[2,"En qué soy bueno","Elige tus fortalezas","3 min"],[3,"Lo que me enciende","Qué te da y qué te quita energía","3 min"],[4,"A quién quiero aportar","Lo que te gustaría mejorar","5 min"],[5,"Mi yo dentro de 10 años","Imagina tu vida a los 26","3 min"],[6,"Experimentos","Tres pruebas en la vida real","2-3 semanas"],[7,"Mi frase","Tu brújula en una frase","5 min"]];
   return `<section class="stack">${purposeCard()}<div><p class="eyebrow">Propósito</p><h1>Para qué haces lo que haces</h1><p class="lead muted" style="margin-top:10px;max-width:62ch">A tu edad nadie tiene que tener claro su propósito. Se descubre probando y cambia con los años. Aquí no buscas «tu misión en la vida»: buscas una dirección para ahora.</p></div>
@@ -2908,11 +2935,11 @@ function vProposito(){
     <p><b>Para qué sirve.</b> Simon Sinek lo llama <em>encontrar tu porqué</em>: para conocer qué te importa, en qué eres bueno y a quién te gustaría aportar algo. Con eso eliges con más criterio: qué estudiar, en qué trabajar, con quién estar, en qué gastar tu tiempo.</p>
     <p><b>Por qué hacerlo.</b> Tus retos mejoran cómo estás; el propósito te dice hacia dónde vas. Cuando sabes para qué haces algo, cuesta menos hacerlo y es más difícil que otros decidan por ti.</p>
     <p><b>A dónde te lleva.</b> Al final tendrás tu frase, por ejemplo: <em>«Quiero ayudar a que la gente se sienta mejor, para gente mayor, usando mi amabilidad, porque me importa la familia.»</em> Aparecerá en Hoy, cada reto te recordará cómo te acerca a ella y cada mes la revisarás.</p>
-    <p><b>Cómo.</b> 7 pasos, uno por semana, de unos 3 a 5 minutos, casi todo tocando opciones. Hoy te avisa (en azul) cuando toca un paso. No afecta a tus retos, pero es el camino de la <b>Cima de la Brújula</b>: te da su trofeo, enciende tus valores en cada reto y es la llave para el final del curso.</p>
+    <p><b>Cómo se descubre.</b> Tu propósito no se rellena de golpe: se va revelando mientras viajas. Cada bronce que ganes, en cualquier tierra, te trae una página nueva, y aquí, en la Cima, la escribes en 3 a 5 minutos. ${pUnl()?`Tienes <b>${pUnl()} ${pUnl()===1?"página abierta":"páginas abiertas"}</b> de 7.`:"Todavía no tienes ninguna: consigue tu primer bronce y vuelve."}</p>
    </div>`}
    ${northCard(false)}
    <button class="dogban curban" data-go="curiosidad"><span class="dbi">🔭</span><span><b>¿No sabes qué te gusta? Descúbrelo probando</b><small>Una propuesta corta cada semana. ${(()=>{const n=S.cur.hist.filter(x=>x.st==="hecha").length;return n?`Llevas ${n} hecha${n>1?"s":""}.`:"Investiga, prueba, sal o crea."})()}</small></span><span class="tgo">→</span></button>
-   <div class="psteps">${(()=>{const cur=S.pOpen!=null?S.pOpen:(steps.find(([k])=>!S.P.done[k])||[null])[0];return steps.map(([k,t,d,time])=>{const ok=!!S.P.done[k],open=S.pOpen===k,now=k===cur;return `<div class="pstep ${ok?"ok":""}${now?" now":""}">${now?`<span class="phere">📍 Estás aquí</span>`:""}<button data-popen="${k}" aria-expanded="${open}"><span class="pnum">${ok?"✓":k}</span><span><b>${t}</b><br><span class="muted" style="font-size:.88rem">${d} · ${time}</span></span><span class="pill ${ok?"f":"m"}">${ok?"Hecho":"Pendiente"}</span></button>${open?`<div class="pbody">${pBody(k)}</div>`:""}</div>`}).join("")})()}</div>
+   <div class="psteps">${(()=>{const cur=S.pOpen!=null?S.pOpen:(steps.find(([k])=>!S.P.done[k])||[null])[0];return steps.map(([k,t,d,time])=>{const ok=!!S.P.done[k],lk=!ok&&k>pUnl(),open=S.pOpen===k&&!lk,now=k===cur&&!lk;return `<div class="pstep ${ok?"ok":""}${now?" now":""}${lk?" plock":""}">${now?`<span class="phere">📍 Estás aquí</span>`:""}<button data-popen="${k}" aria-expanded="${open}"><span class="pnum">${ok?"✓":lk?"🔒":k}</span><span><b>${lk?"Página por descubrir":t}</b><br><span class="muted" style="font-size:.88rem">${lk?`Se revelará con tu ${k}.º bronce, en cualquier tierra`:d+" · "+time}</span></span><span class="pill ${ok?"f":"m"}">${ok?"Hecho":lk?"🔒":"Pendiente"}</span></button>${open?`<div class="pbody">${pBody(k)}</div>`:""}</div>`}).join("")})()}</div>
    ${S.P.versions.length?`<div class="card stack"><h3>Cómo ha cambiado tu brújula</h3><div class="minis">${S.P.versions.slice().reverse().map(v=>`<div class="mini"><span><span class="muted" style="font-size:.8rem">${parse(v.d).toLocaleDateString("es-ES")}</span><br>${v.s}</span></div>`).join("")}</div></div>`:""}
    <details class="card fold" id="pthink" style="--fc:#B8860B" ${uiGet("pThink",true)?"open":""}><summary>Para seguir pensando <span class="muted" style="font-weight:600">· 7 ideas</span></summary><p class="muted" style="font-size:.86rem;margin:8px 0 10px">Preguntas cortas para darle vueltas a tu propósito. Toca una para leer la idea completa, con un ejemplo y un vídeo.</p>
     <div class="thinks">${[["VAL-11","¿Para qué haces lo que haces?"],["VAL-07","¿Qué podrías probar este mes?"],["VAL-08","¿Qué harías si no te diera vergüenza?"],["VAL-02","¿Qué le da sentido a tu semana?"],["VAL-09","¿Qué te mueve: sentirte seguro, conectado o crecer?"],["VAL-10","¿Qué te está enseñando un problema que tienes?"],["VAL-06","¿La pasión llega antes o después?"]].map(([id,qq])=>{const c=CI[id],n=resList(c).length,sn=seenN(c);return `<button class="think" data-open="${id}"><span class="tq">${qq}</span><span class="tt">${esc(c.t)}</span><span class="tf">${sn?`✓ ${sn} de ${n} vistos`:"Leer →"}</span></button>`}).join("")}</div></details>
@@ -4643,7 +4670,7 @@ function vExplorar(){
   if(S.exMode==="conceptos"&&S.exArea===null&&!S.exMyth&&!S.exQ&&!S.exAll&&!S.qz)return `<section class="stack"><div><p class="eyebrow">Biblioteca</p><h1>La biblioteca del mundo</h1></div>${libHome()}</section>`;
   const exBack=`<button class="backbar exback" data-act="ex-home">← Volver con Don Fermín</button>`;
   const say=S.exMode==="nombre"?LIBTXT.nombre:S.exMode==="hist"?LIBTXT.hist:S.exQ==="sesgo"?LIBTXT.sesgo:S.exMyth?LIBTXT.mitos:S.exQ?LIBTXT.buscar:S.exArea!==null?LIBTXT.area:LIBTXT.todo;
-  const head=`<div class="stack"><div><p class="eyebrow">Biblioteca</p><h1>La biblioteca del mundo</h1></div>${libSay(say)}<p class="muted" style="font-size:.82rem;margin:0">Aquí solo se lee. Para que una lectura cuente para tu trofeo, ábrela desde su región en el Mundo.</p>
+  const head=`<div class="stack"><div><p class="eyebrow">Biblioteca</p><h1>La biblioteca del mundo</h1></div>${libSay(say)}
    ${S.exMode==="quiz"||S.exMode==="hist"?"":`<input id="exq" class="search" type="search" placeholder="${S.exMode==="nombre"?"Escribe lo que te pasa: móvil, dormir, nervios...":"Busca lo que quieras: agobio, dormir, dinero, móvil…"}" value="${esc(S.exQ)}" aria-label="Buscar">${S.exMode==="nombre"||(S.exQ&&S.exQ!=="sesgo")?"":`<div class="chips">${[["sesgo","🧩 Ver solo los sesgos"]].map(([q,l])=>`<button class="chip${S.exQ===q?" chipon":""}" data-exq="${q}" aria-pressed="${S.exQ===q}">${S.exQ===q?"🧩 Viendo solo sesgos ✕":l}</button>`).join("")}</div>`}`}</div>`;
   if(S.exMode==="quiz")S.exMode="conceptos";
   if(S.exMode==="hist")return `<section class="stack">${exBack}${head}${histShelf()}</section>`;
@@ -4663,7 +4690,7 @@ function vExplorar(){
      ${[0,1,2].map(t=>{const L=list.filter(c=>tier(c)===t);return L.length?`<div class="stack" style="gap:10px"><h2 style="font-size:1.15rem">${TN[t]}</h2><div class="cards">${L.map(card).join("")}</div></div>`:""}).join("")}</section>`}
   return `<section class="stack">${exBack}${head}
    ${q&&q!=="sesgo"&&S.exArea===null&&!S.exMyth?"":`   <div class="chips"><button class="chip" data-area="all" aria-pressed="${S.exArea===null&&!S.exMyth}">Todo</button>${AREAS.map((a,i)=>`<button class="chip area" style="--h:${a.h}" data-area="${i}" aria-pressed="${S.exArea===i}">${AICON[a.k]} ${a.n}</button>`).join("")}<button class="chip area" style="--h:5" data-myth="1" aria-pressed="${S.exMyth}">⚠️ Solo mitos</button></div>`}
-   ${S.exArea!==null&&!q?exRegionBanner(S.exArea):""}
+   ${S.exArea!==null&&!q?"":""}
    ${q==="sesgo"?`<div class="guide"><p class="eyebrow">¿Qué es un sesgo?</p><p>Un <b>sesgo</b> es un atajo que toma tu cerebro para decidir rápido. Casi siempre te ayuda, pero a veces te engaña de forma predecible: te hace creer lo que te da la razón, comprar porque «está rebajado» o pensar que a ti no te va a pasar. Todos los tenemos, también la gente lista. Conocerlos por su nombre te hace más difícil de engañar.</p><p class="muted" style="font-size:.88rem">Aquí tienes todos los sesgos de la app, de todas las áreas. Toca uno para ver un ejemplo y un reto.</p></div>`:""}
    ${q&&q!=="sesgo"?toolsBox(q):""}
    ${S.exArea===AK.STO&&!q?`<button class="dogban adban" data-go="estoico"><span class="dbi">🏛️</span><span><b>¿Cómo de estoico soy?</b><small>12 frases, 5 niveles: de Náufrago a Capitán. Con propuestas para subir.</small></span><span class="tgo">→</span></button><p class="muted" style="font-size:.85rem;margin:0">También en la app: ${["PEN-04","PEN-07","EST-07","VAL-10"].filter(id=>CI[id]).map(id=>`<button class="linkbtn" data-open="${id}">${esc(CI[id].t)}</button>`).join(" · ")}</p>`:""}
@@ -4927,9 +4954,9 @@ function openConcept(id){
   const L=resList(c),nR=L.length,vR=seenN(c),goal=!lib&&GDIF[k]&&!(S.g.ok||{})[id]&&lqPool(id).length;
   /* --- practicar --- */
   const E=exOf(c.id),TL={"ATE-01":["movil-open","🔧 Configura tu móvil en el taller (10 min)"],"ALI-08":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-09":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-01":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ALI-06":["det-open","🔎 Juega al detective de etiquetas (3 min)"],"ATE-02":["lab-open","🧪 Haz la prueba de letras y números (2 min)"],"ATE-05":["foco-open","🎯 Prueba una sesión de foco guiada"]}[id];
-  const quest=lib&&!isActive?"":`<div class="cxcard quest"><span class="pxchip">${isActive?"TU RETO ESTA SEMANA":"MISIÓN"}</span><p class="cxbig">${esc(c.h)}</p>${isActive?"":`<p class="muted cxsm">No hace falta hacerlo ahora: Hoy te propone tus retos, y en cada región puedes elegir otro cuando acabes tu misión.</p>`}</div>`;
+  const quest=lib?`<div class="cxcard quest"><span class="pxchip">CÓMO LLEVARLO A TU VIDA</span><p class="cxbig">${esc(c.h)}</p></div>`:`<div class="cxcard quest"><span class="pxchip">${isActive?"TU RETO ESTA SEMANA":"EL RETO DE ESTA LECTURA"}</span><p class="cxbig">${esc(c.h)}</p>${isActive?"":`<p class="muted cxsm">Puedes elegirlo como reto de 7 días en esta región cuando acabes tu misión actual.</p>`}</div>`;
   const prac=(TL?`<button class="btn" data-act="${TL[0]}" style="width:max-content;max-width:100%;white-space:normal">${TL[1]}</button>`:"")+quest
-    +(E?`<div class="cxcard"><span class="cxci" aria-hidden="true">💬</span><div><h4>Un caso real</h4><p>${esc(E[0])}</p></div></div>${lib?"":`<div class="cxcard plan"><span class="cxci" aria-hidden="true">🔁</span><div><h4>Un plan que puedes copiar</h4><p>${esc(E[1]).replace(/^Si /,"<b>Si</b> ").replace(/, entonces /,", <b>entonces</b> ")}</p></div></div>`}`:"")
+    +(E?`<div class="cxcard"><span class="cxci" aria-hidden="true">💬</span><div><h4>Un caso real</h4><p>${esc(E[0])}</p></div></div><div class="cxcard plan"><span class="cxci" aria-hidden="true">🔁</span><div><h4>Un plan que puedes copiar</h4><p>${esc(E[1]).replace(/^Si /,"<b>Si</b> ").replace(/, entonces /,", <b>entonces</b> ")}</p></div></div>`:"")
     +(ERR[id]?`<div class="cxcard err"><span class="cxci" aria-hidden="true">⚠️</span><div><h4>Errores típicos</h4><ul class="cerr">${ERR[id].map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>`:"");
   /* --- más allá --- */
   const rt=rType(c.r),pt=pType(c.p),fv=famVid(c);
@@ -4945,16 +4972,16 @@ function openConcept(id){
   dlg.dataset.cid=id;
   dlg.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area cx" style="--h:${a.h}">
    <header class="cxhero"><div class="cxsky" aria-hidden="true">${SPARK(7)}</div><span class="cxnpc">${npc}</span>
-    <div class="cxht"><span class="cxreg">${lib?"📚 Biblioteca":"📍 "+esc(GREG[k]||a.n)}</span><h2>${esc(c.t)}</h2>
+    <div class="cxht"><span class="cxreg">${lib?"📚 Biblioteca · "+esc(a.n):"📍 "+esc(GREG[k]||a.n)}</span><h2>${esc(c.t)}</h2>
      <div class="cxbad"><span class="cxb lv-${c.e==="X"?"X":c.n}">${lvTag(c)}</span>${c.e==="X"?"":`<span class="cxb ev-${c.e}">${EV[c.e]}</span>`}</div></div></header>
    <div class="advbox cxidea"><span class="advwho">${esc(cn)}</span><p class="advtxt">${/^Es un sesgo/.test(c.q)?"🧩 ":""}${esc(c.q)}</p></div>
    ${goal?`<div class="cxquest"><span class="cxqi" aria-hidden="true">🎯</span><div><b>Misión de lectura</b><small>Lee «Entender» hasta el final y supera la comprobación.</small></div></div>`:""}
    <nav class="cxtabs" role="tablist">${tabs.map(t=>`<button class="cxtab" role="tab" type="button" data-cxt="${t[0]}" aria-selected="${t[0]===cur}"><span class="cxti" aria-hidden="true">${t[1]}</span><span>${t[2]}</span>${t[3]?`<i>${t[3]}</i>`:""}</button>`).join("")}</nav>
    <section class="cxp" data-cxp="u" ${cur==="u"?"":"hidden"}><div class="cxread">${(EXT[id]||[]).map(p=>`<p>${esc(p)}</p>`).join("")}${deepHtml(id)}${FIG[c.id]?FIG[c.id]():""}</div>
-    ${lib?libNote(id):lqBox(id)}${prac?`<button class="cxnext" type="button" data-cxgo="p">Siguiente: Practicar 🛠️ ▶</button>`:`<button class="cxnext" type="button" data-cxgo="m">Siguiente: Más allá 🔭 ▶</button>`}</section>
+    ${lib?"":lqBox(id)}${prac?`<button class="cxnext" type="button" data-cxgo="p">Siguiente: Practicar 🛠️ ▶</button>`:`<button class="cxnext" type="button" data-cxgo="m">Siguiente: Más allá 🔭 ▶</button>`}</section>
    ${prac?`<section class="cxp" data-cxp="p" ${cur==="p"?"":"hidden"}>${prac}<button class="cxnext" type="button" data-cxgo="m">Siguiente: Más allá 🔭 ▶</button></section>`:""}
    <section class="cxp" data-cxp="m" ${cur==="m"?"":"hidden"}>${more}</section>
-   <div class="row cxfoot">${c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${lib?"Biblioteca: solo para aprender.":routeItems().some(it=>it.c.id===c.id)?"Puedes empezar este reto desde su región cuando acabes tu misión.":"Para aprender."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
+   <div class="row cxfoot">${lib?"":c.e==="X"?"":isActive?`<span class="muted">Es tu reto actual</span>`:`<span class="muted" style="font-size:.85rem;flex:1">${lib?"Biblioteca: solo para aprender.":routeItems().some(it=>it.c.id===c.id)?"Puedes empezar este reto desde su región cuando acabes tu misión.":"Para aprender."}</span>`}<button class="btn ghost" data-act="close">Cerrar</button></div></div>`;
   const setTab=(t,scroll)=>{cur=t;S.cxTab={id,t};dlg.querySelectorAll(".cxtab").forEach(b=>b.setAttribute("aria-selected",String(b.dataset.cxt===t)));dlg.querySelectorAll(".cxp").forEach(p=>p.hidden=p.dataset.cxp!==t);
     if(scroll){const nv=dlg.querySelector(".cxtabs");if(nv)dlg.scrollTop=Math.max(0,nv.offsetTop-58)}};
   dlg.querySelectorAll("[data-cxt],[data-cxgo]").forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();setTab(b.dataset.cxt||b.dataset.cxgo,true)}));
@@ -5194,7 +5221,7 @@ function agSVG(px,blink){const P={K:"#1E2B38",G:"#F2B632",D:"#C98A14",L:"#FFE27A
 function guiaFloat(){if(S.tour!=null||window.__noGuia)return "";if(!S.g.guiaIntro&&S.view==="hoy"&&!S._guiaAuto&&!document.getElementById("dlg").open){S._guiaAuto=1;S.guiaOpen=true}if((S.g.guiaH||"")===today()||!S.route||S._intro||!["hoy","mundo","region","explorar","yo","grupo","coleccion","proposito"].includes(S.view)||S.aeScene)return "";const L=guiaTips();if(!L.length)return "";
   const unread=(S.g.guiaR||"")!==today();
   if(!S.guiaOpen)return `<button class="guiaf${unread?" pss":""}" data-act="guia-open" aria-label="Aguja, tu acompañante, tiene un consejo"><span class="guiab">${!S.g.guiaIntro?"¡Pss, pss! ¡Hola!":unread?"¡Pss, pss!":""}</span><span class="guiai" aria-hidden="true">${agSVG(3)}</span></button>`;
-  if(!S.g.guiaIntro)return `<div class="guiapop" role="dialog" aria-label="Te presento a Aguja"><div class="row" style="gap:10px;align-items:center">${agSVG(4)}<div><b class="pxname">Aguja</b><br><span style="font-size:.8rem">la brújula que te acompaña</span></div></div><p style="margin:0">¡Hola${S.name?", "+esc(S.name):""}! Soy <b>Aguja</b>, la aguja de tu brújula. Mi trabajo es señalarte el norte… y tu norte es mejorar un poco cada día.</p><p style="margin:0">Cada día te daré un consejo: qué lectura te queda, cuándo puedes hacer el quiz, qué reto te conviene o qué te estás dejando. Cuando me veas moverme y oigas «pss, pss», tócame.</p><p style="margin:0;font-size:.85rem">No te voy a reñir nunca. Estoy aquí para ayudarte a que no te pierdas. Antes de nada, ¿te enseño cómo funciona todo? Son 7 paradas rápidas.</p><button class="btn" data-act="guia-tour" style="width:100%">¡Sí! Enséñame la aventura</button><button class="linkbtn" data-act="guia-intro">Ahora no, prefiero explorar solo</button></div><button class="guiaf" data-act="guia-close" aria-label="Cerrar"><span class="guiai" aria-hidden="true">${agSVG(3)}</span></button>`;
+  if(!S.g.guiaIntro)return `<div class="guiapop" role="dialog" aria-label="Te presento a Aguja"><div class="row" style="gap:10px;align-items:center">${agSVG(4)}<div><b class="pxname">Aguja</b><br><span style="font-size:.8rem">la brújula que te acompaña</span></div></div><p style="margin:0">¡Hola${S.name?", "+esc(S.name):""}! Soy <b>Aguja</b>, la aguja de tu brújula. Mi trabajo es señalarte el norte… y tu norte es mejorar un poco cada día.</p><p style="margin:0">Cada día te daré un consejo: qué lectura te queda, cuándo puedes hacer el quiz, qué reto te conviene o qué te estás dejando. Cuando me veas moverme y oigas «pss, pss», tócame.</p><p style="margin:0;font-size:.85rem">No te voy a reñir nunca. Estoy aquí para ayudarte a que no te pierdas. Antes de nada, ¿te enseño cómo funciona todo? Son 6 paradas rápidas.</p><button class="btn" data-act="guia-tour" style="width:100%">¡Sí! Enséñame la aventura</button><button class="linkbtn" data-act="guia-intro">Ahora no, prefiero explorar solo</button></div><button class="guiaf" data-act="guia-close" aria-label="Cerrar"><span class="guiai" aria-hidden="true">${agSVG(3)}</span></button>`;
   const i=(S.guiaI||0)%L.length,[t,at,lb]=L[i];
   return `<div class="guiapop" role="dialog" aria-label="Consejo de Aguja"><div class="row" style="justify-content:space-between;align-items:center"><span class="row" style="gap:8px;align-items:center">${agSVG(2)}<b class="pxname">Aguja</b></span><button class="linkbtn" data-act="guia-close" aria-label="Cerrar">✕</button></div><p style="margin:0">${esc(t)}</p><div class="row" style="gap:10px;align-items:center;flex-wrap:wrap">${at?`<button class="btn sm" data-act="guia-close" ${at}>${esc(lb)}</button>`:""}${L.length>1?`<button class="linkbtn" data-act="guia-next">Otro consejo (${i+1}/${L.length})</button>`:""}<button class="linkbtn" data-act="guia-hide">Hoy no, gracias</button></div></div><button class="guiaf" data-act="guia-close" aria-label="Cerrar consejo"><span class="guiai" aria-hidden="true">${agSVG(3)}</span></button>`}
 function guiaPss(){if(S.g.snd===false||S._pssDone)return;S._pssDone=1;const ac=gAudio();if(!ac)return;const t0=ac.currentTime+.05;[0,.32].forEach(st=>{const n=Math.floor(ac.sampleRate*.18),b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,1.5);const src=ac.createBufferSource(),f=ac.createBiquadFilter(),g=ac.createGain();src.buffer=b;f.type="highpass";f.frequency.value=3500;g.gain.value=.06;src.connect(f);f.connect(g);g.connect(ac.destination);src.start(t0+st)})}
@@ -5362,7 +5389,7 @@ document.addEventListener("click",e=>{
   if(d.mis){const m=d.mis;if(dl.open)dl.close();if(m==="bien"){const v=(document.getElementById("grat")||{}).value||"";if(!v.trim()){toast("Escribe algo pequeño, vale cualquier cosa");return}S.grat.push({d:today(),t:v.trim()})}
     markMission(m);toast("+5 · Gracias por cuidarte");if(m==="proposito"){go("proposito");return}render();return}
   if(d.quiz){const ok=d.quiz===d.ansId;markMission(ok?"quiz:ok":"quiz:no");toast(ok?"+5 · ¡Correcto!":"Casi: era «"+CI[d.ansId].t+"». Ya lo sabes para la próxima");render();return}
-  if(d.popen){pReadFields();save();const k=+d.popen;S.pOpen=S.pOpen===k?null:k;render();return}
+  if(d.popen){const k0=+d.popen;if(!S.P.done[k0]&&k0>pUnl()){toast(`Esta página se revelará con tu ${k0}.º bronce`);return}pReadFields();save();const k=+d.popen;S.pOpen=S.pOpen===k?null:k;render();return}
   if(d.pque||d.pquien){pReadFields();if(d.pque)S.P.f.que=d.pque;else S.P.f.quien=d.pquien;save();render();return}
   if(d.pv||d.ps||d.pc||d.pu||d.pd||d.pw||d.pj||d.po){pReadFields();const MP={pv:["v",5],ps:["s",3],pc:["causes",3],pu:["upL",5],pd:["downL",5],pw:["whoL",2],pj:["fut",2],po:["proud",3]},ak=Object.keys(MP).find(k=>d[k]!==undefined),[key,max]=MP[ak],val=d[ak];const arr=S.P[key],i=arr.indexOf(val);
     if(i>=0)arr.splice(i,1);else if(arr.length<max)arr.push(val);else toast(`Máximo ${max}. Quita uno para elegir otro.`);save();render();return}
