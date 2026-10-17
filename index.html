@@ -992,6 +992,45 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 .movd .rgchips button{padding:4px 8px;font-size:.8rem}
 .movbar{position:relative;height:24px;border:2px solid #3a2a00;background:#fff;margin-top:6px}.movbar i{position:absolute;inset:0 auto 0 0;background:#6DBE5B}.movbar span{position:relative;display:block;text-align:center;font-weight:800;font-size:.8rem;line-height:20px}
 .sillabox{display:grid;gap:8px;margin-bottom:6px}.sillach{margin:0;padding:12px;font-weight:800;font-size:1.05rem;text-align:center;border:3px solid var(--px-ink);background:#E9F7E5;color:#1E3A1E}
+
+/* huertos: rayos x y juegos */
+.xrgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.xrpick{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;font:inherit;font-size:.8rem;font-weight:700;cursor:pointer;background:var(--surface);color:var(--ink);border:3px solid var(--px-ink);box-shadow:3px 3px 0 var(--px-sh);border-top:6px solid var(--pc)}
+.xrpick span{font-size:1.6rem}
+.xrpack{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px;text-align:center;color:#fff;background:linear-gradient(160deg,var(--pc),color-mix(in srgb,var(--pc) 55%,#000));border:3px solid var(--px-ink);box-shadow:4px 4px 0 var(--px-sh);overflow:hidden}
+.xrpack b{text-shadow:1px 1px 0 rgba(0,0,0,.5)}
+.xrem{font-size:2.4rem;line-height:1}
+.xrclaim{font-family:var(--pxf);font-size:.72rem;background:#FFE27A;color:#1E2B38;padding:2px 6px;transform:rotate(-3deg)}
+.xrpack.ray{background:linear-gradient(160deg,#16314a,#0b1724);color:#9fe7ff;opacity:.95}
+.xrpack.ray::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(120,220,255,.08) 0 2px,transparent 2px 5px);animation:xrscan 2.4s linear infinite}
+@keyframes xrscan{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
+.xropen{display:grid;gap:10px}
+.xrrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.xrrow>b{min-width:96px}
+.cubes{display:inline-flex;flex-wrap:wrap;gap:3px;align-items:center;max-width:240px}.cubes i{width:14px;height:14px;background:#fff;border:2px solid #1E2B38;box-shadow:inset -3px -3px 0 #D8D8E0;animation:cubein .3s ease-out backwards}
+.cubes i:nth-child(n){animation-delay:calc(var(--d,0)*1s)}@keyframes cubein{from{transform:translateY(-10px);opacity:0}}
+.cubes b{font-size:.8rem}
+.salt{font-size:1.1rem;letter-spacing:2px}
+.xrbar{position:relative;height:22px;border:2px solid var(--px-ink);background:var(--surface)}.xrbar i{position:absolute;inset:0 auto 0 0}.xrbar span{position:relative;display:block;font-size:.72rem;font-weight:800;line-height:18px;padding:0 6px}
+.xring{padding:10px;border:2px solid var(--line)}.xring p{margin:4px 0 0;font-size:.88rem;line-height:1.5}.xring mark{background:#FFE27A;color:#1E2B38;padding:0 2px}
+.xrcat{font-size:.7rem;font-weight:800;padding:1px 6px;border:2px solid var(--px-ink)}.xrcat.ultra{background:#FFD6D6;color:#7a1d1d}.xrcat.proc{background:#FFF1C2;color:#5a4300}.xrcat.real{background:#D8F3DC;color:#1d5a2a}
+.xrbody{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:start}
+.bodymini{width:90px;height:auto}.bodymini .sil{fill:#E6DCCF;stroke:#1E2B38;stroke-width:3}
+:root[data-theme="dark"] .bodymini .sil{fill:#3A4A5A}
+.bm{stroke:#1E2B38;stroke-width:3;animation:bmp 1.6s ease-in-out infinite}.bm.bad{fill:#E5484D}.bm.good{fill:#5CC98A}
+@keyframes bmp{50%{opacity:.55}}
+.xro{margin:0;font-size:.85rem;line-height:1.45;padding-left:8px;border-left:4px solid #E5484D}.xro.good{border-color:#5CC98A}
+.dutime{height:8px;border:2px solid var(--px-ink)}.dutime i{display:block;height:100%;width:100%;background:#FF6B3D}
+.duel{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dupk{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;font:inherit;font-size:.82rem;cursor:pointer;color:#fff;text-align:center;background:linear-gradient(160deg,var(--pc),color-mix(in srgb,var(--pc) 55%,#000));border:3px solid var(--px-ink);box-shadow:4px 4px 0 var(--px-sh)}
+.dupk.win{outline:4px solid #5CC98A}.dupk.lose{outline:4px solid #E5484D;opacity:.85}
+.durv{display:flex;flex-direction:column;align-items:center;gap:4px;background:rgba(0,0,0,.35);padding:6px;width:100%}.durv small{font-weight:800}
+.bagoal{display:grid;gap:4px;padding:10px;border:3px solid #E8A33D;background:#FFF6E0;color:#3a2a00}.bagoal .muted{color:#7a5a20;font-size:.82rem}
+.bascale{position:relative;height:120px;margin:6px 0}.babeam{position:absolute;left:5%;right:5%;top:34px;height:8px;background:#7A4A22;border:2px solid #1E2B38;transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.bapan{position:absolute;top:10px;width:46%;min-height:58px;padding:4px;display:flex;flex-wrap:wrap;gap:2px;justify-content:center;align-content:flex-start;font-size:1.3rem;border:3px solid #1E2B38;background:var(--surface)}
+.bapan b{width:100%;font-size:.62rem;text-align:center;font-family:var(--pxf)}.bapan.l{left:0;border-color:#2F7D45}.bapan.r{right:0;border-color:#B8483E}
+.bapost{position:absolute;left:50%;top:40px;width:8px;height:70px;margin-left:-4px;background:#5A3A1E}
+.baplate,.bafood{display:flex;flex-wrap:wrap;gap:6px}
+.bait{font:inherit;font-size:.82rem;font-weight:700;padding:6px 9px;cursor:pointer;background:var(--surface);color:var(--ink);border:2px solid var(--px-ink)}.bait.on{background:#FFE27A;color:#1E2B38}.bait:disabled{opacity:.4;cursor:default}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -1215,7 +1254,7 @@ Object.assign(REG,{"ALI-01": {"h": "Cambia un ultraprocesado al día por comida 
 const EMOW=["Frustración", "Decepción", "Vergüenza", "Celos", "Soledad", "Nervios", "Rabia", "Tristeza", "Culpa", "Agobio", "Aburrimiento", "Miedo", "Alivio", "Ilusión", "Orgullo", "Calma", "Gratitud", "Alegría"];
 C.forEach(c=>{if(REG[c.id])c.h=REG[c.id].h});
 function rgEntries(id,from,to){return (S.diario||[]).filter(x=>x.id===id&&(!from||x.d>=from)&&(!to||x.d<=to))}
-function rgForm(id,day){const h=rgForm0(id,day);if(REG[id].tool==="silla")return sillaBox()+h;return REG[id].tool==="foco"?`<button class="btn" data-act="foco-open" style="width:100%">${S.foco&&S.foco.st>1?"🎯 Volver a mi sesión de foco":"🎯 Empezar una sesión de foco guiada"}</button><details class="rgdet"><summary>¿La hiciste sin la app? Apúntala a mano</summary>${h}</details>`:h}
+function rgForm(id,day){const h=rgForm0(id,day);if(REG[id].tool==="silla")return sillaBox()+h;if(REG[id].tool==="xray")return `<button class="btn ghost" data-act="xr-open" style="width:100%">🔦 Abrir los Rayos X</button>`+h;if(REG[id].tool==="bal")return `<button class="btn ghost" data-act="ba-open" style="width:100%">⚖️ Jugar a la balanza</button>`+h;return REG[id].tool==="foco"?`<button class="btn" data-act="foco-open" style="width:100%">${S.foco&&S.foco.st>1?"🎯 Volver a mi sesión de foco":"🎯 Empezar una sesión de foco guiada"}</button><details class="rgdet"><summary>¿La hiciste sin la app? Apúntala a mano</summary>${h}</details>`:h}
 function rgForm0(id,day){const R=REG[id];return `<div class="rgform"><p class="rghint">💡 ${esc(R.hint)}</p>${R.f.map((f,i)=>{const [ty,lab,x,opt]=f,lb=`<p class="rglab">${esc(lab)}${opt?' <span class="muted">(opcional)</span>':""}</p>`;
   if(ty==="h")return lb+`<input class="field" type="time" id="rg${i}" style="max-width:150px">`;
   if(ty==="rf"){const L=S.rfLast&&S.rfLast.d===day?S.rfLast.ms:0;return lb+`<div class="rfbox">${L?`⚡ Tu resultado: <b>${L} ms</b> <button type="button" class="linkbtn" data-act="rf-open">Repetir</button>`:`<button type="button" class="btn" data-act="rf-open">⚡ Hacer la prueba (30 s)</button>`}<input type="hidden" id="rg${i}" value="${L?L+" ms":""}"></div>`}
@@ -2151,6 +2190,136 @@ Object.assign(RX,{
   pasos:[["Entrena con reserva","En cada serie, para cuando notes que solo podrías hacer dos repeticiones más."],["Mide las agujetas","Al día siguiente marcas cuántas agujetas tienes, del 0 al 10."],["Descubre","El día 7 comparas cuánto entrenaste y cuánto te dolió."]],
   dato:a=>{const E=rxE(a),n=E.filter(e=>/^He entrenado/.test(e.v[0])).length,ag=avgN(E.map(e=>+e.v[1]).filter(v=>!isNaN(v)));return `Entrenaste ${n} ${n===1?"día":"días"} con agujetas de ${ag!=null?n1(ag):"?"} de media. ${ag!=null&&ag<=4?"Avanzar no tiene que doler: la constancia gana a la paliza.":"Si las agujetas siguen altas, deja todavía más reserva."}`}}});
 function sillaBox(){const c=S.silla!=null?MOVCH[S.silla]:null;return `<div class="sillabox">${c?`<p class="sillach">🎲 ${esc(c)}</p>`:""}<button class="btn ghost" data-act="silla-roll" style="width:100%">${c?"Otro desafío":"🎲 Dame un desafío de 2 minutos"}</button></div>`}
+
+/* ====== FASE 2 · Huertos de la Abundancia ====== */
+/* productos típicos: valores aproximados por ración (azúcar libre g, sal g) */
+const PRODS=[
+ ["cola","Refresco de cola (lata 330 ml)","🥤","#B8483E","¡Chispa de energía!",35,0,"agua carbonatada, *azúcar*, colorante caramelo, ácido fosfórico, aromas, cafeína","ultra",1],
+ ["ener","Bebida energética (500 ml)","⚡","#2B9BD1","Más energía y concentración",55,0.4,"agua, *azúcar*, *jarabe de glucosa*, acidulante, taurina, cafeína, colorantes, vitaminas","ultra",1],
+ ["nect","Néctar de frutas (vaso 200 ml)","🧃","#F2B632","Con vitaminas · 50 % fruta",22,0,"agua, *concentrado de zumo de naranja*, *azúcar*, vitamina C, aroma","ultra",0],
+ ["bati","Batido de cacao (200 ml)","🍫","#7A4A22","Con calcio para crecer",20,0.3,"leche, *azúcar*, cacao, *jarabe de glucosa*, espesantes, aromas","ultra",0],
+ ["yfre","Yogur de fresa (125 g)","🍓","#F49AC1","Con fruta y calcio",11,0.1,"leche, *azúcar*, preparado de fresa (fresa 7 %, *jarabe de glucosa y fructosa*), espesantes, aromas","ultra",0],
+ ["ynat","Yogur natural (125 g)","🥛","#E9E4D8","—",0,0.1,"leche y fermentos. Su azúcar es la lactosa de la leche: no es azúcar añadido","proc",0],
+ ["cere","Cereales de chocolate (ración 40 g)","🥣","#8C5A2A","Fuente de fibra · 8 vitaminas",12,0.3,"cereales, *azúcar*, cacao, *dextrosa*, aceite de palma, sal, vitaminas","ultra",0],
+ ["aven","Copos de avena (ración 40 g)","🌾","#D9B77A","—",0,0,"copos de avena integral","real",0],
+ ["barr","Barrita de cereales «fitness»","🏋️","#E8A33D","Fitness · con cereales integrales",9,0.2,"cereales, *jarabe de glucosa*, *azúcar*, chocolate, *maltodextrina*, aceite, aromas","ultra",0],
+ ["boll","Bollo glaseado envasado","🍩","#F2B0C8","Tierno y esponjoso",15,0.5,"harina, *azúcar*, aceite de palma, *dextrosa*, huevo, emulgentes, aromas","ultra",0],
+ ["pata","Patatas fritas (bolsa 40 g)","🥔","#F6D04D","Con aceite de girasol",0,0.6,"patata, aceite de girasol, sal, potenciador del sabor","ultra",0],
+ ["pizz","Media pizza congelada","🍕","#E25B5B","Con queso de verdad",5,2.5,"harina, tomate, queso, embutido, sal, *azúcar*, aceite, conservantes","ultra",0],
+ ["ketc","Ketchup (2 cucharadas)","🍅","#C0392B","Hecho con tomates maduros",7,0.6,"tomate concentrado, vinagre, *azúcar*, sal, especias","ultra",0],
+ ["molde","Pan de molde (2 rebanadas)","🍞","#E2C48A","Tierno, sin corteza",3,0.6,"harina, agua, *azúcar*, aceite, sal, levadura, conservantes","ultra",0],
+ ["inte","Pan integral de panadería (2 rebanadas)","🥖","#B8864A","—",0,0.5,"harina integral, agua, sal, levadura","proc",0],
+ ["manz","Manzana","🍎","#6DBE5B","—",0,0,"manzana. Su azúcar va dentro de la fibra de la fruta: no cuenta como azúcar libre","real",0]];
+const PRI=Object.fromEntries(PRODS.map(p=>[p[0],p]));
+const OMS_AZ=25,OMS_SAL=5;
+function prodOrg(p){const [,,,,,az,sal,,cat,caf]=p,L=[];
+  if(az>=8)L.push(["dientes","bad","Picar azúcar a menudo alimenta las bacterias que hacen caries."]);
+  if(az>=15)L.push(["higado","bad","El azúcar, sobre todo en bebidas, a diario durante años se acumula en el hígado como grasa (hígado graso) y aumenta el riesgo de diabetes tipo 2."]);
+  if(sal>=0.6)L.push(["corazon","bad","Mucha sal cada día sube la tensión, que daña el corazón y las arterias sin doler."]);
+  if(sal>=1)L.push(["rinones","bad","La sal en exceso obliga a los riñones a trabajar de más."]);
+  if(caf)L.push(["cerebro","bad","La cafeína por la tarde retrasa el sueño y deja al cerebro sin su descanso."]);
+  if(cat==="ultra"&&!L.some(x=>x[0]==="intestino"))L.push(["intestino","bad","Una dieta con muchos ultraprocesados y poca fibra empobrece tu microbiota."]);
+  if(cat==="real")L.push(["intestino","good","La fibra alimenta a las bacterias buenas de tu intestino."],["corazon","good","Fruta, legumbre y cereales integrales protegen el corazón y las arterias."]);
+  if(cat==="proc"&&!az)L.push(["huesos","good","Un alimento sencillo, sin azúcar añadido: buena opción de diario."]);
+  return L}
+function cubes(g,cls){const n=Math.round(g/4);if(!n)return `<span class="muted">0 terrones</span>`;return `<span class="cubes ${cls||""}" aria-label="${n} terrones de azúcar">${Array.from({length:Math.min(n,16)},()=>`<i></i>`).join("")}${n>16?`<b>+${n-16}</b>`:""}</span>`}
+function bodyMini(L){const pos=Object.fromEntries(ORG.map(o=>[o[0],[o[3],o[4]]]));return `<svg class="bodymini" viewBox="0 0 200 420" aria-hidden="true"><g class="sil"><circle cx="100" cy="40" r="28"/><rect x="88" y="66" width="24" height="14" rx="6"/><path d="M60 82 Q100 70 140 82 L150 210 Q100 222 50 210 Z"/><path d="M60 86 L36 150 L30 230 L44 232 L52 156 L66 110 Z"/><path d="M140 86 L164 150 L170 230 L156 232 L148 156 L134 110 Z"/><path d="M58 208 L72 400 L94 400 L98 236 L102 236 L106 400 L128 400 L142 208 Z"/></g>${L.filter(x=>pos[x[0]]).map(([o,t])=>`<circle class="bm ${t}" cx="${pos[o][0]}" cy="${pos[o][1]}" r="13"/>`).join("")}</svg>`}
+function xrCard(p,open){const [id,n,em,col,claim,az,sal,ing,cat]=p,O=prodOrg(p),ingH=esc(ing).replace(/\*([^*]+)\*/g,'<mark>$1</mark>'),CAT={real:"Comida real",proc:"Procesado sencillo",ultra:"Ultraprocesado"};
+  const front=`<div class="xrpack" style="--pc:${col}"><span class="xrem">${em}</span><b>${esc(n)}</b>${claim!=="—"?`<span class="xrclaim">«${esc(claim)}»</span>`:""}</div>`;
+  if(!open)return `${front}<button class="btn" data-act="xr-ray" style="width:100%">🔦 Pasar los Rayos X</button>`;
+  return `<div class="xropen">${front.replace('class="xrpack"','class="xrpack ray"')}
+   <div class="xrrow"><b>Azúcar libre</b>${cubes(az)}<span class="muted">≈${n1(az)} g · ${Math.round(az/4)} ${Math.round(az/4)===1?"terrón":"terrones"}</span></div>
+   <div class="xrbar"><i style="width:${Math.min(100,az/OMS_AZ*100)}%;background:${az>=OMS_AZ*.5?"#E5484D":az>=OMS_AZ*.2?"#F2B632":"#6DBE5B"}"></i><span>${Math.round(az/OMS_AZ*100)} % de lo máximo ideal para todo el día (${OMS_AZ} g)</span></div>
+   <div class="xrrow"><b>Sal</b><span class="salt">${"🧂".repeat(Math.max(0,Math.round(sal/1.25)))||'<span class="muted">casi nada</span>'}</span><span class="muted">≈${n1(sal)} g</span></div>
+   <div class="xrbar"><i style="width:${Math.min(100,sal/OMS_SAL*100)}%;background:${sal>=OMS_SAL*.4?"#E5484D":sal>=OMS_SAL*.15?"#F2B632":"#6DBE5B"}"></i><span>${Math.round(sal/OMS_SAL*100)} % de la sal máxima del día (${OMS_SAL} g)</span></div>
+   <div class="xring"><b>Ingredientes</b> <span class="xrcat ${cat}">${CAT[cat]}</span><p>${ingH}</p>${/mark/.test(ingH)?`<p class="muted" style="font-size:.78rem;margin:4px 0 0">En amarillo, el azúcar y sus otros nombres: jarabe de glucosa, dextrosa, maltodextrina, concentrado de zumo…</p>`:""}</div>
+   <div class="xrbody">${bodyMini(O)}<div class="stack" style="gap:6px"><p class="eyebrow" style="margin:0">Si lo tomas a diario durante años</p>${O.map(([o,t,x])=>`<p class="xro ${t}">${ORGI[o]?ORGI[o][1]:""} <b>${ORGI[o]?ORGI[o][2]:o}</b>: ${esc(x)}</p>`).join("")}<p class="muted" style="font-size:.78rem;margin:0">Una vez no pasa nada: lo que cuenta es el día a día.</p></div></div></div>`}
+let XR=null;
+function xrOpen(id){XR={sel:id||null,ray:false};xrDraw()}
+function xrDraw(){const dl=document.getElementById("dlg"),a=AREAS[AK.ALI],p=XR.sel&&PRI[XR.sel];
+  dl.innerHTML=`<div class="dlgback"><button data-act="${p?"xr-back":"close"}">← ${p?"Otros productos":"Volver"}</button></div><div class="dlg area stack" style="--h:${a.h}"><p class="eyebrow" style="margin:0">🔦 Huertos de la Abundancia</p><h2>Rayos X de etiquetas</h2>
+   ${p?xrCard(p,XR.ray):`<p class="muted" style="margin:0">Elige un producto y pásale los Rayos X: verás lo que el envase no te cuenta.</p><div class="xrgrid">${PRODS.map(q=>`<button class="xrpick" data-xr="${q[0]}" style="--pc:${q[3]}"><span>${q[2]}</span>${esc(q[1].replace(/\s*\(.*\)$/,""))}</button>`).join("")}</div>`}
+   <p class="muted" style="font-size:.75rem;margin:0">Valores aproximados de productos típicos. Cada marca es distinta: mira siempre su etiqueta.</p></div>`;
+  if(!dl.open){try{dl.showModal()}catch(e){dl.setAttribute("open","")}}dl.scrollTop=0}
+/* duelo de etiquetas */
+let DU=null,DUT=null;
+function duOpen(){const pool=PRODS.filter(p=>p[0]!=="manz"),R=[];let g=0;while(R.length<6&&g++<200){const a=pool[Math.floor(Math.random()*pool.length)],b=pool[Math.floor(Math.random()*pool.length)];if(a===b)continue;const k=R.length%3===2?"sal":"az",va=k==="az"?a[5]:a[6],vb=k==="az"?b[5]:b[6];if(Math.abs(va-vb)<(k==="az"?3:0.3))continue;R.push([a[0],b[0],k])}DU={r:R,i:0,ok:0,pick:null};duDraw()}
+function duDraw(){clearInterval(DUT);const dl=document.getElementById("dlg"),a=AREAS[AK.ALI];let b="";
+  if(DU.i>=DU.r.length){const G=(S.g.ali=S.g.ali||{}).duel=(S.g.ali.duel||[]);if(!DU.saved){G.push(DU.ok);DU.saved=1;store.set("game",S.g)}const tot=G.length*6,ac=G.reduce((x,y)=>x+y,0);
+   b=`<div class="rfres">Has acertado<b>${DU.ok} de 6</b></div><div class="dprev"><p class="eyebrow" style="margin:0">Tus partidas</p><p style="margin:4px 0 0;font-weight:700">${G.length<2?"Juega otra vez: con varias partidas verás tu progreso.":`Llevas ${G.length} partidas y ${ac} de ${tot} aciertos (${Math.round(ac/tot*100)} %). ${ac/tot>=.8?"Los envases ya no te engañan.":G[G.length-1]>G[0]?"Vas mejorando: cada vez te dejas engañar menos.":"Fíjate en los ingredientes, no en el dibujo del envase."}`}</p></div><button class="btn" data-act="du-open" style="width:100%">Jugar otra vez</button>`}
+  else{const [x,y,k]=DU.r[DU.i],A=PRI[x],B=PRI[y],q=k==="az"?"¿Cuál esconde más azúcar?":"¿Cuál tiene más sal?",win=(k==="az"?A[5]>B[5]:A[6]>B[6])?x:y;
+   b=`<div class="row" style="justify-content:space-between"><span class="advcnt">${DU.i+1}/6</span><span class="advcnt">✓ ${DU.ok}</span></div><h3 style="margin:0;text-align:center">${q}</h3>${DU.pick==null?`<div class="dutime"><i id="dut"></i></div>`:""}
+    <div class="duel">${[A,B].map(p=>`<button class="dupk${DU.pick!=null?(p[0]===win?" win":p[0]===DU.pick?" lose":""):""}" data-du="${p[0]}" ${DU.pick!=null?"disabled":""} style="--pc:${p[3]}"><span class="xrem">${p[2]}</span><b>${esc(p[1])}</b>${DU.pick!=null?`<span class="durv">${k==="az"?cubes(p[5])+`<small>${n1(p[5])} g de azúcar</small>`:`<small>${n1(p[6])} g de sal</small>`}</span>`:`<span class="xrclaim">${p[4]!=="—"?"«"+esc(p[4])+"»":""}</span>`}</button>`).join("")}</div>
+    ${DU.pick!=null?`<p style="margin:0;text-align:center;font-weight:800">${DU.pick===win?"¡Bien visto!":DU.pick==="t"?"¡Se acabó el tiempo!":"¡Te ha engañado el envase!"}</p><button class="btn" data-act="du-next" style="width:100%">${DU.i<5?"Siguiente":"Ver resultado"}</button>`:""}`;
+   DU.win=win}
+  dl.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area stack" style="--h:${a.h}"><p class="eyebrow" style="margin:0">⚔️ Huertos de la Abundancia</p><h2>Duelo de etiquetas</h2>${b}</div>`;
+  if(!dl.open){try{dl.showModal()}catch(e){dl.setAttribute("open","")}}
+  if(DU.i<DU.r.length&&DU.pick==null){const t0=Date.now(),bar=document.getElementById("dut");DUT=setInterval(()=>{const f=1-(Date.now()-t0)/5000;if(bar)bar.style.width=Math.max(0,f*100)+"%";if(f<=0){clearInterval(DUT);DU.pick="t";duDraw()}},60)}}
+/* la balanza */
+const BFOOD=[["fruta","Fruta","🍎",2,0],["verd","Verdura","🥦",2,0],["legu","Legumbre","🫘",2,0],["huevo","Huevo","🥚",1,0],["ynat","Yogur natural","🥛",1,0],["pint","Pan integral","🥖",1,0],["fsec","Frutos secos","🥜",1,0],["pesc","Pescado","🐟",1,0],["agua","Agua","💧",1,0],["aven","Avena","🌾",1,0],
+ ["refr","Refresco","🥤",-2,35],["boll","Bollo","🍩",-2,15],["chuc","Chuches","🍬",-2,20],["cere","Cereales azucarados","🥣",-1,12],["zumo","Zumo envasado","🧃",-1,18],["pata","Patatas de bolsa","🥔",-1,0],["embu","Embutido","🥓",-1,0],["pizz","Pizza congelada","🍕",-1,5]];
+const BFI=Object.fromEntries(BFOOD.map(f=>[f[0],f]));
+const BGOAL=[["des","Un desayuno que te aguante hasta las 11",L=>L.some(k=>["huevo","ynat","fsec"].includes(k))&&L.some(k=>["fruta","pint","aven"].includes(k))&&!L.some(k=>BFI[k][3]<0),"Necesita algo de proteína (huevo, yogur o frutos secos), algo con fibra (fruta, pan integral o avena) y nada de «de vez en cuando»."],
+ ["mer","Una merienda con menos de 2 terrones de azúcar",L=>L.reduce((t,k)=>t+BFI[k][4],0)<8&&L.length>=2,"Monta una merienda de al menos 2 cosas que no pase de 2 terrones (8 g)."],
+ ["cen","Una cena que cuide tu intestino",L=>L.filter(k=>["verd","legu","fruta","pint"].includes(k)).length>=2&&!L.some(k=>BFI[k][3]<=-2),"Pon al menos 2 alimentos con fibra (verdura, legumbre, fruta o pan integral) y nada muy azucarado."]];
+let BA=null;
+function baOpen(){BA={g:BGOAL[Math.floor(Math.random()*BGOAL.length)][0],L:[],done:false};baDraw()}
+function baDraw(){const dl=document.getElementById("dlg"),a=AREAS[AK.ALI],G=BGOAL.find(x=>x[0]===BA.g),sc=BA.L.reduce((t,k)=>t+BFI[k][3],0),az=BA.L.reduce((t,k)=>t+BFI[k][4],0),ang=Math.max(-18,Math.min(18,-sc*4)),ok=G[2](BA.L);
+  const H=(S.g.ali||{}).bal||[];let concl="";if(BA.done&&H.length>=3){const W=H.filter(h=>h.w),cnt={};W.forEach(h=>h.L.forEach(k=>cnt[k]=(cnt[k]||0)+1));const top=Object.entries(cnt).sort((x,y)=>y[1]-x[1]).slice(0,2).map(([k])=>BFI[k][1].toLowerCase());concl=`<div class="dprev"><p class="eyebrow" style="margin:0">Lo que dicen tus partidas</p><p style="margin:4px 0 0;font-weight:700">Has ganado ${W.length} de ${H.length}.${top.length?` En tus platos ganadores casi siempre aparecen ${top.join(" y ")}.`:""}</p></div>`}
+  dl.innerHTML=`<div class="dlgback"><button data-act="close">← Volver</button></div><div class="dlg area stack" style="--h:${a.h}"><p class="eyebrow" style="margin:0">⚖️ Huertos de la Abundancia</p><h2>La balanza</h2>
+   <div class="bagoal"><b>🎯 ${esc(G[1])}</b><span class="muted">${esc(G[3])}</span></div>
+   <div class="bascale"><div class="babeam" style="transform:rotate(${ang}deg)"><span class="bapan l"><b>Te cuida</b>${BA.L.filter(k=>BFI[k][3]>0).map(k=>BFI[k][2]).join("")}</span><span class="bapan r"><b>De vez en cuando</b>${BA.L.filter(k=>BFI[k][3]<0).map(k=>BFI[k][2]).join("")}</span></div><div class="bapost"></div></div>
+   <div class="xrrow"><b>Azúcar del plato</b>${cubes(az)}</div>
+   <p class="rglab">Tu plato (${BA.L.length}/4) · toca para quitar</p><div class="baplate">${BA.L.length?BA.L.map((k,i)=>`<button class="bait on" data-ba="-${i}">${BFI[k][2]} ${BFI[k][1]}</button>`).join(""):'<span class="muted">Vacío</span>'}</div>
+   ${BA.done?`<div class="${ok?"example":"alert"}" style="${ok?"background:var(--good-bg)":""}"><b>${ok?"¡Objetivo conseguido!":"Esta vez no."}</b> ${ok?(sc>=4?"Un plato que te cuida de verdad.":"Bien montado."):esc(G[3])}</div>${concl}<button class="btn" data-act="ba-open" style="width:100%">Otra partida</button>`:`<p class="rglab">Elige alimentos</p><div class="bafood">${BFOOD.map(f=>`<button class="bait" data-ba="${f[0]}" ${BA.L.length>=4||BA.L.includes(f[0])?"disabled":""}>${f[2]} ${f[1]}</button>`).join("")}</div><button class="btn" data-act="ba-done" ${BA.L.length?"":"disabled"} style="width:100%">Servir el plato</button>`}</div>`;
+  if(!dl.open){try{dl.showModal()}catch(e){dl.setAttribute("open","")}}}
+/* retos */
+const ALIH={
+ "ALI-01":"Radar de ultraprocesados: dos días, mira qué parte de lo que picas es ultraprocesado; después, cambia uno al día por comida real.",
+ "ALI-02":"Chef del plato: diseña tu plato en la balanza y móntalo tú 3 veces esta semana con sus 4 partes.",
+ "ALI-03":"¿Hambre o antojo?: cuando te apetezca picar, haz la prueba de la manzana y espera 10 minutos. Descubre qué te dispara los antojos.",
+ "ALI-04":"Duelo de desayunos: dos días un desayuno A (bollería o zumo) y dos días uno B (pan integral con huevo, o yogur con fruta y frutos secos). A las 11, compara.",
+ "ALI-05":"Cazamitos: encuentra una promesa milagro de comida (un anuncio, un vídeo) y pásale las tres preguntas: quién lo dice, qué estudio lo respalda y quién gana dinero.",
+ "ALI-06":"Detective de la despensa: analiza un producto de tu cocina cada día con los Rayos X y decide si lo cambiarías.",
+ "ALI-07":"Álbum de las 30 plantas: cada planta distinta que comas (fruta, verdura, legumbre, cereal integral, fruto seco o especia) es un cromo nuevo. ¿Llegas a 30?",
+ "ALI-08":"Detective de la despensa: analiza un producto de tu cocina cada día con los Rayos X y decide si lo cambiarías.",
+ "ALI-09":"Detective de la despensa: analiza un producto de tu cocina cada día con los Rayos X y decide si lo cambiarías.",
+ "ALI-10":"El experimento del plato: un día come tu snack de la bolsa y con pantalla; otro, servido en un plato y sin pantalla. Compara."};
+Object.keys(ALIH).forEach(id=>{if(CI[id])CI[id].h=ALIH[id]});
+const DETREG={tool:"xray",hint:"Hazlo en la cocina o en el súper. Usa los Rayos X de la app para ver los terrones y los ingredientes escondidos.",f:[["l","¿Qué producto has analizado?","Ej.: los cereales del desayuno"],["l","¿Qué promete delante y qué esconde detrás?","Ej.: dice «con fibra» y el segundo ingrediente es azúcar"],["c","¿Lo cambiarías?",["Sí, ya tengo alternativa","Quizá","No, me lo quedo"]]]};
+Object.assign(REG,{
+ "ALI-01":{h:ALIH["ALI-01"],hint:"Apúntalo por la noche. Ultraprocesado: lo que lleva muchos ingredientes que no tendrías en tu cocina.",f:[["c","Hoy, ¿qué parte de lo que has picado era ultraprocesado?",["Casi nada","Menos de la mitad","Más de la mitad","Casi todo"]],["l","¿Qué has cambiado hoy por comida real?","Ej.: las galletas por fruta y nueces (los dos primeros días, déjalo en blanco)",1]]},
+ "ALI-02":{tool:"bal",h:ALIH["ALI-02"],hint:"Las 4 partes: verdura o fruta, proteína (huevo, legumbre, pescado…), cereal integral y agua.",f:[["c","¿Has montado tu plato hoy?",["Sí, con las 4 partes","Casi: me faltaba una","Hoy no"]],["m","¿Qué has puesto?",["Verdura","Fruta","Legumbre","Huevo o pescado","Cereal integral","Agua"],1]]},
+ "ALI-04":{h:ALIH["ALI-04"],hint:"Apúntalo a media mañana o al volver de clase. Sin calorías ni pesos: solo hambre y concentración.",f:[["c","¿Qué desayuno has tomado hoy?",["A: bollería, galletas o zumo","B: pan integral con huevo, o yogur con fruta y frutos secos","Otro"]],["s","Tu hambre a las 11:00 (0-10)"],["s","Tu concentración a las 11:00 (0-10)"]]},
+ "ALI-05":{h:ALIH["ALI-05"],hint:"No hace falta buscar mucho: abre una red social o mira un anuncio. Escríbelo después, sin prisas.",f:[["l","¿Qué promesa milagro has encontrado?","Ej.: un zumo detox que «limpia el cuerpo»"],["m","Pásale las 3 preguntas",["¿Quién lo dice? Lo he mirado","¿Qué estudio lo respalda? Lo he buscado","¿Quién gana dinero? Lo sé"]],["c","Tu veredicto",["Es un bulo","Está exagerado","Parece cierto"]],["c","¿Se lo has explicado a alguien?",["Sí","Todavía no"],1]]},
+ "ALI-06":DETREG,"ALI-08":DETREG,"ALI-09":DETREG,
+ "ALI-10":{h:ALIH["ALI-10"],hint:"Haz al menos un día de cada. Elige un snack que te cueste dejar (patatas, galletas, chuches).",f:[["c","Hoy has comido tu snack…",["De la bolsa, con pantalla","Servido en un plato, sin pantalla"]],["s","¿Cuánto te has quedado satisfecho? (0-10)"],["c","¿Cuánto has comido?",["Poco","Lo normal","Más de lo que quería"]]]}});
+if(REG["ALI-03"]){REG["ALI-03"].h=ALIH["ALI-03"];REG["ALI-03"].hint="Primero la prueba: ¿te comerías una manzana? Si no, espera 10 minutos haciendo otra cosa y mira si se pasa.";}
+Object.assign(X,{
+ "ALI-01":["Laia apuntó dos días y vio que más de la mitad de lo que picaba era ultraprocesado. Cambió las galletas de media tarde por fruta y un puñado de nueces; al final de la semana, ya era menos de la mitad.","Si me apetece picar por la tarde, entonces elijo fruta o frutos secos.","Cambia solo una cosa en todo el día."],
+ "ALI-02":["Ona diseñó su plato en la balanza: lentejas con verdura, pan integral y agua. Lo montó tres veces y su padre le pidió la receta.","Si me toca preparar la cena, entonces monto un plato con sus 4 partes.","Añade una sola parte que te falte, por ejemplo verdura."],
+ "ALI-04":["Dani tomó dos días bollo y zumo y dos días pan integral con huevo. Con el bollo, a las 11 tenía un 8 de hambre; con el huevo, un 3, y se concentraba mejor.","Si es día B, entonces me preparo el desayuno la noche antes.","Añade algo con proteína a tu desayuno de siempre."],
+ "ALI-05":["Mar vio un vídeo de un «té detox que quema grasa». Al buscar quién lo decía, era la propia marca, y no había ningún estudio. Se lo explicó a su madre, que estaba a punto de comprarlo.","Si veo una promesa milagro, entonces le paso las tres preguntas antes de creérmela.","Pásale solo una de las tres preguntas."],
+ "ALI-06":["Hugo analizó los cereales de su hermano: «fuente de fibra», pero el segundo ingrediente era azúcar y llevaban 3 terrones por ración. Los cambió por avena con fruta.","Si abro algo envasado, entonces miro los dos primeros ingredientes.","Analiza solo un producto en toda la semana."],
+ "ALI-08":["Hugo analizó los cereales de su hermano: «fuente de fibra», pero el segundo ingrediente era azúcar y llevaban 3 terrones por ración. Los cambió por avena con fruta.","Si abro algo envasado, entonces miro los dos primeros ingredientes.","Analiza solo un producto en toda la semana."],
+ "ALI-09":["Hugo analizó los cereales de su hermano: «fuente de fibra», pero el segundo ingrediente era azúcar y llevaban 3 terrones por ración. Los cambió por avena con fruta.","Si abro algo envasado, entonces miro los dos primeros ingredientes.","Analiza solo un producto en toda la semana."],
+ "ALI-10":["Leo comía patatas de la bolsa viendo series y se acababa la bolsa sin darse cuenta. Con un plato y sin pantalla, comió la mitad y se quedó igual de satisfecho.","Si me apetece un snack, entonces me lo sirvo en un plato y lo como sin pantalla.","Sírvete en un plato, aunque tengas la pantalla delante."]});
+const DETRX={t:"Un minuto al día: un producto, tres respuestas.",mov:"En el súper o en tu cocina. La app solo para los Rayos X y para apuntarlo.",
+  pasos:[["Elige un producto","Uno de tu cocina o del súper: cereales, galletas, una bebida…"],["Rayos X","Mira qué promete delante y qué dicen los ingredientes. En la app tienes los Rayos X de productos típicos, con los terrones de azúcar."],["Decide","¿Lo cambiarías? El día 7 verás el ranking de tu despensa."]],
+  dato:a=>{const E=rxE(a),sw=E.filter(e=>/^Sí/.test(e.v[2])).length;return E.length?`Has analizado ${E.length} ${E.length===1?"producto":"productos"} y cambiarías ${sw}. Ya miras más allá del dibujo del envase.`:"No hay productos analizados esta semana."}};
+Object.assign(RX,{"ALI-06":DETRX,"ALI-08":DETRX,"ALI-09":DETRX,
+ "ALI-01":{t:"Un minuto por la noche.",pasos:[["Mide dos días","Por la noche, marca qué parte de lo que picaste era ultraprocesado."],["Cambia","Desde el día 3, cambia un ultraprocesado al día por comida real."],["Descubre","El día 7 comparas tus primeros días con los últimos."]],
+  dato:a=>{const E=rxE(a),O=["Casi nada","Menos de la mitad","Más de la mitad","Casi todo"],v=E.map(e=>O.indexOf(e.v[0])).filter(x=>x>=0);if(v.length<2)return "Necesitas más días apuntados para comparar.";const ch=E.filter(e=>e.v[1]).length;return `Empezaste con «${O[v[0]].toLowerCase()}» de ultraprocesados y acabaste con «${O[v[v.length-1]].toLowerCase()}». Hiciste ${ch} ${ch===1?"cambio":"cambios"} por comida real.`}},
+ "ALI-02":{t:"Un toque al día.",pasos:[["Diseña","Juega a la balanza de la app hasta montar un plato que te cuide."],["Cocina","Móntalo tú 3 veces esta semana. Haz una foto: es la prueba de la plata."],["Descubre","El día 7, cuántas veces lo conseguiste."]],
+  dato:a=>{const E=rxE(a),n=E.filter(e=>/^Sí/.test(e.v[0])).length;return `Montaste tu plato completo ${n} ${n===1?"vez":"veces"} esta semana.${n>=3?" ¡Ya sabes cocinar un plato que te cuida!":""}`}},
+ "ALI-03":{t:"Un minuto cada vez que te apetece picar.",mov:"La espera de 10 minutos, haciendo otra cosa y sin mirar el móvil.",pasos:[["La prueba de la manzana","Cuando te apetezca picar, pregúntate: ¿me comería ahora una manzana? Si sí, es hambre: come algo."],["Espera 10 minutos","Si no, es antojo: haz otra cosa 10 minutos y mira si se pasa."],["Descubre","El día 7, la app te dice qué te dispara más los antojos."]]},
+ "ALI-04":{t:"Un minuto a media mañana.",pasos:[["Desayuno A","Dos días, tu desayuno de bollería, galletas o zumo."],["Desayuno B","Otros dos días, pan integral con huevo, o yogur con fruta y frutos secos."],["Compara","A las 11, apunta tu hambre y tu concentración. El día 7, la app te dice qué desayuno ganó."]],
+  dato:a=>{const E=rxE(a),A=E.filter(e=>/^A/.test(e.v[0])),B=E.filter(e=>/^B/.test(e.v[0]));if(!A.length||!B.length)return "Necesitas al menos un día de cada desayuno para compararlos.";const h=L=>n1(avgN(L.map(e=>+e.v[1]))),c=L=>n1(avgN(L.map(e=>+e.v[2])));return `Con el desayuno A tenías un ${h(A)} de hambre y un ${c(A)} de concentración a las 11; con el B, un ${h(B)} y un ${c(B)}.`}},
+ "ALI-05":{t:"Unos minutos el día que encuentres una promesa.",pasos:[["Encuentra","Una promesa milagro de comida: un zumo detox, unas pastillas, una dieta «mágica»."],["Investiga","Pásale las 3 preguntas: quién lo dice, qué estudio lo respalda y quién gana dinero."],["Explícalo","Da tu veredicto y cuéntaselo a alguien en casa."]],
+  dato:a=>{const E=rxE(a),b=E.filter(e=>/bulo|exagerado/i.test(e.v[2])).length;return E.length?`Investigaste ${E.length} ${E.length===1?"promesa":"promesas"} y ${b} ${b===1?"era bulo o exagerada":"eran bulos o exageradas"}.`:"No hay promesas investigadas esta semana."}},
+ "ALI-07":{t:"Un minuto por la noche: marca las plantas del día.",pasos:[["Colecciona","Cada planta distinta que comas es un cromo: fruta, verdura, legumbre, cereal integral, fruto seco o especia."],["Apúntalas","Por la noche, marca las de hoy."],["Descubre","El día 7, ¿llegaste a 30? Las que te falten, para la próxima."]]},
+ "ALI-10":{t:"Un minuto después del snack.",pasos:[["Día bolsa","Come tu snack directamente de la bolsa, delante de una pantalla."],["Día plato","Otro día, sírvetelo en un plato y cómelo sin pantalla."],["Compara","Apunta cuánto comiste y lo satisfecho que te quedaste."]],
+  dato:a=>{const E=rxE(a),A=E.filter(e=>/bolsa/.test(e.v[0])),B=E.filter(e=>/plato/.test(e.v[0]));if(!A.length||!B.length)return "Haz al menos un día de cada para comparar.";const m=L=>L.filter(e=>/Más/.test(e.v[2])).length;return `De la bolsa te pasaste ${m(A)} de ${A.length} veces; en el plato, ${m(B)} de ${B.length}. Satisfacción: ${n1(avgN(A.map(e=>+e.v[1])))} frente a ${n1(avgN(B.map(e=>+e.v[1])))}.`}}});
 function rxSetup(c){const X=RX[c.id];if(!X||!X.setup||!S.active)return "";return `<div class="rxsetup"><p class="eyebrow" style="margin:0">Antes de empezar</p>${X.setup(S.active)}</div>`}
 
 function retoGap(){const a=S.active;if(!a)return 0;const ks=Object.keys(a.log).sort(),last=ks.length?ks[ks.length-1]:addDays(a.start,-1);return Math.max(0,diff(last,today())-1)}
@@ -2326,7 +2495,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017114841";
+const APP_V="20261017115635";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -3758,7 +3927,7 @@ STO:"Un templo en silencio donde se aprende a no perder la calma.",
 CIV:"Una villa donde todos se conocen y se cuidan."};
 const MWNB=(()=>{const K=Object.keys(MWPOS),N={};K.forEach(k=>N[k]=new Set());K.forEach(k=>{const [r,c]=MWPOS[k];K.filter(x=>x!==k).map(x=>[x,Math.hypot(MWPOS[x][0]-r,MWPOS[x][1]-c)]).sort((a,b)=>a[1]-b[1]).slice(0,2).forEach(([x])=>{N[k].add(x);N[x].add(k)})});return N})();
 const MWPLACE={ATE:[["movil","El taller del móvil","Configura tu móvil: menos avisos y pantalla en blanco y negro"],["act:lab-open","El laboratorio del Faro","Prueba de letras y números: comprueba en 2 minutos cuánto cuesta cambiar de tarea"],["act:foco-open","La sala de foco","Una sesión de concentración guiada en 5 pasos, con temporizador"]],EST:[["act:calm","El estanque del respiro","Un minuto de calma: respira despacio con el círculo"]],DIN:[["dinero","El banco del puerto","Simulador de ahorro y calculadora de caprichos"]],SUE:[["crono","La fuente del espejo","Test: ¿eres búho o alondra?",1]],
- MOV:[["cuerpo","El taller del cuerpo","Toca un órgano: para qué sirve y qué lo estropea"],["simcuerpo","El simulador","Qué le pasa a tu cuerpo con tus hábitos"]],ALI:[["act:det-open","La despensa del detective","Lee etiquetas y descubre qué es comida real y qué es ultraprocesado"],["cuerpo","El taller del cuerpo","Toca un órgano: para qué sirve y qué lo estropea"],["simcuerpo","El simulador","Qué le pasa a tu cuerpo con lo que comes"]],
+ MOV:[["cuerpo","El taller del cuerpo","Toca un órgano: para qué sirve y qué lo estropea"],["simcuerpo","El simulador","Qué le pasa a tu cuerpo con tus hábitos"]],ALI:[["act:xr-open","El laboratorio de Rayos X","Mira lo que el envase no te cuenta: terrones de azúcar, sal y qué órganos afecta"],["act:du-open","Duelo de etiquetas","Dos productos, 5 segundos: ¿cuál esconde más azúcar?"],["act:ba-open","La balanza","Monta un plato y mira hacia dónde se inclina"],["act:det-open","La despensa del detective","Lee etiquetas y descubre qué es comida real y qué es ultraprocesado"],["cuerpo","El taller del cuerpo","Toca un órgano: para qué sirve y qué lo estropea"],["simcuerpo","El simulador","Qué le pasa a tu cuerpo con lo que comes"]],
  ANI:[["perro","La fuente del espejo","Test: ¿estás preparado para un perro o un gato?",1]],STO:[["estoico","La fuente del espejo","Test: ¿cuánto de estoico tienes?",1]],ADI:[["adic","La fuente del espejo","Test: ¿cómo es tu relación con…?",1]],
  VAL:[["proposito","El mirador","Tu propósito en 7 pasos"]],AUT:[["mas","La cueva de los ecos","Tu perfil: fortalezas, valores y cronotipo"]],REL:[["grupo","La plaza del puente","Compañero de retos y reto de grupo"]],EDU:[["repaso","La biblioteca","El repaso de la semana"]]};
 function sh(a){a=a.slice();for(let j=a.length-1;j>0;j--){const r=Math.floor(Math.random()*(j+1));[a[j],a[r]]=[a[r],a[j]]}return a}
@@ -5034,6 +5203,9 @@ document.addEventListener("click",e=>{
   if(d.swap){if(dl.open)dl.close();finishReto("skip");S.swap=false;S.more=false;startReto(d.swap);return}
   if(d.start){if(dl.open)dl.close();S.more=false;startReto(d.start);return}
   if(d.rxset){if(!S.active)return;const [k,v]=d.rxset.split("|");S.active.x=S.active.x||{};if(k.includes(".")){const [a0,b0]=k.split(".");S.active.x[a0]=S.active.x[a0]||{};S.active.x[a0][b0]=v}else S.active.x[k]=v;save();render();return}
+  if(d.xr){XR.sel=d.xr;XR.ray=false;xrDraw();return}
+  if(d.du){if(DU&&DU.pick==null){clearInterval(DUT);DU.pick=d.du;if(d.du===DU.win)DU.ok++;duDraw()}return}
+  if(d.ba){if(!BA||BA.done)return;if(d.ba[0]==="-"){BA.L.splice(+d.ba.slice(1),1)}else if(BA.L.length<4&&!BA.L.includes(d.ba))BA.L.push(d.ba);baDraw();return}
   if(d.rxtog){if(!S.active)return;const [k,v]=d.rxtog.split("|");S.active.x=S.active.x||{};const L=String(S.active.x[k]||"").split("|").filter(Boolean);S.active.x[k]=(L.includes(v)?L.filter(x=>x!==v):L.concat(v)).join("|");save();render();return}
   if(d.rxinc){if(!S.active)return;const [k,v]=d.rxinc.split("|"),[a0,b0]=k.split(".");S.active.x=S.active.x||{};const o=S.active.x[a0]=S.active.x[a0]||{};o[b0]=Math.max(0,Math.min(9,(+o[b0]||0)+ +v));save();render();return}
   if(d.logd){if(!S.active)return;const [dy,v]=d.logd.split(":");if(dy>=S.active.start&&dy<today()){S.active.log[dy]=v;save();toast(v==="si"?"+10 · Ayer apuntado":v==="poco"?"+6 · Ayer apuntado":"Apuntado. Gracias por ser sincero");render()}return}
@@ -5236,6 +5408,13 @@ document.addEventListener("click",e=>{
   const first=!rgEntries(id,day,day).length;S.diario.push({id,d:day,t:Date.now(),v:vals});if(first)S.active.log[day]="si";S.rgMore=false;if(day!==today())S.rgDay=null;save();toast(first?"+10 · Guardado en tu diario":"Guardado en tu diario");render()}
 else if(act==="lab-open"){labOpen()}
   else if(act==="rf-open"){rfOpen()}
+  else if(act==="xr-open"){xrOpen()}
+  else if(act==="xr-back"){XR.sel=null;XR.ray=false;xrDraw()}
+  else if(act==="xr-ray"){XR.ray=true;xrDraw()}
+  else if(act==="du-open"){duOpen()}
+  else if(act==="du-next"){DU.i++;DU.pick=null;duDraw()}
+  else if(act==="ba-open"){baOpen()}
+  else if(act==="ba-done"){BA.done=true;const G=BGOAL.find(x=>x[0]===BA.g);S.g.ali=S.g.ali||{};(S.g.ali.bal=S.g.ali.bal||[]).push({g:BA.g,L:BA.L.slice(),w:G[2](BA.L)});store.set("game",S.g);baDraw()}
   else if(act==="silla-roll"){let n;do{n=Math.floor(Math.random()*MOVCH.length)}while(n===S.silla&&MOVCH.length>1);S.silla=n;render()}
   else if(act==="mw-ctr"){S._mwC=0;try{mwScale()}catch(e){}}
   else if(act==="snd-tog"){S.g.snd=S.g.snd===false;store.set("game",S.g);try{bgmSet(bgmWant())}catch(e){}toast(S.g.snd===false?"Música apagada":"Música encendida");render()}
