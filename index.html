@@ -1093,14 +1093,28 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 .mw.m2 canvas{position:absolute;left:0;top:0;image-rendering:pixelated;image-rendering:crisp-edges}
 .m2n{position:absolute;width:48px;height:52px;padding:0;background:none;border:0;cursor:pointer;z-index:2;display:flex;align-items:flex-end;justify-content:center;filter:drop-shadow(0 3px 0 rgba(0,0,0,.45))}
 .m2n svg{image-rendering:pixelated;display:block}
-.m2n.far{cursor:default;opacity:.55}
+.m2n.far{opacity:.6}
 .m2n.fog svg{filter:grayscale(1) brightness(.55)}
 .m2q{position:absolute;top:0;left:50%;transform:translateX(-50%);font-family:var(--pxf);font-weight:700;font-size:.9rem;color:#E6DDFF;text-shadow:1px 1px 0 #000}
 .m2n.on::after{content:"";position:absolute;left:4px;right:4px;bottom:-6px;height:4px;background:#FFE27A;box-shadow:0 0 6px #FFE27A}
 .m2n.guia{animation:m2bob 1.8s ease-in-out infinite}@keyframes m2bob{50%{transform:translateY(-3px)}}
 .m2n.dim svg{filter:grayscale(.7) brightness(.7)}
 .m2mon.lit{filter:drop-shadow(0 0 4px rgba(242,193,78,.55))}.m2mon.l3{filter:drop-shadow(0 0 7px rgba(255,226,122,.9))}
-.m2lab{position:absolute;width:110px;text-align:center;background:#0F1A24;color:#fff;font-family:var(--pxf);font-size:8px;line-height:1.2;padding:2px 4px;border:2px solid #F4F1E8;z-index:3;pointer-events:none}
+.m2lab{position:absolute;width:110px;text-align:center;font-family:var(--pxf);font-size:8px;line-height:1.2;z-index:3;pointer-events:none;color:#fff;text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000}
+.m2lab.hi{width:auto;max-width:110px;left:auto;background:#0F1A24;padding:2px 5px;border:2px solid #FFE27A;color:#FFE27A;text-shadow:none;transform:none}
+.m2base{position:absolute;width:44px;height:14px;z-index:1;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse,rgba(10,14,30,.55),rgba(10,14,30,0) 70%)}
+.m2base.s{background:#8a8f99;border:2px solid #3b3f48;box-shadow:inset 0 -3px 0 #5d626c,0 0 0 3px rgba(255,226,122,.0)}
+.m2base.s.bronce{background:#c98a52;border-color:#6b4423;box-shadow:inset 0 -3px 0 #9a6234}.m2base.s.plata{background:#d6dbe2;border-color:#6c7480;box-shadow:inset 0 -3px 0 #a8b0bb}.m2base.s.oro{background:#f2c14e;border-color:#8a6a10;box-shadow:inset 0 -3px 0 #c89a22,0 0 10px rgba(255,214,90,.8)}.m2base.s.cono{background:#b9a6f0;border-color:#5a4a9a;box-shadow:inset 0 -3px 0 #8f7ad6}
+.m2base.s:after{content:"";position:absolute;inset:-6px -8px;border-radius:50%;border:2px solid rgba(255,226,122,.85);animation:m2pul 2.4s ease-out infinite}
+.m2base.on.s:after{border-color:#fff}
+@keyframes m2pul{0%{transform:scale(.7);opacity:.9}100%{transform:scale(1.35);opacity:0}}
+.m2flag{position:absolute;width:3px;height:22px;background:#3b2a1a;z-index:2;pointer-events:none}
+.m2flag:after{content:"";position:absolute;left:3px;top:0;width:13px;height:9px;clip-path:polygon(0 0,100% 50%,0 100%);background:#8a90a6;animation:m2flg 1.6s ease-in-out infinite alternate;transform-origin:left center}
+.m2flag.bronce:after{background:#c98a52}.m2flag.plata:after{background:#e6eaf0}.m2flag.oro:after{background:#ffd34d}.m2flag.cono:after{background:#b9a6f0}
+@keyframes m2flg{to{transform:scaleX(.75)}}
+.m2tip{position:absolute;width:210px;z-index:7;display:grid;gap:4px;padding:8px 10px;font-size:.78rem;line-height:1.35;background:#F4F1E8;color:#1E2B38;border:3px solid #1E2B38;box-shadow:3px 3px 0 rgba(0,0,0,.45);pointer-events:none}
+.m2tip b{font-family:var(--pxf);font-size:.8rem}
+.m2n.far{cursor:pointer}
 .m2glow{animation:m2glow 2s ease-in-out infinite}@keyframes m2glow{50%{opacity:.55}}
 .m2twk{animation:mwfly 1.6s ease-in-out infinite}
 .m2fire{animation:mwfire 1s steps(2) infinite}
@@ -1115,7 +1129,7 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 .m2bird{position:absolute;width:10px;height:4px;z-index:3;pointer-events:none;background:linear-gradient(90deg,#1E2B38 0 35%,transparent 35% 65%,#1E2B38 65%);clip-path:polygon(0 0,50% 100%,100% 0,85% 0,50% 60%,15% 0);animation:m2bd 9s linear infinite}
 @keyframes m2bd{0%{transform:translate(-30px,0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(60px,-14px);opacity:0}}
 .m2sant{z-index:2}
-@media (prefers-reduced-motion:reduce){.m2glow,.m2twk,.m2fire,.m2rot,.m2spin,.m2beam,.m2boat,.m2drop,.m2flag,.m2cloud,.m2bird,.m2n.guia{animation:none}}
+@media (prefers-reduced-motion:reduce){.m2glow,.m2twk,.m2fire,.m2rot,.m2spin,.m2beam,.m2boat,.m2drop,.m2flag,.m2cloud,.m2bird,.m2n.guia,.m2base.s:after,.m2flag:after{animation:none}}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -2805,7 +2819,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017134549";
+const APP_V="20261017140215";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -4359,7 +4373,8 @@ function m2Grid(){if(M2GRID)return M2GRID;const K=Object.keys(M2POS),G=[];for(le
   return M2GRID=G}
 function m2Roads(){if(m2Roads.c)return m2Roads.c;const L=MWROAD.map(([a,b])=>{const [x0,y0]=M2POS[a],[x1,y1]=M2POS[b],mid=(h2(x0,y1)%2)?[x1,y0]:[x0,y1];return {a,b,pts:[[x0,y0],mid,[x1,y1]]}});return m2Roads.c=L}
 function m2Draw(cv,R){const c=cv.getContext("2d"),G=m2Grid(),T=T2,f=(x,y,w,h,col)=>{c.fillStyle=col;c.fillRect(x,y,w,h)};c.imageSmoothingEnabled=false;
-  for(let j=0;j<H2;j++)for(let i=0;i<W2;i++){const g=G[j][i],x=i*T,y=j*T,h=g.h,v=h%9;
+  const LV={};Object.keys(M2POS).forEach(k=>LV[k]=R.has(k)?m2Lvl(k):-1);const lvOf=g=>g.k?LV[g.k]:3;
+  for(let j=0;j<H2;j++)for(let i=0;i<W2;i++){const g=G[j][i],x=i*T,y=j*T,h=g.h,lv=lvOf(g),q=h%10,det=lv>=2||(lv===1&&q<8)||(lv===0&&q<5)||(lv<0&&q<4),v=det?h%9:99;
    switch(g.t){
     case "sea":f(x,y,T,T,(i+j)%2?"#1d4f7a":"#215a88");if(v===0)f(x+3,y+6,6,2,"#5d9ccf");if(v===4)f(x+9,y+11,4,1,"#5d9ccf");break;
     case "water":f(x,y,T,T,(i+j)%2?"#3478b0":"#3a82bc");if(v<2)f(x+4,y+7,6,2,"#8cc4ea");if(v===5){f(x+9,y+4,5,4,"#4fa35a");f(x+11,y+5,2,2,"#f49ac1")}break;
@@ -4378,20 +4393,33 @@ function m2Draw(cv,R){const c=cv.getContext("2d"),G=m2Grid(),T=T2,f=(x,y,w,h,col
     case "woods":f(x,y,T,T,(i+j)%2?"#3f7f45":"#45864b");if(v<4){f(x+2,y+1,12,10,"#2a6436");f(x+4,y,8,3,"#4f9a55");f(x+7,y+11,2,4,"#5a3a1e")}break;
     case "hills":f(x,y,T,T,(i+j)%2?"#6aa85a":"#70ad60");if(v<3){f(x+1,y+8,14,6,"#5c9a4e");f(x+3,y+6,10,3,"#7cbc6a")}break;
     default:f(x,y,T,T,(i+j)%2?"#4f8f4a":"#56974f");if(v===0)f(x+4,y+6,2,2,"#f49ac1");if(v===5)f(x+9,y+9,2,2,"#f6d04d");if(v===8)f(x+6,y+10,4,1,"#3f7a3a")}
-   if(g.river){f(x+3,y,10,T,"#3c86c0");f(x+5,y+(h%8),4,2,"#8cc4ea")}}
+   if(g.river){f(x+3,y,10,T,"#3c86c0");f(x+5,y+(h%8),4,2,"#8cc4ea")}
+   /* vida extra al avanzar: flores con plata, casitas y animales con oro */
+   const land=g.k&&!g.river&&!["sea","water","sand","snow","rock","zen"].includes(g.t),core=g.d!=null&&g.d<5.5;
+   if(land&&lv>=2&&h%7===1){f(x+3,y+11,2,2,"#f49ac1");f(x+10,y+4,2,2,"#ffe27a");f(x+7,y+8,2,2,"#ffffff")}
+   if(land&&lv>=3&&core){if(h%17===0&&g.d>1.8){f(x+2,y+6,12,9,"#f2e6d8");f(x+1,y+3,14,4,"#b8483e");f(x+6,y+10,3,5,"#6b4426");f(x+10,y+8,3,3,"#ffe27a")}
+     else if(h%23===5){f(x+4,y+8,7,4,"#ffffff");f(x+10,y+7,3,3,"#2a2a2a");f(x+5,y+12,1,2,"#2a2a2a");f(x+9,y+12,1,2,"#2a2a2a")}
+     else if(h%19===3){f(x+6,y+4,4,1,"#ffffff");f(x+5,y+5,6,1,"#ffffff");f(x+8,y+6,1,6,"#7a4a22")}}}
   /* caminos */
   m2Roads().forEach(rd=>{const open=R.has(rd.a)&&R.has(rd.b),half=R.has(rd.a)||R.has(rd.b);for(let n=0;n<rd.pts.length-1;n++){let [x,y]=rd.pts[n];const [x1,y1]=rd.pts[n+1];let g=0,st=0;while(g++<300){const px=x*T,py=y*T,wet=G[y]&&G[y][x]&&(G[y][x].t==="water"||G[y][x].t==="sea"||G[y][x].river);
-    if(open){f(px+4,py+4,8,8,wet?"#8c5a2a":"#e8c98a");f(px+5,py+5,6,6,wet?"#a8743f":"#f1d9a4");if(wet){f(px+4,py+4,8,1,"#5e3a1a");f(px+4,py+11,8,1,"#5e3a1a")}}else if(half&&st%2===0)f(px+6,py+6,4,4,"#cdb27a");else if(st%3===0)f(px+7,py+7,2,2,"rgba(220,210,180,.35)");
+    if(open){f(px+1,py+1,14,14,"rgba(40,26,10,.55)");f(px+2,py+2,12,12,wet?"#8c5a2a":"#e8c98a");f(px+3,py+3,10,10,wet?"#a8743f":"#f6e2b0");if(wet){f(px+2,py+2,12,1,"#5e3a1a");f(px+2,py+13,12,1,"#5e3a1a")}else if(st%3===1)f(px+6,py+6,3,2,"#d8b878")}else if(half){if(st%2===0){f(px+4,py+4,8,8,"rgba(40,26,10,.5)");f(px+5,py+5,6,6,"#e8c98a")}}else if(st%3===0)f(px+7,py+7,2,2,"rgba(220,210,180,.3)");
     st++;if(x===x1&&y===y1)break;if(x!==x1)x+=Math.sign(x1-x);else y+=Math.sign(y1-y)}}});
   /* niebla: penumbra sobre lo no descubierto (el mundo se ve, pero apagado) */
-  for(let j=0;j<H2;j++)for(let i=0;i<W2;i++){const g=G[j][i];if(!g.k||R.has(g.k))continue;const near=mwNear(g.k,R);c.fillStyle=near?"rgba(70,78,120,.32)":"rgba(40,44,82,.5)";c.fillRect(i*T,j*T,T,T);if(g.h%5===0){c.fillStyle="rgba(210,214,240,.10)";c.fillRect(i*T,j*T+4,T,6)}if(g.h%29===0){c.fillStyle="rgba(220,210,255,.7)";c.fillRect(i*T+7,j*T+7,2,2)}}
+  const DS=[.42,.22,.08,0],HZ=[.16,.08,.03,0];
+  for(let j=0;j<H2;j++)for(let i=0;i<W2;i++){const g=G[j][i];if(!g.k)continue;const lv=LV[g.k],x=i*T,y=j*T;
+    if(lv>=0){if(DS[lv]){c.globalCompositeOperation="saturation";c.fillStyle=`rgba(128,128,128,${DS[lv]})`;c.fillRect(x,y,T,T);c.globalCompositeOperation="source-over";c.fillStyle=`rgba(214,218,236,${HZ[lv]})`;c.fillRect(x,y,T,T)}continue}
+    const near=mwNear(g.k,R);c.globalCompositeOperation="saturation";c.fillStyle="rgba(128,128,128,.85)";c.fillRect(x,y,T,T);c.globalCompositeOperation="source-over";
+    c.fillStyle=near?"rgba(46,52,92,.5)":"rgba(26,30,60,.68)";c.fillRect(x,y,T,T);if(g.h%5===0){c.fillStyle="rgba(210,214,240,.12)";c.fillRect(x,y+4,T,6)}if(g.h%29===0){c.fillStyle="rgba(220,210,255,.7)";c.fillRect(x+7,y+7,2,2)}}
+  /* borde dorado de la tierra que puedes visitar */
+  for(let j=0;j<H2;j++)for(let i=0;i<W2;i++){const g=G[j][i];if(!g.k||LV[g.k]<0)continue;const x=i*T,y=j*T,fog=(a,b)=>{const n=G[b]&&G[b][a];return n&&n.k&&LV[n.k]<0};c.fillStyle="rgba(255,226,122,.85)";
+    if(fog(i-1,j))c.fillRect(x,y+((i+j)%2?0:8),2,8);if(fog(i+1,j))c.fillRect(x+T-2,y+((i+j)%2?0:8),2,8);if(fog(i,j-1))c.fillRect(x+((i+j)%2?0:8),y,8,2);if(fog(i,j+1))c.fillRect(x+((i+j)%2?0:8),y+T-2,8,2)}
   /* luz cálida alrededor de los monumentos encendidos */
   Object.keys(M2POS).forEach(k=>{if(!R.has(k))return;const l=m2Lvl(k);if(!l)return;const [x,y]=M2POS[k],cx=x*T+8,cy=y*T,rad=40+l*22,gr=c.createRadialGradient(cx,cy,4,cx,cy,rad);gr.addColorStop(0,`rgba(255,226,140,${.10+l*.05})`);gr.addColorStop(1,"rgba(255,226,140,0)");c.fillStyle=gr;c.fillRect(cx-rad,cy-rad,rad*2,rad*2)});
   /* viñeta */
   const vg=c.createRadialGradient(MW2W/2,MW2H/2,MW2H*.35,MW2W/2,MW2H/2,MW2H*.75);vg.addColorStop(0,"rgba(0,0,0,0)");vg.addColorStop(1,"rgba(8,12,30,.35)");c.fillStyle=vg;c.fillRect(0,0,MW2W,MW2H)
   /* bordes del mapa */
   cv.dataset.key=m2Key(R)}
-function m2Key(R){return [...R].sort().join(",")}
+function m2Key(R){return [...R].sort().map(k=>k+m2Lvl(k)).join(",")}
 function m2Lvl(k){if(GDIF[k]){const A=gArea(k);return {ninguno:0,bronce:1,plata:2,oro:3}[A.metal]||0}const n=mwDone(k),t=mwCs(k).length;return n>=t&&t?3:n>=3?2:n>=1?1:0}
 function m2Mon(k,l,seen){const t=M2T[k],U=2,o=[],R=(x,y,w,h,f,cl)=>o.push(`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"${cl?` class="${cl}"`:""}/>`),on=l>0,G=on?"#F2C14E":"#5c6680",K="#0b0f1a",W="#f4f1e8",dim=!seen;
   switch(t){
@@ -4424,12 +4452,16 @@ function m2Walk(a,b){if(CFG.anim==="0")return;const el=document.querySelector(".
   const w=document.querySelector(".mwwrap"),t0=performance.now();const fol=()=>{if(!w||!document.contains(el))return;const r=el.getBoundingClientRect(),wr=w.getBoundingClientRect(),cx=r.left+r.width/2-wr.left,cy=r.top+r.height/2-wr.top;w.scrollLeft+=(cx-w.clientWidth/2)*.18;w.scrollTop+=(cy-w.clientHeight/2)*.18;if(performance.now()-t0<dur+500)requestAnimationFrame(fol)};requestAnimationFrame(fol)}
 function m2Layer(R,sel,f){const K=Object.keys(M2POS);
   const mons=K.map(k=>{const [x,y]=M2POS[k],seen=R.has(k),near=mwNear(k,R),l=seen?m2Lvl(k):0,on=k===sel,cls=`m2n${seen?"":" fog"}${on?" on":""}${k===f?" guia":""}${S.active&&aK(S.active.id)===k&&retoGap()>=2?" dim":""}`;
-    const st=`left:${x*T2-16}px;top:${y*T2-38}px`,lab=seen&&(on||k===f)?`<span class="m2lab" style="left:${Math.max(0,Math.min(MW2W-110,x*T2-47))}px;top:${Math.max(0,y*T2-58)}px">${esc(GREG[k])}</span>`:"";
-    if(!seen&&!near)return `<span class="${cls} far" style="${st}" aria-hidden="true">${m2Mon(k,0,false)}</span>`;
-    return `<button type="button" class="${cls}" data-mw="${k}" style="${st}" aria-label="${seen?esc(GREG[k]):"Región sin descubrir"}" aria-pressed="${on}">${m2Mon(k,l,seen)}${!seen?'<span class="m2q">?</span>':""}</button>${lab}`}).join("");
+    const st=`left:${x*T2-16}px;top:${y*T2-38}px`,met=GDIF[k]?["none","bronce","plata","oro"][l]:"cono",lab=seen?`<span class="m2lab${on||k===f?" hi":""}" style="left:${Math.max(0,Math.min(MW2W-110,x*T2-47))}px;top:${Math.max(0,y*T2-60)}px">${esc(GREG[k])}</span>`:"";
+    const tip=on&&!seen?`<span class="m2tip" style="left:${Math.max(4,Math.min(MW2W-214,x*T2-100))}px;top:${y*T2+18}px"><b>🔒 Aún no puedes entrar</b>${esc(m2Why(k,R))}</span>`:"";
+    return `<span class="m2base${seen?" s "+met:""}${on?" on":""}" style="left:${x*T2-22}px;top:${y*T2+6}px" aria-hidden="true"></span>${seen?`<span class="m2flag ${met}" style="left:${x*T2+20}px;top:${y*T2-40}px" aria-hidden="true"></span>`:""}<button type="button" class="${cls}${!seen&&!near?" far":""}" data-mw="${k}" style="${st}" aria-label="${seen?esc(GREG[k]):"Región sin descubrir: toca para saber por qué"}" aria-pressed="${on}">${m2Mon(k,l,seen)}${!seen?'<span class="m2q">?</span>':""}</button>${lab}${tip}`}).join("");
   const clouds=K.filter(k=>!R.has(k)).map((k,i)=>{const [x,y]=M2POS[k];return `<i class="m2cloud" style="left:${x*T2-50}px;top:${y*T2-26}px;animation-delay:${(i%5)*1.7}s"></i>`}).join("");
   const birds=[...R].slice(0,4).map((k,i)=>{const [x,y]=M2POS[k];return `<i class="m2bird" style="left:${x*T2+20}px;top:${y*T2-50}px;animation-delay:${i*1.3}s"></i>`}).join("");
   return mons+clouds+birds}
+function m2Why(k,R){const O=mwOrder(),fr=Object.keys(MWPOS).filter(x=>!R.has(x)&&mwNear(x,R)).sort((a,b)=>O.indexOf(a)-O.indexOf(b)),f=mwFocus(R),A=f&&GDIF[f]?gArea(f):null,go=A&&!A.T.b?` Vas a por el bronce de ${GREG[f]}.`:"";
+  if(!mwNear(k,R))return " Todavía no llega ningún camino hasta aquí. Primero tienen que abrirse las regiones de alrededor.";
+  if(k===fr[0])return ` Es la siguiente en abrirse: se descubrirá con tu próximo bronce (o al superar 3 lecturas en una tierra para conocerte).${go}`;
+  return ` Un camino ya llega hasta aquí, pero aún no es su turno. Cada bronce abre la región vecina que más te conviene según tu test.${go}`}
 function m2SantNode(){const k=santK();if(!k||!M2POS[k])return "";const [x,y]=M2POS[k];return `<button type="button" class="mwsant m2sant" data-go="santuario" style="left:${x*T2+18}px;top:${y*T2+4}px" aria-label="Entrar en el Santuario del Tiempo">${templeSVG(1.5)}<span>Santuario</span></button>`}
 function m2Paint(){const cv=document.getElementById("mw2c");if(!cv)return;const R=mwSeen();if(cv.dataset.key!==m2Key(R)||!cv.dataset.done){m2Draw(cv,R);cv.dataset.done=1}}
 function mwSVG(R){
@@ -4466,7 +4498,7 @@ const MWCRY=`<svg viewBox="0 0 14 18" width="28" height="36" shape-rendering="cr
 function mwInfo(k,R){
   const a=AREAS[AK[k]],seen=R.has(k);
   if(!seen){const O=mwOrder(),fr=Object.keys(MWPOS).filter(x=>!R.has(x)&&mwNear(x,R)).sort((a,b)=>O.indexOf(a)-O.indexOf(b));
-    return {real:"Frontera",name:"???",text:MWTEASE[k]+" "+(k===fr[0]?"Un camino ya llega hasta aquí, y es la siguiente en abrirse: se descubrirá con tu próximo bronce (o al superar 3 lecturas de una región para conocerte).":"Un camino llega hasta aquí, pero la niebla aún es espesa. Cada bronce abre la región vecina que más lo necesita según tu test.")+" Mientras tanto, puedes leer sus lecturas en la Biblioteca, pero todavía no cuentan.",open:false}}
+    return {real:"🔒 Toca la región para saber por qué",name:"Zona con niebla",text:MWTEASE[k]+" "+(k===fr[0]?"Un camino ya llega hasta aquí, y es la siguiente en abrirse: se descubrirá con tu próximo bronce (o al superar 3 lecturas de una región para conocerte).":"Un camino llega hasta aquí, pero la niebla aún es espesa. Cada bronce abre la región vecina que más lo necesita según tu test.")+" Mientras tanto, puedes leer sus lecturas en la Biblioteca, pero todavía no cuentan.",open:false}}
   if(!GDIF[k]){const n=mwDone(k),t=mwCs(k).length;return {real:a.n,name:GREG[k],text:`🔮 Tierra para conocerte. Aquí no hay trofeos: en esta tierra no se compite, se descubre. Pero lo que aprendas de ti aquí es lo que más te servirá en tu viaje. ${n} de ${t} lecturas superadas.`,open:true}}
   const A=gArea(k);return {real:a.n,name:GREG[k],text:`${GMET[A.metal]}. ${A.next||""}`,open:true}}
 function vMundo(){
@@ -5743,7 +5775,7 @@ document.addEventListener("click",e=>{
   if(d.cfg){const [k,v]=d.cfg.split(":");S.cfgOpen=true;if(k==="snd"){S.g.snd=v==="1";store.set("game",S.g);if(S.g.snd)try{gTune("bronce")}catch(e){}}else{CFG[k]=v;store.set("cfg",CFG);applyCfg()}render();return}
   if(d.font){S.cfgOpen=true;document.documentElement.dataset.font=d.font;store.set("font",d.font);render();return}
   if(d.hreg){const R0=mwSeen();if(R0.has(d.hreg)){S.g.at=d.hreg;store.set("game",S.g)}render();return}
-  if(d.mw){if(!mwSeen().has(d.mw)&&!mwNear(d.mw,mwSeen()))return;const R0=mwSeen(),from=S.g.at&&MWPOS[S.g.at]&&R0.has(S.g.at)?S.g.at:mwFocus(R0);S.mwSel=d.mw;if(R0.has(d.mw)&&d.mw!==from){S.g.at=d.mw;store.set("game",S.g)}render();if(S.g.at===d.mw&&d.mw!==from){if(document.getElementById("mw2c"))m2Walk(from,d.mw);else mwWalk(from,d.mw)}return}
+  if(d.mw){if(!mwSeen().has(d.mw)){S.mwSel=S.mwSel===d.mw?null:d.mw;render();return}const R0=mwSeen(),from=S.g.at&&MWPOS[S.g.at]&&R0.has(S.g.at)?S.g.at:mwFocus(R0);S.mwSel=d.mw;if(R0.has(d.mw)&&d.mw!==from){S.g.at=d.mw;store.set("game",S.g)}render();if(S.g.at===d.mw&&d.mw!==from){if(document.getElementById("mw2c"))m2Walk(from,d.mw);else mwWalk(from,d.mw)}return}
   if(d.reg){if(MWPOS[d.reg]&&!mwSeen().has(d.reg)){toast("Esa tierra aún está cubierta de niebla");return}if(dl.open)dl.close();if(MWPOS[d.reg]&&mwSeen().has(d.reg)&&S.g.at!==d.reg){S.g.at=d.reg;store.set("game",S.g)}S.reg=d.reg;S.regOpen=false;go("region");return}
   if(d.carta!=null){S.cartaN=+d.carta;render();window.scrollTo({top:0});return}
   if(d.lq!=null&&S.lq){const id=S.lq.id;if(+d.lq===0&&lqCap(id)){S.lq=null;toast("Hoy ya has superado 3 lecturas de esta región. Mañana podrás hacer esta comprobación.")}else if(+d.lq===0){S.g.ok=S.g.ok||{};S.g.ok[id]=today();store.set("game",S.g);S.lq=null;toast(GDIF[aK(id)]?"+10 · ¡Lectura superada! Cuenta para el bronce":"¡Lectura superada!")}else{lqFail(id);store.set("game",S.g);S.lq=null;toast(lqfTom(id)?"Esta no era. Tercer fallo de hoy: descansa y vuelve mañana.":"Esta no era. Vuelve a leerla: podrás repetirla "+lqfWhen(id)+".")}
