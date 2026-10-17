@@ -987,6 +987,11 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 .mwtail{transform-box:fill-box;transform-origin:100% 100%;animation:mwkite .8s ease-in-out infinite alternate}
 .mwfc{transform-box:fill-box;animation:mwfc 9s ease-in-out infinite alternate}@keyframes mwfc{0%{transform:translateX(-10px)}100%{transform:translateX(10px)}}
 @media (prefers-reduced-motion:reduce){.mwsmk,.mwfly,.mwbird,.mwfish,.mwboat,.mwbeam,.mwfire,.mwglow,.mwfnt,.mwbub,.mwkite,.mwflag,.mwtail,.mwfc{animation:none}}
+
+.movd{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.movd>span{width:78px;font-size:.82rem;font-weight:800}
+.movd .rgchips button{padding:4px 8px;font-size:.8rem}
+.movbar{position:relative;height:24px;border:2px solid #3a2a00;background:#fff;margin-top:6px}.movbar i{position:absolute;inset:0 auto 0 0;background:#6DBE5B}.movbar span{position:relative;display:block;text-align:center;font-weight:800;font-size:.8rem;line-height:20px}
+.sillabox{display:grid;gap:8px;margin-bottom:6px}.sillach{margin:0;padding:12px;font-weight:800;font-size:1.05rem;text-align:center;border:3px solid var(--px-ink);background:#E9F7E5;color:#1E3A1E}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -1210,7 +1215,7 @@ Object.assign(REG,{"ALI-01": {"h": "Cambia un ultraprocesado al día por comida 
 const EMOW=["Frustración", "Decepción", "Vergüenza", "Celos", "Soledad", "Nervios", "Rabia", "Tristeza", "Culpa", "Agobio", "Aburrimiento", "Miedo", "Alivio", "Ilusión", "Orgullo", "Calma", "Gratitud", "Alegría"];
 C.forEach(c=>{if(REG[c.id])c.h=REG[c.id].h});
 function rgEntries(id,from,to){return (S.diario||[]).filter(x=>x.id===id&&(!from||x.d>=from)&&(!to||x.d<=to))}
-function rgForm(id,day){const h=rgForm0(id,day);return REG[id].tool==="foco"?`<button class="btn" data-act="foco-open" style="width:100%">${S.foco&&S.foco.st>1?"🎯 Volver a mi sesión de foco":"🎯 Empezar una sesión de foco guiada"}</button><details class="rgdet"><summary>¿La hiciste sin la app? Apúntala a mano</summary>${h}</details>`:h}
+function rgForm(id,day){const h=rgForm0(id,day);if(REG[id].tool==="silla")return sillaBox()+h;return REG[id].tool==="foco"?`<button class="btn" data-act="foco-open" style="width:100%">${S.foco&&S.foco.st>1?"🎯 Volver a mi sesión de foco":"🎯 Empezar una sesión de foco guiada"}</button><details class="rgdet"><summary>¿La hiciste sin la app? Apúntala a mano</summary>${h}</details>`:h}
 function rgForm0(id,day){const R=REG[id];return `<div class="rgform"><p class="rghint">💡 ${esc(R.hint)}</p>${R.f.map((f,i)=>{const [ty,lab,x,opt]=f,lb=`<p class="rglab">${esc(lab)}${opt?' <span class="muted">(opcional)</span>':""}</p>`;
   if(ty==="h")return lb+`<input class="field" type="time" id="rg${i}" style="max-width:150px">`;
   if(ty==="rf"){const L=S.rfLast&&S.rfLast.d===day?S.rfLast.ms:0;return lb+`<div class="rfbox">${L?`⚡ Tu resultado: <b>${L} ms</b> <button type="button" class="linkbtn" data-act="rf-open">Repetir</button>`:`<button type="button" class="btn" data-act="rf-open">⚡ Hacer la prueba (30 s)</button>`}<input type="hidden" id="rg${i}" value="${L?L+" ms":""}"></div>`}
@@ -2085,6 +2090,67 @@ function rfDraw(){const dl=document.getElementById("dlg");clearTimeout(RFT);cons
 function rfTap(e){e.preventDefault();if(RF.st==="ready"||RF.st==="early"){RF.st="wait";rfDraw();RFT=setTimeout(()=>{RF.st="go";RF.t0=performance.now();const p=document.getElementById("rfpad");if(p){p.className="rfpad go";p.innerHTML="<b>¡YA!</b>"}},1200+Math.random()*2300);return}
   if(RF.st==="wait"){clearTimeout(RFT);RF.st="early";rfDraw();return}
   if(RF.st==="go"){const ms=Math.round(performance.now()-RF.t0);RF.ms.push(ms);RF.last=ms;RF.n++;RF.st=RF.n>=5?"done":"ready";if(RF.st==="done")S.rfLast={d:S.rgDay&&S.rgDay<today()?S.rgDay:today(),ms:Math.round(avgN(RF.ms))};rfDraw()}}
+
+/* ====== FASE 2 · Cumbres del Viento ====== */
+const MOVH={
+ "MOV-01":"Termómetro del ánimo: sal a caminar a paso rápido unos 20 minutos y puntúa tu ánimo antes y después.",
+ "MOV-02":"Auditoría de minutos: reconstruye cuánto te moviste la semana pasada, compáralo con los 60 minutos diarios que recomienda la OMS y recupera minutos en dos huecos.",
+ "MOV-03":"Prueba de fuerza: haz un test el día 1, entrena 15 minutos varios días y repite el test el día 7.",
+ "MOV-04":"Cazador de sillas: cuando lleves mucho rato sentado, levántate y haz un desafío de 2 minutos.",
+ "MOV-05":"Tu deporte con nombre y hora: elige una actividad que te apetezca, ponle día, hora y compañero, y pruébala esta semana.",
+ "MOV-06":"El mito del dolor: entrena dejando siempre un par de repeticiones en la reserva y comprueba que avanzas sin agujetas."};
+Object.keys(MOVH).forEach(id=>{if(CI[id])CI[id].h=MOVH[id]});
+const MOVHU=["Ir andando a clase","Subir por las escaleras","Pasear al perro","Ir en bici","Quedar para jugar a algo","Bailar en casa"];
+const MOVCH=["15 sentadillas","Subir y bajar un tramo de escaleras","Aguantar la plancha 30 segundos","Ir a por un vaso de agua andando por casa","Estirar brazos y espalda 1 minuto","Bailar una canción entera","10 zancadas con cada pierna","Saltar a la comba imaginaria 30 segundos"];
+Object.assign(X,{
+ "MOV-01":["Nerea salió a caminar 20 minutos antes de estudiar. Antes se ponía un 4 de ánimo; al volver, un 7. Al final de la semana, su media subía casi 3 puntos.","Si llego a casa y tengo que estudiar, entonces antes doy una vuelta rápida de 20 minutos.","Camina 10 minutos, aunque sea alrededor de la manzana."],
+ "MOV-02":["Pol creía que se movía mucho. Al reconstruir su semana le salieron 180 minutos de los 420 recomendados. Empezó a ir andando al instituto y a subir por las escaleras, y recuperó 150.","Si voy al instituto, entonces voy andando en lugar de en bus.","Usa solo uno de tus huecos, aunque sea 10 minutos."],
+ "MOV-03":["Aitana hizo 6 flexiones el lunes (con las rodillas apoyadas). Entrenó 15 minutos tres días y el domingo llegó a 10. Lo vio en números.","Si es martes, jueves o sábado, entonces hago mi circuito de 15 minutos al volver de clase.","Haz una sola vuelta del circuito."],
+ "MOV-04":["Joel estudiaba dos horas seguidas sin levantarse. Cada vez que acababa un tema, hacía un desafío de 2 minutos. Al final de la semana había roto la silla 23 veces y le dolía menos la espalda.","Si termino un tema o un ejercicio largo, entonces me levanto y hago un desafío.","Levántate una sola vez y anda hasta la cocina."],
+ "MOV-05":["Sara siempre decía que no le gustaba el deporte. Probó una clase gratis de escalada con su prima el jueves a las 18:00. Le gustó tanto que volvió la semana siguiente.","Si es jueves a las 18:00, entonces voy a mi actividad con mi compañero.","Aunque no puedas ir, haz 10 minutos de algo parecido en casa."],
+ "MOV-06":["Iván siempre acababa reventado y luego pasaba tres días con agujetas sin entrenar. Probó a dejar dos repeticiones en la reserva: entrenó más días y, al final, levantó más.","Si noto que me quedan solo dos repeticiones, entonces paro esa serie ahí.","Haz una serie de cada ejercicio, sin forzar."]});
+Object.assign(REG,{
+ "MOV-01":{h:MOVH["MOV-01"],hint:"Apúntalo al volver del paseo, no durante. El ánimo de «antes» es cómo te sentías al salir.",f:[["s","Tu ánimo antes de salir (0-10)"],["s","Tu ánimo al volver (0-10)"],["c","¿Cuánto has caminado?",["10 min","20 min","30 min o más"]]]},
+ "MOV-02":{h:MOVH["MOV-02"],hint:"Apúntalo por la noche. Cuentan los minutos en que te mueves con algo de ritmo: andar rápido, bici, deporte, bailar.",f:[["c","¿Cuánto te has movido hoy?",["Menos de 15 min","De 15 a 30 min","De 30 a 60 min","Más de 60 min"]],["c","¿Has usado alguno de tus huecos?",["Sí","No"]]]},
+ "MOV-03":{h:MOVH["MOV-03"],hint:"La fuerza necesita descanso: los días sin circuito, marca «descanso» y da un paseo o estira. También cuenta.",f:[["c","Hoy…",["He hecho mi circuito de 15 minutos","Día de descanso: paseo o estiramientos"]]]},
+ "MOV-04":{tool:"silla",h:MOVH["MOV-04"],hint:"Durante el estudio, el móvil lejos: el desafío lo eliges al levantarte. Apúntalo por la noche.",f:[["c","¿Cuántas veces has roto la silla hoy?",["1 o 2","3 o 4","5 o más"]],["m","¿Qué desafíos has hecho?",MOVCH.slice(0,6),1]]},
+ "MOV-05":{h:MOVH["MOV-05"],hint:"Los días que no toca tu actividad, también cuenta moverte de otra forma.",f:[["c","Hoy…",["He hecho mi actividad","Me he movido de otra forma"]],["s","¿Cuánto te ha gustado? (0-10)"]]},
+ "MOV-06":{h:MOVH["MOV-06"],hint:"Dejar repeticiones en la reserva significa parar cuando notas que solo podrías hacer dos más.",f:[["c","Hoy…",["He entrenado dejando 2 en la reserva","Día de descanso"]],["s","¿Cuántas agujetas tienes hoy? (0-10)"]]}});
+const movMid={"Menos de 15 min":10,"De 15 a 30 min":22,"De 30 a 60 min":45,"Más de 60 min":75};
+const MOVCIR="Circuito (3 vueltas): 10 sentadillas · 8 flexiones (con las rodillas apoyadas si cuesta) · 10 zancadas · 20 segundos de plancha. Descansa 1 minuto entre vueltas.";
+function movTest(a,key){const T=(a.x||{})[key]||{};return `<div class="stack" style="gap:6px">${[["fl","Flexiones seguidas (máximo)"],["se","Sentadillas en 1 minuto"],["pl","Segundos de plancha"]].map(([k,l])=>`<label class="fccr"><span>${l}</span><input class="field" type="number" min="0" max="300" inputmode="numeric" data-rxtext="${key}.${k}" value="${esc(T[k]||"")}" style="max-width:90px"></label>`).join("")}</div>`}
+Object.assign(RX,{
+ "MOV-01":{t:"Un minuto al volver del paseo: dos números y un toque.",mov:"El paseo, sin mirar el móvil. Puntúa al volver.",
+  pasos:[["Antes de salir","Fíjate en cómo estás de ánimo, del 0 al 10."],["Camina","Unos 20 minutos a paso rápido: que notes que respiras un poco más fuerte, pero puedas hablar."],["Al volver","Apunta tu ánimo de antes y el de ahora. El día 7, la app te dice cuánto te sube moverte."]],
+  dato:a=>{const E=rxE(a),D=E.map(e=>(+e.v[1])-(+e.v[0])).filter(x=>!isNaN(x));if(!D.length)return "No hay paseos apuntados esta semana.";const m=avgN(D);return m>0?`Caminar te sube el ánimo una media de ${n1(m)} puntos (en ${D.length} ${D.length===1?"paseo":"paseos"}). Es tu dato, no el de un estudio.`:`Esta semana tu ánimo no cambió mucho al caminar (${n1(m)}). Prueba otra hora del día o con alguien.`}},
+ "MOV-02":{t:"Un minuto hoy para reconstruir tu semana; después, un toque cada noche.",
+  pasos:[["Reconstruye","Hoy marcas cuánto te moviste cada día de la semana pasada. La app lo suma y lo compara con lo recomendado: 60 minutos al día, 420 a la semana."],["Elige 2 huecos","Escoges dos formas de recuperar minutos, por ejemplo ir andando a clase."],["Recupéralos","Cada noche marcas cuánto te moviste. El día 7, comparas con tu semana anterior."]],
+  setup:a=>{const B=(a.x||{}).base||{},DS=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"],O=[0,15,30,45,60,90],tot=DS.reduce((t,d,i)=>t+(+B["d"+i]||0),0),HU=String((a.x||{}).hu||"").split("|").filter(Boolean);
+   return `<p class="rglab">La semana pasada, ¿cuántos minutos te moviste cada día?</p><div class="stack" style="gap:4px">${DS.map((d,i)=>`<div class="movd"><span>${d}</span><div class="rgchips">${O.map(m=>`<button type="button" data-rxset="base.d${i}|${m}" aria-pressed="${(+B["d"+i]||0)===m&&B["d"+i]!=null}">${m}</button>`).join("")}</div></div>`).join("")}</div>
+    <div class="movbar"><i style="width:${Math.min(100,tot/420*100)}%"></i><span>${tot} de 420 minutos</span></div><p style="margin:0">${tot>=420?"¡Llegas a lo recomendado! Ahora el reto es mantenerlo.":`Te faltan <b>${420-tot} minutos</b> a la semana.`}</p>
+    <p class="rglab">Elige 2 huecos para recuperar minutos:</p><div class="rgchips">${MOVHU.map(h=>`<button type="button" data-rxtog="hu|${esc(h)}" aria-pressed="${HU.includes(h)}">${esc(h)}</button>`).join("")}</div>`},
+  ok:a=>Object.keys((a.x||{}).base||{}).length>=7&&String((a.x||{}).hu||"").split("|").filter(Boolean).length>=1,
+  dato:a=>{const B=(a.x||{}).base||{},t0=Object.values(B).reduce((t,v)=>t+(+v||0),0),E=rxE(a),t1=Math.round(E.reduce((t,e)=>t+(movMid[e.v[0]]||0),0)*7/Math.max(1,E.length)),hu=E.filter(e=>e.v[1]==="Sí").length;
+   return `La semana pasada te moviste unos ${t0} minutos; esta semana, a este ritmo, unos ${t1}${t1>=420?": ¡llegas a lo recomendado!":"."} Usaste tus huecos ${hu} ${hu===1?"día":"días"}.`}},
+ "MOV-03":{t:"Hoy, 5 minutos para el test. Cada día, un toque.",mov:"Durante el circuito, el móvil solo como reloj. O apréndete el circuito de memoria.",
+  pasos:[["Test inicial","Hoy cuentas cuántas flexiones seguidas haces, cuántas sentadillas en 1 minuto y cuántos segundos aguantas la plancha."],["Entrena","Haz el circuito de 15 minutos 2 o 3 días; los demás, descanso. "+MOVCIR],["Test final","El día 7 repites el test y ves tu mejora en números."]],
+  setup:a=>{const n=dayN(),fin=n>=6;return `<p class="rglab">${fin?"Test final: repite las mismas pruebas":"Test inicial: apunta tus números de hoy"}</p>${movTest(a,fin?"t1":"t0")}<p class="muted" style="font-size:.8rem;margin:0">Hazlo antes de entrenar, con calma y sin forzar. Si te duele algo, para.</p>`},
+  ok:a=>{const T=(a.x||{}).t0||{};return !!(T.fl||T.se||T.pl)},
+  dato:a=>{const A=(a.x||{}).t0||{},B=(a.x||{}).t1||{},L=[["fl","flexiones"],["se","sentadillas"],["pl","segundos de plancha"]].filter(([k])=>A[k]&&B[k]);if(!L.length)return "Repite el test el día 7 para ver tu mejora en números.";
+   return "Tu mejora: "+L.map(([k,l])=>`${l}: de ${A[k]} a ${B[k]}`).join(" · ")+"."}},
+ "MOV-04":{t:"Por la noche, un toque: cuántas veces te levantaste.",mov:"Mientras estudias, el móvil lejos. Al levantarte, puedes pedir un desafío o elegir uno de memoria.",
+  pasos:[["Estudia","Cuando acabes un tema o lleves unos 45 minutos sentado, levántate."],["Desafío","Haz un desafío de 2 minutos: la app te da uno al azar o eliges uno de la lista."],["Cuenta","Por la noche apuntas cuántas veces rompiste la silla. El día 7, tu total."]],
+  dato:a=>{const E=rxE(a),M={"1 o 2":1.5,"3 o 4":3.5,"5 o más":5},n=Math.round(E.reduce((t,e)=>t+(M[e.v[0]]||0),0));return n?`Esta semana has roto la silla unas ${n} veces. Son ${n*2} minutos de movimiento que antes pasabas sentado.`:"No hay días apuntados esta semana."}},
+ "MOV-05":{t:"Hoy, un minuto para elegir. Cada día, un toque.",
+  pasos:[["Elige","Una actividad que te apetezca probar: una clase gratis, una ruta, un deporte con amigos."],["Ponle hora","Día, hora y con quién. Con compañero cuesta mucho menos faltar."],["Pruébala","Ve, y el día 7 decide si se queda en tu vida."]],
+  setup:a=>{const x=a.x||{};return `<p class="rglab">¿Qué actividad vas a probar?</p><div class="rgchips">${["Escalada","Baile","Natación","Correr con alguien","Fútbol o básquet","Patinar","Senderismo","Yoga"].map(v=>`<button type="button" data-rxset="act|${v}" aria-pressed="${x.act===v}">${v}</button>`).join("")}</div>
+   <div class="row" style="gap:8px;flex-wrap:wrap"><input class="field" data-rxtext="dia" placeholder="Día y hora (ej.: jueves 18:00)" value="${esc(x.dia||"")}" style="flex:1;min-width:160px"><input class="field" data-rxtext="con" placeholder="¿Con quién?" value="${esc(x.con||"")}" style="flex:1;min-width:120px"></div>`},
+  ok:a=>!!((a.x||{}).act&&(a.x||{}).dia),
+  dato:a=>{const x=a.x||{},E=rxE(a),g=avgN(E.map(e=>+e.v[1]).filter(v=>!isNaN(v))),n=E.filter(e=>/^He hecho/.test(e.v[0])).length;return `Probaste ${x.act?x.act.toLowerCase():"tu actividad"} ${n} ${n===1?"vez":"veces"}${g!=null?` y te gustó un ${n1(g)} de media`:""}.${g>=6?" Tiene pinta de que se queda en tu vida.":" Si no te ha enganchado, prueba otra: lo importante es encontrar la tuya."}`}},
+ "MOV-06":{t:"Un toque al día: entrenaste o descansaste, y tus agujetas.",
+  pasos:[["Entrena con reserva","En cada serie, para cuando notes que solo podrías hacer dos repeticiones más."],["Mide las agujetas","Al día siguiente marcas cuántas agujetas tienes, del 0 al 10."],["Descubre","El día 7 comparas cuánto entrenaste y cuánto te dolió."]],
+  dato:a=>{const E=rxE(a),n=E.filter(e=>/^He entrenado/.test(e.v[0])).length,ag=avgN(E.map(e=>+e.v[1]).filter(v=>!isNaN(v)));return `Entrenaste ${n} ${n===1?"día":"días"} con agujetas de ${ag!=null?n1(ag):"?"} de media. ${ag!=null&&ag<=4?"Avanzar no tiene que doler: la constancia gana a la paliza.":"Si las agujetas siguen altas, deja todavía más reserva."}`}}});
+function sillaBox(){const c=S.silla!=null?MOVCH[S.silla]:null;return `<div class="sillabox">${c?`<p class="sillach">🎲 ${esc(c)}</p>`:""}<button class="btn ghost" data-act="silla-roll" style="width:100%">${c?"Otro desafío":"🎲 Dame un desafío de 2 minutos"}</button></div>`}
 function rxSetup(c){const X=RX[c.id];if(!X||!X.setup||!S.active)return "";return `<div class="rxsetup"><p class="eyebrow" style="margin:0">Antes de empezar</p>${X.setup(S.active)}</div>`}
 
 function retoGap(){const a=S.active;if(!a)return 0;const ks=Object.keys(a.log).sort(),last=ks.length?ks[ks.length-1]:addDays(a.start,-1);return Math.max(0,diff(last,today())-1)}
@@ -2260,7 +2326,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017114317";
+const APP_V="20261017114841";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -2268,7 +2334,8 @@ const DIAG={};let noticeOpenAt=0;
 function diagHit(k,fast){DIAG[k]=fast?(DIAG[k]||0)+1:0;return DIAG[k]>=2}
 const DIAGTXT={test:"Estás respondiendo muy rápido. Dedica unos segundos a cada frase y piensa en ti de verdad. Confía en mí: necesito tu sinceridad para trazar tu mapa. Si respondes sin pensar, te mandaré a tierras que no necesitas.",quiz:"Has contestado dos preguntas en un suspiro. Lee las tres respuestas antes de elegir: se parecen a propósito."};
 const diagBox=k=>k==="test"?`<div class="diag" role="alert">🪞 <b>Más despacio, viajero.</b> ${DIAGTXT[k]}</div>`:`<div class="diag" role="alert">👀 <b>No leas en diagonal.</b> ${DIAGTXT[k]}</div>`;
-document.addEventListener("change",e=>{const t=e.target;if(t.dataset&&t.dataset.rxtime&&S.active){S.active.x=S.active.x||{};S.active.x[t.dataset.rxtime]=t.value;save();render();return}if(t.dataset&&t.dataset.crt){const [g,k]=t.dataset.crt.split(":");S.crono[g]=S.crono[g]||{};S.crono[g][k]=t.value;store.set("crono",S.crono);const y=window.scrollY;render();window.scrollTo(0,y);return}if(t.dataset&&t.dataset.cap==="f"){const c=S.capr[+t.dataset.i];if(c){c.f=t.value;capSave();render()}}
+document.addEventListener("change",e=>{const t=e.target;if(t.dataset&&t.dataset.rxtext!=null&&S.active){S.active.x=S.active.x||{};const k=t.dataset.rxtext;if(k.includes(".")){const [a0,b0]=k.split(".");S.active.x[a0]=S.active.x[a0]||{};S.active.x[a0][b0]=t.value.trim()}else S.active.x[k]=t.value.trim();save();setTimeout(render,0);return}
+  if(t.dataset&&t.dataset.rxtime&&S.active){S.active.x=S.active.x||{};S.active.x[t.dataset.rxtime]=t.value;save();setTimeout(render,0);return}if(t.dataset&&t.dataset.crt){const [g,k]=t.dataset.crt.split(":");S.crono[g]=S.crono[g]||{};S.crono[g][k]=t.value;store.set("crono",S.crono);const y=window.scrollY;render();window.scrollTo(0,y);return}if(t.dataset&&t.dataset.cap==="f"){const c=S.capr[+t.dataset.i];if(c){c.f=t.value;capSave();render()}}
   if(t.dataset&&t.dataset.cap==="p"){const c=S.capr[+t.dataset.i];if(c)t.value=eur2(c.p)}});
 document.addEventListener("toggle",e=>{if(e.target.classList&&e.target.classList.contains("notice")&&e.target.open)noticeOpenAt=Date.now()},true);
 function vTest(){
@@ -4966,7 +5033,8 @@ document.addEventListener("click",e=>{
   if(d.rgc){const [i,v]=d.rgc.split("|");const inp=document.getElementById("rg"+i);if(inp)inp.value=v;t.parentNode.querySelectorAll("[data-rgc]").forEach(b=>b.setAttribute("aria-pressed",b===t?"true":"false"));return}
   if(d.swap){if(dl.open)dl.close();finishReto("skip");S.swap=false;S.more=false;startReto(d.swap);return}
   if(d.start){if(dl.open)dl.close();S.more=false;startReto(d.start);return}
-  if(d.rxset){if(!S.active)return;const [k,v]=d.rxset.split("|");S.active.x=S.active.x||{};S.active.x[k]=v;save();render();return}
+  if(d.rxset){if(!S.active)return;const [k,v]=d.rxset.split("|");S.active.x=S.active.x||{};if(k.includes(".")){const [a0,b0]=k.split(".");S.active.x[a0]=S.active.x[a0]||{};S.active.x[a0][b0]=v}else S.active.x[k]=v;save();render();return}
+  if(d.rxtog){if(!S.active)return;const [k,v]=d.rxtog.split("|");S.active.x=S.active.x||{};const L=String(S.active.x[k]||"").split("|").filter(Boolean);S.active.x[k]=(L.includes(v)?L.filter(x=>x!==v):L.concat(v)).join("|");save();render();return}
   if(d.rxinc){if(!S.active)return;const [k,v]=d.rxinc.split("|"),[a0,b0]=k.split(".");S.active.x=S.active.x||{};const o=S.active.x[a0]=S.active.x[a0]||{};o[b0]=Math.max(0,Math.min(9,(+o[b0]||0)+ +v));save();render();return}
   if(d.logd){if(!S.active)return;const [dy,v]=d.logd.split(":");if(dy>=S.active.start&&dy<today()){S.active.log[dy]=v;save();toast(v==="si"?"+10 · Ayer apuntado":v==="poco"?"+6 · Ayer apuntado":"Apuntado. Gracias por ser sincero");render()}return}
   if(d.dial){const [k,v]=d.dial.split("|");S.g.dial=S.g.dial||{};S.g.dial[k]=+v;store.set("game",S.g);t.closest(".dialr").querySelectorAll(".dialb").forEach(b=>{const on=b===t;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});return}
@@ -5168,6 +5236,7 @@ document.addEventListener("click",e=>{
   const first=!rgEntries(id,day,day).length;S.diario.push({id,d:day,t:Date.now(),v:vals});if(first)S.active.log[day]="si";S.rgMore=false;if(day!==today())S.rgDay=null;save();toast(first?"+10 · Guardado en tu diario":"Guardado en tu diario");render()}
 else if(act==="lab-open"){labOpen()}
   else if(act==="rf-open"){rfOpen()}
+  else if(act==="silla-roll"){let n;do{n=Math.floor(Math.random()*MOVCH.length)}while(n===S.silla&&MOVCH.length>1);S.silla=n;render()}
   else if(act==="mw-ctr"){S._mwC=0;try{mwScale()}catch(e){}}
   else if(act==="snd-tog"){S.g.snd=S.g.snd===false;store.set("game",S.g);try{bgmSet(bgmWant())}catch(e){}toast(S.g.snd===false?"Música apagada":"Música encendida");render()}
   else if(act==="rf-use"){dl.close();render()}
