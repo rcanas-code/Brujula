@@ -1157,6 +1157,25 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 @keyframes m2bd{0%{transform:translate(-30px,0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translate(60px,-14px);opacity:0}}
 .m2sant{z-index:2}
 @media (prefers-reduced-motion:reduce){.m2glow,.m2twk,.m2fire,.m2rot,.m2spin,.m2beam,.m2boat,.m2drop,.m2flag,.m2cloud,.m2bird,.m2n.guia,.m2base.s:after,.m2flag:after{animation:none}}
+/* === Acabado RPG común (v199): mismas piezas en todas las pantallas === */
+.backbar{background:var(--surface)!important;color:var(--ink)!important;border:2px solid var(--px-ink)!important;box-shadow:0 4px 0 var(--px-ink)!important;border-radius:4px!important;font-family:var(--pxf)}
+.backbar:active{transform:translateY(3px);box-shadow:0 1px 0 var(--px-ink)!important}
+.yolink{border-radius:4px!important;border:2px solid var(--px-ink)!important;background:var(--surface)!important;color:var(--ink)!important;box-shadow:0 3px 0 var(--px-ink);font-family:var(--pxf);font-weight:700;font-size:.72rem;padding:7px 10px;white-space:nowrap}
+.yolink:active{transform:translateY(2px);box-shadow:0 1px 0 var(--px-ink)}
+.chip,.lv,.rarea,.sesgotag{border-radius:2px!important}
+.chip .dot{border-radius:0!important}
+.cic{border-radius:4px!important}
+.pjwrap{border-radius:4px!important}
+.challenge{border-radius:4px!important;border:2px solid var(--px-ink)}
+.phone.phone{border-radius:4px!important;border:2px solid var(--px-ink)!important;box-shadow:4px 4px 0 var(--px-sh,#000)}
+.cc.cc{border-left:6px solid hsl(var(--h,210) 55% 52%)!important}
+.cc .okchip,.cc .sesgotag{align-self:flex-start}
+.okchip.af{margin-left:0}
+.hpage.hpage{background:var(--surface)!important;color:var(--ink)!important;border:2px solid var(--px-ink)!important}
+.hpage small{color:var(--muted);opacity:1}
+.yi,.hpi{flex:none;width:38px;height:38px;display:grid;place-items:center;font-size:1.25rem!important;background:var(--bg);border:2px solid var(--px-ink);border-radius:4px;box-shadow:inset -2px -2px 0 rgba(0,0,0,.25)}
+.totop{border-radius:4px!important;background:var(--surface)!important;color:var(--ink)!important;border:2px solid var(--px-ink)!important;box-shadow:0 4px 0 var(--px-ink)!important;font-family:var(--pxf);font-size:.72rem!important;padding:8px 12px!important}
+.dlgback button{border-radius:4px!important;border:2px solid var(--px-ink)!important;color:var(--ink)!important;box-shadow:0 3px 0 var(--px-ink);font-family:var(--pxf);font-size:.72rem!important;padding:7px 12px!important}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -2854,7 +2873,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017182910";
+const APP_V="20261017185623";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -4712,7 +4731,7 @@ function yoDash(){
      <div class="yobtns"><button class="yob" data-go="personaje">🎮 Mi personaje</button><button class="yob" data-act="yo-av">✏️ Editar perfil</button></div></div></div>
    <div class="yostrip"><span>🔥 <b>${streak()}</b> racha</span><span>🏆 <b>${nb+np+no}</b>/15</span><span>🗺️ <b>${R.size}</b>/19</span><span>📖 <b>${ld}</b> leídas</span></div>
    <div class="yoqs">
-    ${qt("🏆","Mi colección",`${trSVG("copa","bronce",1)} ${nb} · ${trSVG("copa","plata",1)} ${np} · ${trSVG("copa","oro",1)} ${no}`,'data-go="coleccion"',"#C9A227")}
+    ${qt("🏆","Mi colección",`${trSVG("copa","bronce",2)} ${nb} · ${trSVG("copa","plata",2)} ${np} · ${trSVG("copa","oro",2)} ${no}`,'data-go="coleccion"',"#C9A227")}
     ${qt("🗺️","Mi hoja de personaje","Lo que vio el Espejo",'data-go="mapa"',"#14506B")}
     ${qt("🎮","Configuración","Letra, sonido, texto…",'data-act="yo-open" data-v="cfgjuego"',"#6B4FA0")}
     ${qt("⚙️","Ajustes","Clase, copia, compartir",'data-act="yo-open" data-v="ajustes"',"#5B6B7A")}
