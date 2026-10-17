@@ -934,6 +934,14 @@ body.inintro .qbtn,body.inintro .helpbtn{display:none!important}
 .dnew{animation:dnpop .5s ease-out}@keyframes dnpop{0%{transform:scale(.9);opacity:0}100%{transform:none;opacity:1}}
 .mwn.dim{filter:grayscale(.7) brightness(.7)}
 .gbspr svg{image-rendering:pixelated;display:block}
+
+.fcintro{display:grid;gap:10px}
+.fci{display:flex;gap:10px;align-items:flex-start;padding:10px;border:2px solid var(--line);background:var(--surface)}
+.fci p{margin:2px 0 0;font-size:.9rem;line-height:1.45}.fci .pxchip{flex:none}
+.fcaway{padding:12px;border:3px solid var(--px-ink);background:#FFF6E0;color:#3a2a00;box-shadow:3px 3px 0 var(--px-sh)}.fcaway p{margin:6px 0 0;font-size:.92rem}
+.fccnt{display:grid;gap:8px}.fccr{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;border:2px solid var(--line);font-size:.9rem}
+.fccn{min-width:24px;text-align:center;font-size:1.1rem}
+.fccr>span{flex:1;min-width:0}.fccr .row{flex-wrap:nowrap;flex:none}.fccr .btn.sm{min-width:38px;padding:6px 0}
 </style>
 
 <div id="scr"><div class="wrap">
@@ -2126,7 +2134,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a alumnado de 16 a 18 años a aprender lo que casi nunca se explica en clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada alumno.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261017111505";
+const APP_V="20261017113033";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑ Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -4702,16 +4710,27 @@ function focoBanner(){const F=S.foco;if(!F||F.st!==4)return "";const m=Math.ceil
 function focoTick(){clearInterval(FOCOT);if(!S.foco||S.foco.st!==4)return;FOCOT=setInterval(()=>{const F=S.foco;if(!F||F.st!==4){clearInterval(FOCOT);return}const l=focoLeft(),el=document.getElementById("fctime");if(el)el.textContent=`${String(Math.floor(l/60)).padStart(2,"0")}:${String(l%60).padStart(2,"0")}`;
   if(l<=0){clearInterval(FOCOT);F.st=5;focoSave();try{const c=new (window.AudioContext||window.webkitAudioContext)();[0,.25,.5].forEach(t=>{const o=c.createOscillator(),g=c.createGain();o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(c.destination);o.start(c.currentTime+t);o.stop(c.currentTime+t+.15)})}catch(e){}
    const dl=document.getElementById("dlg");if(dl.open&&dl.querySelector(".foco"))focoDraw();else{toast("🎯 ¡Tiempo! Cierra tu sesión de foco");render()}}},500)}
-function focoOpen(){if(!S.foco)S.foco={st:1,res:"",dur:25,steps:["","",""],sd:[],env:[],f:0,d:0};focoDraw()}
+function focoOpen(){if(!S.foco)S.foco={st:S.g.fcIntro?1:0,res:"",dur:25,steps:["","",""],sd:[],env:[],f:0,d:0};focoDraw()}
 function focoRead(){const F=S.foco;if(F.st===1){const e=document.getElementById("fcres");if(e)F.res=e.value.trim()}if(F.st===2)F.steps=F.steps.map((x,i)=>{const e=document.getElementById("fcs"+i);return e?e.value.trim():x})}
 function focoDraw(){const dl=document.getElementById("dlg"),F=S.foco,a=AREAS[AK.ATE];let b="";
   const bar=`<div class="steps3 fsteps">${["Resultado","Pasos","Entorno","Foco","Cierre"].map((x,k)=>`<div class="${k+1===F.st?"on":k+1<F.st?"done":""}"><b>${k+1}</b><span>${x}</span></div>`).join("")}</div>`;
-  if(F.st===1)b=`<h2>¿Qué quieres tener hecho al acabar?</h2><p class="muted" style="margin:0">Un resultado que se pueda comprobar. «Estudiar mates» no vale: ¿cuándo sabrías que has terminado?</p>
+  if(F.st===0)b=`<h2>Cómo funciona una sesión de foco</h2>
+   <p style="margin:0">Vas a trabajar <b>25 minutos seguidos sin el móvil</b> en una sola tarea. Antes, la app te ayuda a prepararla en 2 minutos. Son 5 pasos. Mira cómo lo hizo Lucía:</p>
+   <div class="fcintro">
+    <div class="fci"><span class="pxchip">1</span><div><b>Resultado: qué tendrás hecho</b><p>Lucía no escribió «estudiar mates», sino <b>«terminar los ejercicios 1 a 6 de mates»</b>. Así sabe cuándo ha acabado.</p></div></div>
+    <div class="fci"><span class="pxchip">2</span><div><b>Pasos: trocéalo</b><p>1. Repasar la teoría (5 min). 2. Ejercicios 1 a 3. 3. Ejercicios 4 a 6. Así no tiene que pensar qué toca después.</p></div></div>
+    <div class="fci"><span class="pxchip">3</span><div><b>Entorno: fuera tentaciones</b><p>Deja el móvil en el salón, se pone agua al lado y tiene los apuntes abiertos. Lo marca en la app.</p></div></div>
+    <div class="fci"><span class="pxchip">4</span><div><b>Foco: 25 minutos sin móvil</b><p>Pone un temporizador de cocina (o mira el reloj) y se va al escritorio. Cada vez que se distrae, hace un <b>palito en un papel</b> y vuelve a lo suyo. Le salieron 3.</p></div></div>
+    <div class="fci"><span class="pxchip">5</span><div><b>Cierre: vuelve y apúntalo</b><p>Recoge el móvil, marca que lo ha conseguido «a medias», mete sus 3 palitos y deja una nota: «Me falta el 6». Mañana sabe por dónde seguir.</p></div></div>
+   </div>
+   <p class="muted" style="font-size:.85rem;margin:0">⏱️ En la app: 2 minutos antes y 1 minuto después. El resto, sin pantalla.</p>
+   <button class="btn" data-act="foco-intro-ok" style="width:100%">Entendido: empezar mi sesión ▶</button>`;
+  else if(F.st===1)b=`<h2>¿Qué quieres tener hecho al acabar?</h2><p class="muted" style="margin:0">Un resultado que se pueda comprobar. «Estudiar mates» no vale: ¿cuándo sabrías que has terminado?</p>
    <input class="field" id="fcres" maxlength="120" placeholder="Ej.: terminar los ejercicios 1 a 6 de mates" value="${esc(F.res)}">
    <div class="fcex"><span class="muted">❌ Estudiar historia</span><span>✅ Hacer el esquema del tema 3</span><span class="muted">❌ Trabajar en el proyecto</span><span>✅ Escribir la introducción</span></div>
    <p class="rglab">¿Cuánto tiempo?</p><div class="rgchips">${[25,45,60].map(m=>`<button type="button" data-act="foco-dur" data-v="${m}" aria-pressed="${F.dur===m}">${m} min</button>`).join("")}</div>
    <p class="muted" style="font-size:.82rem;margin:0">Si es tu primera vez, empieza con 25. Mejor una sesión corta que cumples que una larga que abandonas.</p>
-   <button class="btn" data-act="foco-next" style="width:100%">Siguiente: los pasos</button>`;
+   <button class="btn" data-act="foco-next" style="width:100%">Siguiente: los pasos</button><button class="linkbtn" data-act="foco-howto">¿Cómo funciona? Ver el ejemplo de Lucía</button>`;
   else if(F.st===2)b=`<h2>Divídelo en pasos pequeños</h2><p class="muted" style="margin:0">Así no tendrás que pensar qué toca después: solo seguir la lista. Tienes ${F.dur} minutos para: <b>${esc(F.res)}</b>.</p>
    ${F.steps.map((x,i)=>`<input class="field" id="fcs${i}" maxlength="80" placeholder="${["Paso 1. Ej.: repasar la teoría (5 min)","Paso 2. Ej.: ejercicios 1 a 3 (10 min)","Paso 3. Ej.: ejercicios 4 a 6 (10 min)","Paso 4","Paso 5"][i]}" value="${esc(x)}">`).join("")}
    ${F.steps.length<5?`<button class="linkbtn" data-act="foco-addstep">+ Añadir un paso</button>`:""}
@@ -4722,9 +4741,9 @@ function focoDraw(){const dl=document.getElementById("dlg"),F=S.foco,a=AREAS[AK.
    <div class="row"><button class="btn ghost" data-act="foco-back">Atrás</button><button class="btn" data-act="foco-start" style="flex:1">▶ Empezar ${F.dur} minutos</button></div>`;
   else if(F.st===4){const l=focoLeft();b=`<p class="eyebrow" style="margin:0;text-align:center">Tu objetivo</p><h2 style="text-align:center;margin:0">${esc(F.res)}</h2><div class="fctime" id="fctime">${String(Math.floor(l/60)).padStart(2,"0")}:${String(l%60).padStart(2,"0")}</div>
    <div class="stack" style="gap:6px">${F.steps.filter(Boolean).map((x,i)=>`<button class="fenv" data-act="foco-tick" data-v="${i}" aria-pressed="${F.sd.includes(i)}">${F.sd.includes(i)?"✅":"⬜"} ${esc(x)}</button>`).join("")}</div>
-   <p class="rglab">¿Te has distraído? Apúntalo y vuelve a lo tuyo:</p><div class="row" style="gap:8px"><button class="btn ghost" data-act="foco-int" data-v="f" style="flex:1;padding:8px">🔔 De fuera · <b>${F.f}</b></button><button class="btn ghost" data-act="foco-int" data-v="d" style="flex:1;padding:8px">🙋 Lo busqué yo · <b>${F.d}</b></button></div>
-   <p class="muted" style="font-size:.8rem;margin:0">Puedes cerrar esta ventana: el tiempo sigue contando y te avisaré al acabar.</p><button class="linkbtn" data-act="foco-stop">Terminar antes</button>`}
-  else if(F.st===5)b=`<h2>¡Sesión terminada!</h2><p class="rglab">¿Has conseguido «${esc(F.res)}»?</p><div class="rgchips">${["Sí","A medias","No"].map(x=>`<button type="button" data-act="foco-ok" data-v="${x}" aria-pressed="${F.ok===x}">${x}</button>`).join("")}</div>
+   <div class="fcaway"><b>📵 Ahora deja el móvil fuera de tu vista.</b><p>Terminas a las <b>${new Date(F.end).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"})}</b>: ponte un temporizador de cocina o mira el reloj. Si te distraes, haz un palito en un papel y vuelve a lo tuyo. Cuando acabes, vuelve aquí para cerrar.</p></div>
+   <p class="muted" style="font-size:.8rem;margin:0">Puedes cerrar la app: el tiempo sigue contando.</p><button class="linkbtn" data-act="foco-stop">Terminar antes</button>`}
+  else if(F.st===5)b=`<h2>¡Sesión terminada!</h2><p class="rglab">¿Cuántos palitos hiciste en tu papel?</p><div class="fccnt">${[["f","🔔 Me distrajo algo de fuera"],["d","🙋 Lo busqué yo"]].map(([k,l])=>`<div class="fccr"><span>${l}</span><div class="row" style="gap:6px;align-items:center"><button class="btn ghost sm" data-act="foco-dec" data-v="${k}" aria-label="Menos">−</button><b class="fccn">${F[k]}</b><button class="btn ghost sm" data-act="foco-int" data-v="${k}" aria-label="Más">+</button></div></div>`).join("")}</div><p class="muted" style="font-size:.8rem;margin:0">¿Sin papel? Pon los que recuerdes.</p><p class="rglab">¿Has conseguido «${esc(F.res)}»?</p><div class="rgchips">${["Sí","A medias","No"].map(x=>`<button type="button" data-act="foco-ok" data-v="${x}" aria-pressed="${F.ok===x}">${x}</button>`).join("")}</div>
    <p class="rglab">Nota de cierre: dónde lo dejas y cuál es el siguiente paso</p><p class="muted" style="font-size:.82rem;margin:0">Así tu cabeza puede soltarlo y mañana no tendrás que reconstruir por dónde ibas.</p>
    <textarea class="field" id="fcnote" rows="2" maxlength="300" placeholder="Ej.: he hecho del 1 al 5; falta el 6 y corregir el 3" style="min-height:0">${esc(F.note||"")}</textarea>
    ${F.ok==="A medias"||F.ok==="No"?`<p class="muted" style="font-size:.85rem;margin:0">No pasa nada: es información. ¿El objetivo era muy grande, te faltaba algo o hubo interrupciones? Ajústalo en la próxima.</p>`:""}
@@ -4741,7 +4760,10 @@ function focoAct(act,v){const F=S.foco;if(!F)return;focoRead();
   else if(act==="foco-env"){const i=+v;F.env=F.env.includes(i)?F.env.filter(x=>x!==i):F.env.concat(i)}
   else if(act==="foco-start"){if(!F.env.includes(0)){toast("Primero, el móvil fuera de tu vista");return}F.st=4;F.end=Date.now()+F.dur*60000;F.t0=Date.now()}
   else if(act==="foco-tick"){const i=+v;F.sd=F.sd.includes(i)?F.sd.filter(x=>x!==i):F.sd.concat(i)}
-  else if(act==="foco-int"){F[v]++;toast(v==="f"?"Apuntado. Vuelve a tu paso":"Apuntado. ¿Te habías atascado? Haz más pequeño el paso")}
+  else if(act==="foco-int"){F[v]++}
+  else if(act==="foco-dec"){F[v]=Math.max(0,F[v]-1)}
+  else if(act==="foco-intro-ok"){S.g.fcIntro=1;store.set("game",S.g);F.st=1}
+  else if(act==="foco-howto"){F.st=0}
   else if(act==="foco-stop"){if(!confirm("¿Terminar la sesión antes de tiempo?"))return;F.st=5;F.real=Math.round((Date.now()-F.t0)/60000)}
   else if(act==="foco-ok"){const e=document.getElementById("fcnote");if(e)F.note=e.value;F.ok=v}
   else if(act==="foco-save"){const e=document.getElementById("fcnote");F.note=e?e.value.trim():"";if(!F.ok){toast("Marca si lo has conseguido");return}if(!F.note){toast("Escribe tu nota de cierre");return}
