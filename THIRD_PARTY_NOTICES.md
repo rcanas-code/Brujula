@@ -1,6 +1,6 @@
 # Avisos de terceros
 
-Brújula incluye o enlaza los siguientes elementos que **no** son obra propia. Los elementos propios están cubiertos por [LICENSE](LICENSE).
+Brújula incluye o enlaza los siguientes elementos que **no** son obra propia. Los elementos propios están cubiertos por [LICENSE](LICENSE). Este archivo acompaña también a la versión publicada (rama `main` y `candidata/`); las fuentes de la carpeta `candidata/fonts/` son las mismas y llevan los mismos avisos.
 
 ## 1. Elementos de terceros incluidos en la aplicación
 
@@ -21,7 +21,7 @@ Las seis familias se sirven desde `fonts/` en formato WOFF2. Se ha verificado (1
 
 ## 2. Contenido de terceros enlazado (no incluido)
 
-La aplicación enlaza unas 160 páginas y vídeos externos (organismos oficiales, artículos, charlas TED, YouTube). No reproduce su contenido: solo enlaza y cita. Sus titulares conservan todos los derechos. La lista completa, con el estado de verificación de cada enlace, está en [docs/recursos-externos.csv](docs/recursos-externos.csv).
+La aplicación enlaza unas 160 páginas y vídeos externos (organismos oficiales, artículos, charlas TED, YouTube). No reproduce su contenido: solo enlaza y cita. Sus titulares conservan todos los derechos. La lista completa, con el estado de verificación de cada enlace, está en [docs/recursos-externos.csv](https://github.com/rcanas-code/Brujula/blob/desarrollo/docs/recursos-externos.csv).
 
 Los nombres de autores, organismos, programas y marcas se citan solo para identificar la fuente.
 
@@ -29,9 +29,9 @@ Los nombres de autores, organismos, programas y marcas se citan solo para identi
 
 | Herramienta | Uso | Licencia |
 |---|---|---|
-| Playwright | Pruebas automatizadas (`tests/`) | Apache-2.0 |
+| Playwright | Pruebas automatizadas (`tests/`, solo en `desarrollo`) | Apache-2.0 |
 | Chromium | Navegador de las pruebas | BSD y otras |
 
 ## 4. Asistencia de IA
 
-Parte del código y de los textos se ha escrito con asistencia de IA (Claude, de Anthropic). Consta en los commits («Co-Authored-By»). Cómo afecta esto a la titularidad está pendiente de valorar (ver [docs/legal/propiedad-intelectual.md](docs/legal/propiedad-intelectual.md)).
+Parte del código y de los textos se ha escrito con asistencia de IA (Claude, de Anthropic). Consta en los commits («Co-Authored-By»). Cómo afecta esto a la titularidad está pendiente de valorar (ver [docs/legal/propiedad-intelectual.md](https://github.com/rcanas-code/Brujula/blob/desarrollo/docs/legal/propiedad-intelectual.md)).

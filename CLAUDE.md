@@ -23,7 +23,7 @@ Brújula es una aventura educativa pixel art para jóvenes, de Raúl Cañas. Lee
 
 Ramas:
 - `desarrollo`: trabajo diario y documentación.
-- `main`: lo que publica GitHub Pages. Solo recibe `candidata/index.html` (con el nombre de icono «Brújula prueba») y, **con confirmación expresa de Raúl**, `index.html` de los alumnos.
+- `main`: lo que publica GitHub Pages. Solo recibe `candidata/index.html` (con el nombre de icono «Brújula prueba»), los avisos legales obligatorios (`LICENSE`, `THIRD_PARTY_NOTICES.md`, `fonts/OFL-*.txt` y su copia en `candidata/fonts/`) y, **con confirmación expresa de Raúl**, `index.html` de los alumnos.
 - La documentación no se lleva a `main`: GitHub Pages la serviría como página pública.
 - El repositorio es **público**: nada privado, ninguna credencial, ningún dato de alumnos, nada estratégico (DOC-01). Lo privado va a Drive.
 - Commits con el correo «noreply» de GitHub, nunca con un correo personal o institucional (SEC-01).

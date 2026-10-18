@@ -2,7 +2,7 @@
 
 > Organización aprobada (DOC-06, 18/10/2026) con sincronización supervisada al principio. No contiene credenciales: el acceso a Drive se hace desde la cuenta de Raúl, nunca con claves guardadas en el repositorio.
 >
-> **Bloqueo (18/10/2026):** el Google Drive conectado a Claude es la cuenta **institucional** del centro, no una cuenta personal. Por eso la estructura **no se ha creado todavía**: guardar ahí la Biblia (propiedad intelectual, estrategia, copias del proyecto) dejaría el proyecto dentro del espacio de trabajo del Departament. Hace falta que Raúl elija la cuenta (ver «Cuenta de Drive» abajo).
+> **Cuenta decidida (DRV-01, 19/10/2026): la cuenta personal de Raúl.** El Drive conectado hoy a Claude es el del instituto: ahí **no se sube nada**. La estructura queda preparada en este documento y se crea en cuanto la cuenta personal esté conectada en claude.ai (conectores).
 
 ## Reparto de papeles
 

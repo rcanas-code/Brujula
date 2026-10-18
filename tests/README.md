@@ -45,6 +45,7 @@ Los resultados y las capturas quedan en `tests/.out/<etiqueta>/` (no se suben). 
 | `irest` | Restaurar desde el inicio |
 | `lb` | La Aguja recomienda una lectura |
 | `corr` | Corregir respuestas sin duplicar XP |
+| `profe` | Panel del profesor: sin correo por defecto (SEC-01) y la clave se sigue creando igual |
 | `dtest` | Modelo D: 50 comprobaciones (guardián, repaso, misiones, oro, herramientas, semanas activas, etapas) con reloj simulado |
 | `dmig` | Modelo D: 16 comprobaciones de migración, interruptor apagado/encendido y conservación de datos |
 | `dvis` | Modelo D: 22 pantallas a 360 px en claro y oscuro sin desbordes |

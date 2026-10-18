@@ -11,5 +11,6 @@ total o parcialmente, sin autorización escrita del autor.
 Para solicitar permisos: hola.brujula.app@gmail.com
 
 Nota: este aviso indica la autoría declarada. La comprobación de la titularidad
-de cada elemento está documentada, con su estado, en
-docs/legal/propiedad-intelectual.md y docs/recursos-externos.csv.
+de cada elemento está documentada, con su estado, en la rama «desarrollo» del
+repositorio: docs/legal/propiedad-intelectual.md y docs/recursos-externos.csv
+(https://github.com/rcanas-code/Brujula/tree/desarrollo/docs).

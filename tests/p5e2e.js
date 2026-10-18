@@ -4,7 +4,7 @@ const F=APP;
 const errs=[];
 const T=await (await b.newContext({viewport:{width:360,height:760},deviceScaleFactor:2})).newPage();T.on('pageerror',e=>errs.push('T '+e.message));
 await T.goto(F+'?profe');await T.waitForTimeout(300);await T.screenshot({path:'e_t0.png',fullPage:true});
-await T.click('[data-act="pf-new"]');await T.waitForTimeout(500);
+await T.fill('#pfmail','profe.prueba@ejemplo.cat');await T.click('[data-act="pf-new"]');await T.waitForTimeout(500);
 await T.fill('#pfcls','1.º B');await T.click('[data-act="pf-cls"]');await T.waitForTimeout(200);
 const link=await T.evaluate(()=>{const P=pfGet();return pfLink(P,P.cls[0])});
 await T.screenshot({path:'e_t1.png',fullPage:true});
