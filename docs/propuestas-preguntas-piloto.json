@@ -1,0 +1,182 @@
+{
+  "base_commit": "c1efad2363842007aa881e8b21181b27082fa39e",
+  "aplicadas": false,
+  "preguntas": [
+    {
+      "id": "EDU-B-b2",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "EDU-B-b2",
+        "p",
+        "¿Por qué un atracón la víspera da resultado al día siguiente, pero se olvida pronto?",
+        "Porque llena la memoria a corto plazo, que se vacía en pocos días sin repasos.§Sin repasos, la curva del olvido cae rápido.",
+        "Porque al estudiar de noche y cansado, el cerebro no llega a guardar la información.§La hora no es la clave: es que todo se concentra en una sola sesión.",
+        "Porque los nervios del día del examen acaban borrando buena parte de lo estudiado.§Los nervios influyen, pero no explican el olvido de los días siguientes.",
+        "Porque el olvido rápido solo pasa con los temas difíciles; los fáciles se mantienen.§Lo concentrado se olvida pronto en cualquier tema."
+      ],
+      "propuesta": [
+        "EDU-B-b2",
+        "p",
+        "¿Por qué conviene volver a estudiar un tema en días distintos, en vez de concentrarlo todo la víspera?",
+        "Porque permite volver a recuperar lo aprendido después de un intervalo y comprobar qué necesita repaso.§Una sesión puede producir aprendizaje; repartir la práctica suele favorecer que se mantenga.",
+        "Porque lo aprendido la víspera se guarda solo en una memoria que dura varios días.§Recordar al día siguiente no es mantener información en la memoria a corto plazo.",
+        "Porque al esperar unos días el cerebro completa automáticamente lo que no has entendido.§El paso del tiempo no sustituye comprender, practicar y corregir errores.",
+        "Porque cada sesión debe repetirse exactamente a la misma hora para fijar el tema.§Lo relevante aquí es separar oportunidades de aprendizaje, no una hora obligatoria."
+      ]
+    },
+    {
+      "id": "ATE-A-b2",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "ATE-A-b2",
+        "c",
+        "Iván estudia Electrotecnia con el móvil boca abajo y en silencio sobre la mesa. Dice que así no le distrae porque no lo toca. ¿Qué sabemos de esa situación?",
+        "Aunque no lo toque, tenerlo cerca le resta atención; rendiría más con el móvil en otra habitación.§En el experimento de Ward (2017), solo tener el móvil cerca, en silencio, ya empeoraba la atención.",
+        "Si está en silencio y boca abajo ya no influye; lo único que importa es no llegar a desbloquearlo.§Es justo el error típico de la lectura: boca abajo sigue robando atención.",
+        "Solo le distraería si le llegan muchos mensajes; con pocos avisos al día no hay ninguna diferencia.§No hace falta que suene: el efecto aparecía con el móvil cerca y en silencio.",
+        "Le iría mejor llevarlo en el bolsillo: así no lo ve encima de la mesa y deja de quitarle concentración.§En el bolsillo también restaba atención; lo que funcionó fue dejarlo en otra habitación."
+      ],
+      "propuesta": [
+        "ATE-A-b2",
+        "c",
+        "Iván estudia con el móvil boca abajo y en silencio. Lo consulta cada vez que un ejercicio se complica. ¿Qué cambio probarías para reducir esas interrupciones?",
+        "Dejarlo fuera de alcance durante un bloque y anotar qué hace cuando se atasca.§Aquí sabemos que lo consulta: reducir ese acceso y preparar el siguiente paso puede ayudar.",
+        "Dejarlo en el bolsillo y consultarlo cada vez que un ejercicio no sale.§Cambia el lugar, pero mantiene la interrupción descrita.",
+        "Mantenerlo en la mesa y leer los mensajes sin contestar ninguno.§Leer los mensajes también interrumpe el ejercicio.",
+        "Cambiar el tono de aviso por uno más suave y seguir consultándolo igual.§El teléfono ya estaba en silencio: ese cambio no aborda el patrón."
+      ]
+    },
+    {
+      "id": "ATE-A-o2",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "ATE-A-o2",
+        "p",
+        "Una compañera dice: «Si dejo el móvil en la mesa boca abajo, es como si no estuviera». ¿Qué le contestarías con lo que sabes?",
+        "Que tenerlo cerca, aunque esté en silencio, ya le resta atención, y que en otra habitación rendiría más.§Es lo que encontró el experimento de Ward (2017).",
+        "Que tiene razón, siempre que además tenga desactivada la vibración para no notar cuando le escriben.§Sin vibración sigue cerca, y eso basta para restar atención.",
+        "Que el problema solo aparece con las notificaciones de redes sociales, no con las del resto de apps.§No hace falta ninguna notificación: el efecto aparecía con el móvil en silencio.",
+        "Que boca abajo funciona bien, pero solo si estudia menos de una hora seguida sin hacer descansos.§La duración no cambia que tenerlo cerca reste atención."
+      ],
+      "propuesta": [
+        "ATE-A-o2",
+        "p",
+        "Una compañera dice: «Un móvil boca abajo siempre reduce la atención, aunque nadie lo mire». ¿Cuál es la respuesta más rigurosa?",
+        "Hay resultados distintos sobre su mera presencia; conviene distinguirlos de las interrupciones al usarlo.§Ward estudió capacidad cognitiva y la investigación posterior no respalda una pérdida universal.",
+        "Ward demostró que cualquier persona pierde atención siempre que tiene el móvil cerca.§Un resultado experimental no permite esa afirmación universal; tampoco equivale a cualquier medida de atención.",
+        "Que esté boca abajo demuestra que nunca podrá influir en ninguna tarea.§Es el absoluto contrario y tampoco se desprende de los datos.",
+        "Si no suena, consultar la pantalla entre ejercicios no tiene ningún coste.§La pregunta sobre mera presencia no elimina el posible coste de interrumpir la tarea."
+      ]
+    },
+    {
+      "id": "HAB-A-b1",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "HAB-A-b1",
+        "p",
+        "Ainhoa lleva tres días sin empezar la memoria de prácticas y dice que es una vaga. ¿Qué lo explica mejor?",
+        "Aplaza para no sentir algo desagradable, como no saber por dónde empezar o el miedo a hacerlo mal.§Es regulación emocional: por eso ayuda un primer paso muy pequeño.",
+        "Le falta fuerza de voluntad, y lo que necesita es exigirse bastante más hasta que se ponga a ello.§Machacarse suele hacer la tarea aún más desagradable.",
+        "No tiene tiempo suficiente para ponerse con un trabajo tan largo como es la memoria de prácticas.§Puede ser, pero tres días sin empezar con tiempo libre apuntan a evitación.",
+        "Trabaja mejor bajo presión y lo deja a propósito para el final, cuando ya no le queda otra opción.§Es una creencia frecuente; casi siempre se rinde peor en el último momento."
+      ],
+      "propuesta": [
+        "HAB-A-b1",
+        "p",
+        "Ainhoa tiene media hora libre y los materiales para la memoria de prácticas. Al pensar que puede hacerla mal siente malestar, la aplaza y nota alivio. ¿Qué mecanismo encaja mejor?",
+        "El alivio inmediato de aplazar puede hacer que repita la evitación.§El caso aporta malestar y alivio; describimos ese patrón sin etiquetar a la persona.",
+        "Le falta una agenda: sin ella es imposible empezar aunque tenga tiempo y materiales.§Una agenda puede ayudar, pero no explica el alivio que describe el caso.",
+        "Está espaciando deliberadamente el estudio para recordar más después.§Aquí no programa repasos: aplaza para aliviar un malestar.",
+        "Está descansando después de terminar el primer apartado.§El caso dice que todavía no ha empezado; ese descanso no se describe."
+      ]
+    },
+    {
+      "id": "EDU-A-b5",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "EDU-A-b5",
+        "c",
+        "Tras hacerse preguntas sin mirar, Omar acierta solo la mitad y se agobia: «Esto no es lo mío, mejor vuelvo a releer». ¿Qué le dirías?",
+        "Que costar es señal de que está aprendiendo, y que repase justo lo que ha fallado.§Es el primer error típico de la lectura: pensar que el esfuerzo significa que no sirve.",
+        "Que tiene razón: si le cuesta tanto, esa técnica no encaja con su forma de aprender.§Es al revés: ese esfuerzo es el que fija.",
+        "Que mire la respuesta enseguida cuando dude, para no frustrarse y perder la motivación.§Conviene aguantar unos segundos intentándolo antes de mirar.",
+        "Que se pregunte solo lo que ya domina, para ganar confianza antes de pasar a lo difícil.§Lo útil es ponerse a prueba justo en lo que falla."
+      ],
+      "propuesta": [
+        "EDU-A-b5",
+        "c",
+        "Omar intenta recordar sin mirar, acierta la mitad y piensa que la técnica no le sirve. ¿Cuál es el siguiente paso más útil?",
+        "Comprobar los errores con los apuntes, aclarar lo que no entiende y volver a intentarlo más adelante.§La dificultad informa de qué revisar; por sí sola no garantiza aprendizaje.",
+        "Repetir las mismas respuestas sin comprobarlas hasta que salgan con fluidez.§Podría practicar también errores; necesita contrastarlas.",
+        "Contar como aprendidas las preguntas que le han resultado más difíciles.§Que cueste no demuestra que pueda responderlas correctamente.",
+        "Cambiar todas las preguntas por las que ya acierta y dejar pendientes las demás.§Evitaría detectar y trabajar las lagunas importantes."
+      ]
+    },
+    {
+      "id": "ATE-C-o3",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "ATE-C-o3",
+        "p",
+        "Un amigo dice: «Estas apps son gratis porque las empresas son generosas». ¿Qué respuesta encaja con lo que sabes?",
+        "Si no pagas con dinero, pagas con tu tiempo y tus datos, que es de lo que vive la app.§Por eso se diseñan para retenerte.",
+        "Son gratis porque las financian los gobiernos para que la gente se pueda comunicar mejor.§No es así: el negocio son los anuncios y los datos.",
+        "Son gratis porque mantenerlas cuesta muy poco una vez que la app ya está programada y publicada.§Mantenerlas cuesta mucho; se pagan con tu atención.",
+        "Son gratis solo al principio, y luego te empiezan a cobrar una cuota mensual sin avisarte.§El modelo habitual no es cobrarte: es retenerte para venderte anuncios."
+      ],
+      "propuesta": [
+        "ATE-C-o3",
+        "p",
+        "Una red social gratuita obtiene sus ingresos principalmente de anuncios. ¿Por qué puede interesarle que permanezcas más tiempo?",
+        "Porque puede mostrar más publicidad y obtener información para personalizarla.§Se refiere a este modelo publicitario; no todas las apps gratuitas funcionan así.",
+        "Porque cada minuto de uso reduce automáticamente el coste de mantener sus servidores.§El tiempo de uso no hace que esos costes desaparezcan.",
+        "Porque los anunciantes pagan solo cuando todos los usuarios cierran la aplicación.§En el caso descrito, mantener la atención permite mostrar anuncios.",
+        "Porque ser gratuita impide que la empresa obtenga ingresos por publicidad.§Gratis para quien la usa no significa que carezca de ingresos."
+      ]
+    },
+    {
+      "id": "HAB-B-b1",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "HAB-B-b1",
+        "c",
+        "Marina quiere hacer ejercicio y se apunta a una hora diaria de gimnasio. La primera semana va cuatro días; la tercera, ninguno. ¿Qué lo explica mejor?",
+        "El hábito dependía de la motivación, que sube y baja, y era demasiado grande para los días malos.§Si depende de las ganas, el hábito se cae cuando bajan.",
+        "No tiene fuerza de voluntad suficiente, y debería obligarse a ir aunque no tenga ninguna gana.§La motivación sube y baja en todo el mundo; lo que falló fue el tamaño.",
+        "Eligió un gimnasio demasiado lejos de casa, y en cuanto llegó el frío dejó de compensarle ir.§Puede influir, pero el patrón de empezar fuerte y caer es el del hábito demasiado grande.",
+        "Una hora es poco tiempo para ver resultados, y al no notar cambios perdió las ganas de seguir.§El problema fue lo contrario: era demasiado para sostenerlo."
+      ],
+      "propuesta": [
+        "HAB-B-b1",
+        "c",
+        "Marina elige una hora diaria de gimnasio. Explica que al principio tenía muchas ganas, pero que los días cansados esa hora le resulta inasumible y deja de ir. ¿Qué probarías primero?",
+        "Acordar una versión más pequeña que pueda encajar en esos días y observar si le funciona.§El caso señala el tamaño como barrera; no permite juzgar su voluntad ni garantiza un resultado.",
+        "Mantener una hora obligatoria cada día y duplicarla cuando no vaya.§Aumenta precisamente la carga que describe.",
+        "Cambiar la hora diaria por tres horas seguidas cada vez que se sienta motivada.§Sigue dependiendo de picos de ganas y aumenta el tamaño de la sesión.",
+        "Esperar a tener la misma motivación de la primera semana para retomarlo.§No prepara una alternativa para los días de menor motivación."
+      ]
+    },
+    {
+      "id": "EDU-C-b1",
+      "estado": "propuesta pendiente de revisión de Raúl",
+      "original": [
+        "EDU-C-b1",
+        "c",
+        "Ainhoa, de Educación Infantil, le explica a su madre cómo aprenden a hablar los niños. Cuando su madre le pregunta por qué un niño de dos años dice «yo sabo», se queda en blanco. ¿Qué ha descubierto?",
+        "La parte que todavía no entiende: justo lo que tiene que repasar.§Donde te atascas al explicar aparece lo que te falta.",
+        "Que su madre no sabe del tema y por eso le hace preguntas raras.§La pregunta es muy buena: ha sacado a la luz una laguna.",
+        "Que explicar en voz alta la pone nerviosa y no le sirve para estudiar.§Atascarse no significa que no sirva: es lo que la técnica busca.",
+        "Que tiene que memorizar más definiciones del libro.§Memorizar más no le explicaría el porqué que le falta."
+      ],
+      "propuesta": [
+        "EDU-C-b1",
+        "c",
+        "Ainhoa explica un tema y no logra responder a una pregunta de por qué. ¿Qué conclusión le permite comprobarlo mejor?",
+        "Ha localizado un punto que conviene revisar y contrastar antes de darlo por aprendido.§El atasco es una señal para comprobar; también pueden influir los nervios o cómo se expresa.",
+        "Queda demostrado que no entiende ninguna parte del tema.§Un atasco concreto no permite concluir eso.",
+        "Si el resto sonaba fluido, esa respuesta no necesita comprobarse.§La fluidez no garantiza que la explicación sea exacta.",
+        "Basta con memorizar una frase sin comprobar qué significa.§Podría recitarla sin resolver la duda que ha aparecido."
+      ]
+    }
+  ]
+}

@@ -152,3 +152,7 @@ Cada cambio en una decisión existente se anota aquí (fecha, ID, antes → desp
 | 19/10/2026 | SEC-01 | Pendiente → aprobada (sin reescribir historial) | Raúl |
 | 19/10/2026 | DOC-06 | Cuenta de Drive: personal (DRV-01) | Raúl |
 | 19/10/2026 | DOC-01 | Se confirma separar en el futuro desarrollo privado y versión pública; propuesta preparada, sin migrar | Raúl |
+
+## Seguimiento de F-9 · 19/10/2026
+
+Revisión editorial asistida preparada en `docs/revision-piloto-2026-10-19.md`, con 106 ítems identificados y ocho propuestas completas de sustitución. No constituye aprobación humana ni modifica D-12/F-9, reglas de medallas o contenido publicado. Se conserva la revisión de Raúl como pendiente.
