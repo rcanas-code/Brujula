@@ -2934,7 +2934,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a aprender lo que casi nunca se explica en clase. Está pensada para alumnado de 16 a 18 años, pero puede usarla cualquier persona, sola o con su clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada persona.</li><li>No hace falta profe, clase ni cuenta: la clase es opcional y sin ella se puede completar toda la aventura.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261018135922";
+const APP_V="20261018155150";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑";b.title="Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -3093,7 +3093,7 @@ function hoyReto(){const R=mwSeen(),k=hoyPri(R);if(!k||!GDIF[k]||k==="VAL")retur
   return `<div class="today area retocard" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag" style="background:var(--warn)">🔥 RETO DE LA SEMANA · elige y empieza</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[k])}</span></div>
    <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><div class="retowhat"><b>🔥 ¿Para qué sirve?</b> Leer te da la idea, pero lo que te cambia es probarla en tu vida. Por eso cada semana tienes un reto: una acción pequeña de este tema que haces y marcas aquí cada día. Así se convierte en costumbre y ves si te funciona. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[k]||"esta región")}.</div><p class="challenge">Tu reto: ${esc(c.h)}</p>${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
    <div class="row"><button class="btn" data-start="${c.id}">Empezar este reto</button><button class="btn ghost" data-gact="retos|${k}">Elegir otro de la región</button></div></div>`}
-function vHoy(){
+function vHoy0(){
   if(S.testing)return vTest();
   if(!complete()&&!S.tests.length)return vIntro();
   if(!S.g.carta&&S.tests.length)return vCarta();
@@ -3166,6 +3166,35 @@ function vHoy(){
    ${opt.length?`<details class="hopt2"><summary>✨ Más cosas para hoy, si te apetece (${opt.length})</summary><div class="stack" style="gap:10px;margin-top:10px">${opt.join("")}</div></details>`:""}
   </section>`;
 }
+/*HOY26*/
+const HOYDOW=["D","L","M","X","J","V","S"];
+function hoyTrack(){const a=S.active,t=today();return `<div class="bzwk" role="list">${[...Array(7).keys()].map(k=>{const d=addDays(a.start,k),v=a.log[d],fut=d>t,pend=d===t&&!v,olv=!v&&d<t,sel=S.rgDay===d;return `<button role="listitem" ${fut?"disabled":""} data-dot="${d}" aria-label="Día ${k+1}: ${v==="si"?"hecho":v==="poco"?"un poco":v==="no"?"no hecho":fut?"por llegar":"sin registrar"}"><i class="${v||""}${d===t?" hoy":""}${fut?" fut":""}${pend?" pend":""}${olv?" olv":""}${sel?" sel":""}">${v==="si"?"✓":v==="poco"?"½":v==="no"?"✕":olv?"?":k+1}</i>${HOYDOW[parse(d).getDay()]}</button>`}).join("")}</div>`}
+function hoyGoal(){const g=goodDays(S.active),n=dayN();if(g>=7)return `<p class="bzgoal ok">✓ 7 de 7: semana completa.</p>`;if(g>=5)return `<p class="bzgoal ok">✓ ${g} de 7: reto asegurado<small>El mínimo eran 5. Sigue hasta el día 7 para convertirlo en costumbre.</small></p>`;const left=5-g,rest=7-Math.min(n,7)+(S.active.log[today()]?0:1);return `<p class="bzgoal">${g} de 7 días · con 5 superas el reto<small>${left<=rest?`Te ${left===1?"falta 1 día":`faltan ${left} días`}.`:"Esta semana ya no llega a 5: al terminar podrás repetirla."}</small></p>`}
+function vHoy(){const html=vHoy0.apply(this,arguments);try{return hoyRework(html)}catch(e){console.error(e);return html}}
+function hoyRework(html){if(!S.active||S.testing||!S.tests.length||!S.g.carta)return html;
+  const T=document.createElement("template");T.innerHTML=html;const sec=T.content.querySelector("section.hoy3");if(!sec)return html;
+  const scene=sec.querySelector(".hscene"),quest=sec.querySelector(".hquest");
+  const c=CI[S.active.id],a=AREAS[c.a],n=dayN(),R=!!REG[c.id],t=today(),pend=todayItems().some(x=>x.st==="todo");
+  if(quest&&R&&n<7&&!(n===1&&!S.active.plan)){const act1=c.h.split(". ")[0].replace(/\.$/,""),mine=rgEntries(c.id,t,t).length,more=quest.querySelector("details.more2");
+    const card=document.createElement("div");card.className="bzmis"+(pend?"":" ok");card.style.setProperty("--h",a.h);
+    card.innerHTML=`<div class="bzmish"><span class="pxchip">MISIÓN PRINCIPAL</span><span class="bzreg">📍 ${esc(GREG[a.k]||a.n)}</span></div><h2>${esc(c.t)}</h2><p class="bzmeta">Día ${Math.min(n,7)} de 7 · ${pend?"+10 XP al apuntarlo":"hecho hoy"}</p>${hoyTrack()}${hoyGoal()}`;
+    const form=quest.querySelector(".rgform"),how=quest.querySelector("details.howto"),setup=quest.querySelector(".rxsetup");
+    if(pend){card.insertAdjacentHTML("beforeend",`<p class="bzhoy">Hoy: <b>${esc(lc(act1))}</b>.</p>`);
+      if(setup){const box=setup.closest(".rqs");if(box){box.classList.add("bzsetup");card.appendChild(box)}}
+      const log=quest.querySelector(".rqs.log .rqb");if(log){const k=log.querySelector(".rqk");if(k)k.remove();log.querySelectorAll("p.okline").forEach(p=>{if(/asegurado/.test(p.textContent))p.remove()});const w=document.createElement("div");w.className="bzact";while(log.firstChild)w.appendChild(log.firstChild);w.querySelectorAll("p").forEach(p=>{if(/^Rellena lo que te pregunta/.test(p.textContent.trim()))p.remove()});card.appendChild(w)}}
+    else{card.insertAdjacentHTML("beforeend",`<div class="bzdone"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b><br><span class="muted" style="font-size:.85rem">${mine===1?"Tienes 1 registro hoy.":`Tienes ${mine} registros hoy.`}${S.active.time?` Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:""}</span></div></div>`);
+      if(form){const w=document.createElement("div");w.className="bzact";const note=form.parentElement&&[...form.parentElement.children].find(e=>e.matches("p.eyebrow"));if(note)w.appendChild(note);w.appendChild(form);card.appendChild(w)}
+      else card.insertAdjacentHTML("beforeend",`<div class="bzmisx"><button class="linkbtn" data-act="rg-more">+ Añadir otro momento</button><button class="linkbtn" data-act="diario">📓 Ver mi diario</button></div>`)}
+    if(how){how.open=!!S.howOpen;card.appendChild(how)}
+    if(more){more.querySelectorAll(".week,.wkleg").forEach(e=>e.remove());const sm=more.querySelector("summary");if(sm)sm.textContent="Ver el plan y para qué sirve";card.appendChild(more)}
+    quest.replaceWith(card)}
+  else if(quest){quest.open=true}
+  const mis=sec.querySelector(".bzmis,.hquest");
+  if(scene&&mis){scene.classList.add("hsmall");const eb=document.createElement("p");eb.className="bzeyeb";eb.textContent="Tu próximo camino";mis.after(eb);eb.after(scene)}
+  const opt=sec.querySelector(".hopt2>summary");if(opt)opt.textContent=opt.textContent.replace("✨ Más cosas para hoy, si te apetece","+ Misiones secundarias");
+  return T.innerHTML}
+/*HOY26-END*/
+
 function hoyMission(){const R=mwSeen(),k=hoyPri(R);if(!k||!MWPOS[k])return null;const A=GDIF[k]?gArea(k):null,st=hoySteps(k),lo=!!(S.g.lore||{})[k],cn=((CREN[k]||["El guardián"])[0]).split(",")[0];let now,btn="";
   if(!lo){now=`¡Viajero! Te estaba esperando. Ven a hablar conmigo a la entrada de ${GREG[k]}: tengo una misión para ti.`;btn=`<button class="btn" data-reg="${k}">💬 Ir a hablar con ${esc(cn)}</button>`}
   else if(!A){now=st[1]&&st[1][3]?"¡Lo has conseguido! Has abierto un camino nuevo. Vuelve cuando quieras a seguir descubriendo.":"En mi tierra se viene a descubrir. Supera 3 de mis lecturas y se abrirá un camino nuevo.";btn=`<button class="btn" data-reg="${k}">📖 Ver mis lecturas</button>`}
@@ -6440,6 +6469,49 @@ section:has(.bzlibh)>div>h1{font-size:1rem;line-height:1.3}
 .yob{white-space:nowrap;font-size:.78rem!important;padding:6px 8px!important}
 .yoqi{line-height:0}
 
+</style>
+<style>/*HOY26-CSS*/
+.bzmis{position:relative;display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--surface);color:var(--ink);border:2px solid var(--px-ink);border-left:6px solid #FF6B3D;box-shadow:3px 3px 0 var(--px-sh,#000)}
+.bzmis.ok{border-left-color:var(--good)}
+.bzmish{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.bzmish .pxchip{background:#FFE27A;color:#1E2B38}
+.bzmis .bzreg{font-size:.78rem;color:var(--muted);font-weight:700}
+.bzmis h2{margin:0;font-size:1.08rem;line-height:1.3}
+.bzmeta{margin:-4px 0 0;font-size:.85rem;color:var(--muted);font-weight:700}
+.bzwk{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.bzwk button{display:flex;flex-direction:column;align-items:center;gap:3px;padding:0;background:none;border:0;font:inherit;color:var(--muted);font-size:.66rem;font-weight:800;cursor:pointer;min-height:44px}
+.bzwk button:disabled{cursor:default}
+.bzwk i{display:grid;place-items:center;width:100%;aspect-ratio:1;max-width:40px;font-style:normal;font:700 .85rem/1 var(--pxf,monospace);border:2px solid var(--line);background:var(--bg);color:var(--muted)}
+.bzwk i.si{background:var(--good);border-color:var(--good);color:#0E171F}
+.bzwk i.poco{background:#F2C14E;border-color:#F2C14E;color:#1d1600}
+.bzwk i.no{background:var(--surface-2);border-color:var(--muted);color:var(--ink)}
+.bzwk i.hoy{border-color:#FF6B3D;box-shadow:0 0 0 2px #FF6B3D}
+.bzwk i.fut{border-style:dashed;opacity:.6}
+.bzwk i.olv{border-style:dashed;border-color:#C98A14;color:#C98A14}
+.bzwk i.sel{box-shadow:0 0 0 2px #FFE27A}
+.bzwk i.pend{border-color:#FF6B3D;color:#FF6B3D}
+.bzgoal{margin:0;font-size:.86rem;font-weight:700}
+.bzgoal.ok{color:var(--good)}
+.bzgoal small{display:block;font-weight:600;color:var(--muted);margin-top:2px}
+.bzhoy{margin:0}
+.bzact{display:flex;flex-direction:column;gap:10px;padding-top:10px;border-top:2px dashed var(--line)}
+.bzact .rgform{gap:10px;border:0!important;padding:0!important;background:none!important}
+.bzact .rgchips{gap:6px}
+.bzact .rgchips button{padding:6px 10px;font-size:.86rem;min-height:36px}
+.bzact .rgchips.rgsc{display:grid;grid-template-columns:repeat(11,1fr);gap:3px}
+.bzact .rgchips.rgsc button{padding:0;min-width:0;min-height:34px;font-size:.8rem}
+.bzact .rgform [data-act="rg-save"]{min-height:48px}
+.bzsetup{border:2px solid var(--line);padding:10px}
+.bzmisx{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:.84rem}
+.bzmis details.howto,.bzmis details.more2{margin:0}
+.bzdone{display:flex;gap:10px;align-items:center;padding:10px;background:var(--good-bg);border:2px solid var(--good)}
+.bzdone .bigck{font-size:1.4rem}
+.bzeyeb{font-family:var(--pxf);font-size:.72rem;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:6px 0 -6px}
+.hscene.hsmall .hstage{min-height:104px!important;height:104px}
+.hscene.hsmall .hstage .advnpc svg{transform:scale(.8);transform-origin:bottom center}
+.hscene.hsmall .advbox{padding:14px 12px 10px}
+.hscene.hsmall .advtxt{font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hscene.hsmall .advbar .btn{min-height:40px;font-size:.72rem;padding:6px 12px}
 </style>
 
 </body></html>
