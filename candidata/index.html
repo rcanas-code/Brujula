@@ -1865,7 +1865,7 @@ const store={get(k,d){try{const v=localStorage.getItem("brujula:"+k);return v?JS
 const FONTS=[["retro","Retro 8 bits","Silkscreen","Para los de los recreativos"],["clasica","Clásica","Bricolage Grotesque","Limpia y seria"],["redonda","Redondeada","Fredoka","Amable y juvenil"],["dulce","Dulce","Pacifico","Bonita y con mucho estilo"]];
 try{const f=store.get("font","retro");document.documentElement.dataset.font=FONTS.some(x=>x[0]===f)?f:"retro"}catch(e){}
 const CFG=Object.assign({theme:"auto",size:"normal",tw:"normal",anim:"1"},store.get("cfg",{}));
-function applyCfg(){const h=document.documentElement;if(CFG.theme==="auto")delete h.dataset.theme;else h.dataset.theme=CFG.theme;h.dataset.size=CFG.size;h.classList.toggle("noanim",CFG.anim==="0")}
+function applyCfg(){const h=document.documentElement;let mq=null;try{mq=matchMedia("(prefers-color-scheme: dark)")}catch(e){}h.dataset.theme=CFG.theme==="auto"?(mq&&mq.matches?"dark":"light"):CFG.theme;if(mq&&!window.__thL){window.__thL=1;try{mq.addEventListener("change",()=>{if(CFG.theme==="auto")applyCfg()})}catch(e){}}h.dataset.size=CFG.size;h.classList.toggle("noanim",CFG.anim==="0")}
 try{applyCfg()}catch(e){}
 function cfgSeg(k,opts,cur){return `<div class="seg cfgseg" role="group">${opts.map(([v,l])=>`<button data-cfg="${k}:${v}" aria-pressed="${cur===v}">${l}</button>`).join("")}</div>`}
 function cfgCard(){const snd=S.g.snd===false?"0":"1",row=(ic,t,d,ctl)=>`<div class="cfgrow"><div><b>${ic} ${t}</b>${d?`<span class="muted">${d}</span>`:""}</div>${ctl}</div>`;
@@ -2888,7 +2888,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a aprender lo que casi nunca se explica en clase. Está pensada para alumnado de 16 a 18 años, pero puede usarla cualquier persona, sola o con su clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada persona.</li><li>No hace falta profe, clase ni cuenta: la clase es opcional y sin ella se puede completar toda la aventura.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261018074201";
+const APP_V="20261018131656";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑";b.title="Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -6236,5 +6236,34 @@ mwSVG=function(R){
   return `<svg viewBox="0 0 ${MWW} ${MWH}" width="${MWW}" height="${MWH}" shape-rendering="crispEdges" aria-hidden="true"><defs><filter id="mwblur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="7"/></filter></defs>${out.join("")}<g filter="url(#mwblur)" shape-rendering="auto">${clouds}</g></svg>`};
 })();
 </script>
+<style>/*UX26-CSS*/
+:root{--accent-ink:#1A0E08}
+.nav button[aria-current="true"]{color:var(--accent-ink)}
+.guiapop .linkbtn{color:#8A3A12}
+:root[data-theme="light"]{--accent-text:#B23C0E}:root[data-theme="dark"]{--accent-text:var(--accent)}
+.seenbtn:not([aria-pressed="true"]){color:var(--accent-text,var(--accent))}
+.linkbtn{color:var(--c,var(--accent-text,var(--accent)))}
+.guiapop .linkbtn{color:#8A3A12}
+:root[data-theme="dark"] .aeyo .aesteps span.on{color:#B79BFF;border-color:#B79BFF}
+:root[data-theme="light"] .lv.B{color:#1E6B40}:root[data-theme="light"] .lv.I,:root[data-theme="light"] .pill.m{color:#8A5300}:root[data-theme="light"] .lv.X{color:#A0302A}
+:root[data-theme="light"] [data-go="mas#sugerir"]{color:#1F7259!important}
+:root[data-theme="dark"] .think .tf{color:#E8C15A}
+:root[data-theme="dark"] .okchip.af,:root[data-theme="dark"] .afchip{color:#B79BFF;border-color:#B79BFF}
+:root[data-theme="dark"] .mastile b{color:color-mix(in srgb,var(--mc) 50%,#fff)}
+.guiai{width:46px;height:46px}
+.guiai svg{width:34px;height:auto}
+#guiafl{transition:transform .25s ease,opacity .25s ease}
+#guiafl.ux-away{transform:translateX(calc(100% - 16px));opacity:.5}
+#guiafl.ux-away>*{pointer-events:none}
+@media (prefers-reduced-motion:reduce){#guiafl{transition:none}}
+.cxtab{flex-direction:row;justify-content:center;gap:4px;padding:6px 2px;min-height:44px;position:relative;font-size:.64rem;letter-spacing:0;white-space:nowrap}
+.cxtab .cxti{font-size:.95rem}
+.cxtab i{position:absolute;top:-8px;right:3px;background:var(--surface);border:2px solid var(--px-ink);padding:0 4px;font-size:.62rem;line-height:1.3}
+.cxtab[aria-selected="true"] i{background:#FFE27A}
+</style><script>/*UX26*/(function(){
+const _go=go;go=function(v){if(v!==S.view)S.guiaOpen=false;return _go.apply(this,arguments)};
+let t=0;const away=on=>{const g=document.getElementById("guiafl");if(!g)return;if(on&&g.querySelector(".guiapop"))on=false;g.classList.toggle("ux-away",on)};
+SCR.addEventListener("scroll",()=>{away(true);clearTimeout(t);t=setTimeout(()=>away(false),900)},{passive:true});
+})();</script>
 
 </body></html>
