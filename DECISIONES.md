@@ -73,6 +73,9 @@
 | DOC-08 | `README.md`: 19 regiones y descripción actualizada | Primero en `desarrollo`; en `main` con la próxima versión estable aprobada | Hecho en `desarrollo` |
 | DOC-09 | Funcionamiento sin conexión | Solo análisis y prototipo en rama aparte; no integrar; prioridad: que funcione bien con conexión | Análisis en [docs/sin-conexion.md](docs/sin-conexion.md) |
 | DOC-10 | PR de `docs/infraestructura` contra `desarrollo` | Revisar antes información privada, afirmaciones no verificadas y errores; no fusionar automáticamente | PR abierto, sin fusionar |
+| SEC-01 | Correo institucional expuesto en el código y en 8 commits | Sustituido en `desarrollo` y en la candidata manteniendo el funcionamiento; en la versión de alumnos, con la siguiente publicación estable; correo «noreply» para commits futuros; **no reescribir el historial por ahora** | Aprobada el 19/10. Hecho salvo la versión de alumnos ([docs/legal/exposicion-correo.md](docs/legal/exposicion-correo.md)) |
+| DOC-02b | Avisos legales en la publicación (`main` y `candidata/`) | Solo si son correctos y sin información privada | Aprobada el 19/10. Publicados sin tocar `index.html` de alumnos |
+| DRV-01 | La Biblia de Brújula va en la cuenta **personal** de Raúl, nunca en la del instituto | Estructura preparada; no se sube nada hasta conectar la cuenta personal | Aprobada el 19/10 |
 | AG-01 | Codex como revisor técnico independiente; Claude, desarrollador principal | Codex no modifica el juego ni publica en la versión de los alumnos; ramas y PR separados; mismas decisiones | Aplicada en [AGENTS.md](AGENTS.md) |
 
 ### Retos, piloto y arquitectura
@@ -104,7 +107,6 @@
 | VA-04 | Textos heredados que mencionan la validación por foto del profesor | Corregir (bajo riesgo) | Raúl |
 | U-01 | Actualizaciones de contenido por internet sin servidores complejos | Solo análisis | — |
 | COM-01 | Estrategia de sostenibilidad | Documentada solo en Drive (privado); en el código no hay pagos | Raúl |
-| SEC-01 | El correo institucional de Raúl está en el código publicado (campo del panel de profesor, función desactivada) y como autor de 8 commits | Vaciar el campo en `desarrollo` y en la candidata (cambio de una línea, sin efecto en el juego); en `index.html` de alumnos, con la próxima versión estable. No reescribir el historial (rompería enlaces y copias). Commits futuros con el correo «noreply» de GitHub | Raúl (autorización) |
 | DEMO-01 | **Modo demostración** | Concepto trabajado por Raúl en conversaciones con ChatGPT. **Pendiente de consolidar documentalmente**: Raúl aportará la especificación completa. No se implementa ni se toman decisiones hasta entonces | Raúl |
 | OBS-01 | **Observatorio del Tiempo** | Concepto narrativo y educativo trabajado por Raúl en conversaciones con ChatGPT. **Pendiente de consolidar documentalmente**: Raúl aportará la especificación y las decisiones ya tomadas. Se documentará para implementarlo después del piloto, sin sustituir sus prioridades | Raúl |
 
@@ -146,3 +148,7 @@ Cada cambio en una decisión existente se anota aquí (fecha, ID, antes → desp
 | 18/10/2026 | DOC-06 | Recomendación «sincronización semanal automática» → sincronización supervisada al principio | Raúl |
 | 18/10/2026 | COM-01 | Detalle retirado del repositorio público; queda en Drive | Claude, aplicando DOC-01 |
 | 18/10/2026 | DEMO-01, OBS-01 | Registrados como pendientes de consolidar documentalmente | Raúl |
+| 19/10/2026 | DOC-01 a DOC-10 | PR #1 y #2 revisados, probados (28/28) y fusionados en `desarrollo` | Raúl autoriza; Claude ejecuta |
+| 19/10/2026 | SEC-01 | Pendiente → aprobada (sin reescribir historial) | Raúl |
+| 19/10/2026 | DOC-06 | Cuenta de Drive: personal (DRV-01) | Raúl |
+| 19/10/2026 | DOC-01 | Se confirma separar en el futuro desarrollo privado y versión pública; propuesta preparada, sin migrar | Raúl |
