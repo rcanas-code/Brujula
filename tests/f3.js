@@ -1,0 +1,10 @@
+const {APP,OFF,ANTES,FONT}=require('./_entorno');
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.argv[2]});const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{window.__noGuia=1});await p.goto(APP);await p.waitForTimeout(600);
+await p.evaluate(()=>{QS.forEach((q,i)=>S.answers[i]=2);S.tests=[{date:addDays(today(),-20),scores:scores()}];S.route=buildRoute(scores());S.g.carta=today();store.set('game',S.g);S.tourDone=true});
+const ids=["HAB-01","HAB-02","HAB-03","HAB-04","HAB-05","HAB-06","HAB-07","HAB-08","EST-01","EST-02","EST-03","EST-04","EST-05","EST-06","EST-07","EST-08","EDU-01","EDU-02","EDU-03","EDU-04","EDU-05","EDU-06","EDU-07","EDU-08","EDU-09"];
+for(const id of ids){const r=await p.evaluate(id=>{S.active={id,start:addDays(today(),-1),plan:"x",alarm:1,log:{},rating:null};save();go("hoy");return [!!document.querySelector('.howto .howsteps'),!!document.querySelector('.rgform'),!!document.querySelector('.rxsetup')]},id);if(!r[0]||!r[1])console.log('FALLA',id,r)}
+const d=await p.evaluate(()=>{const st=addDays(today(),-7),out=[];const mk=(id,vals)=>{S.active={id,start:st,plan:"x",alarm:1,log:{},rating:null,x:{}};vals.forEach((v,k)=>{const dd=addDays(st,k);S.diario.push({id,d:dd,t:Date.now()+k,v});S.active.log[dd]="si"});return RX[id].dato(S.active)};
+ out.push(mk("HAB-08",[["20","30"],["15","30"],["30","45"],["10","15"],["20","30"]]));out.push(mk("EST-03",[["7","3"],["6","3"],["8","4"],["5","2"],["6","3"]]));out.push(mk("EDU-05",[["9","6"],["8","5"],["7","5"],["8","6"],["7","4"]]));return out});console.log(d.join("\n"));
+await p.evaluate(()=>{S.active={id:"HAB-03",start:addDays(today(),-3),plan:"x",alarm:1,log:{[addDays(today(),-3)]:"si",[addDays(today(),-2)]:"si"},rating:null};save();go("hoy")});await p.waitForTimeout(300);await (await p.$('.bzmis,.retocard')).screenshot({path:'f3a.png'});
+console.log(errs);await b.close()})();

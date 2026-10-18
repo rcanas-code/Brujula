@@ -1,0 +1,14 @@
+const {APP,OFF,ANTES,FONT}=require('./_entorno');
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.argv[2]});const p=await b.newPage({viewport:{width:360,height:740}});
+const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.addInitScript(()=>{window.__noGuia=1});
+const cdp=await p.context().newCDPSession(p);await cdp.send('Page.enable');const navs=[];cdp.on('Page.frameRequestedNavigation',e=>navs.push(e.url));
+await p.goto(APP);await p.waitForTimeout(400);
+await p.evaluate(()=>{QS.forEach((q,i)=>S.answers[i]=2);S.tests=[{date:today(),scores:scores()}];S.route=buildRoute(scores());S.g.carta=today();S.tourDone=true;S.name="Laura";save();go('hoy',true)});
+await p.click('footer [data-go="mas#sugerir"]');await p.waitForTimeout(500);
+const open=await p.evaluate(()=>{const d=document.getElementById('sugerir');return d&&d.open});
+await p.click('[data-act="sug-mail"]');await p.waitForTimeout(200);const t1=await p.evaluate(()=>document.querySelector('.toast')&&document.querySelector('.toast').textContent);
+await p.fill('#sugtxt','Me gustaría más retos de deporte. Ñandú áé');await p.click('[data-act="sug-mail"]');await p.waitForTimeout(500);
+await p.evaluate(()=>{go('mas',true);S.repOpen=true;S.ajOpen=true;render()});await p.waitForTimeout(300);
+await p.evaluate(()=>{document.getElementById('ajustes').open=true;document.getElementById('reportar').open=true});
+await p.fill('#reptxt','No abre el vídeo');await p.click('[data-act="rep-mail"]');await p.waitForTimeout(500);
+console.log('abierta:',open,'| aviso vacío:',t1);navs.forEach(u=>console.log(decodeURIComponent(u).slice(0,260)));console.log(errs);await b.close()})();

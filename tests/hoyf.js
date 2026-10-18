@@ -1,0 +1,21 @@
+const {APP,OFF,ANTES,FONT}=require('./_entorno');
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.argv[2]});const tag='hnew';
+const p=await b.newPage({viewport:{width:390,height:844},deviceScaleFactor:2,colorScheme:process.argv[3]||'dark'});const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+await p.goto(APP);await p.waitForTimeout(400);
+await p.evaluate(()=>{localStorage.clear();QS.forEach((q,i)=>S.answers[i]=2);S.tests=[{date:addDays(today(),-12),scores:scores()}];S.route=buildRoute(scores());S.tourDone=true;store.set("tourDone",true);S._intro=false;S.name="Marc";store.set("name","Marc");S.g.carta=today();S.g.guiaIntro=today();S.g.guiaH=today();S.g.celebrated=1;S.g.lore={EMO:'2026-10-01'};startReto("EMO-01");S.active.start=addDays(today(),-5);S.active.plan="Si noto algo fuerte, lo apunto";S.active.alarm=1;S.active.time="21:30";[0,1,2,4].forEach(k=>S.active.log[addDays(today(),-5+k)]="si");store.set('game',S.g);save();go('hoy',true)});
+await p.waitForTimeout(2200);
+const m=await p.evaluate(()=>{const q=s=>{const e=document.querySelector(s);return e?Math.round(e.getBoundingClientRect().top):null};const sv=document.querySelector('.bzmis [data-act="rg-save"]');return {mision:q('.bzmis'),form:q('.bzmis .rgform'),guardar:sv?Math.round(sv.getBoundingClientRect().top):null,region:q('.hscene'),alto:document.getElementById('scr').scrollHeight,dupIds:document.querySelectorAll('#rg0').length}});console.log('HOY',JSON.stringify(m));
+await p.screenshot({path:`ad26/${tag}_h0.png`});for(const [n,y] of [['h1',700],['h2',1400]]){await p.evaluate(y=>document.getElementById('scr').scrollTo(0,y),y);await p.waitForTimeout(300);await p.screenshot({path:`ad26/${tag}_${n}.png`})}
+const xp0=await p.evaluate(()=>points());
+await p.click('.bzmis [data-act="rg-save"]');await p.waitForTimeout(300);console.log('vacío: guardado?',await p.evaluate(()=>!!S.active.log[today()]));
+await p.click('[data-rgc="0|Frustración"]');await p.fill('#rg1','Me han dejado en visto');await p.click('[data-rgc="2|7"]');await p.click('.bzmis [data-act="rg-save"]');await p.waitForTimeout(500);
+console.log('guardado',JSON.stringify(await p.evaluate(()=>({log:S.active.log[today()],n:rgEntries(S.active.id,today(),today()).length,saved:JSON.parse(localStorage.getItem('brujula:diario')||'[]').length}))),'xp',xp0,'->',await p.evaluate(()=>points()));
+await p.evaluate(()=>document.getElementById('scr').scrollTo(0,0));await p.waitForTimeout(300);await p.screenshot({path:`ad26/${tag}_done.png`});
+await p.click('[data-act="rg-more"]');await p.waitForTimeout(300);await p.click('[data-rgc="0|Alivio"]');await p.fill('#rg1','Terminé');await p.click('[data-rgc="2|3"]');await p.click('.bzmis [data-act="rg-save"]');await p.waitForTimeout(400);
+console.log('2º registro',JSON.stringify(await p.evaluate(()=>({n:rgEntries(S.active.id,today(),today()).length,pts:points()}))));
+const ay=await p.evaluate(()=>addDays(today(),-2));await p.click(`.bzwk [data-dot="${ay}"]`);await p.waitForTimeout(400);await p.screenshot({path:`ad26/${tag}_olv.png`});
+console.log('olvidado:',await p.evaluate(()=>{const f=document.querySelector('.bzmis .rgform [data-act="rg-save"]');return f?f.dataset.v:null}),'esperado',ay);
+await p.click('[data-rgc="0|Miedo"]');await p.fill('#rg1','Examen');await p.click('[data-rgc="2|6"]');await p.click('.bzmis [data-act="rg-save"]');await p.waitForTimeout(400);
+console.log('tras rellenar olvidado',await p.evaluate((ay)=>[S.active.log[ay],goodDays(S.active)],ay));
+await p.reload();await p.waitForTimeout(800);console.log('tras recargar',await p.evaluate(()=>[S.active.log[today()],rgEntries(S.active.id,S.active.start).length]));
+console.log(errs);await b.close()})();

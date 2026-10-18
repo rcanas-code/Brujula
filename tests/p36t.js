@@ -1,0 +1,15 @@
+const {APP,OFF,ANTES,FONT}=require('./_entorno');
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.argv[2]});const p=await b.newPage({viewport:{width:390,height:844}});
+const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto(APP);
+await p.addStyleTag({content:"@font-face{font-family:Silkscreen;src:url('"+FONT('silkscreen-latin-400-normal.woff2')+"')}@font-face{font-family:Silkscreen;font-weight:700;src:url('"+FONT('silkscreen-latin-700-normal.woff2')+"')}"});
+await p.evaluate(()=>{localStorage.clear();store.set('advN',12)});await p.reload();await p.waitForTimeout(500);await p.click('.advstart',{force:true});await p.waitForTimeout(200);
+const st=()=>p.evaluate(()=>[S.advN,document.body.classList.contains('introfocus'),getComputedStyle(document.getElementById('nav')).display,!!document.getElementById('advnext'),!!document.querySelector('footer')&&getComputedStyle(document.querySelector('footer')).display]);
+console.log('11',await st());await p.screenshot({path:'scs/p36a.png'});
+await p.waitForTimeout(20000);for(let q=0;q<2;q++){await p.evaluate(q=>{const b=document.querySelectorAll('[data-advq]')[q];if(b)b.click()},q);await p.waitForTimeout(9000)}await p.waitForTimeout(32000);await p.evaluate(()=>document.querySelector('.advbox .dlgo.go').click());await p.waitForTimeout(300);
+await p.waitForSelector('[data-act=adv-pj]:not([disabled])',{timeout:45000});await p.evaluate(()=>document.querySelector('[data-act=adv-pj]').click());await p.waitForTimeout(500);console.log('12',await st());await p.screenshot({path:'scs/p36b.png'});
+await p.waitForSelector('.advbox [data-act="advdown"]:not([disabled])',{timeout:45000});await p.click('.advbox [data-act="advdown"]');await p.waitForTimeout(900);
+console.log('end',await st(),await p.evaluate(()=>Math.round(document.getElementById('advnext').getBoundingClientRect().top)));await p.screenshot({path:'scs/p36c.png'});
+await p.reload();await p.waitForTimeout(500);console.log('reload',await st());
+await p.click('[data-act="start"]');await p.waitForTimeout(300);console.log('test',await p.evaluate(()=>[S.testing,document.body.classList.contains('introfocus')]));
+console.log(errs);await b.close()})();
