@@ -152,3 +152,14 @@ Cada cambio en una decisión existente se anota aquí (fecha, ID, antes → desp
 | 19/10/2026 | SEC-01 | Pendiente → aprobada (sin reescribir historial) | Raúl |
 | 19/10/2026 | DOC-06 | Cuenta de Drive: personal (DRV-01) | Raúl |
 | 19/10/2026 | DOC-01 | Se confirma separar en el futuro desarrollo privado y versión pública; propuesta preparada, sin migrar | Raúl |
+
+## Actualización del 19/10/2026 · relevo de desarrollo
+
+- **AG-02 · Aprobada:** Raúl autoriza a Codex a asumir también el desarrollo en rama propia y preparar cambios para revisión, sin publicar ni modificar la versión de alumnos. Sustituye el papel exclusivamente revisor de AG-01; se conserva arriba el registro original.
+- **DEMO-01 · propuesta implementada en rama, pendiente de validación:** se retoma el alcance recuperado: partida de prueba aislada, avance de tiempo, recorrido de bronce/plata/oro y reinicio seguro. Detalles de implementación y límites en `docs/modo-demostracion.md`. No se cambian requisitos pedagógicos ni se conceden medallas automáticamente.
+- **OBS-01:** continúa pendiente, sin implementación.
+
+| Fecha | ID | Antes → después | Quién |
+|---|---|---|---|
+| 19/10/2026 | AG-01 → AG-02 | Codex solo revisor → también desarrollador en rama propia, sin publicar ni fusionar | Raúl, autorización expresa en conversación |
+| 19/10/2026 | DEMO-01 | Pendiente de consolidar → alcance recuperado y propuesta preparada en rama para revisión; no publicada ni aprobada como funcional | Codex, bajo AG-02 |

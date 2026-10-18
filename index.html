@@ -1249,6 +1249,23 @@ details.fold>summary::after{border-radius:4px!important}
 <dialog id="dlg"></dialog>
 
 <script>
+/* DEMO-01: solo esta pestaña; nunca lee el almacenamiento de la partida real. */
+const DEMO=new URLSearchParams(location.search).get("demo")==="1";
+const SAVE_PREFIX=DEMO?"brujula-demo:":"brujula:";
+const gameStorage=()=>DEMO?sessionStorage:localStorage;
+const demoClock=(()=>{
+  if(!DEMO)return null;
+  const NativeDate=Date;
+  let offset=Number(sessionStorage.getItem("brujula-demo:clock"))||0;
+  if(!Number.isFinite(offset)||offset<0)offset=0;
+  class DemoDate extends NativeDate{
+    constructor(...args){super(...(args.length?args:[NativeDate.now()+offset]))}
+    static now(){return NativeDate.now()+offset}
+  }
+  window.Date=DemoDate;
+  return {advance(ms){offset+=ms;sessionStorage.setItem("brujula-demo:clock",String(offset))},get offset(){return offset}};
+})();
+
 /* El contenido se desplaza dentro de #scr: así el menú de abajo queda fijo también en iPhone y dentro de visores. */
 const SCR=document.getElementById("scr");
 /*PXICONS*//* Brújula · familia de iconos pixel art (retícula 12×12, contorno K, paleta común) */
@@ -1956,7 +1973,7 @@ function learnCard(){
 const NA=AREAS.filter(a=>!a.x).length,TA=AREAS.slice(0,NA), NQ=QS.length;
 const EXAMPLE=[3.7,4.3,3,2.7,3.3,2,4.7,2.3,3,4,2.7,2.3,4,3.7];
 /* ---------- estado ---------- */
-const store={get(k,d){try{const v=localStorage.getItem("brujula:"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){if(store.lock)return;try{localStorage.setItem("brujula:"+k,JSON.stringify(v))}catch(e){}}};
+const store={get(k,d){try{const v=gameStorage().getItem(SAVE_PREFIX+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){if(store.lock)return;try{gameStorage().setItem(SAVE_PREFIX+k,JSON.stringify(v))}catch(e){}}};
 const FONTS=[["retro","Retro 8 bits","Silkscreen","Para los de los recreativos"],["clasica","Clásica","Bricolage Grotesque","Limpia y seria"],["redonda","Redondeada","Fredoka","Amable y juvenil"],["dulce","Dulce","Pacifico","Bonita y con mucho estilo"]];
 try{const f=store.get("font","retro");document.documentElement.dataset.font=FONTS.some(x=>x[0]===f)?f:"retro"}catch(e){}
 const CFG=Object.assign({theme:"auto",size:"normal",tw:"normal",anim:"1"},store.get("cfg",{}));
@@ -2099,11 +2116,11 @@ const UA=navigator.userAgent||"";
 const inApp=/Instagram|FBAN|FBAV|FB_IAB|WhatsApp|TikTok|musical_ly|Line\/|Snapchat|Twitter/i.test(UA);
 const isIOS=/iPhone|iPad|iPod/i.test(UA);
 const isStandalone=(()=>{try{return !!(navigator.standalone||(window.matchMedia&&window.matchMedia("(display-mode: standalone)").matches))}catch(e){return false}})();
-let canStore=true;try{localStorage.setItem("brujula:t","1");localStorage.removeItem("brujula:t")}catch(e){canStore=false}
+let canStore=true;try{gameStorage().setItem(SAVE_PREFIX+"t","1");gameStorage().removeItem(SAVE_PREFIX+"t")}catch(e){canStore=false}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 const KEYS=["cfg","font","game","cls","bsim","crono","me","stoic","cur","adicT","dogT2","catT2","learn","rev","capr","caprH","name","seen","quiz","grp","mood","answers","active","history","tests","buddy","purpose","route","keep","extra","grat","tips","bud","sharePrompt","diario","perg","foco","tourDone","advEnd","advN","profe","learnInit"];
-function backupCode(){const o={};KEYS.forEach(k=>o[k]=store.get(k,null));o.v=1;return "BRUJULA-"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
-function restoreCode(code){try{const raw=code.trim().replace(/^BRUJULA-/,"");const o=JSON.parse(decodeURIComponent(escape(atob(raw))));if(o.v!==1)throw 0;KEYS.forEach(k=>{if(o[k]!==null&&o[k]!==undefined)store.set(k,o[k])});store.lock=true;return true}catch(e){return false}}
+function backupCode(){const o={};KEYS.forEach(k=>o[k]=store.get(k,null));o.v=1;if(DEMO)o.demo=true;return "BRUJULA-"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}
+function restoreCode(code){try{const raw=code.trim().replace(/^BRUJULA-/,"");const o=JSON.parse(decodeURIComponent(escape(atob(raw))));if(o.v!==1||!!o.demo!==DEMO)throw 0;KEYS.forEach(k=>{if(o[k]!==null&&o[k]!==undefined)store.set(k,o[k])});store.lock=true;return true}catch(e){return false}}
 function envBanner(){
   if(inApp)return `<div class="alert"><strong>Ábrela en tu navegador.</strong> Estás dentro de una app (Instagram, WhatsApp…) y aquí tu progreso se puede perder. Toca los tres puntos (⋯) y elige «Abrir en ${isIOS?"Safari":"Chrome"}» o «Abrir en el navegador».</div>`;
   if(isStandalone&&!S.tests.length&&!answered()&&S.view==="hoy"&&!S.testing)return `<div class="card stack" style="border:2px solid var(--brand)"><h3>¿Ya habías hecho el test en el navegador?</h3><p class="muted">Al abrir Brújula desde el icono de la pantalla de inicio, ${isIOS?"el iPhone":"el móvil"} a veces la trata como una app nueva y no ve lo que hiciste en ${isIOS?"Safari":"el navegador"}. No has perdido nada:</p><ol style="margin:0;padding-left:20px;display:grid;gap:4px"><li>Abre Brújula en ${isIOS?"Safari":"el navegador"}, como antes.</li><li>Ve a <b>Más → Copia de seguridad → Ver mi código</b> y cópialo.</li><li>Vuelve aquí, ve a <b>Más</b> y pégalo en «Recuperar mi progreso».</li></ol><p class="muted" style="font-size:.88rem">Si es la primera vez que la usas, ignora este aviso y empieza el test.</p><button class="btn ghost" data-go="mas" style="width:max-content">Ir a Más</button></div>`;
@@ -2983,7 +3000,7 @@ function vIntro(){
     <p style="margin:0">Brújula ayuda a aprender lo que casi nunca se explica en clase. Está pensada para alumnado de 16 a 18 años, pero puede usarla cualquier persona, sola o con su clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada persona.</li><li>No hace falta profe, clase ni cuenta: la clase es opcional y sin ella se puede completar toda la aventura.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
 const APP_V="20261019000600";
-function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
+function checkUpdate(){if(DEMO)return;try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑";b.title="Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
 const DIAG={};let noticeOpenAt=0;
@@ -3029,7 +3046,7 @@ function wayCard(){if(!S.route)return "";const items=routeItems(),N=items.length
    <p class="muted" style="font-size:.88rem">${done} de ${N} retos superados.${S.active?` Con 5 de 7 días superas este reto`:" Elige tu reto para empezar"}${nx?` y después viene: <b>${esc(nx.c.t)}</b>.`:"."}</p></div>`}
 function slim(html){const m=html.match(/<h[23][^>]*>([\s\S]*?)<\/h[23]>/)||html.match(/<p class="eyebrow"[^>]*>([\s\S]*?)<\/p>/);const t=m?m[1].replace(/<[^>]+>/g,""):"Aviso";
   return `<details class="notice"><summary><span class="ndot"></span><span class="nt">${t}</span><span class="nopen">Abrir</span></summary><div class="ninner">${html}</div></details>`}
-const uiGet=(k,d)=>{try{const v=localStorage.getItem("brujula:ui:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},uiSet=(k,v)=>{try{localStorage.setItem("brujula:ui:"+k,JSON.stringify(v))}catch(e){}};
+const uiGet=(k,d)=>{try{const v=gameStorage().getItem(SAVE_PREFIX+"ui:"+k);return v==null?d:JSON.parse(v)}catch(e){return d}},uiSet=(k,v)=>{try{gameStorage().setItem(SAVE_PREFIX+"ui:"+k,JSON.stringify(v))}catch(e){}};
 document.addEventListener("toggle",e=>{const id=e.target&&e.target.id;if(id==="moodbox")uiSet("moodOpen",e.target.open);if(id==="moodmore")uiSet("moodMore",e.target.open);if(id==="rutal2")uiSet("rutaL2",e.target.open);if(id==="pthink")uiSet("pThink",e.target.open);if(id==="mapbars")uiSet("mapBars",e.target.open);if(id==="maphist")uiSet("mapHist",e.target.open)},true);
 const MOODS=[
  ["contento","😊","Contento","Qué bien. Fíjate en qué lo ha hecho bueno: así es más fácil repetirlo.","Escribe en una línea qué ha hecho bueno tu día.","PEN-09"],
@@ -5410,7 +5427,7 @@ function clsCard(){
    ${S.cls?`<p style="margin:0">Estás en <b>${esc(S.cls.n)}</b> (${esc(S.cls.e)}). Tus trofeos los consigues por tu cuenta; tu profe te acompaña.</p><button class="btn ghost sm" data-act="cls-leave" style="width:max-content">Salir de la clase</button>`:`<p class="muted" style="margin:0">Si tu profe usa Brújula, te dará un enlace para unirte. Ábrelo en este móvil o pégalo aquí:</p><textarea id="clspaste" class="field" rows="2" placeholder="Pega el enlace de tu clase"></textarea><button class="btn ghost sm" data-act="cls-paste" style="width:max-content">Unirme</button><p class="muted" style="font-size:.8rem;margin:0">Es opcional. Con clase o sin ella, consigues todos los trofeos por tu cuenta: las pruebas van por tu palabra de honor.</p>`}
    <hr style="border:0;border-top:1px solid var(--line);width:100%"><button class="linkbtn" data-go="profe" style="text-align:left">¿Eres profe? Herramienta para validar pruebas →</button></div></details>`}
 /* álbum privado (IndexedDB, solo en este móvil) */
-function albDB(){return new Promise((res,rej)=>{try{const r=indexedDB.open("brujula-album",1);r.onupgradeneeded=()=>r.result.createObjectStore("fotos",{keyPath:"id"});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+function albDB(){if(DEMO)return Promise.reject(new Error("Álbum desactivado en demostración"));return new Promise((res,rej)=>{try{const r=indexedDB.open(DEMO?"brujula-demo-album":"brujula-album",1);r.onupgradeneeded=()=>r.result.createObjectStore("fotos",{keyPath:"id"});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
 async function albAdd(rec){const db=await albDB();return new Promise((res,rej)=>{const tx=db.transaction("fotos","readwrite");tx.objectStore("fotos").put(rec);tx.oncomplete=()=>res();tx.onerror=()=>rej(tx.error)})}
 async function albAll(){const db=await albDB();return new Promise((res,rej)=>{const q=db.transaction("fotos").objectStore("fotos").getAll();q.onsuccess=()=>res(q.result||[]);q.onerror=()=>rej(q.error)})}
 async function albDel(id){const db=await albDB();return new Promise(res=>{const tx=db.transaction("fotos","readwrite");tx.objectStore("fotos").delete(id);tx.oncomplete=()=>res()})}
@@ -7033,4 +7050,55 @@ section:has(.bzlibh)>div>h1{font-size:1rem;line-height:1.3}
 .hscene.hsmall .advbox .btn{background:transparent!important;color:#F4F1E8!important;border:2px solid #F4F1E8!important;box-shadow:0 3px 0 #000!important}
 </style>
 
+
+<script>
+/* Panel de pruebas: no se monta en sesiones normales. */
+if(DEMO){
+  const panel=document.createElement("section");panel.id="demo-panel";
+  panel.setAttribute("aria-label","Controles de demostración");
+  panel.innerHTML=`<details open><summary><strong>DEMOSTRACIÓN · partida de prueba</strong></summary>
+  <p>Solo esta pestaña. El reloj del dispositivo y tu partida real no cambian. Las medallas aquí no acreditan aprendizaje. Álbum desactivado.</p>
+  <p id="demo-time" aria-live="polite"></p>
+  <div class="demo-actions"><button type="button" data-demo-time="4000">+4 segundos</button><button type="button" data-demo-time="600000">+10 minutos</button><button type="button" data-demo-time="86400000">+1 día</button><button type="button" data-demo-time="172800000">+2 días</button><button type="button" data-demo-time="864000000">+10 días</button></div>
+  <p>Avanza el tiempo después de guardar los formularios. Puedes acertar, fallar y repetir siguiendo las reglas habituales.</p>
+  <div class="demo-actions"><label>Región <select id="demo-region"><option value="EDU">Estudio</option><option value="ATE">Atención</option><option value="HAB">Hábitos</option></select></label><button type="button" id="demo-open">Abrir región</button><button type="button" id="demo-ready">Preparar prueba de bronce</button></div>
+  <p>«Preparar» simula las lecturas previas y el encuentro con el guardián; no concede medallas ni responde preguntas.</p>
+  <div class="demo-actions"><button type="button" id="demo-reset">Reiniciar demostración</button><a id="demo-exit">Salir de demostración</a></div></details>`;
+  document.getElementById("scr").prepend(panel);
+  const updateTime=()=>document.getElementById("demo-time").textContent="Fecha simulada: "+new Date().toLocaleString("es-ES")+" · Adelanto: "+Math.floor(demoClock.offset/86400000)+" días";
+  updateTime();
+  const normal=new URL(location.href);normal.searchParams.delete("demo");document.getElementById("demo-exit").href=normal.href;
+  panel.addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;
+    if(b.dataset.demoTime){demoClock.advance(Number(b.dataset.demoTime));render();updateTime();return}
+    if(b.id==="demo-reset"){
+      if(!confirm("¿Borrar solo esta demostración y volver a empezar? Tu partida real se conserva."))return;
+      for(const key of Object.keys(sessionStorage))if(key.startsWith("brujula-demo:"))sessionStorage.removeItem(key);
+      location.reload();return;
+    }
+    const k=document.getElementById("demo-region").value;
+    if(!["EDU","ATE","HAB"].includes(k))return;
+    if(!S.tests.length){
+      TA.forEach((a,i)=>[0,1,2].forEach(j=>S.answers[i*3+j]=["ATE","EDU","HAB"].includes(a.k)?1:4));
+      S.tests=[{date:today(),scores:scores()}];S.route=buildRoute(scores());
+      S.name="Explorador de prueba";store.set("name",S.name);
+      S.tourDone=true;S.tour=null;store.set("tourDone",true);
+      S.g.carta=today();S.g.guiaIntro=today();S.g.guiaH=today();S.g.celebrated=1;
+    }
+    if(b.id==="demo-ready"){
+      S.g.lore=S.g.lore||{};S.g.lore[k]=today();S.g.ok=S.g.ok||{};
+      dKeyLecs(k).forEach(id=>S.g.ok[id]=today());
+    }
+    store.set("game",S.g);save();S.reg=k;go("region");
+  });
+}
+</script>
+<style>
+#demo-panel{position:relative;margin:8px;padding:12px;border:3px solid #F2B632;background:#14222E;color:#FFF7E0;font:14px/1.5 system-ui,sans-serif;box-sizing:border-box}
+#demo-panel p{margin:8px 0}#demo-panel summary{cursor:pointer;min-height:44px}
+#demo-panel .demo-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+#demo-panel button,#demo-panel select,#demo-panel a{font:inherit;min-height:44px;padding:8px;border:1px solid #FFF7E0;border-radius:4px;background:#14222E;color:#FFF7E0;box-sizing:border-box;max-width:100%}
+#demo-panel button{cursor:pointer}#demo-panel a{display:inline-flex;align-items:center}
+#demo-panel :focus-visible{outline:3px solid #4FA3E0;outline-offset:2px}
+</style>
 </body></html>

@@ -83,3 +83,9 @@ Cada funcionalidad se valora en cuatro niveles independientes. Que algo esté im
 | B | La prueba automatizada `lq` falla a veces por tiempos | Pasa al repetirla; conviene estabilizarla |
 | B | Parámetros del modelo D sin calibrar | 10 días para el oro, reintento a 2 días, 3 s por respuesta, 2 aplicaciones al día (`DCFG`) |
 | C | Las herramientas se ven en un cinturón bajo el personaje, no dibujadas sobre él | Decisión de alcance |
+
+## Trabajo en rama `codex/modo-demostracion` · 19/10/2026
+
+Propuesta de DEMO-01 preparada sobre `desarrollo` c1efad2. Entrada `index.html?demo=1`; controles de reloj, preparación de lecturas para el guardián, tres regiones y reinicio. Sesión aislada, álbum desactivado y copias marcadas incompatibles entre modos. No publicada.
+
+Verificación: sintaxis de los cuatro scripts y `node tests/demo-logica.js` correctas. Pruebas Playwright preparadas en `tests/demo.js`; ejecución de navegador bloqueada en este entorno por `socket() failed: Operation not permitted`. La regresión completa y la validación visual/móvil permanecen pendientes; no se afirma que el flujo de medallas haya sido probado con este cambio. `index.html` de `origin/main` sigue idéntico al de `95f4145`.
