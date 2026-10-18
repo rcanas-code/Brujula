@@ -83,3 +83,9 @@ Cada funcionalidad se valora en cuatro niveles independientes. Que algo esté im
 | B | La prueba automatizada `lq` falla a veces por tiempos | Pasa al repetirla; conviene estabilizarla |
 | B | Parámetros del modelo D sin calibrar | 10 días para el oro, reintento a 2 días, 3 s por respuesta, 2 aplicaciones al día (`DCFG`) |
 | C | Las herramientas se ven en un cinturón bajo el personaje, no dibujadas sobre él | Decisión de alcance |
+
+## Revisión editorial del piloto · 19/10/2026
+
+En `codex/revision-contenido-piloto`: revisión asistida de las 106 preguntas del banco D y de EDU-03/04. Resultado: 9 ítems con corrección prioritaria A, 47 con observaciones B y 50 sin hallazgo individual en esta pasada. Se documentan además un error aritmético en el feedback del desafío de Hábitos y cambios propuestos para las dos lecturas.
+
+Ocho propuestas completas de sustitución, **sin aplicar al juego**, en `docs/propuestas-preguntas-piloto.json`. Informe, matriz y fuentes: `docs/revision-piloto-2026-10-19.md`. Esto no cierra F-9: falta revisión docente de Raúl, aplicar correcciones coherentes en lecturas/preguntas y probar con usuarios. No se modifica la candidata ni la versión de alumnos.
