@@ -1,0 +1,5 @@
+
+# Resultados de pruebas
+tests/.out/
+tests/.tmp/
+*.bak

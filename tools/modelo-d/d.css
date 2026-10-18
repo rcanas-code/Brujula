@@ -1,0 +1,48 @@
+/*D-CSS*/
+.dview{--h:200}
+.dview .dq h2{line-height:1.35}
+.dopt{text-align:left!important;justify-content:flex-start!important;white-space:normal!important;max-width:100%;line-height:1.35}
+.lqo.tno{border-color:var(--bad)!important;opacity:.9}
+.dfb{border-radius:10px;padding:10px 12px;font-size:.92rem;line-height:1.45}
+.dfb.good{background:var(--good-bg);border-left:5px solid var(--good)}
+.dfb.bad{background:color-mix(in srgb,var(--bad) 10%,var(--surface));border-left:5px solid var(--bad)}
+.dfast{margin:0;font-size:.86rem;color:var(--warn);font-weight:700}
+.dwarn{margin:0;color:var(--warn);font-weight:700;font-size:.9rem}
+.dchips{display:flex;flex-wrap:wrap;gap:6px}
+.dchip{font-size:.78rem;font-weight:800;padding:3px 9px;border-radius:999px;border:2px solid var(--line);background:var(--surface)}
+.dchip.now{border-color:#C98A14;background:#FFF3C4;color:#3a2a00}
+.dchip.c,.dchip.a{border-color:var(--good);color:var(--good)}
+.dchip.no{opacity:.6}
+.dcrow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.dcrow:last-child{border-bottom:0}
+.dst{font-size:.78rem;font-weight:800;padding:3px 8px;border-radius:6px;background:var(--line);color:var(--ink);text-align:right;flex-shrink:0;max-width:55%}
+.dst.v{background:#E6F1F8;color:#14506B}.dst.a{background:#FFF3C4;color:#6b4a00}.dst.c{background:var(--good-bg);color:var(--good)}.dst.k{background:#FFE27A;color:#3a2a00}.dst.no{background:transparent;color:var(--warn)}
+[data-theme=dark] .dst.v{background:#1d3446;color:#9FDDF5}[data-theme=dark] .dst.a{background:#4a3b10;color:#FFE27A}[data-theme=dark] .dst.k{background:#6b5410;color:#FFF3C4}[data-theme=dark] .dchip.now{background:#4a3b10;color:#FFE27A}
+.dvs{display:flex;flex-direction:column;gap:4px;font-size:.84rem;background:var(--bg,transparent);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.dmcard{border-left:6px solid #2E8B57}
+.dmini{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;color:var(--ink);cursor:pointer}
+.dmini>span:nth-child(2),.dhoy .dmini>span:first-child{flex:1;min-width:0}
+.dhoy{border:2px solid #2E8B57;gap:8px}
+.dhistc{display:flex;gap:10px;align-items:center}
+.dstep{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dstep .field{max-width:110px}
+.dtimer{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;border:2px dashed var(--line);border-radius:12px}
+.dtimer b{font-family:"Silkscreen",monospace;font-size:2rem}
+.dmult{margin:0;font-weight:700}
+.dlist{margin:0;padding-left:18px;font-size:.88rem}
+.dhint{display:flex;gap:8px;align-items:center;background:#E8F7EE;border-radius:10px;padding:8px 10px;font-size:.9rem;color:#173b26}
+.dbelt{display:flex;gap:4px;flex-wrap:wrap;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:4px 6px;cursor:pointer;align-self:flex-start}
+.dtgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.dtool{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:var(--surface);border:2px solid var(--line);border-radius:12px;padding:12px 8px;font:inherit;color:var(--ink);cursor:pointer}
+.dtool .muted{font-size:.78rem}
+.dtool.off{opacity:.55;cursor:default}.dtool.off svg{filter:grayscale(1)}
+.dhist{font-size:.72rem;color:var(--warn)}
+.dbars{display:flex;gap:8px;align-items:flex-end;min-height:100px;padding-top:6px}
+.dbars>div{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1}
+.dbars i{display:block;width:100%;max-width:22px;border-radius:3px 3px 0 0}
+.dbars i.f{background:#FF6B3D}.dbars i.i{background:#4FA3E0}
+.dbars small{font-size:.65rem;color:var(--muted,#789)}
+.dtab{border-collapse:collapse;font-size:.9rem}.dtab td,.dtab th{border:1px solid var(--line);padding:4px 10px;text-align:center}
+.dpage{border-left:6px solid #A0683A}.dpage.off{opacity:.6}
+.celtool svg{image-rendering:pixelated}
+.dplan .field{width:100%}

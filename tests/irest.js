@@ -1,0 +1,15 @@
+const {APP,OFF,ANTES,FONT}=require('./_entorno');
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch({executablePath:process.argv[2]});
+const U=APP;
+const errs=[];const c1=await b.newContext();const p=await c1.newPage();p.on('pageerror',e=>errs.push(e.message));
+await p.addInitScript(()=>{window.__noGuia=1});await p.goto(U);await p.waitForTimeout(500);
+const code=await p.evaluate(()=>{QS.forEach((q,i)=>S.answers[i]=3);S.tests=[{date:today(),scores:scores()}];S.route=buildRoute(scores());S.g.tr={SUE:{b:'2026-09-01'}};store.set('game',S.g);store.set('advEnd',true);store.set('name','Laura');save();return backupCode()});
+const c2=await b.newContext({viewport:{width:390,height:844}});const q=await c2.newPage();q.on('pageerror',e=>errs.push('2:'+e.message));
+await q.goto(U);await q.waitForTimeout(700);
+const vis=await q.isVisible('#introrest summary');console.log('opcion visible en portada:',vis);
+await q.screenshot({path:'irest0.png'});
+await q.click('#introrest summary');await q.fill('#restore','codigo-malo');await q.click('[data-act="restore"]');await q.waitForTimeout(300);
+console.log('toast malo:',await q.evaluate(()=>document.body.innerText.includes('no es válido')));
+await q.fill('#restore',code);await q.screenshot({path:'irest1.png'});await q.click('[data-act="restore"]');await q.waitForTimeout(2000);
+const r=await q.evaluate(()=>({intro:!!document.querySelector('.advtitle'),tests:S.tests.length,tr:JSON.stringify(S.g.tr),name:store.get('name')}));
+console.log('tras recuperar:',r);await q.screenshot({path:'irest2.png'});console.log('errores:',errs);await b.close()})();
