@@ -6,7 +6,7 @@
 
 | # | Copia | Dónde | Qué contiene | Estado |
 |---|---|---|---|---|
-| 1 | Repositorio | GitHub `rcanas-code/Brujula` | Todas las ramas y etiquetas | Existe |
+| 1 | Repositorio | GitHub `rcanas-code/Brujula` | Todas las ramas (sin etiquetas, ver 1b) | Existe |
 | 1a | Ramas de copia | GitHub | `v200-publicada` (95f4145, alumnos) · `v197-estable` (8e6007f) · `copia-pre-gamificacion` (2a2c116) · **nuevas el 18/10:** `copia/candidata-2026-10-18` (d139746) · `copia/desarrollo-2026-10-18` (7b412b1) · `copia/pre-modeloD` (24b8fcf) | Existen |
 | 1b | Etiquetas de versión | Dentro del bundle (copia 2) | `estable-v200` · `candidata-2026-10-18` · `desarrollo-2026-10-18` · `pre-modeloD` · `v197-antes-de-lanzamiento` · `pre-gamificacion` | **No están en GitHub**: el entorno de Claude no permite subir etiquetas (error 403). Raúl puede subirlas desde su ordenador con `git push origin --tags` tras restaurar el bundle. Mientras, las ramas `copia/…` cubren los mismos puntos |
 | 2 | Bundle de git | Archivo `brujula-20261018.bundle` (2,9 MB) entregado a Raúl en la conversación de Claude, con `SHA256SUMS.txt` | Todo el historial, las 11 ramas de GitHub y las 6 etiquetas | **Restauración comprobada** (ver abajo). Pasa a ser copia local cuando Raúl lo descargue a su ordenador |
