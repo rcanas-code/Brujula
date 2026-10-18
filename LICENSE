@@ -1,0 +1,16 @@
+Brújula
+Copyright (c) 2026 Raúl Cañas. Todos los derechos reservados.
+
+Salvo los elementos de terceros indicados en THIRD_PARTY_NOTICES.md, el código,
+los textos, el arte pixel, la música y el resto de contenidos de este repositorio
+se publican solo para que puedan consultarse y para servir la aplicación desde
+GitHub Pages. Que el repositorio sea público no concede ningún permiso para
+copiar, modificar, distribuir, publicar ni explotar comercialmente su contenido,
+total o parcialmente, sin autorización escrita del autor.
+
+Para solicitar permisos: hola.brujula.app@gmail.com
+
+Nota: este aviso indica la autoría declarada. La comprobación de la titularidad
+de cada elemento está documentada, con su estado, en la rama «desarrollo» del
+repositorio: docs/legal/propiedad-intelectual.md y docs/recursos-externos.csv
+(https://github.com/rcanas-code/Brujula/tree/desarrollo/docs).
