@@ -1,0 +1,26 @@
+# Nunca subir credenciales ni datos privados (el repositorio es público)
+.env
+.env.*
+*.pem
+*.key
+*credentials*.json
+*token*.json
+service-account*.json
+client_secret*.json
+
+# Datos del piloto o del alumnado
+piloto-privado/
+*.privado.*
+partidas/
+
+# Copias y temporales
+*.bundle
+*.zip
+.DS_Store
+Thumbs.db
+node_modules/
+
+# Resultados de pruebas
+tests/.out/
+tests/.tmp/
+*.bak
