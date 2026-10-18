@@ -12,7 +12,7 @@
 | Candidata | `candidata/index.html` de `main` → https://rcanas-code.github.io/Brujula/candidata/ | `d139746` (18/10/2026) | Hoy nuevo, armonización visual y modelo D. Pendiente de prueba en iPhone |
 | Desarrollo | rama `desarrollo` | `7b412b1` | Igual que la candidata (salvo el nombre del icono: «Brújula prueba») |
 
-Puntos de recuperación (etiquetas git publicadas en GitHub): `estable-v200`, `candidata-2026-10-18`, `desarrollo-2026-10-18`, `pre-modeloD`, `v197-antes-de-lanzamiento`, `pre-gamificacion`. Detalle en [docs/copias-de-seguridad.md](docs/copias-de-seguridad.md).
+Puntos de recuperación: ramas de copia en GitHub (`v200-publicada`, `copia/candidata-2026-10-18`, `copia/desarrollo-2026-10-18`, `copia/pre-modeloD`, `v197-estable`, `copia-pre-gamificacion`) y etiquetas equivalentes dentro del bundle del 18/10. Detalle en [docs/copias-de-seguridad.md](docs/copias-de-seguridad.md).
 
 ## Arquitectura
 
