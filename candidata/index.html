@@ -2210,7 +2210,7 @@ function progressLine(){const a=S.active;if(!a)return "";const c=CI[a.id];return
 function groupCards(){
   const t=today(),B=S.bud,out=[];const gf=grpFriCard();if(gf)out.push(gf);const rc=rvCard();if(rc)out.push(rc);
   if(S.sharePrompt&&CI[S.sharePrompt]){const c=CI[S.sharePrompt],msg=`¡He superado mi reto «${c.t}» en Brújula! Retos superados: ${S.history.filter(h=>h.passed).length}.`;
-    out.push(`<div class="card stack" style="border:2px solid var(--good)"><p class="eyebrow">Reto superado</p><h3>¿Lo compartes con tu grupo o tu compañero?</h3><p class="muted">Contarlo refuerza lo que has conseguido. Es opcional.</p><p class="share" id="cp-share">${esc(msg)}</p><div class="row"><button class="btn" data-act="copy" data-copyid="cp-share">Copiar mensaje</button><button class="btn ghost" data-act="share-done">Ahora no</button></div></div>`)}
+    out.push(`<div class="card stack" style="border:2px solid var(--good)"><p class="eyebrow">Misión cumplida</p><h3>¿Lo compartes con tu grupo o tu compañero?</h3><p class="muted">Contarlo refuerza lo que has conseguido. Es opcional.</p><p class="share" id="cp-share">${esc(msg)}</p><div class="row"><button class="btn" data-act="copy" data-copyid="cp-share">Copiar mensaje</button><button class="btn ghost" data-act="share-done">Ahora no</button></div></div>`)}
   if(S.active&&S.active.plan&&(dayN()>=3||S.history.length)&&!S.buddy&&!B.skip)out.push(`<div class="card stack" style="border:2px dashed var(--brand)"><p class="eyebrow">Opcional · 1 minuto</p><h3>¿Quieres a alguien que te pregunte cómo vas?</h3><p class="muted">Saber que un amigo te va a preguntar cada viernes ayuda mucho a no abandonar. No hace falta que use Brújula. Tú solo le mandas un mensaje y la app te recordará cada viernes qué decirle.</p>
      <label for="buddy" class="eyebrow">Nombre de tu compañero de retos</label><input id="buddy" class="field" placeholder="Por ejemplo: Nil"><div class="row"><button class="btn" data-act="savebuddy">Guardar y preparar mensaje</button><button class="btn ghost" data-act="buddy-skip">Ahora no</button></div></div>`);
   else if(S.buddy&&!B.sent){const msg=`Hola ${S.buddy}: estoy haciendo retos pequeños con una app que se llama Brújula. ¿Me preguntas cada viernes «cómo vas»? Yo te pregunto a ti si quieres.`;
@@ -2934,7 +2934,7 @@ function vIntro(){
    <details class="card fold"><summary><span class="fi">🧑‍🏫</span>¿Eres profe o familia? Qué es Brújula</summary><div class="stack" style="gap:8px;margin-top:10px;font-size:.92rem">
     <p style="margin:0">Brújula ayuda a aprender lo que casi nunca se explica en clase. Está pensada para alumnado de 16 a 18 años, pero puede usarla cualquier persona, sola o con su clase: sueño, estudio, emociones, relaciones, estrés, dinero, criterio y propósito. Está planteada como un juego: un test inicial, un mapa que se abre por las áreas con más margen, lecturas con comprobación, retos reales de 7 días y trofeos que exigen esperar y repasar.</p>
     <ul style="margin:0;padding-left:20px;display:grid;gap:4px"><li>No es un examen ni una red social: los datos se quedan en el móvil de cada persona.</li><li>No hace falta profe, clase ni cuenta: la clase es opcional y sin ella se puede completar toda la aventura.</li><li>No es terapia: el botón Ayuda indica a dónde acudir si alguien lo pasa mal.</li><li>Pide unos 10 segundos al día y unos minutos a la semana.</li></ul></div></details></section>`}
-const APP_V="20261018155150";
+const APP_V="20261018172538";
 function checkUpdate(){try{if(!/^https?:/.test(location.protocol)||!/github\.io$/.test(location.hostname))return;fetch(location.pathname+"?nc="+Date.now(),{cache:"no-store"}).then(r=>r.text()).then(t=>{const m=t.match(/const APP_V="(\d+)"/);if(m&&m[1]!==APP_V&&!document.getElementById("updbar")){const b=document.createElement("button");b.id="updbar";b.className="updbar";b.textContent="✨ Hay una versión nueva de Brújula. Toca para actualizar";b.onclick=()=>location.reload();document.body.appendChild(b)}}).catch(()=>{})}catch(e){}}
 setTimeout(checkUpdate,1500);document.addEventListener("visibilitychange",()=>{if(!document.hidden)checkUpdate()});
 (()=>{let b;const upd=()=>{if(!b){b=document.createElement("button");b.className="totop";b.setAttribute("aria-label","Subir arriba");b.innerHTML="↑";b.title="Subir";b.onclick=()=>window.scrollTo({top:0,behavior:"smooth"});document.body.appendChild(b)}b.classList.toggle("on",window.scrollY>window.innerHeight*1.2)};SCR.addEventListener("scroll",upd,{passive:true})})();
@@ -3091,7 +3091,7 @@ function hoyOthers(){const R=mwSeen(),pk=hoyPri(R);
 function hoyReto(){const R=mwSeen(),k=hoyPri(R);if(!k||!GDIF[k]||k==="VAL")return "";const A=gArea(k);if(!A.T.b||A.T.p)return "";const done=new Set(S.history.map(h=>h.id));
   const c=mwCs(k).find(c=>c.h&&!done.has(c.id))||mwCs(k).find(c=>c.h);if(!c)return "";const a=AREAS[c.a];
   return `<div class="today area retocard" style="--h:${a.h}"><div class="row" style="justify-content:space-between"><span class="daytag" style="background:var(--warn)">🔥 RETO DE LA SEMANA · elige y empieza</span><span class="chip"><span class="dot"></span>📍 ${esc(GREG[k])}</span></div>
-   <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><div class="retowhat"><b>🔥 ¿Para qué sirve?</b> Leer te da la idea, pero lo que te cambia es probarla en tu vida. Por eso cada semana tienes un reto: una acción pequeña de este tema que haces y marcas aquí cada día. Así se convierte en costumbre y ves si te funciona. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[k]||"esta región")}.</div><p class="challenge">Tu reto: ${esc(c.h)}</p>${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
+   <div><h2>${esc(c.t)}</h2><p class="muted" style="margin-top:6px">${esc(c.q)}</p></div><div class="retowhat"><b>🔥 ¿Para qué sirve?</b> Leer te da la idea, pero lo que te cambia es probarla en tu vida. Por eso cada semana tienes un reto: una acción pequeña de este tema que haces y marcas aquí cada día. Así lo practicas varios días y compruebas si te funciona. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[k]||"esta región")}.</div><p class="challenge">Tu reto: ${esc(c.h)}</p>${exOf(c.id)?`<p class="why">Ejemplo: ${esc(exOf(c.id)[0])}</p>`:""}
    <div class="row"><button class="btn" data-start="${c.id}">Empezar este reto</button><button class="btn ghost" data-gact="retos|${k}">Elegir otro de la región</button></div></div>`}
 function vHoy0(){
   if(S.testing)return vTest();
@@ -3120,17 +3120,17 @@ function vHoy0(){
       ${showF?(day===t||!mine.length?`<p style="margin:0">${mine.length?"Añade otro momento:":`<span class="muted" style="font-size:.85rem">Rellena lo que te pregunta y pulsa el botón de abajo: el día cuenta como hecho.</span>`}</p>`+rgForm(c.id,day):""):`<button class="btn ghost" data-act="rg-more" style="width:max-content">+ Añadir otro momento</button>`}
       ${mine.length?"":`<div class="row" style="gap:8px;align-items:center"><button class="btn ghost" data-log="no" aria-pressed="${v==="no"}" style="padding:8px 14px">${v==="no"?"✓ ":""}${day===t?"Hoy no ha podido ser":""}${day===t?"":"Ese día no lo hice"}</button><span class="muted" style="font-size:.8rem">Ser sincero también cuenta (+2).</span></div>`}`;
       if(n===1&&S.active.plan&&!S.active.alarm)action=`<div class="pendrow" style="flex-direction:column;align-items:stretch">${calBox()}<p class="muted" style="font-size:.82rem;margin:0">¿Prefieres una alarma? Ponla en tu móvil a esa hora con el nombre «Brújula».</p><button class="btn ghost" data-act="alarm-ok" style="width:max-content">Ya tengo mi recordatorio</button></div>`+action;
-      if(g>=5)action+=`<p class="okline">✓ Llevas ${g} días: el reto está asegurado. Sigue hasta el día 7 para convertirlo en costumbre.</p>`;
+      if(g>=5)action+=`<p class="okline">✓ Llevas ${g} días: misión cumplida. Si llegas a 7, completas la semana.</p>`;
     }
     else if(n<7){
       action=`<div class="checkin">${[["si","Sí","+10"],["poco","Un poco","+6"],["no","Hoy no","+2"]].map(([k,l,s])=>`<button data-log="${k}" aria-pressed="${v===k}">${v===k?"✓ ":""}${l}<small>${s}</small></button>`).join("")}</div>`;
       if(v)action+=`<p class="muted" style="font-size:.88rem">${v==="si"?"Hecho. Mañana, otro toque.":v==="poco"?"Un poco cuenta: la versión mínima también suma.":"Gracias por ser sincero. Un día malo no rompe tu racha: solo cuenta no fallar dos seguidos."} <span style="opacity:.8">¿Te has equivocado? Toca otro botón.</span></p>`;
       else if(n>=2)action+=`<p class="minline">¿Día difícil? Vale la <b>versión mínima</b>: ${esc(E?lc(E[2].replace(/\.$/,"")):"empieza y hazlo solo 2 minutos")} → marca «Un poco». También cuenta.</p>`;
       if(n===1&&S.active.plan&&!S.active.alarm)action=`<div class="pendrow" style="flex-direction:column;align-items:stretch">${calBox()}<p class="muted" style="font-size:.82rem;margin:0">¿Prefieres una alarma? Ponla en tu móvil a esa hora con el nombre «Brújula».</p><button class="btn ghost" data-act="alarm-ok" style="width:max-content">Ya tengo mi recordatorio</button></div>`+action;
-      if(g>=5)action+=`<p class="okline">✓ Llevas ${g} días: el reto está asegurado. Sigue hasta el día 7 para convertirlo en costumbre.</p>`;
+      if(g>=5)action+=`<p class="okline">✓ Llevas ${g} días: misión cumplida. Si llegas a 7, completas la semana.</p>`;
     }
     else{const g=goodDays(S.active),ok=g>=5;
-      action=`<div class="${ok?"example":"alert"}" style="${ok?"background:var(--good-bg)":""}"><b>${ok?`¡Reto superado! Lo has hecho ${g} de 7 días.`:`Casi: lo has hecho ${g} de 7 días. Para superarlo hacen falta 5.`}</b> ${ok?"":"No pasa nada: los hábitos tardan. Repetir la semana suele ser lo mejor."}</div>
+      action=`<div class="${ok?"example":"alert"}" style="${ok?"background:var(--good-bg)":""}"><b>${ok?`${g>=7?"¡Semana completa!":"¡Misión cumplida!"} Lo has hecho ${g} de 7 días.`:`Casi: lo has hecho ${g} de 7 días. Para cumplir la misión hacen falta 5.`}</b> ${ok?"":"No pasa nada: los hábitos tardan. Repetir la semana suele ser lo mejor."}</div>
       ${c.id==="ATE-08"?ateTally(S.active.start):c.id==="ALI-07"?plTally(S.active.start):c.id==="ALI-03"?hgTally(S.active.start):""}${REG[c.id]&&rgEntries(c.id,S.active.start).length?`<details class="rgdet"><summary>📓 Relee lo que has escrito esta semana (${rgEntries(c.id,S.active.start).length})</summary>${rgList(rgEntries(c.id,S.active.start))}</details>`:""}${RX[c.id]&&RX[c.id].dato?`<div class="dprev"><p class="eyebrow" style="margin:0">Tu descubrimiento de esta semana</p><p style="margin:4px 0 0;font-weight:700">${esc(RX[c.id].dato(S.active))}</p></div>`:""}<p>Puntúa del 1 al 5 cuánto te ha servido:</p><div class="scale">${[1,2,3,4,5].map(x=>`<button data-rate="${x}" aria-pressed="${S.active.rating===x}">${x}</button>`).join("")}</div>
       ${S.active.rating?(ok?`<div class="row"><button class="btn" data-finish="next">Siguiente misión (+20 XP)</button><button class="btn ghost" data-finish="repeat">Repetir una semana más</button></div>`
         :`<div class="row"><button class="btn" data-finish="repeat">Repetir la semana (+20 XP)</button><button class="btn ghost" data-finish="skip">Pasar igualmente al siguiente</button></div>`):""}`}
@@ -3139,7 +3139,7 @@ function vHoy0(){
     const lead=n>=7?"":n===1&&!S.active.plan?`<p>Hoy solo preparas tu plan. 1 minuto.</p>`:n===1?`<p>Hoy: <b>${esc(lc(act1))}</b>, si te da tiempo. Si no, empiezas mañana.</p>`:`<p>Hoy: <b>${esc(lc(act1))}</b>.</p>${v||REG[c.id]?"":`<p style="font-weight:800;margin-top:-6px">¿Lo has hecho?</p>`}`;
     const week=n<7&&!(n===1&&!S.active.plan)?`<div class="week">${dots}</div><div class="wkleg"><span><i class="si"></i>${REG[c.id]?"Apuntado":"Sí"}</span>${REG[c.id]?"":`<span><i class="poco"></i>Un poco</span>`}<span><i class="no"></i>Hoy no</span><span><i></i>Sin marcar</span></div><p class="muted" style="font-size:.82rem;margin-top:-4px">${g} de 7 días. Con 5 lo superas. ${REG[c.id]?"¿Se te olvidó apuntar un día? Toca su círculo y rellénalo.":"¿Se te olvidó un día? Toca su círculo."}</p>${REG[c.id]&&rgEntries(c.id,S.active.start).length?`<button class="linkbtn" data-act="diario">📓 Ver mi diario (${(n=>n+(n===1?" entrada":" entradas"))(rgEntries(c.id,S.active.start).length)} esta semana)</button>`:""}`:"";
     const xin=`${tl}<p class="muted" style="font-size:.9rem">${esc(c.q)}</p><p class="why"><b>Por qué importa:</b> ${AREA_WHY[c.a]}.${S.P.done[7]&&S.P.f.que?` Y eso te acerca a tu propósito: ${esc(S.P.f.verb)} ${esc(S.P.f.que)}.`:""}</p>${S.active.plan?`<p style="font-size:.92rem"><b>Tu plan:</b> ${esc(S.active.plan)}${S.active.time?` · Tu hora: ${esc(S.active.time)}`:""}</p>${calBox()}`:""}${E&&!(n===1&&!S.active.plan)?`<div class="guide"><p class="eyebrow">Un ejemplo</p><p>${esc(E[0])}</p></div>`:""}${S.more?moreBox(c):`<button class="btn ghost" data-act="more" style="width:max-content;padding:8px 16px">Quiero saber más</button>`}`;
-    const what=`<div class="retowhat"><b>🔥 ¿Para qué sirve?</b> Leer te da la idea, pero lo que te cambia es probarla en tu vida. Por eso cada semana tienes un reto: una acción pequeña de este tema que haces y ${REG[c.id]?"<b>apuntas aquí</b> cada día, para que quede constancia":"marcas aquí cada día"}. Así se convierte en costumbre y ves si te funciona. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[a.k]||"esta región")}.</div>`,first=n===1&&!S.active.plan,doneln=`<div class="doneline"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`;
+    const what=`<div class="retowhat"><b>🔥 ¿Para qué sirve?</b> Leer te da la idea, pero lo que te cambia es probarla en tu vida. Por eso cada semana tienes un reto: una acción pequeña de este tema que haces y ${REG[c.id]?"<b>apuntas aquí</b> cada día, para que quede constancia":"marcas aquí cada día"}. Así lo practicas varios días y compruebas si te funciona. Si la haces <b>al menos 5 días</b>, ganas la <b>plata</b> de ${esc(GREG[a.k]||"esta región")}.</div>`,first=n===1&&!S.active.plan,doneln=`<div class="doneline"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b> ${S.active.time?`Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:"Mañana, otro toque."}${S.tourDone?"":`<br><button class="linkbtn" data-tour="start">Ver la guía de la app (1 min)</button>`}</div></div>`;
     main=`<div class="today area hoycard retocard ${pend?"tocar":"ok"}" style="--h:${a.h}"><div class="row" style="justify-content:space-between">${tag}<span class="chip"><span class="dot"></span>📍 ${esc(GREG[a.k]||a.n)}</span></div>
       <h2>${esc(c.t)}</h2>${pend?valLine(a.k):""}${first?what:""}${pend&&n<7&&!first?rqSteps(c,n,act1,action):(n<7?howTo(c,n):"")+(n<7&&RX[c.id]&&RX[c.id].setup?rxSetup(c):"")+(pend?lead+action:doneln)}${n<7&&!first?ayerBox(c,n):""}${c.id==="ATE-08"?ateTally(S.active.start):c.id==="ALI-07"?plTally(S.active.start):c.id==="ALI-03"?hgTally(S.active.start):""}
       <details class="more2" ${S.retoOpen||S.rgDay||S.rgMore?"open":""} ontoggle="S.retoOpen=this.open"><summary>${pend?"Ver tu semana, el plan y para qué sirve":"Ver tu semana, lo de hoy y el plan"}</summary><div class="stack" style="margin-top:10px;gap:10px">${pend?"":action}${week}${first?"":what}${xin}</div></details></div>`;
@@ -3169,28 +3169,54 @@ function vHoy0(){
 /*HOY26*/
 const HOYDOW=["D","L","M","X","J","V","S"];
 function hoyTrack(){const a=S.active,t=today();return `<div class="bzwk" role="list">${[...Array(7).keys()].map(k=>{const d=addDays(a.start,k),v=a.log[d],fut=d>t,pend=d===t&&!v,olv=!v&&d<t,sel=S.rgDay===d;return `<button role="listitem" ${fut?"disabled":""} data-dot="${d}" aria-label="Día ${k+1}: ${v==="si"?"hecho":v==="poco"?"un poco":v==="no"?"no hecho":fut?"por llegar":"sin registrar"}"><i class="${v||""}${d===t?" hoy":""}${fut?" fut":""}${pend?" pend":""}${olv?" olv":""}${sel?" sel":""}">${v==="si"?"✓":v==="poco"?"½":v==="no"?"✕":olv?"?":k+1}</i>${HOYDOW[parse(d).getDay()]}</button>`}).join("")}</div>`}
-function hoyGoal(){const g=goodDays(S.active),n=dayN();if(g>=7)return `<p class="bzgoal ok">✓ 7 de 7: semana completa.</p>`;if(g>=5)return `<p class="bzgoal ok">✓ ${g} de 7: reto asegurado<small>El mínimo eran 5. Sigue hasta el día 7 para convertirlo en costumbre.</small></p>`;const left=5-g,rest=7-Math.min(n,7)+(S.active.log[today()]?0:1);return `<p class="bzgoal">${g} de 7 días · con 5 superas el reto<small>${left<=rest?`Te ${left===1?"falta 1 día":`faltan ${left} días`}.`:"Esta semana ya no llega a 5: al terminar podrás repetirla."}</small></p>`}
-function vHoy(){const html=vHoy0.apply(this,arguments);try{return hoyRework(html)}catch(e){console.error(e);return html}}
+function hoyGoal(){const g=goodDays(S.active),n=dayN();if(g>=7)return `<p class="bzgoal ok">✓ 7 de 7: semana completa</p>`;if(g>=5)return `<p class="bzgoal ok">✓ ${g} de 7: misión cumplida<small>${n>=7?"Hoy toca valorar tu semana.":"Si llegas a 7, completas la semana."}</small></p>`;const left=5-g,rest=7-Math.min(n,7)+(S.active.log[today()]?0:1);return `<p class="bzgoal">${g} de 7 días · con 5, misión cumplida<small>${left<=rest?`Te ${left===1?"falta 1 día":`faltan ${left} días`}.`:"Esta semana ya no llega a 5: al terminar podrás repetirla."}</small></p>`}
+function hoyStep(n,t){return `<p class="bzstep"><b>${n}</b>${t}</p>`}
+function vHoy(){const html=vHoy0.apply(this,arguments).replace("✨ Más cosas para hoy, si te apetece","+ Misiones secundarias");try{return hoyRework(html)}catch(e){console.error(e);return html}}
 function hoyRework(html){if(!S.active||S.testing||!S.tests.length||!S.g.carta)return html;
   const T=document.createElement("template");T.innerHTML=html;const sec=T.content.querySelector("section.hoy3");if(!sec)return html;
   const scene=sec.querySelector(".hscene"),quest=sec.querySelector(".hquest");
-  const c=CI[S.active.id],a=AREAS[c.a],n=dayN(),R=!!REG[c.id],t=today(),pend=todayItems().some(x=>x.st==="todo");
-  if(quest&&R&&n<7&&!(n===1&&!S.active.plan)){const act1=c.h.split(". ")[0].replace(/\.$/,""),mine=rgEntries(c.id,t,t).length,more=quest.querySelector("details.more2");
-    const card=document.createElement("div");card.className="bzmis"+(pend?"":" ok");card.style.setProperty("--h",a.h);
-    card.innerHTML=`<div class="bzmish"><span class="pxchip">MISIÓN PRINCIPAL</span><span class="bzreg">📍 ${esc(GREG[a.k]||a.n)}</span></div><h2>${esc(c.t)}</h2><p class="bzmeta">Día ${Math.min(n,7)} de 7 · ${pend?"+10 XP al apuntarlo":"hecho hoy"}</p>${hoyTrack()}${hoyGoal()}`;
-    const form=quest.querySelector(".rgform"),how=quest.querySelector("details.howto"),setup=quest.querySelector(".rxsetup");
-    if(pend){card.insertAdjacentHTML("beforeend",`<p class="bzhoy">Hoy: <b>${esc(lc(act1))}</b>.</p>`);
-      if(setup){const box=setup.closest(".rqs");if(box){box.classList.add("bzsetup");card.appendChild(box)}}
-      const log=quest.querySelector(".rqs.log .rqb");if(log){const k=log.querySelector(".rqk");if(k)k.remove();log.querySelectorAll("p.okline").forEach(p=>{if(/asegurado/.test(p.textContent))p.remove()});const w=document.createElement("div");w.className="bzact";while(log.firstChild)w.appendChild(log.firstChild);w.querySelectorAll("p").forEach(p=>{if(/^Rellena lo que te pregunta/.test(p.textContent.trim()))p.remove()});card.appendChild(w)}}
+  const c=CI[S.active.id],a=AREAS[c.a],n=dayN(),R=!!REG[c.id],t=today(),pend=todayItems().some(x=>x.st==="todo"),act1=c.h.split(". ")[0].replace(/\.$/,""),first=n===1&&!S.active.plan,inApp=R&&!!REG[c.id].tool;
+  if(!quest)return html;
+  const card=document.createElement("div");card.className="bzmis"+(pend?"":" ok");card.style.setProperty("--h",a.h);
+  const meta=first?"Día 1 de 7 · prepara tu plan (+5 XP)":n>=7?"Día 7 de 7 · valora tu semana (+20 XP)":`Día ${n} de 7 · ${pend?(R?"+10 XP al apuntarlo":"+10 XP si lo haces"):"hecho hoy"}`;
+  card.innerHTML=`<div class="bzmish"><span class="pxchip">MISIÓN PRINCIPAL</span><span class="bzreg">📍 ${esc(GREG[a.k]||a.n)}</span></div><h2>${esc(c.t)}</h2><p class="bzmeta">${meta}</p>${hoyTrack()}${first?"":hoyGoal()}`;
+  const more=quest.querySelector("details.more2"),how=quest.querySelector("details.howto");
+  const tidyMore=()=>{if(!more)return;more.querySelectorAll(".week,.wkleg,.checkin").forEach(e=>e.remove());const sm=more.querySelector("summary");if(sm)sm.textContent="Ver el plan y para qué sirve";card.appendChild(more)};
+  const remind=()=>{if(n===1&&S.active.plan&&!S.active.alarm){const cb=quest.querySelector(".calbox");let link="";if(cb){const m=cb.querySelector("a.btn,button.btn");if(m){m.className="linkbtn";m.textContent="Añadir al calendario";link=m.outerHTML}}card.insertAdjacentHTML("beforeend",`<div class="bzrem"><span>🔔 ¿Quieres un aviso a las ${esc(S.active.time||"21:30")}?</span>${link}<button class="linkbtn" data-act="alarm-ok">Ya tengo aviso</button></div>`)}};
+  if(first){
+    const rx=quest.querySelector(".rxsetup");card.insertAdjacentHTML("beforeend",`<p class="bzhoy">Hoy solo preparas tu plan${rx?" y tu punto de partida":""}. <b>${rx?"2 minutos":"1 minuto"}.</b></p>`);if(rx){rx.classList.add("bzsetup");card.appendChild(rx)}
+    ["label[for=plan]","#plan","label[for=atime]",".chips","#atime"].forEach(s=>{const e=quest.querySelector(s);if(e)card.appendChild(e)});
+    const lab=card.querySelector("label[for=plan]");if(lab)lab.textContent="Tu plan: cuándo y dónde lo harás";const lab2=card.querySelector("label[for=atime]");if(lab2)lab2.textContent="Tu hora para marcarlo";
+    card.insertAdjacentHTML("beforeend",`<p class="bzwhy1">Decidir de antemano cuándo y dónde lo harás hace mucho más fácil cumplirlo.</p>`);
+    const b=quest.querySelector('[data-act="saveplan"]');if(b){b.style.width="100%";card.appendChild(b)}
+    const why=document.createElement("details");why.className="more2";why.innerHTML=`<summary>Por qué y cómo funciona</summary><div class="stack" style="gap:10px;margin-top:10px"></div>`;const wb=why.querySelector("div");
+    quest.querySelectorAll(".retowhat,details.howto,.retocard>p.muted,.retocard>.guide").forEach(e=>wb.appendChild(e));if(more){const st=more.querySelector(":scope>div");if(st)wb.appendChild(st)}card.appendChild(why)}
+  else if(n>=7){const rc=quest.querySelector(".retocard");if(rc)[...rc.children].forEach(e=>{if(!e.matches(".row:first-child,h2,details.more2,.valline"))card.appendChild(e)});tidyMore()}
+  else if(R){const mine=rgEntries(c.id,t,t).length;
+    if(pend){card.insertAdjacentHTML("beforeend",hoyStep(1,inApp?"Tu reto de hoy":"Hazlo fuera de la app")+`<p class="bzhoy">Hoy: <b>${esc(lc(act1))}</b>.</p>`);
+      remind();const setup=quest.querySelector(".rxsetup");if(setup){const box=setup.closest(".rqs");if(box){box.classList.add("bzsetup");card.appendChild(box)}}
+      const log=quest.querySelector(".rqs.log .rqb");if(log){const k=log.querySelector(".rqk");if(k)k.remove();log.querySelectorAll("p.okline").forEach(p=>{if(/asegurado|misión cumplida/.test(p.textContent))p.remove()});log.querySelectorAll("p").forEach(p=>{if(/^Rellena lo que te pregunta/.test(p.textContent.trim()))p.remove()});
+        if(inApp)log.querySelectorAll(":scope>button.btn.ghost[data-act]").forEach(b=>card.appendChild(b));const w=document.createElement("div");w.className="bzact";w.insertAdjacentHTML("beforeend",hoyStep(2,"Cuando lo hayas hecho, apúntalo"));while(log.firstChild)w.appendChild(log.firstChild);
+        const sv=w.querySelector('[data-act="rg-save"]');if(sv)sv.textContent=/día cuenta como hecho/.test(sv.textContent)?"Guardar en mi diario (+10)":"Guardar en mi diario";
+        const hn=w.querySelector('[data-log="no"]');if(hn){const row=hn.closest(".row")||hn;row.outerHTML=`<div class="bzmisx"><button class="linkbtn" data-log="no">${S.active.log[S.rgDay&&S.rgDay<t?S.rgDay:t]==="no"?"✓ Marcado: no ha podido ser":"Hoy no ha podido ser (+2)"}</button></div>`}
+        card.appendChild(w)}
+      if(how){how.open=!!S.howOpen;card.appendChild(how)}}
     else{card.insertAdjacentHTML("beforeend",`<div class="bzdone"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b><br><span class="muted" style="font-size:.85rem">${mine===1?"Tienes 1 registro hoy.":`Tienes ${mine} registros hoy.`}${S.active.time?` Mañana, otro toque (tu alarma: ${esc(S.active.time)}).`:""}</span></div></div>`);
-      if(form){const w=document.createElement("div");w.className="bzact";const note=form.parentElement&&[...form.parentElement.children].find(e=>e.matches("p.eyebrow"));if(note)w.appendChild(note);w.appendChild(form);card.appendChild(w)}
+      const form=quest.querySelector(".rgform");
+      if(form){const w=document.createElement("div");w.className="bzact";const note=form.parentElement&&[...form.parentElement.children].find(e=>e.matches("p.eyebrow"));if(note)w.appendChild(note);const sv=form.querySelector('[data-act="rg-save"]');if(sv)sv.textContent=/día cuenta como hecho/.test(sv.textContent)?"Guardar en mi diario (+10)":"Guardar en mi diario";w.appendChild(form);card.appendChild(w)}
       else card.insertAdjacentHTML("beforeend",`<div class="bzmisx"><button class="linkbtn" data-act="rg-more">+ Añadir otro momento</button><button class="linkbtn" data-act="diario">📓 Ver mi diario</button></div>`)}
-    if(how){how.open=!!S.howOpen;card.appendChild(how)}
-    if(more){more.querySelectorAll(".week,.wkleg").forEach(e=>e.remove());const sm=more.querySelector("summary");if(sm)sm.textContent="Ver el plan y para qué sirve";card.appendChild(more)}
-    quest.replaceWith(card)}
-  else if(quest){quest.open=true}
-  const mis=sec.querySelector(".bzmis,.hquest");
-  if(scene&&mis){scene.classList.add("hsmall");const eb=document.createElement("p");eb.className="bzeyeb";eb.textContent="Tu próximo camino";mis.after(eb);eb.after(scene)}
+    tidyMore()}
+  else{const ck=quest.querySelector(".checkin");
+    if(pend)card.insertAdjacentHTML("beforeend",(S.active.log[t]==="no"?"":hoyStep(1,"Hazlo fuera de la app"))+`<p class="bzhoy">Hoy: <b>${esc(lc(act1))}</b>.</p>`);
+    remind();
+    const isNo=S.active.log[t]==="no";if(ck){if(pend&&isNo)card.insertAdjacentHTML("beforeend",`<p class="bzwhy1">Has marcado que hoy no ha podido ser. Si al final lo haces, cámbialo aquí.</p>`);else if(pend)card.insertAdjacentHTML("beforeend",hoyStep(2,"Cuando lo hayas hecho, márcalo"));else{ck.classList.add("sm");card.insertAdjacentHTML("beforeend",`<div class="bzdone"><span class="bigck">✓</span><div><b>Ya puedes cerrar la app.</b><br><span class="muted" style="font-size:.85rem">¿Te has equivocado? Toca otra opción.</span></div></div>`)}
+      card.appendChild(ck);const nx=ck.nextElementSibling;if(pend&&nx&&nx.matches("p.minline"))card.appendChild(nx)}
+    if(how&&pend){how.open=false;card.appendChild(how)}tidyMore()}
+  quest.replaceWith(card);
+  if(scene){scene.classList.add("hsmall");
+    const rk=(scene.querySelector(".hsreg")||{}).dataset;const k=rk&&rk.reg;
+    if(k&&k===a.k){const p=scene.querySelector(".advtxt");if(p){p.removeAttribute("data-tw");p.textContent=first?"Primero, tu plan. Es un minuto y te servirá toda la semana.":n>=7?"Último día. Cuéntame qué tal la semana: así sabrás si te sirve.":pend?`Tu misión de hoy te espera. Cuando la hagas, ${R?"apúntala":"márcala"} arriba.`:"Misión de hoy hecha. Mañana, otro día de práctica."}}
+    const eb=document.createElement("p");eb.className="bzeyeb";eb.textContent="Tu próximo camino";card.after(eb);eb.after(scene)}
   const opt=sec.querySelector(".hopt2>summary");if(opt)opt.textContent=opt.textContent.replace("✨ Más cosas para hoy, si te apetece","+ Misiones secundarias");
   return T.innerHTML}
 /*HOY26-END*/
@@ -3199,7 +3225,7 @@ function hoyMission(){const R=mwSeen(),k=hoyPri(R);if(!k||!MWPOS[k])return null;
   if(!lo){now=`¡Viajero! Te estaba esperando. Ven a hablar conmigo a la entrada de ${GREG[k]}: tengo una misión para ti.`;btn=`<button class="btn" data-reg="${k}">💬 Ir a hablar con ${esc(cn)}</button>`}
   else if(!A){now=st[1]&&st[1][3]?"¡Lo has conseguido! Has abierto un camino nuevo. Vuelve cuando quieras a seguir descubriendo.":"En mi tierra se viene a descubrir. Supera 3 de mis lecturas y se abrirá un camino nuevo.";btn=`<button class="btn" data-reg="${k}">📖 Ver mis lecturas</button>`}
   else if(S.active&&aK(S.active.id)===k&&!A.T.p&&S.active.start<A.T.b){now=`Tu reto empezó antes del bronce, así que no cuenta para la plata. Termínalo el ${fmtD(addDays(S.active.start,6))} y luego elige otro de mi tierra.`}
-  else if(S.active&&aK(S.active.id)===k&&!A.T.p){now=S.active.log[today()]?"Hoy ya has cumplido. Vuelve mañana: un día más y mi plata estará más cerca.":"Tu reto de la semana está en marcha. Márcalo hoy aquí debajo: así se gana mi plata.";btn=A.act&&A.act[0]==="train"?gBtn(k,A.act,"btn ghost"):""}
+  else if(S.active&&aK(S.active.id)===k&&!A.T.p){now=S.active.log[today()]?"Hoy ya has cumplido. Vuelve mañana: un día más y mi plata estará más cerca.":"Tu reto de la semana está en marcha. Márcalo hoy en tu misión: así se gana mi plata.";btn=A.act&&A.act[0]==="train"?gBtn(k,A.act,"btn ghost"):""}
   else{now=(A.next||"Ven a verme: tengo algo para ti.").replace(/^(Bronce|Plata|Oro): /,"").replace(/^./,m=>m.toUpperCase());btn=gBtn(k,A.act)}
   return {k,A,st,cn,now,btn}}
 function lectCnt(k){if(!k||k==="VAL"||!MWPOS[k])return null;const cs=mwCs(k);if(!cs.length)return null;const okf=c=>(S.g.ok||{})[c.id]||(S.g.dom||{})[c.id];
@@ -5380,7 +5406,7 @@ const FAQ=[
 ["Se me olvidó marcar un día. ¿Lo he perdido?","No. En «Tus 7 días», toca el círculo de ese día y márcalo."],
 ["¿Para qué sirve la racha?","Para que veas de un vistazo si estás siendo constante. Un hábito se crea repitiendo, y ver el número subir ayuda a no cortar la cadena. No es un premio ni se compara con nadie, y un fallo suelto no la rompe."],
 ["Un día no lo he hecho. ¿Pierdo la racha?","No. Un fallo suelto no rompe la racha. Si fallas dos días seguidos, la racha vuelve a 0, pero no pierdes puntos, ni etapa, ni el reto: en cuanto vuelvas a hacerlo, empieza a contar de nuevo. Marca «Hoy no» con sinceridad, que también suma puntos."],
-["¿Cuándo supero un reto?","Cuando lo has hecho (o hecho «un poco») al menos 5 de los 7 días. Aunque llegues a 5 antes, el reto dura los 7 días: los últimos son los que lo convierten en costumbre. El día 7 lo valoras y pasas al siguiente."],
+["¿Cuándo supero un reto?","Cuando lo has hecho (o hecho «un poco») al menos 5 de los 7 días. Con 5 días, misión cumplida; con 7, semana completa. Aunque llegues a 5 antes, el reto dura los 7 días: cada día de más es práctica extra. Una semana no basta para crear un hábito, pero sí para probar si te funciona. El día 7 lo valoras y pasas al siguiente."],
 ["¿Y si no lo supero?","No pasa nada. Puedes repetir la semana, que suele ser lo mejor, o pasar al siguiente reto igualmente. Tú decides."],
 ["Este reto me cuesta demasiado. ¿Puedo cambiarlo?","Sí. Si marcas «Hoy no» tres días seguidos, la app te propone la versión mínima o cambiar a otro reto, sin perder lo que llevas marcado. Puedes elegir cualquier reto disponible de tus regiones descubiertas."],
 ["Si en la Biblioteca veo algo que me interesa, ¿puedo hacerlo?","La Biblioteca es solo para leer. Si su región está descubierta, entra en ella desde el Mundo: allí están sus retos y puedes empezar el que quieras cuando acabes tu misión actual."],
@@ -5867,7 +5893,7 @@ document.addEventListener("click",e=>{
   if(d.dot){if(!S.active||d.dot>today()||d.dot<S.active.start||d.dot>addDays(S.active.start,6))return;
     if(REG[S.active.id]){if(d.dot===today()){S.rgDay=null;render();return}if(rgEntries(S.active.id,d.dot,d.dot).length){toast("Ese día ya está en tu diario");return}S.rgDay=d.dot;S.rgMore=false;render();setTimeout(()=>{const f=document.querySelector(".rgform");if(f)f.scrollIntoView({block:"center"})},50);return}const order=[undefined,"si","poco","no"],cur=S.active.log[d.dot],nx=order[(order.indexOf(cur)+1)%4];if(nx)S.active.log[d.dot]=nx;else delete S.active.log[d.dot];save();render();return}
   if(d.rate){S.active.rating=+d.rate;save();render();return}
-  if(d.finish){const ok=goodDays(S.active)>=5;finishReto(d.finish);S.more=false;toast(ok?"+20 · Reto superado":"+20 · Semana revisada");render();window.scrollTo({top:0});return}
+  if(d.finish){const ok=goodDays(S.active)>=5;finishReto(d.finish);S.more=false;toast(ok?"+20 · Misión cumplida":"+20 · Semana revisada");render();window.scrollTo({top:0});return}
   if(d.sto){const [k,o]=d.sto.split(":").map(Number);S.active.sto=S.active.sto||{};S.active.sto[k]=o;S.stoLast=k;save();render();return}
   if(d.open){openConcept(d.open);return}
   if(d.tipok){const fast=Date.now()-noticeOpenAt<2000&&!!t.closest(".notice");if(diagHit("tip",fast))toast("No leas en diagonal: estos avisos son cortos y te ahorran dudas. Si te has saltado alguno, está en Dudas frecuentes.");S.tips.push(d.tipok);save();render();return}
@@ -6120,7 +6146,7 @@ else if(act==="saveplan"){const v=document.getElementById("plan").value.trim(),t
   else if(act==="breath"){S.breath=true;render()}
   else if(act==="mis-next"){S.misIdx++;S.breath=false;render()}
   else if(act==="mis-close"){S.misClosed=true;render()}
-  else if(act==="early"){finishReto("next");S.more=false;toast("+20 · Reto superado antes de tiempo");render();window.scrollTo({top:0})}
+  else if(act==="early"){finishReto("next");S.more=false;toast("+20 · Misión cumplida antes de tiempo");render();window.scrollTo({top:0})}
   else if(act==="r-keep"){S.rescued=true;render()}
   else if(act==="r-restart"){S.active.start=today();S.active.log={};S.active.rating=null;S.rescued=true;save();toast("Semana reiniciada. ¡A por ello!");render()}
   else if(act==="r-mini"){S.rescued=true;toast("Hoy basta con 2 minutos: empieza y para cuando quieras");render()}
@@ -6512,6 +6538,21 @@ section:has(.bzlibh)>div>h1{font-size:1rem;line-height:1.3}
 .hscene.hsmall .advbox{padding:14px 12px 10px}
 .hscene.hsmall .advtxt{font-size:.9rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hscene.hsmall .advbar .btn{min-height:40px;font-size:.72rem;padding:6px 12px}
+.bzstep{display:flex;align-items:center;gap:8px;margin:2px 0 -4px;font-family:var(--pxf);font-size:.66rem;letter-spacing:.05em;color:var(--muted);text-transform:uppercase}
+.bzstep b{display:grid;place-items:center;width:20px;height:20px;background:#FF6B3D;color:#1E2B38;font-size:.7rem}
+.bzact .bzstep{margin-bottom:0}
+.bzmis .checkin{margin:0}
+.bzmis .checkin.sm button{min-height:40px;padding:6px 4px}
+.bzmis .bzhoy{font-size:.95rem}
+.bzmis .bzhoy b{font-weight:700}
+.bzmis #plan{min-height:118px}
+.bzmis .bzwhy1{margin:0;font-size:.86rem;color:var(--muted);border-left:3px solid var(--line);padding-left:8px}
+.bzmis .bzrem{display:flex;gap:6px 12px;align-items:center;flex-wrap:wrap;font-size:.84rem;padding:8px 10px;border:2px dashed var(--line)}
+.bzmis .bzrem .linkbtn{font-size:.84rem;min-height:32px}
+.bzmis .retocard,.bzmis .pendrow{display:none}
+.hscene.hsmall{gap:0!important}
+.hscene.hsmall .advbox{margin-top:-10px;position:relative;z-index:1}
+.hscene.hsmall .advbox .btn{background:transparent!important;color:#F4F1E8!important;border:2px solid #F4F1E8!important;box-shadow:0 3px 0 #000!important}
 </style>
 
 </body></html>
