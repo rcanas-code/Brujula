@@ -61,3 +61,9 @@ Los resultados y las capturas quedan en `tests/.out/<etiqueta>/` (no se suben). 
 ## Scripts exploratorios
 
 Durante el desarrollo se escribieron unos 200 scripts más (capturas, comparativas, depuración) y los parches `p*.py` que construyeron cada versión. No se suben al repositorio público: contienen rutas del espacio temporal y, en algunos casos, nombres reales en datos de prueba. Están archivados en la copia externa (ver [docs/copias-de-seguridad.md](../docs/copias-de-seguridad.md)).
+
+## Demostración (rama propuesta)
+
+- `node tests/demo-logica.js`: aislamiento y reloj sin navegador.
+- `node tests/demo.js [ruta-chromium]`: integración de controles, aislamiento, copias, reinicio y salida en un servidor local de prueba.
+- Ejecutar además la batería habitual en modo normal y con D apagado. No sustituir la prueba real en iPhone por estas comprobaciones.

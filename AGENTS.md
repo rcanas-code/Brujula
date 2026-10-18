@@ -1,5 +1,7 @@
 # AGENTS.md · Instrucciones para Codex y otros agentes
 
+> **Actualización AG-02 · 19/10/2026:** Raúl autoriza a Codex a asumir también el desarrollo que llevaba Claude, en una rama propia `codex/…`, preparando cambios para revisión. Esta autorización sustituye exclusivamente las restricciones anteriores de «solo revisor» y «no tocar el juego». No autoriza publicar, fusionar PR, escribir en `main`, `desarrollo` ni ramas de Claude. Se mantienen las demás reglas y aprobaciones.
+
 Brújula es una aventura educativa pixel art en una sola página web (`index.html`), publicada con GitHub Pages desde `main`. Autor y responsable: Raúl Cañas.
 
 ## Tu papel: revisor técnico independiente (AG-01)
