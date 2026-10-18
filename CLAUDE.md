@@ -19,12 +19,15 @@ Brújula es una aventura educativa pixel art para jóvenes, de Raúl Cañas. Lee
 | `proto/` | Prototipos de armonización; la app no los carga |
 | `candidata/` (solo en `main`) | Versión candidata publicada |
 | Documentos `*.md` y `docs/` | Documentación (solo en `desarrollo`) |
+| `tests/`, `tools/` | Pruebas automatizadas y herramientas (solo en `desarrollo`) |
 
 Ramas:
 - `desarrollo`: trabajo diario y documentación.
 - `main`: lo que publica GitHub Pages. Solo recibe `candidata/index.html` (con el nombre de icono «Brújula prueba») y, **con confirmación expresa de Raúl**, `index.html` de los alumnos.
 - La documentación no se lleva a `main`: GitHub Pages la serviría como página pública.
-- El repositorio es **público**: nada privado, ninguna credencial, ningún dato de alumnos.
+- El repositorio es **público**: nada privado, ninguna credencial, ningún dato de alumnos, nada estratégico (DOC-01). Lo privado va a Drive.
+- Commits con el correo «noreply» de GitHub, nunca con un correo personal o institucional (SEC-01).
+- Codex revisa como agente independiente (AG-01): trabaja en ramas `codex/…` y no toca el juego.
 
 ## Reglas que no se rompen
 
@@ -50,7 +53,7 @@ Ramas:
 - Fechas: usa `page.clock.install()` y `clock.fastForward()`; nunca manipules a mano datos reales del alumnado.
 - Batería mínima tras cualquier cambio: recorrido de Hoy, regiones, migración de partidas antiguas, copia de seguridad ida y vuelta, pantallas a 360 px en claro y oscuro, interruptor apagado.
 - Informa siempre del nivel de verificación: **revisión estática**, **prueba automatizada** o **probado en móvil real**. No digas que algo está probado si solo has leído el código.
-- Las pruebas todavía no están en el repositorio (ver DOC-03 en [docs/README.md](docs/README.md)).
+- Batería completa: `tests/ejecutar.sh <etiqueta>` y, con el modelo D apagado, `BRUJULA_DREG=off tests/ejecutar.sh <etiqueta>`. Ver [tests/README.md](tests/README.md). Herramientas en [tools/](tools/README.md).
 
 ## Forma de trabajar
 

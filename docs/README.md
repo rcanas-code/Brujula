@@ -1,6 +1,6 @@
 # Documentación de Brújula
 
-> Índice de la documentación permanente. Creada el 18/10/2026 en la rama `docs/infraestructura` para revisión. No cambia el funcionamiento de la app.
+> Índice de la documentación permanente. Creada el 18/10/2026. No cambia el funcionamiento de la app. Todo lo que hay aquí es público: lo privado o estratégico vive en Drive.
 
 ## Mapa
 
@@ -20,6 +20,8 @@
 | [bibliografia.md](bibliografia.md) | Fuentes citadas y su verificación | Claude |
 | [recursos-externos.md](recursos-externos.md) y [recursos-externos.csv](recursos-externos.csv) | Procedencia, licencia y verificación de cada recurso | Claude prepara, Raúl verifica |
 | [copias-de-seguridad.md](copias-de-seguridad.md) | Sistema de copias y restauración | Raúl |
+| [../LICENSE](../LICENSE) y [../THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md) | Derechos reservados y avisos de terceros | Raúl |
+| [../tests/README.md](../tests/README.md) y [../tools/README.md](../tools/README.md) | Pruebas automatizadas y herramientas (rama `tools/pruebas` hasta fusionarla) | Claude |
 | [drive/biblia-drive.md](drive/biblia-drive.md) | Organización de la Biblia en Google Drive y sincronización | Raúl |
 
 ## Fuentes de verdad
@@ -38,17 +40,14 @@ Enlaces privados de claude.ai (solo los ve Raúl con su cuenta):
 
 Los enlaces concretos están en el registro del proyecto de Claude y no se copian aquí para no exponerlos en un repositorio público.
 
-## Decisiones que necesitan confirmación
+## Decisiones de infraestructura
 
-| ID | Decisión | Opciones | Recomendación |
-|---|---|---|---|
-| DOC-01 | Visibilidad del repositorio | **Público** (GitHub Pages gratis; todo lo subido es visible) · **Privado** (Pages requiere plan de pago u otro alojamiento) | Mantener público y no subir nada estratégico ni privado; lo comercial y lo del centro, a Drive |
-| DOC-02 | Licencia del código y los contenidos | Archivo `LICENSE` «Todos los derechos reservados» + aviso de terceros · Licencia abierta para el código y reservada para contenidos · Sin cambios | `LICENSE` reservado + `THIRD_PARTY_NOTICES` con las fuentes |
-| DOC-03 | Llevar al repositorio las herramientas y pruebas (hoy en espacio temporal) | Carpetas `tools/` y `tests/` en `desarrollo` · Guardarlas solo en Drive | En el repositorio, sin datos privados y con rutas relativas |
-| DOC-04 | Fuente de verdad de las decisiones | `DECISIONES.md` manda y el proyecto de Claude es copia · Al revés | `DECISIONES.md` |
-| DOC-05 | Dónde vive la documentación | Solo en `desarrollo` · También en `main` | Solo en `desarrollo`: en `main` GitHub Pages la publicaría |
-| DOC-06 | Biblia en Drive y sincronización | Estructura propuesta + sincronización semanal automática · Manual | Estructura propuesta; sincronización semanal con tarea programada |
-| DOC-07 | Copias de seguridad | Regla 3-2-1 con bundle semanal en Drive y protección de `main` | Sí |
-| DOC-08 | Corregir `README.md` («14 áreas» → 19 regiones) y enlazar la documentación | Ahora en `desarrollo` · Al publicar la siguiente versión estable | En `desarrollo` ahora; en `main`, con la próxima versión estable |
-| DOC-09 | Service worker para que la app funcione sin conexión | Implementar (cambio técnico, requiere pruebas) · Dejarlo | Implementar antes del piloto, con tu aprobación |
-| DOC-10 | Publicar esta rama en GitHub para revisarla como PR | Push de `docs/infraestructura` y PR contra `desarrollo` · Revisar primero el paquete | Revisar el paquete y, si te parece bien, PR |
+DOC-01 a DOC-10 se aprobaron el 18/10/2026 con condiciones. Están en [DECISIONES.md](../DECISIONES.md#infraestructura-documental-aprobadas-el-18102026), que es la fuente oficial.
+
+## Estudios y análisis
+
+| Documento | Estado |
+|---|---|
+| [repositorios.md](repositorios.md) | Viabilidad de separar repositorio privado de desarrollo y público de publicación (DOC-01). Solo análisis |
+| [sin-conexion.md](sin-conexion.md) | Service worker: estrategia, actualizaciones y riesgos (DOC-09). Solo análisis y prototipo |
+| [pendientes-de-consolidar.md](pendientes-de-consolidar.md) | Conceptos de Raúl aún sin especificación en el repositorio: modo demostración y Observatorio del Tiempo |

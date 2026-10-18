@@ -37,7 +37,7 @@ Pregunta guía de cualquier recompensa: *¿qué tendría que hacer el alumno par
 
 ## Horizonte
 
-Una aventura que enseña de verdad, funciona sin profesor, crece con contenidos nuevos y puede llegar a ser un producto sostenible (primero licencias educativas para centros y docentes). La comercialización solo se estudia después de validar la utilidad educativa y nunca a costa de los fundamentos anteriores.
+Una aventura que enseña de verdad, funciona sin profesor y crece con contenidos nuevos. Cualquier plan de sostenibilidad se estudia después de validar la utilidad educativa, nunca a costa de los fundamentos anteriores, y se documenta en privado.
 
 ## Documentos relacionados
 

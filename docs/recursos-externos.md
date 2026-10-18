@@ -22,7 +22,7 @@ El registro vive en [recursos-externos.csv](recursos-externos.csv) para poder ab
 
 - 174 filas: 6 tipografías, 5 grupos de recursos propios y 163 enlaces externos (64 vídeos, 16 organismos oficiales, 83 webs).
 - Extraído automáticamente de `index.html`: la columna `usado_en` es aproximada.
-- **Nada está verificado todavía.** Las tipografías tienen verificación parcial (falta el aviso de copyright de 5 familias).
+- Verificadas: las 6 tipografías (R001–R006), el 18/10/2026. El resto, sin verificar.
 
 ## Reglas
 

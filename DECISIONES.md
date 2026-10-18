@@ -5,7 +5,11 @@
 > **Estados:** Aprobada · Aprobada con condiciones · Pendiente · En estudio · Descartada · Sustituida.
 > **Ejecución:** «Sí» = se puede implementar sin volver a consultar · «Autorización» = antes hay que validar una propuesta concreta · «Solo análisis».
 >
-> Última actualización: 18/10/2026. Origen: registro de decisiones mantenido en el proyecto de Claude «Autoconocimiento» (`claude/brujula-registro-decisiones.md`), que conserva el historial detallado y los enlaces a los informes. Desde ahora, este archivo es la versión de referencia y el registro del proyecto es una copia.
+> **Fuente oficial compartida (DOC-04, aprobada el 18/10/2026).** Claude, Codex y cualquier colaborador trabajan con estas decisiones. Una decisión no se sobrescribe: si cambia, se marca «Sustituida» con la fecha y la nueva decisión, y el cambio se anota en el [registro de cambios](#5-registro-de-cambios). El registro del proyecto de Claude «Autoconocimiento» es una copia de consulta con el historial detallado; si difiere, manda este archivo.
+>
+> Lo estratégico o confidencial (comercialización, datos del centro o del piloto) no se escribe aquí porque el repositorio es público: se guarda en Drive y aquí solo queda una referencia.
+>
+> Última actualización: 18/10/2026.
 
 ## 1. Aprobadas
 
@@ -55,6 +59,22 @@
 | F-1 a F-9 | Especificación final del modelo D | Aprobada el 18/10 (19:07) solo para la candidata |
 | D-AUT | Desarrollo del modelo D en la candidata | Hecho y probado automáticamente; falta la prueba real en iPhone |
 
+### Infraestructura documental (aprobadas el 18/10/2026)
+
+| ID | Decisión | Condiciones | Estado |
+|---|---|---|---|
+| DOC-01 | Repositorio público de momento, para no interrumpir GitHub Pages | No subir nada confidencial ni estratégico; revisar ramas e historial; estudiar repositorio privado de desarrollo + público de publicación, **sin migrar** | Revisión hecha (SEC-01); estudio en [docs/repositorios.md](docs/repositorios.md) |
+| DOC-02 | Avisos de derechos reservados y `THIRD_PARTY_NOTICES` separando lo propio de lo de terceros | No declarar la titularidad exclusiva como verificada sin comprobarla; completar y verificar las licencias de las 6 tipografías | Hecho en `desarrollo`: [LICENSE](LICENSE), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), `fonts/OFL-*.txt` (verificadas) |
+| DOC-03 | Herramientas y pruebas al repositorio, en `tools/` y `tests/` | Rama independiente; sin secretos ni datos personales; verificar que funcionan | Hecho en la rama `tools/pruebas` (28/28) |
+| DOC-04 | `DECISIONES.md` es la fuente oficial compartida | Trazabilidad histórica; nada se sobrescribe sin registrar el cambio | Aplicada (sección 5) |
+| DOC-05 | Documentación en `desarrollo`; en `main` solo lo imprescindible para publicar | `desarrollo` también es público: lo privado va a Drive | Aplicada |
+| DOC-06 | Biblia de Brújula en Drive con las carpetas propuestas | Sincronización supervisada al principio; una sola fuente oficial por documento; automatizar más adelante | En preparación ([docs/drive/biblia-drive.md](docs/drive/biblia-drive.md)) |
+| DOC-07 | Copias 3-2-1: etiquetas de versión, copia local y bundle externo | Verificar que se pueden restaurar; no sobrescribir copias anteriores | Hecho ([docs/copias-de-seguridad.md](docs/copias-de-seguridad.md)) |
+| DOC-08 | `README.md`: 19 regiones y descripción actualizada | Primero en `desarrollo`; en `main` con la próxima versión estable aprobada | Hecho en `desarrollo` |
+| DOC-09 | Funcionamiento sin conexión | Solo análisis y prototipo en rama aparte; no integrar; prioridad: que funcione bien con conexión | Análisis en [docs/sin-conexion.md](docs/sin-conexion.md) |
+| DOC-10 | PR de `docs/infraestructura` contra `desarrollo` | Revisar antes información privada, afirmaciones no verificadas y errores; no fusionar automáticamente | PR abierto, sin fusionar |
+| AG-01 | Codex como revisor técnico independiente; Claude, desarrollador principal | Codex no modifica el juego ni publica en la versión de los alumnos; ramas y PR separados; mismas decisiones | Aplicada en [AGENTS.md](AGENTS.md) |
+
 ### Retos, piloto y arquitectura
 
 | ID | Decisión | Estado |
@@ -83,8 +103,10 @@
 | AU-04 | Sustituir las preguntas sobre el reto fuera del piloto | Por regiones | Raúl |
 | VA-04 | Textos heredados que mencionan la validación por foto del profesor | Corregir (bajo riesgo) | Raúl |
 | U-01 | Actualizaciones de contenido por internet sin servidores complejos | Solo análisis | — |
-| COM-01 | Licencias educativas primero; nada de pagos en el código | Solo análisis | — |
-| DOC-01 a DOC-10 | Decisiones de infraestructura documental (ver [docs/README.md](docs/README.md#decisiones-que-necesitan-confirmacion)) | Pendientes de confirmación | Raúl |
+| COM-01 | Estrategia de sostenibilidad | Documentada solo en Drive (privado); en el código no hay pagos | Raúl |
+| SEC-01 | El correo institucional de Raúl está en el código publicado (campo del panel de profesor, función desactivada) y como autor de 8 commits | Vaciar el campo en `desarrollo` y en la candidata (cambio de una línea, sin efecto en el juego); en `index.html` de alumnos, con la próxima versión estable. No reescribir el historial (rompería enlaces y copias). Commits futuros con el correo «noreply» de GitHub | Raúl (autorización) |
+| DEMO-01 | **Modo demostración** | Concepto trabajado por Raúl en conversaciones con ChatGPT. **Pendiente de consolidar documentalmente**: Raúl aportará la especificación completa. No se implementa ni se toman decisiones hasta entonces | Raúl |
+| OBS-01 | **Observatorio del Tiempo** | Concepto narrativo y educativo trabajado por Raúl en conversaciones con ChatGPT. **Pendiente de consolidar documentalmente**: Raúl aportará la especificación y las decisiones ya tomadas. Se documentará para implementarlo después del piloto, sin sustituir sus prioridades | Raúl |
 
 ## 3. En estudio (sin cambios en el mapa por ahora)
 
@@ -111,3 +133,16 @@
 | — | Validación de retos por foto del profesor | Desactivada (`PROFE_VALIDA=false`); el código se conserva | antes del 18/10 |
 | — | «Repaso sin mirar» y «lecturas dominadas» | Desactivados el 15/10 (commit `cef5514`) al llegar el entreno; código conservado | 15/10 |
 | — | Cambios estructurales del mapa ahora | Raúl no los aprueba por ahora; quedan en estudio | 18/10 |
+
+## 5. Registro de cambios
+
+Cada cambio en una decisión existente se anota aquí (fecha, ID, antes → después, quién). Las decisiones nuevas no hace falta anotarlas: ya llevan fecha en su tabla.
+
+| Fecha | ID | Cambio | Quién |
+|---|---|---|---|
+| 18/10/2026 | DOC-01 a DOC-10 | Pendientes → aprobadas con condiciones | Raúl |
+| 18/10/2026 | DOC-04 | La fuente de verdad pasa del registro del proyecto de Claude a este archivo | Raúl |
+| 18/10/2026 | DOC-09 | Recomendación «implementar antes del piloto» → aprobado solo análisis y prototipo en rama aparte | Raúl |
+| 18/10/2026 | DOC-06 | Recomendación «sincronización semanal automática» → sincronización supervisada al principio | Raúl |
+| 18/10/2026 | COM-01 | Detalle retirado del repositorio público; queda en Drive | Claude, aplicando DOC-01 |
+| 18/10/2026 | DEMO-01, OBS-01 | Registrados como pendientes de consolidar documentalmente | Raúl |

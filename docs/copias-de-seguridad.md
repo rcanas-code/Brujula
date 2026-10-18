@@ -1,38 +1,46 @@
 # Copias de seguridad
 
-> Propuesta del 18/10/2026. Pendiente de confirmación (DOC-07).
+> Sistema 3-2-1 aprobado (DOC-07, 18/10/2026): tres copias, en dos soportes, una fuera de GitHub. Nunca se sobrescribe una copia anterior: cada copia lleva fecha en el nombre y las etiquetas no se mueven.
 
-## Situación actual
+## Copias que existen (18/10/2026)
 
-| Qué | Dónde está | Riesgo |
-|---|---|---|
-| Código y documentación | GitHub (`rcanas-code/Brujula`), ramas `main` y `desarrollo` | Una sola copia remota; un borrado o un push forzado afecta a todo |
-| Herramientas de compilación y pruebas automatizadas | Espacio temporal de las sesiones de Claude | **Se pierden** cuando termina la sesión (ver DOC-03) |
-| Informes y propuestas | Documentos privados en claude.ai | Dependen de la cuenta; sin exportación periódica |
-| Registro de decisiones | Proyecto de Claude «Autoconocimiento» y ahora `DECISIONES.md` | Duplicado sin sincronización automática |
-| Partidas de los alumnos | `localStorage` de cada móvil; código de copia «BRUJULA-…» | Responsabilidad del alumno; las fotos del álbum no se copian |
+| # | Copia | Dónde | Qué contiene | Estado |
+|---|---|---|---|---|
+| 1 | Repositorio | GitHub `rcanas-code/Brujula` | Todas las ramas y etiquetas | Existe |
+| 1a | Etiquetas de versión | GitHub | `estable-v200` (95f4145, alumnos) · `candidata-2026-10-18` (d139746) · `desarrollo-2026-10-18` (7b412b1) · `pre-modeloD` (24b8fcf) · `v197-antes-de-lanzamiento` (8e6007f) · `pre-gamificacion` (2a2c116) | Publicadas el 18/10 |
+| 1b | Ramas de copia | GitHub | `v200-publicada`, `v197-estable`, `copia-pre-gamificacion` | Ya existían |
+| 2 | Bundle de git | Archivo `brujula-20261018.bundle` entregado a Raúl en la conversación de Claude, con su suma SHA-256 | Todo el historial, todas las ramas y etiquetas | **Restauración comprobada** (ver abajo). Pasa a ser copia local cuando Raúl lo descargue a su ordenador |
+| 3 | Copia externa (Drive) | — | Bundle + paquetes de trabajo | **Pendiente**: el Drive conectado es la cuenta institucional; falta elegir cuenta (ver [drive/biblia-drive.md](drive/biblia-drive.md)) |
+| — | Paquetes de trabajo | Entregados a Raúl en la conversación | `brujula-scripts-exploratorios-20261018.tar.gz` (≈330 scripts exploratorios y parches de versiones) · `brujula-trabajo-modeloD-20261018.tar.gz` (fuentes del modelo D, especificación, registro y copias previas al modelo D) | Privados: no van al repositorio público |
 
-## Propuesta: regla 3-2-1
+Mientras la copia 3 no exista, la regla 3-2-1 **no está completa**: hay GitHub y el bundle descargable.
 
-Tres copias, en dos soportes distintos, una fuera de GitHub.
+## Prueba de restauración del bundle (18/10/2026)
 
-1. **GitHub** (copia de trabajo). Proteger `main` contra pushes forzados y borrados (ajuste de GitHub: *Branch protection rules*). Etiqueta en cada publicación: `estable-AAAAMMDD` y `candidata-AAAAMMDD`.
-2. **Clon local en el ordenador de Raúl**, actualizado tras cada bloque de trabajo (`git pull` en todas las ramas).
-3. **Paquete semanal en Google Drive**: `git bundle create brujula-AAAAMMDD.bundle --all` guardado en `06 Copias de seguridad/`. Un *bundle* es un único archivo con todo el historial y todas las ramas; se restaura con `git clone brujula-AAAAMMDD.bundle`. Conservar los 8 últimos y uno por mes.
+1. `git bundle verify brujula-20261018.bundle` → correcto.
+2. `git clone brujula-20261018.bundle restaurada` y comprobación de que están todas las ramas y etiquetas.
+3. `index.html` de la etiqueta `estable-v200` idéntico al publicado en `main`.
+4. Batería de pruebas ejecutada desde la copia restaurada (rama `tools/pruebas`).
 
-Además:
-- Antes de cada cambio importante: etiqueta `pre-<tema>` (ya se hizo con `pre-modeloD`).
-- Exportar a PDF los informes de claude.ai que respaldan decisiones y guardarlos en `07 Informes/`.
-- No guardar nunca en Drive ni en GitHub copias de partidas reales de alumnos.
+El resultado concreto de cada paso se anota en el informe de entrega del 18/10/2026.
 
-## Automatización posible
+## Cómo restaurar
 
-- Una tarea programada de Claude puede generar el *bundle* semanal y subirlo a Drive con el conector de Google Drive de la cuenta de Raúl, sin credenciales en el repositorio. Requiere tu autorización (DOC-06).
-- Alternativa sin IA: un recordatorio semanal y dos comandos en el ordenador.
+```bash
+git clone brujula-AAAAMMDD.bundle brujula-restaurada
+cd brujula-restaurada
+git branch -a          # todas las ramas
+git tag                # todas las etiquetas
+git remote set-url origin https://github.com/rcanas-code/Brujula.git   # si hay que volver a publicar
+```
 
-## Restauración (prueba recomendada una vez al trimestre)
+Para recuperar solo la versión de los alumnos: `git show estable-v200:index.html > index.html`.
 
-1. Descargar el último *bundle* de Drive.
-2. `git clone brujula-AAAAMMDD.bundle brujula-restaurada`.
-3. Abrir `index.html` en el navegador y comprobar que carga.
-4. Apuntar la fecha de la prueba en [../ESTADO.md](../ESTADO.md).
+## Rutina
+
+- **Antes de cada cambio importante:** etiqueta `pre-<tema>`.
+- **En cada publicación:** etiqueta `estable-AAAAMMDD` o `candidata-AAAAMMDD`. Las etiquetas no se mueven ni se borran.
+- **Al cerrar cada bloque de trabajo (supervisado):** nuevo bundle con fecha, verificación y subida a Drive. Conservar todos los de los últimos dos meses y uno por mes después.
+- **Una vez al trimestre:** prueba de restauración completa.
+- **Recomendado en GitHub (Raúl):** proteger `main` y `desarrollo` (*Branch protection rules*: sin push forzado ni borrado).
+- Nunca se guardan copias de partidas reales de alumnos ni en GitHub ni en Drive.

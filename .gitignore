@@ -19,3 +19,8 @@ partidas/
 .DS_Store
 Thumbs.db
 node_modules/
+
+# Resultados de pruebas
+tests/.out/
+tests/.tmp/
+*.bak

@@ -1,6 +1,8 @@
 # Biblia de Brújula en Google Drive
 
-> Propuesta de organización y sincronización. Pendiente de confirmación (DOC-06). No contiene credenciales: el acceso a Drive se hace desde la cuenta de Raúl (en la web o con el conector de Google Drive de Claude), nunca con claves guardadas en el repositorio.
+> Organización aprobada (DOC-06, 18/10/2026) con sincronización supervisada al principio. No contiene credenciales: el acceso a Drive se hace desde la cuenta de Raúl, nunca con claves guardadas en el repositorio.
+>
+> **Bloqueo (18/10/2026):** el Google Drive conectado a Claude es la cuenta **institucional** del centro, no una cuenta personal. Por eso la estructura **no se ha creado todavía**: guardar ahí la Biblia (propiedad intelectual, estrategia, copias del proyecto) dejaría el proyecto dentro del espacio de trabajo del Departament. Hace falta que Raúl elija la cuenta (ver «Cuenta de Drive» abajo).
 
 ## Reparto de papeles
 
@@ -58,9 +60,19 @@ Reglas:
 3. Si Drive y el repositorio no coinciden, manda el repositorio para los fundamentos y Drive para lo privado y lo binario.
 4. Nada de `04` ni `05` se menciona con datos concretos en el repositorio: solo «consulta al DPD hecha el …».
 
-## Primeros pasos propuestos (requieren tu confirmación)
+## Cuenta de Drive
 
-1. Crear la estructura de carpetas en tu Drive (puedo hacerlo con el conector).
+| Opción | Ventajas | Inconvenientes |
+|---|---|---|
+| **Cuenta personal de Raúl** (recomendada para la Biblia) | El proyecto queda bajo control personal; coherente con la autoría declarada | Hay que conectar esa cuenta a Claude (en claude.ai, conectores) |
+| Cuenta institucional | Ya conectada; adecuada para lo que el centro deba custodiar | Los archivos dependen del Departament; mezcla una obra personal con la cuenta de trabajo |
+| Mixta | Biblia en la personal; solo `04 Piloto` en la institucional, si el DPD lo pide | Dos sitios que mantener |
+
+## Primeros pasos (cuando esté elegida la cuenta)
+
+1. Crear la estructura de carpetas (con el conector, supervisado).
+   - Añadir en `02 Diseño` la carpeta `Especificaciones de origen` para las conversaciones de ChatGPT sobre el modo demostración y el Observatorio del Tiempo ([../pendientes-de-consolidar.md](../pendientes-de-consolidar.md)).
 2. Exportar los siete documentos de fundamentos a `01`.
 3. Subir el primer bundle a `06`.
-4. Programar la sincronización semanal (`01` y `06`) como tarea programada, o dejarla manual.
+4. Subir a `99 Archivo` el paquete de scripts exploratorios (no van al repositorio público).
+5. Sincronización supervisada: Claude prepara la exportación y Raúl la confirma. Más adelante, tarea programada para las exportaciones técnicas.

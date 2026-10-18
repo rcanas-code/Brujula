@@ -4,9 +4,10 @@
 
 ## Titularidad
 
-- Autor y titular: Raúl Cañas. Aviso actual en la app y en `README.md`: «© 2026 Raúl Cañas. Todos los derechos reservados».
+- Autoría declarada: Raúl Cañas. Aviso en la app, en `README.md` y en [`LICENSE`](../../LICENSE): «© 2026 Raúl Cañas. Todos los derechos reservados».
+- **Titularidad exclusiva: no verificada jurídicamente.** Queda pendiente confirmar el origen de los iconos PNG, valorar el efecto de la asistencia de IA y comprobar si alguna norma laboral o del centro afecta a una obra creada por un docente (consultar con un profesional antes de cualquier uso comercial).
 - El repositorio es **público**: cualquiera puede ver y copiar el código, aunque no tenga permiso legal para reutilizarlo. Ver DOC-01 y DOC-02 en [../README.md](../README.md#decisiones-que-necesitan-confirmacion).
-- Pendiente de decidir: archivo `LICENSE` explícito (por ejemplo, «Todos los derechos reservados») y un aviso de terceros (`THIRD_PARTY_NOTICES`) con las licencias de las fuentes.
+- Hecho (DOC-02): [`LICENSE`](../../LICENSE) con derechos reservados y [`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md) separando lo propio de lo de terceros.
 
 ## Inventario por tipo
 
@@ -17,7 +18,7 @@
 | Arte pixel (iconos, personajes, mapa, trofeos) | Propio, dibujado en código | Pendiente de confirmar | Revisar que ningún personaje recuerde a uno protegido |
 | Música y sonidos | Generados por código (Web Audio), melodías propias | Pendiente de confirmar | Revisar que ninguna melodía reproduzca una obra conocida |
 | Iconos de la PWA (PNG) | Por confirmar | **Sin verificar** | Confirmar cómo se crearon |
-| Tipografías (6 familias) | Google Fonts, SIL Open Font License 1.1 | **Parcial**: `fonts/OFL.txt` solo contiene el aviso de Fredoka | La OFL exige conservar el aviso de copyright de cada familia: completar |
+| Tipografías (6 familias) | Google Fonts vía Fontsource 5.3.0, SIL Open Font License 1.1 | **Verificado** el 18/10/2026: los 30 archivos son idénticos a los del paquete oficial; aviso completo por familia en `fonts/OFL-*.txt` | Bajo. Falta llevar los avisos a `main` (autorización) |
 | Enlaces externos (≈160) | Terceros | **Sin verificar** | Bajo (no se reproduce contenido), pero hay que revisar que funcionan y son adecuados |
 | Nombres y marcas citados (TED, Diary of a CEO, autores, organismos) | Terceros | Uso nominativo en citas y enlaces | Bajo; evitar logotipos |
 
@@ -33,8 +34,8 @@
 
 | Prioridad | Tarea | Quién |
 |---|---|---|
-| A | Añadir a `fonts/OFL.txt` (o a archivos separados) el aviso de copyright de Silkscreen, Nunito Sans, Bricolage Grotesque, Quicksand y Pacifico | Claude prepara, Raúl aprueba |
+| — | ~~Avisos de copyright de las 6 tipografías~~ | Hecho en `desarrollo` (18/10); pendiente copiarlos a `main` |
 | A | Confirmar el origen de los iconos PNG de la PWA | Raúl |
-| B | Decidir `LICENSE` y aviso de terceros (DOC-02) | Raúl |
+| B | Valorar con un profesional la titularidad (IA, relación laboral) antes de cualquier uso fuera del aula | Raúl |
 | B | Revisión de que ningún personaje o melodía se parezca a obras protegidas | Raúl |
-| C | Valorar registro de la obra (Registro de la Propiedad Intelectual) antes de comercializar | Raúl |
+| C | Valorar el registro de la obra en el Registro de la Propiedad Intelectual | Raúl |
