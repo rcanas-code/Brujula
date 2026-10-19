@@ -1,0 +1,26 @@
+; Configuración del proyecto generada para Godot 4.x.
+; Es preferible editarla desde el editor de Godot.
+
+config_version=5
+
+[application]
+
+config/name="Brújula"
+config/icon="res://icon-192.png"
+
+[autoload]
+
+DataManager="*res://src/DataManager.gd"
+
+[display]
+
+window/size/viewport_width=360
+window/size/viewport_height=640
+window/size/window_width_override=360
+window/size/window_height_override=640
+window/stretch/mode="canvas_items"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"

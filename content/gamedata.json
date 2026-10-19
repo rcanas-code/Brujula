@@ -1,0 +1,42 @@
+{
+  "config": {
+    "player_speed": 250.0,
+    "gravity": 980.0,
+    "target_fps": 60,
+    "starting_level_id": "level_01",
+    "autosave_enabled": true
+  },
+  "player_base": {
+    "max_health": 100,
+    "starting_health": 100,
+    "starting_coins": 0
+  },
+  "levels": [
+    {
+      "id": "level_01",
+      "name": "Bosque inicial",
+      "difficulty": "easy",
+      "enemy_count": 5
+    },
+    {
+      "id": "level_02",
+      "name": "Ruinas olvidadas",
+      "difficulty": "medium",
+      "enemy_count": 10
+    }
+  ],
+  "items": [
+    {
+      "id": "basic_sword",
+      "name": "Espada básica",
+      "cost": 50,
+      "type": "weapon"
+    },
+    {
+      "id": "health_potion",
+      "name": "Poción de vida",
+      "cost": 25,
+      "type": "consumable"
+    }
+  ]
+}
