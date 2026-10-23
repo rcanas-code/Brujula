@@ -62,6 +62,25 @@ Ramas:
 - Prioridades: **A** bloquea el cierre (funcionamiento, datos, aprendizaje, navegación, comprensión, accesibilidad esencial, privacidad); **B** si compensa; **C** pulido opcional.
 - Una funcionalidad se cierra cuando está clara, atractiva, coherente, educativa, funciona, está probada, sin puntos A, y Raúl la ha validado si el cambio es importante.
 
+## Eficiencia
+
+Gasta lo mínimo en tokens, tiempo y créditos sin bajar la calidad. Nada de esto justifica omitir pruebas esenciales, controles de seguridad ni validaciones.
+
+- **Fuente y orden de consulta:** GitHub (ramas, PR y `DECISIONES.md`) es la fuente oficial. En tareas técnicas o de seguimiento empieza por [ESTADO.md](ESTADO.md) y las instrucciones pertinentes; las propuestas, las preguntas a Raúl y los cambios de diseño siguen la regla de la introducción.
+- **Leer lo justo:** solo los archivos y fragmentos necesarios; en `DECISIONES.md` busca por ID con `grep -n`. No reanalices código ni decisiones ya documentadas sin indicios de cambio.
+- **`index.html` no se lee entero** (≈1,9 MB, líneas muy largas): localiza con `grep -o '.\{0,80\}texto.\{0,200\}'` y lee solo ese tramo.
+- **Cambios, no relecturas:** usa `git diff`, `git diff --stat` y `git log -1` para saber qué cambió. Reutiliza código, pruebas y componentes existentes.
+- **Alcance:** sin refactorizaciones, exploraciones ni documentación ajenas al objetivo. Agrupa operaciones relacionadas cuando sea seguro. Una solución cada vez; si falla, diagnostica antes de probar otra.
+- **Coste del modelo:** en tareas sencillas, la modalidad de menor coste adecuada (modelo o esfuerzo de razonamiento más ligero) si la herramienta lo permite; los modelos más potentes, para problemas complejos.
+- **Pruebas:** no repitas las que ya pasaron si el código afectado no ha cambiado, salvo como comprobación de integración. Un cambio solo de documentación no requiere la batería. Tras un cambio de código sigue vigente la batería mínima de «Pruebas».
+- **Ramas y publicación:** trabaja en una rama específica (`docs/…`, `tools/…`, `feat/…`, `fix/…`) y prepara un PR hacia `desarrollo`, cuando corresponda. No modifiques `main`, no publiques ni fusiones sin autorización explícita de Raúl.
+- **Otras herramientas:** no edites archivos que esté modificando otra herramienta (p. ej. una rama `codex/…`); comprueba antes con `git ls-remote --heads origin`.
+- **Se conserva** siempre la funcionalidad, el progreso, el guardado, las preguntas y la navegación existentes (P-05).
+
+## Cierre de cada tarea
+
+Responde solo con: (1) qué has hecho; (2) archivos modificados; (3) pruebas ejecutadas y resultado, con su nivel de verificación; (4) qué queda pendiente o necesita autorización de Raúl. Normalmente, máximo 150 palabras.
+
 ## Documentación
 
 Al cerrar un bloque de trabajo, actualiza [ESTADO.md](ESTADO.md) y [DECISIONES.md](DECISIONES.md). Registra cualquier recurso externo nuevo en [docs/recursos-externos.csv](docs/recursos-externos.csv) antes de usarlo.
