@@ -54,6 +54,10 @@ Español de España. Sin caras ni datos de menores. Partidos políticos inventad
 
 Reglas de progresión o recompensas, esquemas de datos, navegación, identidad artística, regiones, personajes, eliminación de contenidos, mecánicas nuevas y cualquier cambio en la versión de los alumnos. Los conceptos DEMO-01 (modo demostración) y OBS-01 (Observatorio del Tiempo) **no** se implementan hasta que Raúl aporte su especificación.
 
+## Protocolo y eficiencia
+
+Aplica el mismo protocolo y las mismas reglas de eficiencia que Claude: [CLAUDE.md](CLAUDE.md), secciones «Protocolo de ejecución» y «Eficiencia». En una revisión, eso significa: revisar por `git diff` sin leer `index.html` entero; no repetir pruebas ya verdes sobre el mismo commit (la batería indicada arriba sigue siendo obligatoria si el PR toca código); sin subagentes salvo petición de Raúl; informes cortos con el formato de veredicto. Si las dos instrucciones chocan, aplica la más restrictiva.
+
 ## Para conectar Codex (lo hace Raúl)
 
 1. En Codex, conectar la cuenta de GitHub y dar acceso al repositorio `rcanas-code/Brujula` (lectura y comentarios en PR).

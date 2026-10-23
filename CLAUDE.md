@@ -62,6 +62,17 @@ Ramas:
 - Prioridades: **A** bloquea el cierre (funcionamiento, datos, aprendizaje, navegación, comprensión, accesibilidad esencial, privacidad); **B** si compensa; **C** pulido opcional.
 - Una funcionalidad se cierra cuando está clara, atractiva, coherente, educativa, funciona, está probada, sin puntos A, y Raúl la ha validado si el cambio es importante.
 
+## Protocolo de ejecución
+
+Toda tarea sigue estos seis pasos. El detalle de cómo gastar menos está en «Eficiencia».
+
+1. **Comprender:** fija el objetivo y consulta solo los archivos necesarios.
+2. **Planificar:** en tareas sencillas, actúa directamente. En las complejas (varios archivos, esquemas de datos, progresión, navegación o algo que requiera consultar a Raúl según la regla 5), prepara antes un plan breve.
+3. **Ejecutar:** cambios mínimos, reutilizando lo existente y sin llamadas ni análisis redundantes.
+4. **Verificar:** ejecuta las pruebas necesarias; las esenciales y los controles de seguridad nunca se omiten.
+5. **Documentar:** actualiza solo la información que haya cambiado (ver «Documentación»).
+6. **Cerrar:** resumen según «Cierre de cada tarea».
+
 ## Eficiencia
 
 Gasta lo mínimo en tokens, tiempo y créditos sin bajar la calidad. Nada de esto justifica omitir pruebas esenciales, controles de seguridad ni validaciones.
@@ -71,7 +82,7 @@ Gasta lo mínimo en tokens, tiempo y créditos sin bajar la calidad. Nada de est
 - **`index.html` no se lee entero** (≈1,9 MB, líneas muy largas): localiza con `grep -o '.\{0,80\}texto.\{0,200\}'` y lee solo ese tramo.
 - **Cambios, no relecturas:** usa `git diff`, `git diff --stat` y `git log -1` para saber qué cambió. Reutiliza código, pruebas y componentes existentes.
 - **Alcance:** sin refactorizaciones, exploraciones ni documentación ajenas al objetivo. Agrupa operaciones relacionadas cuando sea seguro. Una solución cada vez; si falla, diagnostica antes de probar otra.
-- **Coste del modelo:** en tareas sencillas, la modalidad de menor coste adecuada (modelo o esfuerzo de razonamiento más ligero) si la herramienta lo permite; los modelos más potentes, para problemas complejos.
+- **Coste del modelo:** en tareas sencillas, la modalidad de menor coste adecuada (modelo o esfuerzo de razonamiento más ligero); los modelos más potentes, para problemas complejos. Sin subagentes salvo petición de Raúl. El modelo y el esfuerzo se eligen en la herramienta, no desde el repositorio: esta regla solo orienta.
 - **Pruebas:** no repitas las que ya pasaron si el código afectado no ha cambiado, salvo como comprobación de integración. Un cambio solo de documentación no requiere la batería. Tras un cambio de código sigue vigente la batería mínima de «Pruebas».
 - **Ramas y publicación:** trabaja en una rama específica (`docs/…`, `tools/…`, `feat/…`, `fix/…`) y prepara un PR hacia `desarrollo`, cuando corresponda. No modifiques `main`, no publiques ni fusiones sin autorización explícita de Raúl.
 - **Otras herramientas:** no edites archivos que esté modificando otra herramienta (p. ej. una rama `codex/…`); comprueba antes con `git ls-remote --heads origin`.
@@ -83,4 +94,4 @@ Responde solo con: (1) qué has hecho; (2) archivos modificados; (3) pruebas eje
 
 ## Documentación
 
-Al cerrar un bloque de trabajo, actualiza [ESTADO.md](ESTADO.md) y [DECISIONES.md](DECISIONES.md). Registra cualquier recurso externo nuevo en [docs/recursos-externos.csv](docs/recursos-externos.csv) antes de usarlo.
+Mapa de documentos y responsables: [docs/README.md](docs/README.md). Cada dato vive en un solo documento; los demás lo enlazan, no lo copian. Al cerrar un bloque de trabajo actualiza solo lo que haya cambiado: [ESTADO.md](ESTADO.md) (implementado, probado, pendiente) y, únicamente si Raúl ha decidido algo, [DECISIONES.md](DECISIONES.md) (nada se sobrescribe: se marca «Sustituida»). Registra cualquier recurso externo nuevo en [docs/recursos-externos.csv](docs/recursos-externos.csv) antes de usarlo.
