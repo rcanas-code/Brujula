@@ -27,7 +27,7 @@ Ramas:
 - La documentación no se lleva a `main`: GitHub Pages la serviría como página pública.
 - El repositorio es **público**: nada privado, ninguna credencial, ningún dato de alumnos, nada estratégico (DOC-01). Lo privado va a Drive.
 - Commits con el correo «noreply» de GitHub, nunca con un correo personal o institucional (SEC-01).
-- Codex revisa como agente independiente (AG-01): trabaja en ramas `codex/…` y no toca el juego. Reparto de roles (ChatGPT, Claude, Codex, GitHub) en [AGENTS.md](AGENTS.md).
+- Codex revisa y prueba como agente independiente y desarrolla solo tareas que Raúl le encargue expresamente (AG-01, AG-03). Cada herramienta trabaja en su propia rama (Codex, en `codex/…`). Reparto de roles (ChatGPT, Claude, Codex, GitHub) en [AGENTS.md](AGENTS.md).
 
 ## Reglas que no se rompen
 
