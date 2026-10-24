@@ -54,6 +54,17 @@ Español de España. Sin caras ni datos de menores. Partidos políticos inventad
 
 Reglas de progresión o recompensas, esquemas de datos, navegación, identidad artística, regiones, personajes, eliminación de contenidos, mecánicas nuevas y cualquier cambio en la versión de los alumnos. Los conceptos DEMO-01 (modo demostración) y OBS-01 (Observatorio del Tiempo) **no** se implementan hasta que Raúl aporte su especificación.
 
+## Reparto de roles
+
+| Quién | Papel |
+|---|---|
+| ChatGPT | Planificación pedagógica, experiencia de usuario y definición de requisitos |
+| Claude | Desarrollador principal |
+| Codex | Revisión técnica, pruebas y tareas concretas que Raúl le encargue expresamente |
+| GitHub | Fuente oficial de documentación y código |
+
+Mientras la propuesta AG-03 siga pendiente en [DECISIONES.md](DECISIONES.md), las tareas encargadas a Codex no incluyen modificar el juego (AG-01); sí pruebas (`tests/…`) y documentación (`docs/…`).
+
 ## Protocolo y eficiencia
 
 Aplica el mismo protocolo y las mismas reglas de eficiencia que Claude: [CLAUDE.md](CLAUDE.md), secciones «Protocolo de ejecución» y «Eficiencia». En una revisión, eso significa: revisar por `git diff` sin leer `index.html` entero; no repetir pruebas ya verdes sobre el mismo commit (la batería indicada arriba sigue siendo obligatoria si el PR toca código); sin subagentes salvo petición de Raúl; informes cortos con el formato de veredicto. Si las dos instrucciones chocan, aplica la más restrictiva.
