@@ -92,6 +92,19 @@
 | VA-01 | El alumno avanza sin aprobaciones manuales del profesor | Aprobada |
 | VA-02 | Conocimientos: corrección automática; prácticas: autorregistro responsable; reflexiones: privadas y sin evaluar | Aprobada |
 
+### La llave de Tinta (aventura de Estudio, aprobadas como propuesta de diseño el 24/10/2026)
+
+| ID | Decisión | Estado |
+|---|---|---|
+| PUL-1 | «Las tres memorias» = reconocer, recordar y transferir, como tres experiencias de aprendizaje, no tres sistemas científicos de memoria | Aprobada |
+| PUL-2 | La aventura no sustituye la lectura EDU-01 ni abre el bronce | Aprobada |
+| PUL-3 | Cinco preguntas nuevas para el banco de EDU-A (`b7`–`b9`, `o5`–`o6`), solo tras la revisión humana de Raúl | Aprobada; **no incorporadas** |
+| PUL-4 | La misión Folio admite temas de interés personal (solo cambia el texto) | Aprobada |
+| PUL-5 | El pulpo no cuenta entre los tres temas de la plata; se añaden ejemplos para elegir tema | Aprobada |
+| PUL-6 | Borrador temporal del recuerdo libre, eliminado tras la autocorrección y fuera de las copias de seguridad (PUL-6b: guardado aparte de `game`, sin tocar `backupCode()`) | Aprobada |
+| PUL-7 | Recompensa cosmética única de Tinta, sin XP ni cambios en las medallas | Aprobada |
+| PUL-8 | Activación bajo el interruptor `DREG` de Estudio; el uso con menores de 18 sigue sujeto a M-D6 y PI-REQ | Aprobada |
+
 ## 2. Pendientes
 
 | ID | Tema | Recomendación | Quién |
@@ -158,3 +171,4 @@ Cada cambio en una decisión existente se anota aquí (fecha, ID, antes → desp
 | 24/10/2026 | AG-03 | Propuesta de reparto de roles; AG-01 sigue vigente y AG-02 sin registrar en `desarrollo` hasta que Raúl decida | Claude, a petición de Raúl |
 | 24/10/2026 | AG-03 | Propuesta → aprobada con condiciones; AG-01 armonizada conservando sus protecciones; el aviso AG-02 de la rama de Codex no queda vigente | Raúl |
 | 24/10/2026 | DEMO-01 | Rama `codex/modo-demostracion` pendiente de revisión; sin fusionar ni implementar hasta aprobar la especificación | Raúl |
+| 24/10/2026 | PUL-1 a PUL-8 | Aprobadas como propuesta de diseño la aventura «La llave de Tinta» (Estudio); implementación en la rama `feat/aventura-pulpo`, sin fusionar | Raúl |

@@ -92,3 +92,14 @@
 | EDU-08 | «En una semana, casi todo» | Ebbinghaus con sílabas sin sentido; lo que se entiende se olvida más despacio |
 
 Pendientes fuera del piloto (AU-03): pódcasts como fuente, Robbins, Asch, Ariely, «90 segundos», cifras sin fecha.
+
+## La llave de Tinta (aventura de Estudio, 24/10/2026)
+
+| Afirmación | Fuente | Verificación |
+|---|---|---|
+| Probarse produce más retención a largo plazo que releer; a los 5 minutos ocurre al revés | Roediger y Karpicke (2006), *Psychological Science* 17(3), 249–255, doi:10.1111/j.1467-9280.2006.01693.x | Resumen verificado en PubMed |
+| Las ventosas del pulpo tienen receptores químicos («saborear al tocar») que detectan moléculas hidrofóbicas poco solubles (terpenos) | Allard et al. (2023), *Nature* 616, 373–377, doi:10.1038/s41586-023-05822-1; estudio en *Octopus bimaculoides* | Texto de la copia del autor (NSF PAR); PMC pide captcha |
+| Unos 500 millones de neuronas | Young (1963, 1965), citado en Frontiers in Physiology 8:164 (2017) | La cifra figura en un pie de figura; la fracción en los brazos (dos tercios) se apoya en divulgación (Univ. de Notre Dame) y atribuye a Hochner (2012); **sin verificar en texto primario** |
+| Tres corazones; sangre azul por hemocianina (cobre); transporta el oxígeno peor que la hemoglobina | BBC Science Focus (divulgación) | Verificado en la página; que compense con más corazones se presenta como «explicación habitual» |
+| Cromatóforos: sacos de pigmento con músculos radiales controlados por neuronas motoras; cambio muy rápido | Renard et al. (2026, preimpresión eLife) citando a Messenger (2001); Live Science | Verificado en la preimpresión y la página |
+| Karpicke y Blunt (2011), Karpicke, Butler y Roediger (2009), Dunlosky et al. (2013) | — | **Por verificar** antes de citarlos en la app (la aventura no los cita) |

@@ -11,7 +11,7 @@
 set -u
 cd "$(dirname "$0")"
 REGRESION="hoyf audf allv p5e2e p36t sct lq su mv al at f1 f3 mw2 zm carta bkrt mob migr fbk auto irest lb p32t corr profe"
-MODELO_D="dtest dmig dvis"
+MODELO_D="dtest dmig dvis pulpo"
 ETQ="${1:-$(date +%Y%m%d-%H%M%S)}"; shift || true
 # Con el modelo D apagado no tienen sentido dtest y dvis; dmig ya prueba por sí misma el apagado y el encendido.
 if [ "${BRUJULA_DREG:-}" = off ]; then LISTA="${*:-$REGRESION}"; else LISTA="${*:-$REGRESION $MODELO_D}"; fi

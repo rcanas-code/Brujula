@@ -1232,6 +1232,28 @@ details.fold>summary::after{border-radius:4px!important}
 .dpage{border-left:6px solid #A0683A}.dpage.off{opacity:.6}
 .celtool svg{image-rendering:pixelated}
 .dplan .field{width:100%}
+/*P-CSS*/
+.pulpo .pubar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}.pulpo .pubar i{display:block;height:100%;background:var(--good,#2E8B57)}
+.pulpo h1{font-size:1.3rem;line-height:1.25}
+.pulpo>.btn:not(.ghost),.pulpo>.puact{position:sticky;bottom:-70px;z-index:2;box-shadow:0 0 0 6px var(--bg)}
+.pulpo>.puact{background:var(--bg)}
+.pucard{align-items:center;text-align:center}.pucard svg{image-rendering:pixelated}
+.putinta{color:var(--muted,#5b6a78)}
+.putog{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;min-height:44px;padding:10px 12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;font:inherit;cursor:pointer}
+.putog[aria-pressed="true"]{border-color:var(--good);background:var(--good-bg)}
+.putog .puck{font-weight:800;min-width:1.2em}
+.puopt{text-align:left;justify-content:flex-start;white-space:normal;min-height:44px}
+.puopt.puok:disabled{border-color:var(--good);background:var(--good-bg);color:var(--ink);opacity:1}
+.puopt.puko:disabled{border-color:var(--bad);opacity:1}
+.punum{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.punum div{border:2px solid var(--line);border-radius:12px;padding:8px 6px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.punum b{font-family:"Silkscreen",monospace;font-size:1.5rem}
+.puslider{width:100%;height:44px;accent-color:var(--good,#2E8B57)}
+.pubor{min-height:150px}
+.putimer{margin:0;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}.putimer b{font-family:"Silkscreen",monospace}
+.puex{display:flex;flex-direction:column;gap:8px}
+.pupe.off{opacity:.75}
+.pukey svg,.pupe svg,.pucard svg{flex:none}
 
 </style>
 
@@ -2911,7 +2933,7 @@ function vMas(){
 /* ---------- navegación ---------- */
 const NAV=[["hoy","Hoy","M12 3v3M12 18v3M3 12h3M18 12h3M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"],["mundo","Mundo","M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2zM9 4v14M15 6v14"],["explorar","Biblioteca","M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"],["mas","Yo","M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c1-4 4-6 8-6s7 2 8 6"]];
 function renderNav(){const pend=S.active&&(()=>{try{return todayItems().some(x=>x.st==="todo")}catch(e){return false}})();document.getElementById("nav").innerHTML=NAV.map(([k,l,p])=>`<button data-go="${k}" class="${S.tour!=null&&TOUR[S.tour][0]===k?"tourhl":""}" aria-current="${S.view===k&&!S.testing}">${k==="hoy"&&pend&&S.view!=="hoy"?'<span class="dot" aria-label="Tienes algo pendiente hoy"></span>':""}<span class="navi">${pxIco({hoy:"hoy",mundo:"mundo",explorar:"libro",mas:"yo"}[k],2)}</span>${l}</button>`).join("")}
-const VNAME={dmis:"tu misión",dtools:"tu mochila",dpages:"tu cuaderno",dguard:"la prueba",drep:"tu repaso",doro:"tu encuentro",dchal:"tu desafío",hoy:"Hoy",ruta:"Mundo",quiz:"el quiz",recall:"el repaso",proposito:"Propósito",mapa:"Tu hoja de personaje",explorar:"Biblioteca",mas:"Yo",mundo:"Mundo",region:"la región",entreno:"la sala de entreno",carta:"la carta de navegación",prueba:"la prueba",clase:"la clase",profe:"la herramienta del profe",validar:"validar",dinero:"Dinero",repaso:"Repaso",perro:"Test perro o gato",adic:"Test de adicción",curiosidad:"Descubre",cuerpo:"Tu cuerpo",crono:"Cronotipo",yo:"Sobre mí",personaje:"Tu personaje",coleccion:"Mi colección",final:"el duelo",estoico:"Test estoico",simcuerpo:"Simulador del cuerpo",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
+const VNAME={dmis:"tu misión",dtools:"tu mochila",dpages:"tu cuaderno",dguard:"la prueba",drep:"tu repaso",doro:"tu encuentro",dchal:"tu desafío",pulpo:"la llave de Tinta",hoy:"Hoy",ruta:"Mundo",quiz:"el quiz",recall:"el repaso",proposito:"Propósito",mapa:"Tu hoja de personaje",explorar:"Biblioteca",mas:"Yo",mundo:"Mundo",region:"la región",entreno:"la sala de entreno",carta:"la carta de navegación",prueba:"la prueba",clase:"la clase",profe:"la herramienta del profe",validar:"validar",dinero:"Dinero",repaso:"Repaso",perro:"Test perro o gato",adic:"Test de adicción",curiosidad:"Descubre",cuerpo:"Tu cuerpo",crono:"Cronotipo",yo:"Sobre mí",personaje:"Tu personaje",coleccion:"Mi colección",final:"el duelo",estoico:"Test estoico",simcuerpo:"Simulador del cuerpo",grupo:"Grupo",ayuda:"Ayuda",dudas:"Dudas frecuentes"};
 function go(v,fromNav){if(fromNav||S.tour!=null)S.back=null;else if(v!==S.view&&!S.testing)S.back={v:S.view,y:window.scrollY};S.view=v;S.testing=false;render();window.scrollTo({top:0})}
 
 /* ---------- vistas ---------- */
@@ -4489,7 +4511,7 @@ const DMIS={
   {id:"foco",n:"Sesión de foco",tool:"foco",N:2,lec:"ATE-02",what:"Haz 2 sesiones completas en la sala de foco: objetivo concreto, al menos 2 pasos, entorno preparado, temporizador y nota de cierre.",chk:"Que la sesión tiene objetivo y al menos 2 pasos antes de empezar, y la duración del temporizador.",self:"Si trabajaste sin interrupciones."}],
  HAB:[{id:"arranque",n:"Arranque de 10 minutos",tool:"arranque",N:3,plan:true,lec:"HAB-04",what:"Elige 3 tareas reales que estés aplazando. En cada una, nombra lo que te frena, trabaja 10 minutos con el temporizador y apunta si seguiste.",chk:"Que tu plan si… entonces tiene cuándo, dónde y primer paso, y que el temporizador llega a 10 minutos.",self:"Que empezaste la tarea y si seguiste después."},
   {id:"multi",n:"Multiplicador",tool:"multi",N:4,plan:true,lec:"HAB-08",what:"En 4 tareas reales, apunta cuánto crees que tardarás y cuánto tardas de verdad. Desde la segunda, usa tu multiplicador para corregir la estimación.",chk:"El cálculo de tu multiplicador y que lo usas al estimar la tarea siguiente.",self:"Que los tiempos son reales."}],
- EDU:[{id:"folio",n:"Folio en blanco",tool:"folio",N:3,lec:"EDU-01",what:"Con 3 temas reales de tus módulos: 5 minutos escribiendo sin mirar todo lo que recuerdas, compara con los apuntes y apunta qué te faltaba. Al final, programa tus repasos.",chk:"Que tus repasos quedan espaciados en el tiempo.",self:"Que escribiste sin mirar y cuánto recordabas."},
+ EDU:[{id:"folio",n:"Folio en blanco",tool:"folio",N:3,lec:"EDU-01",what:"Con 3 temas reales que te interesen, de tus módulos o de fuera de clase: 5 minutos escribiendo sin mirar todo lo que recuerdas, compara con tu fuente (apuntes, libro, vídeo…) y apunta qué te faltaba. Al final, programa tus repasos.",chk:"Que tus repasos quedan espaciados en el tiempo.",self:"Que escribiste sin mirar y cuánto recordabas."},
   {id:"calendario",n:"Calendario anti-olvido",tool:"calendario",N:1,lec:"EDU-02",what:"Con la fecha de un control real, programa al menos 3 repasos espaciados y cuando hagas el primero, márcalo.",chk:"Que las fechas de repaso están espaciadas y antes del control.",self:"Que haces los repasos."}]};
 const DPAGES=[[3,"Semana 3 · El cuaderno empieza a pesar","Llevas tres semanas volviendo al camino. No todos los días, y no hace falta: lo que cuenta es que vuelves. En el margen, la Cartógrafa ha escrito: «Los mapas no se dibujan de un tirón»."],
  [6,"Semana 6 · Tus propios atajos","Seis semanas activas. Ya reconoces cuándo te cuesta arrancar y qué te ayuda. El cuaderno tiene manchas de barro y de café: es la prueba de que lo has usado de verdad."],
@@ -4739,8 +4761,8 @@ function dAppForm(k,M,D,eco){const n=M.apps.length,tag=eco?"eco":"app";
      <label class="rglab" for="dmr">Cuando acabes: ¿cuántos minutos tardaste?</label><input id="dmr" type="number" min="1" max="3000" inputmode="numeric" class="field">
      <button class="btn" data-d="dsave|${k}|${tag}">Guardar tarea</button></div>`}
   if(M.id==="folio"){const key="fol-"+k+(eco?"e":n);return `<div class="card stack"><h3 style="margin:0">${eco?"Eco: un folio más":"Tema "+(n+1)+" de "+D.N}</h3>
-     <label class="rglab" for="dft">¿Qué tema?</label><input id="dft" class="field" maxlength="80" value="${esc((dG().td.folT||{})[key]||"")}" placeholder="Ej.: tema 3 de Seguridad e Higiene">
-     <p class="muted" style="margin:0;font-size:.86rem">Cierra los apuntes y escribe en un papel todo lo que recuerdes. Después compara.</p>${dTimer(key,5,"Empezar 5 minutos")}
+     <label class="rglab" for="dft">¿Qué tema?</label><input id="dft" class="field" maxlength="80" value="${esc((dG().td.folT||{})[key]||"")}" placeholder="Ej.: las reglas de un deporte o el tema 3 de un módulo">${pExamples()}
+     <p class="muted" style="margin:0;font-size:.86rem">Cierra tu fuente y escribe en un papel todo lo que recuerdes. Después compara con ella.</p>${dTimer(key,5,"Empezar 5 minutos")}
      ${dTmDone(key,5)?`<p class="rglab">Al comparar, ¿cuánto recordabas?</p><div class="rgchips">${["Casi nada","Menos de la mitad","Más o menos la mitad","Casi todo"].map(x=>`<button type="button" data-d="dsave|${k}|${tag}|${x}">${x}</button>`).join("")}</div><p class="muted" style="font-size:.8rem;margin:0">Lo que te faltaba, apúntalo en tu papel: eso es lo que repasas. La app no lo guarda.</p>`:""}</div>`}
   if(M.id==="calendario"){const C=M.cal;if(eco)return `<div class="card stack"><h3 style="margin:0">Eco: un repaso más</h3><p style="margin:0">Haz uno de tus repasos programados (o uno nuevo) sin mirar, y márcalo.</p><button class="btn" data-d="dsave|${k}|eco|hecho">Lo he hecho</button></div>`;
     if(C&&!dSpaced(C.ds,C.ex)){const f=C.ds.slice().sort()[0];return `<div class="card stack"><h3 style="margin:0">Tus repasos</h3><p style="margin:0">Control: <b>${fmtD(C.ex)}</b>${C.t?" · "+esc(C.t):""}</p><ul class="dlist">${C.ds.slice().sort().map(d=>`<li>📅 ${fmtD(d)}</li>`).join("")}</ul><button class="btn ghost" data-d="dics|${k}">📅 Añadir al calendario del móvil</button>${n?"":today()>=f?`<button class="btn" data-d="dsave|${k}|app|hecho">He hecho el primer repaso</button>`:`<p class="muted">Cuando llegue el ${fmtD(f)}, haz el primer repaso sin mirar y márcalo aquí.</p>`}</div>`}
@@ -4776,6 +4798,7 @@ function vDTools(){const g=dG(),sel=S.dtt;if(sel&&g.tools[sel])return dToolView(
   return `<section class="stack dview"><p class="eyebrow">Tu mochila</p><h1 style="margin:0">Herramientas</h1><p class="muted" style="margin:4px 0 0">Cada técnica que aplicas se convierte en una herramienta. Sirven en tu vida real y en los desafíos del juego.</p>
    <div class="dtgrid">${DTORD.map(t=>{const T=DTOOLS[t],own=g.tools[t];return `<button class="dtool${own?"":" off"}" ${own?`data-d="dtsel|${t}"`:"disabled"}>${dIco(t,2.6)}<b>${esc(T[0])}</b><span class="muted">${own?esc(T[2]):"Se consigue con "+esc(T[3])}</span>${own&&own.src==="hist"?`<small class="dhist">por tu plata histórica</small>`:""}</button>`}).join("")}</div>
    ${DREG.filter(k=>g.trD[k]&&g.trD[k].p&&!g.chal[k]&&g.tools[DB[k].chal.tool]).map(k=>`<div class="card stack"><b>🗝️ Desafío opcional · ${esc(DB[k].chal.who)}</b><p class="muted" style="margin:0">Alguien de ${esc(GREG[k])} necesita tu ${esc(DTOOLS[DB[k].chal.tool][0])}. Da una página de historia y XP, no trofeos.</p><button class="btn ghost" data-d="dchal|${k}" style="width:max-content">Ayudar</button></div>`).join("")}
+   ${pKeyCard()}
    <button class="btn ghost" data-go="mas" style="width:max-content">Volver</button></section>`}
 function dToolView(t){const g=dG(),T=DTOOLS[t],td=g.td;let b="";
   if(t==="lente"){const L=(td.lente||[]).concat(...Object.values(g.mis).filter(M=>M.id==="fugas").map(M=>M.apps.map(a=>({d:a.d,f:+a.v.f,i:+a.v.i})))).sort((a,b)=>a.d<b.d?-1:1).slice(-8),mx=Math.max(1,...L.map(x=>x.f+x.i));
@@ -4816,7 +4839,7 @@ function dRegPanel(k){const A=gArea(k),g=dG(),cs=dCs(k);
   const hist=A.hist!=="ninguno"?`<div class="card dhistc">${trSVG(GICO[k],A.hist,1.6)}<span><b>Trofeo histórico: ${A.hist}</b><br><small class="muted">Conseguido con las reglas anteriores. Se conserva y cuenta para tu personaje. ${A.hist==="oro"&&A.metal!=="oro"?"Si quieres, puedes conseguir también el sello de las reglas nuevas.":""}</small></span></div>`:"";
   const M=dMis(k),ms=M?`<button class="card dmini" data-d="dmis|${k}">${dIco(dMisDef(k,M.id).tool,1.8)}<span><b>Tu misión: ${esc(dMisDef(k,M.id).n)}</b><br><small class="muted">${A.T.p?"Plata conseguida"+(M.eco?" · eco hecho":" · falta el eco para el oro"):`${M.apps.length} de ${dMisDef(k,M.id).N} aplicaciones`}</small></span><span>→</span></button>`:"";
   const ch=A.T.p&&!g.chal[k]&&g.tools[DB[k].chal.tool]?`<button class="card dmini" data-d="dchal|${k}">🗝️<span><b>Desafío opcional</b><br><small class="muted">${esc(DB[k].chal.who)} necesita tu ${esc(DTOOLS[DB[k].chal.tool][0])}</small></span><span>→</span></button>`:"";
-  return hist+ms+ideas+ch}
+  return hist+ms+(k==="EDU"?pEntry():"")+ideas+ch}
 function dLectWhy(k){const T=dG().trD[k]||{};return T.b?"Ya tienes el bronce. Las lecturas de ampliación no son obligatorias: suman XP y te ayudan a entender mejor los casos del Repaso y del encuentro.":`Para abrir la Prueba del guardián, trabaja las lecturas de las <b>ideas clave</b> (⭐): léelas y haz su comprobación. Aunque falles la comprobación, ya cuenta como trabajada. El resto son ampliación.`}
 function dStepTxt(k,A){const T=A.T;if(!T.b)return dGuardOpen(k)?"Hacia el bronce: la Prueba del guardián te espera":"Hacia el bronce: lecturas de las ideas clave";if(!T.p)return "Hacia la plata: tu misión de aplicación";const O=dOroState(k);if(dRepDue(k).length)return "Repaso del guardián: tienes ideas para confirmar";if(O.ok)return "Hacia el oro: el encuentro te espera";if(O.why==="wait")return `Hacia el oro: el encuentro se abre el ${fmtD(O.when)}`;return "Hacia el oro: repaso, encuentro y eco"}
 function dHoyCard(){if(!DREG.length||!S.tests.length)return "";const g=dG(),L=[];
@@ -4879,6 +4902,137 @@ function dFocoHook(F){const k="ATE",M=dMis(k);if(!dOn(k)||!M||M.id!=="foco")retu
   if(!F.t0){return}if(steps<2){setTimeout(()=>toast("Para tu misión, la sesión necesita al menos 2 pasos. Esta se ha guardado en tu diario."),2600);return}
   if(T.p&&!M.eco&&today()>T.p){M.eco={d:today(),v};dSave();return}if(!T.p)dAddApp(k,v)}
 /*D-END*/
+/*P-BEGIN · Aventura «La llave de Tinta» (Estudio). Cuelga del interruptor DREG: dOn("EDU"); con DREG=[] no se muestra nada. El progreso va en g.pulpo (clave game). El borrador de texto va aparte, en una clave fuera de KEYS, para que nunca entre en una copia de seguridad. No modifica bronce, plata ni oro. */
+Object.assign(PXI,{tinta:["....KKKK....", "..KKPPPPKK..", ".KPPPPPPPPK.", ".KPWWPPWWPK.", ".KPWKPPWKPK.", ".KPPPPPPPPK.", "..KPPPPPPK..", ".KPpKPPKpPK.", "KPpK.KK.KpPK", "KpK.KPPK.KpK", "KK..KppK..KK", "....KK.K...."],pl_1:["............", "....B.B.....", "....BBB.....", ".....b......", "............", "............", ".B.B....B.B.", ".BBB....BBB.", "..b......b..", "............", "............", "............"],pl_2:["............", "............", "..BB....RR..", "..BB....RR..", ".BBBB..RRRR.", "BBLBBBRRWRRR", "BBBBBbRRRRRc", ".bbbb..cccc.", "............", "..NN....SS..", "............", "............"],pl_3:["...PPPPPP...", "..PPWPPWPP..", "..PPPPPPPP..", "...PPPPPP...", "P.P.P..P.P.P", "p.p.p..p.p.p", "P.P.P..P.P.P", "Y.Y.Y..Y.Y.Y", "............", "............", "............", "............"],pl_4:["............", "...SSSSSS...", "..SSssssSS..", ".SSssssssSS.", ".SssLLLLssS.", ".SssBLLBssS.", ".SssLBBLssS.", ".SssLLLLssS.", ".SSssssssSS.", "..SSssssSS..", "...SSSSSS...", "............"],pl_5:["............", "............", "............", "............", "SSSSsSSSSSSS", "SsSSSSsSSSsS", "SSSKKSSSKKSS", "SSSWKSSSWKSS", "sSSSSSSsSSSS", "SSsSSSSSSSsS", "SSSSSsSSSSSS", "sSSSSSSSsSSS"],llave:["............", "..KKKK......", ".KYYYYK.....", ".KYKKYKKKKKK", ".KYKKYYYYYOK", ".KYYYYKKKDKK", "..KKKK..KDK.", "........KKK.", "............", "............", "............", "............"]});
+const PU={
+ dl:[["L","Uuh-uuh. Tengo un problema de archivo. Mi pulpo, Tinta, ha cerrado cinco cofres con cinco secretos y solo abre a quien los recuerda. A quien solo los reconoce, no."],
+  ["T","Reconocer es ver una cara y decir «me suena». Recordar es dibujarla con los ojos cerrados. Los cofres piden lo segundo."],
+  ["L","Hay tres cosas que puedes hacer con lo que sabes: reconocerlo, recordarlo y llevarlo a otro sitio. No son tres sistemas del cerebro, son tres maneras de usar la memoria. Hoy probarás las dos primeras. La tercera te la llevas tú."]],
+ cards:[
+  ["Tres corazones","Un pulpo tiene tres corazones. Uno reparte la sangre por todo el cuerpo y los otros dos la mandan a las branquias para que recoja oxígeno.","Uno para repartir, dos para respirar.","pl_1"],
+  ["Sangre azul","Su sangre es azul porque transporta el oxígeno con hemocianina, una molécula con cobre. La nuestra usa hemoglobina, con hierro, y es roja. La hemocianina transporta el oxígeno peor, y una explicación habitual de sus tres corazones es compensar eso.","Cobre, azul. Hierro, rojo.","pl_2"],
+  ["Un cerebro repartido","Se calcula que el pulpo común tiene unos 500 millones de neuronas y que cerca de dos tercios están en los brazos, no en la cabeza. Eso les da mucha autonomía para moverse.","Dos de cada tres, en los brazos.","pl_3"],
+  ["Ventosas que saborean","Las ventosas tienen receptores químicos: detectan sustancias al tocarlas, como un gusto por contacto. Notan moléculas hidrofóbicas («grasientas»), que apenas se disuelven en agua.","Tocar es probar.","pl_4"],
+  ["Camuflaje en un parpadeo","Su piel tiene cromatóforos: sacos de pigmento rodeados de músculos que reciben señales nerviosas directas. Cambia de color en una fracción de segundo.","Pigmento, músculo y nervio: camuflaje.","pl_5"]],
+ rec:[
+  ["¿Cuántos corazones tiene un pulpo?",["Tres","Uno","Nueve"],"Lo reconoces porque lo acabas de ver. Ahora toca sacarlo tú."],
+  ["¿Por qué es azul su sangre?",["Su hemocianina lleva cobre","Vive en aguas frías y se tiñe","Tiene hierro oxidado"],"Era fácil porque la opción correcta contiene una palabra de la tarjeta."],
+  ["¿Dónde están sus neuronas?",["Dos tercios, en los brazos","Casi todas en la cabeza","Repartidas por igual"],"Lo reconoces al verlo escrito; sin opciones es otra historia."],
+  ["¿Para qué sirven los receptores de las ventosas?",["Para detectar sustancias al tocar","Para agarrarse mejor","Para ver la luz"],"Con tres opciones, descartar es más fácil que recordar."],
+  ["¿Cómo cambia de color?",["Con sacos de pigmento que controlan nervios y músculos","Con pigmentos que viajan por la sangre","Soltando tinta de colores"],"Reconocer es una pista que el recuerdo libre no tiene."]],
+ pts:[[0,"Tiene tres corazones"],[0,"Uno reparte por el cuerpo y dos van a las branquias"],[1,"La sangre es azul por la hemocianina (con cobre)"],[1,"La hemocianina transporta el oxígeno peor que la hemoglobina (explicación habitual de los tres corazones)"],[2,"Unos 500 millones de neuronas"],[2,"Cerca de dos tercios, en los brazos"],[3,"Las ventosas tienen receptores que detectan sustancias químicas al tocar"],[3,"Notan moléculas hidrofóbicas («grasientas»), poco solubles en agua"],[4,"La piel tiene cromatóforos: sacos de pigmento con músculos"],[4,"Los controlan señales nerviosas y cambian el color en una fracción de segundo"]],
+ cue:["Corazones: ¿cuántos tiene?","Corazones: ¿qué hace cada uno?","Sangre: ¿de qué color y por qué?","Sangre: ¿cómo lleva el oxígeno, comparada con la nuestra?","Neuronas: ¿cuántas, más o menos?","Neuronas: ¿dónde están?","Ventosas: ¿qué sienten?","Ventosas: ¿qué tipo de moléculas notan?","Piel: ¿con qué estructuras cambia de color?","Piel: ¿cómo se controla el cambio y a qué velocidad?"],
+ nota:{1:"Conecta los datos (es una explicación habitual, no un hecho cerrado): quien recuerda por qué hay tres corazones recuerda también el cobre.",4:"Curiosidad que no cuenta: la mayoría de los pulpos parecen ser daltónicos, y cómo igualan los colores del entorno sigue sin estar resuelto."},
+ ex:["Las reglas del fuera de juego","El sistema de combate de mi videojuego favorito","Las partes de una canción: estrofa, estribillo y puente","El argumento de una película que me gusta","Una receta que quiero saber hacer sin mirarla","Diez frases útiles para un viaje en otro idioma","Las reglas de un juego de mesa","Las piezas de un sistema de mi ciclo formativo"]};
+/* ---------- datos y borrador ---------- */
+const PBK="brujula:ui:pulpo-borrador";
+const pBorGet=()=>{try{const v=localStorage.getItem(PBK);return v?JSON.parse(v):null}catch(e){return null}};
+const pBorSet=o=>{try{localStorage.setItem(PBK,JSON.stringify(o))}catch(e){}};
+const pBorDel=()=>{try{localStorage.removeItem(PBK)}catch(e){}};
+const pDays=d=>Math.max(0,Math.round((new Date(today()+"T12:00:00")-new Date(d+"T12:00:00"))/864e5));
+function pRun(){return {paso:1,dl:0,card:0,rq:0,ro:[],po:null,pred:null,c1:[],c2:[],r1:null,r2:null,papel:0,warned:0,dif:0,difN:0,ini:today(),fin:""}}
+function pInit(){const g=dG();if(!g.pulpo||g.pulpo.v!==1)g.pulpo=Object.assign({v:1,h:[],cos:"",cosSeen:0},pRun());return g.pulpo}
+/* El borrador solo es válido mientras se escribe o se corrige ese intento; en cualquier otro caso (p. ej. tras restaurar una copia antigua) se elimina. */
+function pClean(){const b=pBorGet();if(!b)return;const p=S.g&&S.g.pulpo,ok=p&&!p.fin&&((b.n===1&&(p.paso===5||p.paso===6))||(b.n===2&&(p.paso===8||p.paso===9)));if(!ok)pBorDel()}
+const pCnt=a=>(a||[]).filter(Boolean).length;
+function pFinish(p){if(p.fin)return;p.fin=today();if(p.h.length<3)p.h.push({d:p.fin,rc:pCnt(p.ro.map((o,i)=>o===0)),pred:p.pred,r1:p.r1,r2:p.r2})}
+/* ---------- entrada en la vista de Estudio ---------- */
+function pEntry(){if(!dOn("EDU"))return "";const g=dG(),p=g.pulpo,lo=!!(g.lore||{}).EDU;
+  if(!lo)return `<div class="card dmini pupe off">${pxIco("tinta",2)}<span><b>La llave de Tinta</b><br><small class="muted">Habla primero con Doña Lechuza y vuelve aquí</small></span></div>`;
+  let s="Unos 14 min · opcional · no cuenta para tus medallas",t="La llave de Tinta";
+  if(p&&!p.fin)s=`Seguir donde lo dejaste · paso ${p.paso} de 10`;
+  if(p&&p.fin)s=`Hecha · recordaste ${p.r2!=null?p.r2:p.r1} de 10 · puedes repetirla cuando quieras`;
+  return `<button class="card dmini pupe" data-p="open">${pxIco("tinta",2)}<span><b>${t}</b><br><small class="muted">${s}</small></span><span>→</span></button>`}
+function pKeyCard(){const p=S.g&&S.g.pulpo;if(!dOn("EDU")||!p||!p.cos)return "";return `<div class="card dmini pukey">${pxIco("llave",2.4)}<span><b>Llave de Tinta</b><br><small class="muted">Te la dio Tinta el ${fmtD(p.cos)} por abrir sus cinco cofres. Es un recuerdo: no da XP ni cambia tus medallas.</small></span></div>`}
+function pExamples(){const o=new Date().getDate()%PU.ex.length,L=[0,1,2,3].map(i=>(o+i*2)%PU.ex.length);
+  return `<div class="puex"><p class="rglab" style="margin:0">Ideas, si no sabes por dónde empezar</p><div class="rgchips">${L.map(i=>`<button type="button" data-p="ex|${i}">${esc(PU.ex[i])}</button>`).join("")}</div><p class="muted" style="margin:0;font-size:.82rem">Elige algo que luego puedas comprobar con una fuente: tus apuntes, un libro o un vídeo. No escribas datos personales de nadie.</p></div>`}
+/* ---------- pantallas ---------- */
+function vPulpo(){if(!dOn("EDU")||!dG().pulpo){S.reg="EDU";return vRegion()}const p=dG().pulpo;pClean();const n=p.paso;
+  const body=[pV1,pV2,pV3,pV4,pV5,pV6,pV7,pV8,pV9,pV10][n-1](p);
+  return `<section class="stack dview pulpo"><p class="eyebrow">Torre de los Sabios · La llave de Tinta</p><div class="pubar" role="progressbar" aria-valuemin="1" aria-valuemax="10" aria-valuenow="${n}" aria-label="Paso ${n} de 10"><i style="width:${n*10}%"></i></div>${body}<button class="linkbtn" data-p="exit" style="align-self:flex-start">Salir (se guarda)</button></section>`}
+function pV1(p){const L=PU.dl[p.dl],t=L[0]==="T";
+  return `<div class="row" style="gap:12px;align-items:flex-end;justify-content:center">${t?pxIco("tinta",5):creSVG("EDU",3)}</div><div class="advbox" style="cursor:default"><span class="advwho">${t?"Tinta":"Doña Lechuza"}</span><p class="advtxt">${esc(L[1])}</p></div>${p.dl<2?`<button class="btn" data-p="dl">Siguiente</button>`:`<button class="btn" data-p="cofres">Abrir los cinco cofres</button>`}`}
+function pV2(p){const c=PU.cards[p.card];
+  return `<h1 style="margin:0">Secreto ${p.card+1} de 5</h1><div class="card stack pucard">${pxIco(c[3],7)}<h2 style="margin:0">${esc(c[0])}</h2><p style="margin:0">${esc(c[1])}</p><p class="putinta" style="margin:0"><b>Tinta:</b> «${esc(c[2])}»</p></div><div class="row puact" style="gap:8px">${p.card?`<button class="btn ghost" data-p="cp">Anterior</button>`:""}<button class="btn" data-p="cn" style="flex:1">${p.card<4?"Siguiente":"Ya los he leído"}</button></div>`}
+function pV3(p){if(!p.po)p.po=PU.rec.map(()=>sh([0,1,2]));const i=p.rq,q=PU.rec[i],ord=p.po[i],a=p.ro[i],done=a!=null;
+  return `<h1 style="margin:0">¿Te suena? ${i+1} de 5</h1><p class="muted" style="margin:0">Con las tarjetas recién vistas. Esto no puntúa en nada.</p><div class="card stack"><h2 class="qh" style="margin:0;font-size:1.05rem">${esc(q[0])}</h2>${ord.map(o=>`<button class="btn ghost puopt${done&&o===0?" puok":""}${done&&a===o&&o!==0?" puko":""}" data-p="ro|${i}|${o}" ${done?"disabled":""}>${esc(q[1][o])}</button>`).join("")}${done?`<div class="dfb ${a===0?"good":"bad"}">${a===0?"":`La respuesta era «${esc(q[1][0])}». `}${esc(q[2])}</div>`:""}</div>${done?`<button class="btn" data-p="rn">${i<4?"Siguiente":"Seguir"}</button>`:""}`}
+function pV4(p){const v=p.pred!=null?p.pred:5;
+  return `<h1 style="margin:0">Los cofres se cierran</h1><div class="row" style="justify-content:center">${pxIco("tinta",4)}</div><p style="margin:0">De los 10 puntos clave, ¿cuántos crees que sacarás sin mirar?</p><div class="card stack"><label class="rglab" for="ppred" style="margin:0">Mi apuesta: <b id="ppv">${v}</b> de 10</label><input id="ppred" class="puslider" type="range" min="0" max="10" step="1" value="${v}" aria-valuetext="${v} de 10"><div class="row" style="justify-content:space-between"><small class="muted">0</small><small class="muted">10</small></div></div><p class="muted" style="margin:0;font-size:.86rem">Cualquier número vale. Lo usaremos después, sin juzgarte.</p><button class="btn" data-p="pred">Cerrar los cofres</button>`}
+function pFolio(p,n){const b=pBorGet(),d=b&&b.n===n?b:null;if(d&&d.d!==today()){const k=pDays(d.d);if(!p.dif||k>p.difN){p.dif=1;p.difN=k;dSave()}}
+  const cues=n===2?p.c1&&PU.pts.map((x,i)=>i).filter(i=>!p.c1[i]):[];
+  return `${n===2?`<h1 style="margin:0">Otra vez, con pistas</h1><div class="card stack"><p style="margin:0">Estos puntos quedaron en los cofres. Cada pista es un tema, no la respuesta:</p><ul class="dlist">${cues.map(i=>`<li>${esc(PU.cue[i])}</li>`).join("")}</ul></div>`:`<h1 style="margin:0">Tu primer folio</h1>`}
+   <p style="margin:0">${n===2?"Escribe de nuevo todo lo que recuerdes de los cinco secretos, empezando por esos puntos.":"Escribe todo lo que recuerdes de los cinco secretos. Sin orden, sin frases perfectas, sin mirar. Si no sabes algo, déjalo: ya te lo dirán los cofres."}</p>
+   ${p.dif&&d?`<div class="dfb good">Han pasado ${p.difN} ${p.difN===1?"día":"días"}. Lo que saques ahora es lo que de verdad se queda con el tiempo, y eso también vale.</div>`:""}
+   ${p.papel?`<div class="card"><p style="margin:0">Escribe en tu papel. Cuando acabes, sigue.</p></div>`:`<textarea id="pbor" class="field pubor" rows="6" maxlength="1500" autocomplete="off" autocapitalize="sentences" aria-label="Lo que recuerdo" placeholder="Escribe aquí lo que recuerdes…">${d?esc(d.t):""}</textarea><p class="muted" style="margin:0;font-size:.8rem">Se guarda solo en este dispositivo mientras escribes y se borra al corregir. No va en la copia de seguridad.</p>`}
+   <p class="putimer">⏱ <b id="ptm">3:00</b> <span class="muted">Es solo una guía: no se corta.</span></p>
+   <button class="btn" data-p="${n===1?"fin5":"fin8"}">Ya no recuerdo más</button>${p.papel?"":`<button class="linkbtn" data-p="papel" style="align-self:flex-start">Prefiero usar papel</button>`}${(setTimeout(pTimer,80),"")}`}
+function pV5(p){return pFolio(p,1)}
+function pV8(p){return pFolio(p,2)}
+function pChecks(p,k,list,nc){const c=p[k];
+  return `<div class="stack" style="gap:8px">${list.map(i=>`<button type="button" class="putog" data-p="chk|${i}" aria-pressed="${!!c[i]}"><span class="puck" aria-hidden="true">${c[i]?"✓":"○"}</span><span>${esc(PU.pts[i][1])}</span></button>`).join("")}</div>${nc?"":`<p class="okline" style="margin:0"><span id="pcnt">${pCnt(c)}</span> de 10 marcados</p>`}`}
+function pV6(p){const b=pBorGet(),t=b&&b.n===1?b.t:"",all=PU.pts.map((x,i)=>i),dif=p.dif&&b?`<div class="dfb good">Han pasado ${p.difN} ${p.difN===1?"día":"días"} desde que escribiste. Cuenta como intento diferido.</div>`:"";
+  return `<h1 style="margin:0">Se abren los cofres</h1>${dif}${p.papel?"":`<details class="card fold"><summary>Lo que escribiste</summary><p style="white-space:pre-wrap;margin:8px 0 0">${t?esc(t):"(Nada: también es un dato.)"}</p></details>`}
+   <p style="margin:0">Marca solo lo que habías escrito tú. La app no lo comprueba: la corrección es tuya.</p>
+   ${PU.cards.map((c,s)=>`<div class="card stack"><div class="row" style="gap:8px;align-items:center">${pxIco(c[3],2.4)}<b>${esc(c[0])}</b></div><p class="muted" style="margin:0;font-size:.9rem">${esc(c[1])}</p>${PU.nota[s]?`<p class="muted" style="margin:0;font-size:.82rem">${esc(PU.nota[s])}</p>`:""}${pChecks(p,"c1",all.filter(i=>PU.pts[i][0]===s),1)}</div>`).join("")}
+   <p class="okline" style="margin:0"><span id="pcnt">${pCnt(p.c1)}</span> de 10 marcados</p>
+   ${p.warned&&!p.papel&&!(t||"").trim()&&pCnt(p.c1)>=8?`<div class="dwarn">¿Seguro? No has escrito nada. Si de verdad lo sabías, confirma igualmente.</div>`:""}
+   <button class="btn" data-p="ok6">Confirmar mi corrección</button>`}
+function pMsgs(p){const L=[],rc=pCnt(p.ro.map(o=>o===0)),r1=p.r1;
+  if(rc>=4&&r1<=4)L.push("Mira la diferencia: reconocías casi todo y has sacado menos de la mitad. No es mala memoria: son dos tareas distintas, y recordar es más difícil que reconocer. Releer da familiaridad, y la familiaridad se confunde con saber.");
+  if(p.pred>r1)L.push(`Predijiste ${p.pred} y sacaste ${r1}. Esa diferencia se llama ilusión de saber y es muy común. Probarte es la forma más barata de verla.`);
+  if(r1>=7||p.pred<r1)L.push("Has sacado mucho sin mirar. Fíjate en lo que se te escapó: es lo que más riesgo tiene de olvidarse si no vuelves a probarlo.");
+  if(!L.length)L.push("Lo importante no es el número: ahora sabes cuánto sacas sin mirar, y eso te sirve para decidir qué repasar.");
+  return L.slice(0,2)}
+function pV7(p){const rc=pCnt(p.ro.map(o=>o===0));
+  return `<h1 style="margin:0">Tu registro</h1><div class="punum"><div><b>${p.pred}</b><small class="muted">lo que apostaste (de 10)</small></div><div><b>${rc}</b><small class="muted">lo que reconociste (de 5)</small></div><div><b>${p.r1}</b><small class="muted">lo que recordaste (de 10)</small></div></div>
+   ${pMsgs(p).map(m=>`<div class="advbox" style="cursor:default"><span class="advwho">Doña Lechuza</span><p class="advtxt">${esc(m)}</p></div>`).join("")}
+   ${p.dif?`<p class="muted" style="margin:0;font-size:.86rem">Este fue un intento diferido (pasaron ${p.difN} ${p.difN===1?"día":"días"}): lo que sacaste es lo que se quedó.</p>`:""}
+   ${!p.cosSeen&&p.cos?`<p class="eyebrow" style="margin:0">Tinta te da algo</p>${pKeyCard()}`:""}
+   <button class="btn" data-p="p7">${p.r1<10?"Probar de nuevo con pistas":"Seguir"}</button>`}
+function pV9(p){const all=PU.pts.map((x,i)=>i);
+  return `<h1 style="margin:0">Corrige el segundo folio</h1><p style="margin:0">Marca lo que has escrito esta vez. Es la misma lista de 10 puntos.</p>${pChecks(p,"c2",all)}<button class="btn" data-p="ok9">Confirmar mi corrección</button>`}
+function pV10(p){pFinish(p);dSave();const r2=p.r2;let m="";
+  if(r2!=null)m=r2>p.r1?"Lo que has sacado dos veces ya está más fuerte.":r2<p.r1?"También pasa: sin el cofre abierto se olvida. Por eso se vuelve a probar días después.":"Has sacado lo mismo las dos veces. Si lo repites otro día, verás cuánto aguanta.";
+  return `<h1 style="margin:0">Lo que te llevas</h1><div class="punum"><div><b>${p.r1}</b><small class="muted">primer folio (de 10)</small></div><div><b>${r2!=null?r2:"–"}</b><small class="muted">segundo folio (de 10)</small></div></div>${m?`<p style="margin:0">${esc(m)}</p>`:""}
+   <div class="advbox" style="cursor:default"><span class="advwho">Doña Lechuza</span><p class="advtxt">Lo del pulpo da igual dentro de un mes. Lo que importa es el movimiento: cerrar, escribir lo que sabes, comprobar y volver. Elige algo tuyo, de clase o no, y haz un folio corto. Cuando quieras demostrarlo de verdad, la Torre te pondrá casos nuevos.</p></div>
+   ${pExamples().replace(/<button type="button" data-p="ex\|\d+">(.*?)<\/button>/g,'<span class="chip">$1</span>')}
+   ${pKeyCard()}
+   <button class="btn" data-p="exit">Volver a la Torre</button>${p.h.length<3?`<button class="btn ghost" data-p="again">Volver a abrir los cofres (práctica libre)</button>`:""}`}
+/* temporizador blando: solo se muestra, nunca corta */
+function pTimer(){const el=document.getElementById("ptm");if(!el)return;const p=S.g&&S.g.pulpo;if(!p)return;if(S.pt!==p.paso){S.pt=p.paso;S.pt0=Date.now()}clearInterval(S.pti);
+  const tick=()=>{const e=document.getElementById("ptm");if(!e){clearInterval(S.pti);return}const s=Math.max(0,180-Math.round((Date.now()-S.pt0)/1000));e.textContent=Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};tick();S.pti=setInterval(tick,1000)}
+/* ---------- clics y escritura ---------- */
+function pFlush(){clearTimeout(S.ptt);const el=document.getElementById("pbor"),p=S.g&&S.g.pulpo;if(!el||!p||!(p.paso===5||p.paso===8))return;pBorSet({n:p.paso===8?2:1,t:el.value,d:today()})}
+document.addEventListener("input",e=>{const t=e.target;if(!t||!t.id)return;if(t.id==="pbor"){clearTimeout(S.ptt);S.ptt=setTimeout(pFlush,500)}else if(t.id==="ppred"){const o=document.getElementById("ppv");if(o)o.textContent=t.value}});
+document.addEventListener("focusout",e=>{if(e.target&&e.target.id==="pbor")pFlush()});
+document.addEventListener("focusin",e=>{if(e.target&&e.target.id==="pbor")setTimeout(()=>{try{e.target.scrollIntoView({block:"center",behavior:"smooth"})}catch(x){}},350)});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")pFlush()});
+addEventListener("pagehide",pFlush);
+document.addEventListener("click",e=>{const b=e.target.closest&&e.target.closest("[data-p]");if(!b||b.disabled||!dOn("EDU"))return;const [a,x,y]=b.dataset.p.split("|");
+  if(a==="open"){pInit();dSave();go("pulpo");return}
+  if(a==="ex"){const el=document.getElementById("dft");if(el){el.value=PU.ex[+x];el.focus()}return}
+  const p=S.g&&S.g.pulpo;if(!p)return;const next=n=>{p.paso=n;dSave();render();window.scrollTo({top:0})},again=()=>{dSave();render()};
+  if(a==="exit"){pFlush();dSave();S.reg="EDU";go("region");return}
+  if(a==="dl"){p.dl=Math.min(2,p.dl+1);again();return}
+  if(a==="cofres"){p.card=0;next(2);return}
+  if(a==="cp"){p.card=Math.max(0,p.card-1);again();return}
+  if(a==="cn"){if(p.card<4){p.card++;again();window.scrollTo({top:0})}else{p.rq=0;next(3)}return}
+  if(a==="ro"){if(p.ro[+x]==null){p.ro[+x]=+y;again()}return}
+  if(a==="rn"){if(p.rq<4){p.rq++;again();window.scrollTo({top:0})}else next(4);return}
+  if(a==="pred"){const el=document.getElementById("ppred");p.pred=el?+el.value:5;pBorDel();S.pt=null;next(5);return}
+  if(a==="papel"){p.papel=1;pBorDel();again();return}
+  if(a==="fin5"){pFlush();S.pt=null;next(6);return}
+  if(a==="chk"){const k=p.paso===9?"c2":"c1",i=+x;p[k][i]=p[k][i]?0:1;b.setAttribute("aria-pressed",!!p[k][i]);const ck=b.querySelector(".puck");if(ck)ck.textContent=p[k][i]?"✓":"○";const c=document.getElementById("pcnt");if(c)c.textContent=pCnt(p[k]);dSave();return}
+  if(a==="ok6"){const d=pBorGet(),vacio=!p.papel&&!(d&&d.n===1&&(d.t||"").trim()),n=pCnt(p.c1);
+    if(vacio&&n>=8&&!p.warned){p.warned=1;again();return}
+    p.r1=n;pBorDel();if(!p.cos){p.cos=today();toast("Tinta te ha dado la Llave de Tinta")}next(7);return}
+  if(a==="p7"){p.cosSeen=1;if(p.r1<10){p.c2=[];S.pt=null;next(8)}else next(10);return}
+  if(a==="fin8"){pFlush();S.pt=null;next(9);return}
+  if(a==="ok9"){p.r2=pCnt(p.c2);pBorDel();next(10);return}
+  if(a==="again"){const keep={v:1,h:p.h,cos:p.cos,cosSeen:p.cosSeen};pBorDel();S.g.pulpo=Object.assign(keep,pRun());S.pt=null;dSave();render();window.scrollTo({top:0});return}
+});
+try{pClean()}catch(e){}
+/*P-END*/
 
 const DGMET={ninguno:"Sin conseguir",bronce:"Bronce · Comprendo",plata:"Plata · Lo pongo en práctica",oro:"Oro · Consolidado"};
 setTimeout(()=>{try{if(!DREG.length||typeof FAQ==="undefined")return;FAQ.forEach(sec=>(sec[1]||[]).forEach(q=>{if(q[0]==="¿Para qué sirve la racha?"){q[0]="¿Qué son las semanas activas?";q[1]="Una semana activa es una semana con al menos 2 días de práctica: lecturas, misiones, repasos o retos. Fallar días no rompe nada y no hay que hacerlo todos los días. Se ven en Yo y en tu cuaderno de viaje. La antigua racha de días seguidos ya no se muestra; tus registros se conservan."}if(q[0]==="Un día no lo he hecho. ¿Pierdo la racha?"){q[0]="Un día no lo he hecho. ¿Pierdo algo?";q[1]="No. No pierdes puntos, ni etapa, ni trofeos. Marcar «Hoy no» con sinceridad suma un poco de XP de constancia, pero no cuenta como práctica hecha."}}));
@@ -6074,7 +6228,7 @@ function scAct(v,el){const X=S.sc;if(!X)return;const id=X.id,st=scSteps(id),s=st
 let scTimer=null;function scArm(){clearTimeout(scTimer);const b=document.querySelector("#scnext[disabled]");if(!b)return;const w=parseFloat(b.style.getPropertyValue("--w"))||3;scTimer=setTimeout(()=>{if(!b.isConnected)return;b.disabled=false;b.classList.add("pop")},w*1000)}
 function render(){
   S._intro=false;renderNav();try{gCheck()}catch(e){}
-  const v={hoy:vHoy,ruta:vMundo,quiz:vQuiz,recall:vRecall,mas:vMas,escena:vEscena,proposito:vProposito,mapa:vMapa,explorar:vExplorar,mundo:vMundo,region:vRegion,entreno:vEntreno,carta:vCarta,prueba:vPrueba,clase:vClase,profe:vProfe,validar:vValidar,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,personaje:vPersonaje,coleccion:vColeccion,final:vFinal,aeduel:vAeduel,revela:vRevela,santuario:vSantuario,movil:vMovil,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas,dguard:vDGuard,drep:vDRep,doro:vDOro,dmis:vDMis,dtools:vDTools,dchal:vDChal,dpages:vDPages}[S.view]();
+  const v={hoy:vHoy,ruta:vMundo,quiz:vQuiz,recall:vRecall,mas:vMas,escena:vEscena,proposito:vProposito,mapa:vMapa,explorar:vExplorar,mundo:vMundo,region:vRegion,entreno:vEntreno,carta:vCarta,prueba:vPrueba,clase:vClase,profe:vProfe,validar:vValidar,dinero:vDinero,repaso:vRepaso,perro:vPerro,adic:vAdic,curiosidad:vCuriosidad,cuerpo:vCuerpo,crono:vCrono,yo:vYo,personaje:vPersonaje,coleccion:vColeccion,final:vFinal,aeduel:vAeduel,revela:vRevela,santuario:vSantuario,movil:vMovil,estoico:vEstoico,simcuerpo:vSimBody,grupo:vGrupo,ayuda:vAyuda,dudas:vDudas,dguard:vDGuard,drep:vDRep,doro:vDOro,dmis:vDMis,dtools:vDTools,dchal:vDChal,dpages:vDPages,pulpo:vPulpo}[S.view]();
   document.getElementById("app").innerHTML=`<div class="view" style="${S.tour!=null?"padding-bottom:240px":""}">${S.back&&S.back.v!==S.view&&!S.testing?`<button class="backbar" data-act="goback">← Volver a ${VNAME[S.back.v]||"atrás"}</button>`:""}${envBanner()?`<div style="margin-bottom:16px">${envBanner()}</div>`:""}${v}<footer class="muted" style="text-align:center;font-size:.78rem;line-height:1.5;padding:32px 8px 8px;border-top:1px solid var(--line);margin-top:28px"><button data-go="mas#reportar" style="background:none;border:0;padding:0;color:var(--bad);font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">🐞 ¿Has visto un error? Avísanos</button> · <button data-go="mas#sugerir" style="background:none;border:0;padding:0;color:#2D9C7A;font:inherit;font-weight:800;text-decoration:underline;cursor:pointer">💬 Enviar una sugerencia</button><br>Brújula · Creada por <b>Raúl Cañas</b><br>© ${new Date().getFullYear()} Raúl Cañas. Todos los derechos reservados.<br><span style="font-size:.72rem">Los vídeos, libros y webs enlazados pertenecen a sus autores.</span></footer></div>`;
   try{advInit()}catch(e){}
   try{advGate()}catch(e){}

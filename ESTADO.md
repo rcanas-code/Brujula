@@ -60,6 +60,7 @@ Cada funcionalidad se valora en cuatro niveles independientes. Que algo esté im
 | Ayuda | Preguntas frecuentes, teléfonos, sugerencias y errores por correo | — | Estable | Parcial (`fbk`) | Sin registro |
 | Clase y profesor | `?clase` y `?profe` siguen en el código; validación por foto desactivada | Descartada (foto del profesor) | Código conservado, inactivo | Revisión estática | No aplica |
 | Accesibilidad | Tamaño de letra, temas, velocidad de diálogos, animaciones, 4 tipografías | — | Estable | Parcial (`zm`, `mob`) | Sin registro |
+| Aventura «La llave de Tinta» (EDU) | 10 pasos: tarjetas, reconocimiento, predicción, recuerdo libre, autocorrección y comparación; borrador fuera de las copias (`brujula:ui:`); un objeto cosmético sin XP | PUL-1 a PUL-8, PUL-6b | Rama `feat/aventura-pulpo`, detrás de `DREG`; arte provisional | Sí (`pulpo` 63/63) | **Pendiente** (arte, objeto, móvil real) |
 | **Modo demostración** | — | **Pendiente de consolidar** (DEMO-01) | No | No | No |
 | **Observatorio del Tiempo** | — | **Pendiente de consolidar** (OBS-01) | No | No | No |
 
@@ -69,6 +70,7 @@ Cada funcionalidad se valora en cuatro niveles independientes. Que algo esté im
 |---|---|---|
 | A | Prueba de la candidata en un iPhone real (Hoy, modelo D, temporizadores, calendario, teclado) | Raúl |
 | A | Requisitos del centro y del DPD antes de usarla con alumnos | Raúl |
+| A | Aventura de Tinta: aprobar arte y objeto, revisar las 5 preguntas nuevas (no están en el banco), citas primarias de las tarjetas 2 y 3, prueba en iPhone real, orden respecto a `codex/modo-demostracion`, M-D6/PI-REQ para menores | Raúl |
 | A | Revisión humana del banco de 106 preguntas y de EDU-03/EDU-04 | Raúl |
 | — | ~~Llevar a `main` los avisos de licencia de las 6 tipografías (`fonts/OFL-*.txt`)~~ | Hecho el 19/10 (DOC-02b): publicados en `main` sin tocar `index.html` de los alumnos |
 | A | Revisión de enlaces externos ([docs/recursos-externos.csv](docs/recursos-externos.csv)) | Raúl, con la lista |
