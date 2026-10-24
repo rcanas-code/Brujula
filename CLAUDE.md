@@ -27,7 +27,7 @@ Ramas:
 - La documentación no se lleva a `main`: GitHub Pages la serviría como página pública.
 - El repositorio es **público**: nada privado, ninguna credencial, ningún dato de alumnos, nada estratégico (DOC-01). Lo privado va a Drive.
 - Commits con el correo «noreply» de GitHub, nunca con un correo personal o institucional (SEC-01).
-- Codex revisa como agente independiente (AG-01): trabaja en ramas `codex/…` y no toca el juego.
+- Codex revisa como agente independiente (AG-01): trabaja en ramas `codex/…` y no toca el juego. Reparto de roles (ChatGPT, Claude, Codex, GitHub) en [AGENTS.md](AGENTS.md).
 
 ## Reglas que no se rompen
 
@@ -73,7 +73,7 @@ Toda tarea sigue estos seis pasos. El detalle de cómo gastar menos está en «E
 5. **Documentar:** actualiza solo la información que haya cambiado (ver «Documentación»).
 6. **Cerrar:** resumen según «Cierre de cada tarea».
 
-## Eficiencia
+## Eficiencia (DOC-11)
 
 Gasta lo mínimo en tokens, tiempo y créditos sin bajar la calidad. Nada de esto justifica omitir pruebas esenciales, controles de seguridad ni validaciones.
 
