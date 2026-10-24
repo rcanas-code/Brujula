@@ -1,16 +1,22 @@
 # Brújula · Estado del proyecto
 
-> Qué existe, qué falta y qué falla. Se actualiza al cerrar cada bloque de trabajo. Última revisión: 18/10/2026.
+> Qué existe, qué falta y qué falla. Se actualiza al cerrar cada bloque de trabajo. Última revisión: 24/10/2026.
 >
 > Niveles de verificación: **probado en móvil real** · **prueba automatizada** (navegador automatizado) · **revisión estática** (solo lectura de código) · **sin verificar**.
+
+## Para retomar
+
+1. Ramas y PR: `git log -3 origin/desarrollo` y la pestaña *Pull requests* de GitHub.
+2. Trabajo por hacer: tabla «Pendiente» (más abajo). Decisiones por tomar: [DECISIONES.md](DECISIONES.md), sección 2.
+3. Cómo trabajar: [CLAUDE.md](CLAUDE.md) (Claude) y [AGENTS.md](AGENTS.md) (Codex).
 
 ## Versiones publicadas
 
 | Versión | Dónde | Commit | Estado |
 |---|---|---|---|
 | Estable (alumnos, «v200») | `index.html` de `main` → https://rcanas-code.github.io/Brujula/ | sin cambios desde `95f4145` | En uso. No se toca sin confirmación de Raúl |
-| Candidata | `candidata/index.html` de `main` → https://rcanas-code.github.io/Brujula/candidata/ | `d139746` (18/10/2026) | Hoy nuevo, armonización visual y modelo D. Pendiente de prueba en iPhone |
-| Desarrollo | rama `desarrollo` | `7b412b1` | Igual que la candidata (salvo el nombre del icono: «Brújula prueba») |
+| Candidata | `candidata/index.html` de `main` → https://rcanas-code.github.io/Brujula/candidata/ | ver `git log -1 -- candidata/index.html` en `main` | Hoy nuevo, armonización visual y modelo D. Pendiente de prueba en iPhone |
+| Desarrollo | rama `desarrollo` | ver `git log -1 origin/desarrollo` | Igual que la candidata (salvo el nombre del icono: «Brújula prueba») |
 
 Puntos de recuperación: ramas de copia en GitHub (`v200-publicada`, `copia/candidata-2026-10-18`, `copia/desarrollo-2026-10-18`, `copia/pre-modeloD`, `v197-estable`, `copia-pre-gamificacion`) y etiquetas equivalentes dentro del bundle del 18/10. Detalle en [docs/copias-de-seguridad.md](docs/copias-de-seguridad.md).
 
@@ -64,7 +70,7 @@ Cada funcionalidad se valora en cuatro niveles independientes. Que algo esté im
 | A | Prueba de la candidata en un iPhone real (Hoy, modelo D, temporizadores, calendario, teclado) | Raúl |
 | A | Requisitos del centro y del DPD antes de usarla con alumnos | Raúl |
 | A | Revisión humana del banco de 106 preguntas y de EDU-03/EDU-04 | Raúl |
-| A | Llevar a `main` los avisos de licencia de las 6 tipografías (`fonts/OFL-*.txt`, ya en `desarrollo`); no cambia el juego | Autorización de Raúl |
+| — | ~~Llevar a `main` los avisos de licencia de las 6 tipografías (`fonts/OFL-*.txt`)~~ | Hecho el 19/10 (DOC-02b): publicados en `main` sin tocar `index.html` de los alumnos |
 | A | Revisión de enlaces externos ([docs/recursos-externos.csv](docs/recursos-externos.csv)) | Raúl, con la lista |
 | B | Contenido de Emociones (AU-01) y lecturas sin explicar fuera del piloto | Por decidir |
 | B | Extender el modelo D a otras regiones tras el piloto | Por decidir |

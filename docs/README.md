@@ -24,6 +24,18 @@
 | [../tests/README.md](../tests/README.md) y [../tools/README.md](../tools/README.md) | Pruebas automatizadas y herramientas (rama `tools/pruebas` hasta fusionarla) | Claude |
 | [drive/biblia-drive.md](drive/biblia-drive.md) | Organización de la Biblia en Google Drive y sincronización | Raúl |
 
+## Qué va dónde
+
+| Tipo de información | Dónde |
+|---|---|
+| Decidido (aprobado, pendiente, en estudio, descartado) | [DECISIONES.md](../DECISIONES.md) |
+| Implementado | [ESTADO.md](../ESTADO.md), tabla de funcionalidades |
+| Probado (automático o en móvil real) | [ESTADO.md](../ESTADO.md), columnas de verificación; las pruebas, en [tests/](../tests/README.md) |
+| Pendiente de hacer | [ESTADO.md](../ESTADO.md), «Pendiente»; las decisiones por tomar, en [DECISIONES.md](../DECISIONES.md) |
+| Cómo trabajan Claude y Codex | [CLAUDE.md](../CLAUDE.md) y [AGENTS.md](../AGENTS.md); si chocan, la más restrictiva |
+
+Cada dato vive en un solo documento; los demás lo enlazan, no lo copian.
+
 ## Fuentes de verdad
 
 - **Repositorio:** documentos de fundamentos y código.
