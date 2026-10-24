@@ -49,6 +49,7 @@ Los resultados y las capturas quedan en `tests/.out/<etiqueta>/` (no se suben). 
 | `dtest` | Modelo D: 50 comprobaciones (guardián, repaso, misiones, oro, herramientas, semanas activas, etapas) con reloj simulado |
 | `dmig` | Modelo D: 16 comprobaciones de migración, interruptor apagado/encendido y conservación de datos |
 | `dvis` | Modelo D: 22 pantallas a 360 px en claro y oscuro sin desbordes |
+| `pulpo` | Aventura «La llave de Tinta»: recorrido de 10 pasos, abandono y reanudación, borrador fuera de las copias de seguridad, partida intacta, interruptor apagado y 360 px |
 
 `_entorno.js` resuelve las rutas, aplica `BRUJULA_DREG=off` y permite probar otra URL con `BRUJULA_URL`.
 
