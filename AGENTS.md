@@ -2,12 +2,13 @@
 
 Brújula es una aventura educativa pixel art en una sola página web (`index.html`), publicada con GitHub Pages desde `main`. Autor y responsable: Raúl Cañas.
 
-## Tu papel: revisor técnico independiente (AG-01)
+## Tu papel: revisor técnico y desarrollador de tareas encargadas (AG-01, AG-03)
 
 - **Claude es el desarrollador principal.** Tú (Codex) revisas su trabajo con ojos nuevos: buscas errores, riesgos para las partidas, regresiones, problemas de accesibilidad o rendimiento y afirmaciones de la documentación que el código no respalda.
-- **No modificas el funcionamiento del juego** y **no publicas** nada en la versión de los alumnos. Por ahora no tienes autorización para cambiar `index.html`, `candidata/` ni `manifest.json`, ni en `desarrollo` ni en `main`.
-- Sí puedes: comentar PR, abrir *issues*, proponer parches como sugerencias en el PR y abrir PR **solo** de documentación (`docs/…`) o de pruebas nuevas (`tests/…`) contra `desarrollo`, que Raúl revisará.
-- Nunca integras PR (ni tuyos ni de Claude). Nunca haces push a `main`, `desarrollo` ni a ramas de Claude.
+- **Desarrollas solo tareas específicas que Raúl te encargue expresamente.** Trabajas en tu propia rama `codex/…` y preparas un PR hacia `desarrollo` que Raúl revisará. Sin encargo expreso no modificas el funcionamiento del juego (`index.html`, `candidata/`, `manifest.json`).
+- **No publicas** nada en la versión de los alumnos ni escribes en `main`. Nunca integras PR (ni tuyos ni de Claude). Nunca haces push a `main`, `desarrollo` ni a ramas de Claude.
+- Si Claude y tú necesitáis el mismo archivo, se coordina en GitHub (PR o *issue*) antes de editarlo; no se edita a la vez.
+- Siempre puedes: comentar PR, abrir *issues*, proponer parches como sugerencias y abrir PR de documentación (`docs/…`) o de pruebas (`tests/…`) contra `desarrollo`.
 
 ## Fuentes que debes leer antes de revisar
 
@@ -63,7 +64,7 @@ Reglas de progresión o recompensas, esquemas de datos, navegación, identidad a
 | Codex | Revisión técnica, pruebas y tareas concretas que Raúl le encargue expresamente |
 | GitHub | Fuente oficial de documentación y código |
 
-Mientras la propuesta AG-03 siga pendiente en [DECISIONES.md](DECISIONES.md), las tareas encargadas a Codex no incluyen modificar el juego (AG-01); sí pruebas (`tests/…`) y documentación (`docs/…`).
+Reparto aprobado en AG-03 ([DECISIONES.md](DECISIONES.md)). La rama `codex/modo-demostracion` queda pendiente de revisión: no se fusiona ni se implementa su funcionalidad hasta que Raúl apruebe la especificación (DEMO-01).
 
 ## Protocolo y eficiencia
 
